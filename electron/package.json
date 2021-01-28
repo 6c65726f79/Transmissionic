@@ -1,0 +1,79 @@
+{
+  "name": "transmissionic",
+  "version": "1.0.0",
+  "description": "Remote for Transmission Daemon",
+  "main": "./build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "electron:start": "npm run build && electron ./",
+    "electron:pack": "npm run build && electron-builder build --dir",
+    "electron:build-windows": "npm run build && electron-builder build --windows",
+    "electron:build-mac": "npm run build && electron-builder build --mac"
+  },
+  "dependencies": {
+    "@capacitor-community/electron": "1.3.0-1",
+    "custom-electron-titlebar": "^3.2.5"
+  },
+  "devDependencies": {
+    "electron": "^10.1.4",
+    "electron-builder": "^22.8.1",
+    "typescript": "~4.0.3"
+  },
+  "keywords": [
+    "capacitor",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "build": {
+    "appId": "com.sleroy.transmissionic",
+    "productName": "Transmissionic",
+    "files": [
+      "assets/*",
+      "build/index.js",
+      "preloader.js",
+      "plugins/*",
+      "capacitor.config.json",
+      "app/**"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "protocols": [
+      {
+        "name": "Transmissionic.Magnet",
+        "schemes": [
+          "magnet"
+        ],
+        "role": "Viewer"
+      }
+    ],
+    "fileAssociations": [
+      {
+        "name": "Transmissionic.Torrent",
+        "ext": "torrent",
+        "role": "Viewer"
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg",
+      "icon": "appIcon.png"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "appIcon.ico"
+    },
+    "nsis": {
+      "perMachine": false,
+      "allowElevation": true,
+      "include": "installer.nsh"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "compileOnSave": true,
+  "include": ["./src/*"],
+  "compilerOptions": {
+    "outDir": "./build",
+    "target": "ES5",
+    "esModuleInterop": true
+  }
+}

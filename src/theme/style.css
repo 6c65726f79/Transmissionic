@@ -1,0 +1,228 @@
+body {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: var(--ion-background-color, #fff);
+  scrollbar-color: rgba(127,127,127,.5) transparent; /* Scrollbar style for Firefox */
+}
+
+body:not(.dark) ion-toolbar {
+  --background: var(--ion-color-light);
+}
+
+ion-slides {
+  height: 100%;
+  width: 100%;
+}
+
+.placeholder {
+  position: absolute;
+  width:100%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align:center;
+}
+
+.placeholder strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.placeholder p {
+  font-size: 16px;
+  line-height: 22px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+.placeholder a {
+  cursor:pointer;
+  text-decoration: none;
+}
+
+/* Fix padding-bottom issue on Firefox */
+@-moz-document url-prefix() {
+  ion-slide ion-list:last-child {
+    margin-bottom: var(--padding-bottom);
+  }
+}
+
+/* Fix scroll issue on iOS */
+.ios .backdrop-no-scroll #torrentList {
+    --overflow: hidden;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield !important;
+}
+
+
+ion-menu ion-item {
+  cursor:pointer;
+}
+
+ion-menu ion-content {
+  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+}
+
+ion-menu.md ion-content {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 0px;
+  --padding-bottom: 0px;
+}
+
+ion-menu.md ion-list {
+  padding: 20px 0;
+}
+
+ion-menu.md ion-list-header {
+  margin-bottom: 30px;
+}
+
+ion-menu.md ion-list-header,
+ion-menu.md ion-note {
+  padding-left: 10px;
+}
+
+ion-menu.md ion-list#servers-list,ion-menu.md ion-list#trackers-list {
+  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+}
+
+ion-menu.md ion-list#other-list {
+  padding: 8px;
+}
+.dark ion-menu.md ion-list#other-list {
+  border-top: 1px solid var(--ion-color-step-150, #d7d8da);
+}
+
+ion-menu.md ion-list ion-list-header {
+  font-size: 16px;
+
+  margin-bottom: 18px;
+
+  color: #757575;
+
+  min-height: 26px;
+}
+
+ion-menu.md ion-item {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border-radius: 4px;
+}
+
+ion-menu.md ion-item.selected {
+  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.md ion-item ion-icon {
+  color: #616e7e;
+}
+
+ion-menu.md ion-item ion-label {
+  font-weight: 500;
+}
+
+ion-menu.ios ion-content {
+  --padding-bottom: 20px;
+}
+
+ion-menu.ios ion-list {
+  padding: 20px 0 0 0;
+}
+
+ion-menu.ios ion-note {
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 50px;
+}
+
+ion-menu.ios ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.ios ion-item ion-icon {
+  font-size: 24px;
+  color: #73849a;
+}
+
+ion-menu.ios ion-list ion-list-header {
+  margin-bottom: 8px;
+}
+
+ion-menu.ios ion-list-header,
+ion-menu.ios ion-note {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+ion-menu.ios ion-note {
+  margin-bottom: 8px;
+}
+
+.ios ion-header ion-toolbar {
+  padding-top: 7px !important;
+  padding-bottom: 7px;
+}
+
+.ios ion-header ion-searchbar {
+  padding-bottom: 0;
+  padding-top: 0;
+  height: 44px;
+}
+
+ion-infinite-scroll-content {
+  padding:8px;
+}
+
+.menubar {
+  display:none !important;
+}
+
+.plt-electron ion-popover {
+  top:-30px;
+}
+
+.action-sheet-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+a {
+  outline: none;
+}
+  
+.trackers-popover .popover-viewport {
+  height:100%;
+}
+
+span.selectable {
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

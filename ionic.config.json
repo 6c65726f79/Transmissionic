@@ -1,0 +1,7 @@
+{
+  "name": "Transmissionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
