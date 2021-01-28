@@ -18,7 +18,7 @@
       </p>
       <p>
         {{formatText(Locale.about.github).before}}
-        <a href="#" target="_blank">https://github.com/6c65726f79</a>
+        <a href="https://github.com/6c65726f79/Transmissionic" target="_blank">https://github.com/6c65726f79/Transmissionic</a>
         {{formatText(Locale.about.github).after}}
       </p>
       <p>
