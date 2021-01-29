@@ -32,9 +32,10 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Install dependencies
-        run: 
+        run: |
           npm install
           npm install -g @ionic/cli
+          npm install -g @capacitor/cli
 
       - name: Build
         run: ionic capacitor sync @capacitor-community/electron
