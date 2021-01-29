@@ -43,8 +43,8 @@ jobs:
       - name: Build APK
         working-directory: ./android
         run: |
-        chmod +x gradlew
-        ./gradlew build
+          chmod +x gradlew
+          ./gradlew build
 
       - uses: r0adkll/sign-android-release@v1
         name: Sign APK
