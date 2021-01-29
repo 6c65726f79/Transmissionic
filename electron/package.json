@@ -28,6 +28,7 @@
   "build": {
     "appId": "com.sleroy.transmissionic",
     "productName": "Transmissionic",
+    "artifactName": "Transmissionic-${os}-v${version}.${ext}",
     "files": [
       "assets/*",
       "build/index.js",
