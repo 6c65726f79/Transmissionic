@@ -25,10 +25,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-          
-      #- name: Get the version
-      #  id: get_version
-      #  run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Install dependencies
         run: npm install
@@ -42,23 +38,6 @@ jobs:
 
       - name: Create zip
         run: zip -r release.zip ./dist/
-
-      - name: Get latest release
-        uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-            route: GET /repos/:repository/releases/latest
-            repository: ${{ github.repository }}
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      #- name: Get upload url
-      #  id: get_upload_url
-      #  run: |
-      #    url=$(echo "$response" | jq -r '.upload_url')
-      #    echo "::set-output name=url::$url"
-      #  env: 
-      #      response:  ${{ steps.get_latest_release.outputs.data }}
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1

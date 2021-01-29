@@ -25,10 +25,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-          
-      #- name: Get the version
-      #  id: get_version
-      #  run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Install dependencies
         run: |
@@ -38,14 +34,13 @@ jobs:
 
       - name: Build
         run: ionic capacitor sync @capacitor-community/electron
+      
       - name: Post-build
         run: npm run-script postbuild:electron
 
-      #- name: Get release
-      #  id: get_release
-      #  uses: bruceadams/get-release@v1.2.2
-      #  env:
-      #    GITHUB_TOKEN: ${{ github.token }}
+      - name: Build electron
+        working-directory: ./electron
+        run: npm run-script electron:build-windows
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
