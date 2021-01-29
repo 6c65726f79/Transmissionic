@@ -41,7 +41,7 @@ jobs:
         run: ionic capacitor sync android
 
       - name: Build APK
-         run: ionic build android --release
+        run: ionic build android --release
       #  run: |
       #  chmod +x gradlew
       #  ./gradlew build
