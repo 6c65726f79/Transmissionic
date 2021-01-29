@@ -69,6 +69,9 @@ export const UserSettings = {
       .then((val: any) => {
         result = (val.value && val.value!="[]") ? JSON.parse(val.value) : defaultServer
       })
+      .catch(() => {
+        result = defaultServer
+      })
 
     return result;
   },
