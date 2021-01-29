@@ -5,9 +5,8 @@ name: Build WebUI
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    tags:
-    - '*'
+  release:
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,9 +26,9 @@ jobs:
         with:
           node-version: '12'
           
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+      #- name: Get the version
+      #  id: get_version
+      #  run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Install dependencies
         run: npm install
@@ -53,20 +52,20 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get upload url
-        id: get_upload_url
-        run: |
-          url=$(echo "$response" | jq -r '.upload_url')
-          echo "::set-output name=url::$url"
-        env: 
-            response:  ${{ steps.get_latest_release.outputs.data }}
+      #- name: Get upload url
+      #  id: get_upload_url
+      #  run: |
+      #    url=$(echo "$response" | jq -r '.upload_url')
+      #    echo "::set-output name=url::$url"
+      #  env: 
+      #      response:  ${{ steps.get_latest_release.outputs.data }}
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url:  ${{steps.get_upload_url.outputs.url}}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./release.zip
-          asset_name: Transmissionic-webui-${{ steps.get_version.outputs.VERSION }}.zip
+          asset_name: Transmissionic-webui-${{ github.event.release.tag_name }}.zip
           asset_content_type: application/zip

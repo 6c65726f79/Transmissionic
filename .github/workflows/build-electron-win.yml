@@ -5,9 +5,8 @@ name: Build Electron Windows
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    tags:
-    - '*'
+  release:
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,9 +26,9 @@ jobs:
         with:
           node-version: '12'
           
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+      #- name: Get the version
+      #  id: get_version
+      #  run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Install dependencies
         run: |
@@ -47,18 +46,13 @@ jobs:
       #  uses: bruceadams/get-release@v1.2.2
       #  env:
       #    GITHUB_TOKEN: ${{ github.token }}
-      - name: Get release
-        id: get_release
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          repository: ${{ github.repository }}
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url:  ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./electron/dist/Transmissionic-win-${{ steps.get_version.outputs.VERSION }}.exe
-          asset_name: Transmissionic-win-${{ steps.get_version.outputs.VERSION }}.exe
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-win-${{ github.event.release.tag_name }}.exe
+          asset_name: Transmissionic-win-${{ github.event.release.tag_name }}.exe
           asset_content_type: application/octet-stream
