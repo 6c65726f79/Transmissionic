@@ -25,12 +25,10 @@ contextBridge.exposeInMainWorld('fileOpen', {
 
 contextBridge.exposeInMainWorld('net', {
   request: async (options,data) => {
-    console.log(options,data);
     return new Promise(function (resolve, reject) {
       let result;
       request = net.request(options)
       request.on('response', (response) => {
-        //console.log(response);
         let data="";
         result={
           headers:response.headers,

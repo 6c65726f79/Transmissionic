@@ -15,8 +15,7 @@ const myCapacitorApp = createCapacitorElectronApp({
       titleBarStyle: "hidden",
       frame: false,
       webPreferences: {
-        /*devTools: false*/
-        /*webSecurity : false,*/
+        devTools: false,
         contextIsolation: true
       }
     }
