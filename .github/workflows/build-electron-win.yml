@@ -38,6 +38,10 @@ jobs:
       - name: Post-build
         run: npm run-script postbuild:electron
 
+      - name: Install electron dependencies
+        working-directory: ./electron
+        run: npm install
+
       - name: Build electron
         working-directory: ./electron
         run: npm run-script electron:build-windows
