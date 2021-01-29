@@ -42,29 +42,18 @@ jobs:
       - name: Post-build
         run: npm run-script postbuild:electron
 
-      - name: Get latest release
-        uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-            route: GET /repos/:repository/releases/latest
-            repository: ${{ github.repository }}
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get upload url
-        id: get_upload_url
-        run: |
-          url=$(echo "$response" | jq -r '.upload_url')
-          echo "::set-output name=url::$url"
-        env: 
-            response:  ${{ steps.get_latest_release.outputs.data }}
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url:  ${{steps.get_upload_url.outputs.url}}
+          upload_url:  ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./electron/dist/Transmissionic-win-${{ steps.get_version.outputs.VERSION }}.exe
           asset_name: Transmissionic-win-${{ steps.get_version.outputs.VERSION }}.exe
           asset_content_type: application/octet-stream
