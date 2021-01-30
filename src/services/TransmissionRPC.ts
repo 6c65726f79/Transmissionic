@@ -86,7 +86,7 @@ class TRPC {
           rejectionFunc();
         }
         count++;
-      },10);
+      },50);
     });
   }
 
