@@ -22,7 +22,7 @@ It can be used as [Web Interface](https://github.com/transmission/transmission/w
 
 ### Inspirations
 
-Interface and functionalities are inspired by [Transmission Remote](https://github.com/y-polek/TransmissionRemote) and [Transmission Remote GUI](https://github.com/transmission-remote-gui/transgui).
+Interface and functionalities inspired by [Transmission Remote](https://github.com/y-polek/TransmissionRemote) and [Transmission Remote GUI](https://github.com/transmission-remote-gui/transgui).
 
 ### Main functionalities
 
