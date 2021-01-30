@@ -41,7 +41,7 @@
             <ion-menu-toggle auto-hide="false" v-for="(f, index) in privateState.filters" :key="index">
               <ion-item @click="privateState.selectedFilter = index" lines="none" :class="{ selected: privateState.selectedFilter === index }">
                 <ion-icon slot="start" :ios="f.iosIcon" :md="f.mdIcon"></ion-icon>
-                <ion-label class="filter-name">{{ f.label }}</ion-label>
+                <ion-label class="filter-name">{{ f.label() }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
@@ -207,55 +207,55 @@ export default defineComponent({
         filters: [
           {
             value:"all",
-            label:Locale.filters.all,
+            label:() => Locale.filters.all,
             iosIcon: layersOutline,
             mdIcon: layersSharp
           },
           {
             value:"active",
-            label:Locale.filters.active,
+            label:() => Locale.filters.active,
             iosIcon: flashOutline,
             mdIcon: flashSharp
           },
           {
             value:"downloading",
-            label:Locale.filters.downloading,
+            label:() => Locale.filters.downloading,
             iosIcon: cloudDownloadOutline,
             mdIcon: cloudDownloadSharp
           },
           {
             value:"seeding",
-            label:Locale.filters.seeding,
+            label:() => Locale.filters.seeding,
             iosIcon: cloudUploadOutline,
             mdIcon: cloudUploadSharp
           },
           {
             value:"completed",
-            label:Locale.filters.completed,
+            label:() => Locale.filters.completed,
             iosIcon: cloudDoneOutline,
             mdIcon: cloudDoneSharp
           },
           {
             value:"stopped",
-            label:Locale.filters.stopped,
+            label:() => Locale.filters.stopped,
             iosIcon: cloudOfflineOutline,
             mdIcon: cloudOfflineSharp
           },
           {
             value:"error",
-            label:Locale.error,
+            label:() => Locale.error,
             iosIcon: warningOutline,
             mdIcon: warningSharp
           },
           {
             value:"queued",
-            label:Locale.filters.queued,
+            label:() => Locale.filters.queued,
             iosIcon: hourglassOutline,
             mdIcon: hourglassSharp
           },
           {
             value:"selected",
-            label:Locale.selected.one,
+            label:() => Locale.selected.one,
             iosIcon: checkmarkCircleOutline,
             mdIcon: checkmarkCircleSharp
           }
