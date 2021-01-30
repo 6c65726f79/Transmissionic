@@ -38,7 +38,11 @@ jobs:
         run: npm run-script electron:build-windows
 
       - name: Upload Release Asset
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Transmissionic-win-${{ github.event.release.tag_name }}.exe
-          path: ./electron/dist/Transmissionic-win-${{ github.event.release.tag_name }}.exe
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-win-${{ github.event.release.tag_name }}.exe
+          asset_name: Transmissionic-win-${{ github.event.release.tag_name }}.exe
+          asset_content_type: application/octet-stream

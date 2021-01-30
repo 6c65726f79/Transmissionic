@@ -25,7 +25,7 @@ jobs:
 
       - name: Build
         run: npm run build
-        
+
       - name: Post-build
         run: npm run-script postbuild:webui
 
@@ -33,7 +33,11 @@ jobs:
         run: zip -r release.zip ./dist/
 
       - name: Upload Release Asset
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Transmissionic-webui-${{ github.event.release.tag_name }}.zip
-          path: ./release.zip
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./release.zip
+          asset_name: Transmissionic-webui-${{ github.event.release.tag_name }}.zip
+          asset_content_type: application/zip

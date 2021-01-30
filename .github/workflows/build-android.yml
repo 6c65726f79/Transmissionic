@@ -49,7 +49,11 @@ jobs:
           BUILD_TOOLS_VERSION: "30.0.2"
           
       - name: Upload Release Asset
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Transmissionic-android-${{ github.event.release.tag_name }}.apk
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          asset_name: Transmissionic-android-${{ github.event.release.tag_name }}.apk
+          asset_content_type: application/zip
