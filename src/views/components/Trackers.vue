@@ -319,7 +319,10 @@ export default defineComponent({
                   .then((response) => {
                     Utils.responseToast(response.result);
                     if(response.result=="success"){
-                      delete this.details.trackerStats[tracker.id];
+                      const index = this.details.trackerStats.indexOf(tracker)
+                      if(index !== -1) {
+                        this.details.trackerStats.splice(index, 1);
+                      }
                     }
                   })
               },
