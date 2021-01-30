@@ -1,7 +1,7 @@
 ![Transmissionic logo](https://i.imgur.com/SBHRXDH.png)
-
-![Build WebUI](https://github.com/6c65726f79/Transmissionic/workflows/Build%20WebUI/badge.svg) ![Build Electron Windows](https://github.com/6c65726f79/Transmissionic/workflows/Build%20Electron%20Windows/badge.svg) ![Build Android](https://github.com/6c65726f79/Transmissionic/workflows/Build%20Android/badge.svg)
 ----
+![Build WebUI](https://github.com/6c65726f79/Transmissionic/workflows/Build%20WebUI/badge.svg) ![Build Electron Windows](https://github.com/6c65726f79/Transmissionic/workflows/Build%20Electron%20Windows/badge.svg) ![Build Android](https://github.com/6c65726f79/Transmissionic/workflows/Build%20Android/badge.svg)
+
 <a href='https://play.google.com/store/apps/details?id=com.sleroy.transmissionic&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="240" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 # About
