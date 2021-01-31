@@ -14,7 +14,7 @@ It can be used as [Web Interface](https://github.com/transmission/transmission/w
 
 ### Screenshots
 
-<img src="https://i.imgur.com/6wB1Czd.png" width="300"> <img src="https://i.imgur.com/9qBl8g7.png" width="300">
+<img src="https://i.imgur.com/6wB1Czd.png" width="300"> <img src="https://i.imgur.com/k5DH0hi.png" width="300">
 
 ### Motivations
 
