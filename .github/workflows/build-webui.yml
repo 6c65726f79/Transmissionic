@@ -30,7 +30,9 @@ jobs:
         run: npm run-script postbuild:webui
 
       - name: Create zip
-        run: zip -r release.zip ./dist/
+        run: |
+          mv ./dist/ ./web/
+          zip -r release.zip ./web/
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
