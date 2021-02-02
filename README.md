@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="https://i.imgur.com/cRWS9CV.png" width="320">
+  <img src="public/assets/icon/favicon.png" width="96">
 </p>
+<h3 align="center">Transmissionic</h3>
+
 <p align="center">
   Transmissionic is a free multi-platform remote for Transmission Daemon built with <a href="https://ionicframework.com/">Ionic</a> and <a href="https://vuejs.org/">Vue.js</a>.<br>
   It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program. (More platform could be added such as Mac OS and iOS)
