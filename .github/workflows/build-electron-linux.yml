@@ -1,4 +1,4 @@
-name: Build Electron Windows
+name: Build Electron Linux
 
 on:
   release:
