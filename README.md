@@ -3,7 +3,7 @@
 </p>
 <p align="center">
   Transmissionic is a free multi-platform remote for Transmission Daemon built with <a href="https://ionicframework.com/">Ionic</a> and <a href="https://vuejs.org/">Vue.js</a>.<br>
-  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows program. (More platform could be added such as iOS or Linux)
+  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program. (More platform could be added such as Mac OS and iOS)
 </p>
 <p align="center">
   
@@ -11,7 +11,7 @@
 
 ----
 
-![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic) ![Build WebUI](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20WebUI?label=Build%20WebUI) ![Build Windows](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Electron%20Windows?label=Build%20Windows) ![Build Android](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Android?label=Build%20Android) ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c) ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
+![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic) ![Build WebUI](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20WebUI?label=Build%20WebUI) ![Build Android](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Android?label=Build%20Android) ![Build Windows](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Electron%20Windows?label=Build%20Windows) ![Build Linux](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Electron%20Linux?label=Build%20Linux) ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c) ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
 
 <a href='https://play.google.com/store/apps/details?id=com.sleroy.transmissionic&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="240" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
@@ -125,7 +125,7 @@ This will build the Web UI inside the `dist` folder.
 
 ### Electron
 
-Only Windows is currently supported, but feel free to make some changes to support other platforms.
+Only Windows and Linux are currently supported, but feel free to make some changes to support other platforms.
 
 First, synchronize Electron content by running this in the root folder of the project :
 
@@ -141,6 +141,8 @@ Then place your terminal in the `electron` folder and run this :
 npm install
 # Build Windows installer
 npm run-script electron:build-windows
+# Build Linux installer
+npm run-script electron:build-linux
 ```
 
 The installer will be located in the `electron/dist` folder.
@@ -179,7 +181,7 @@ You can help with the translation by joining the project on [POEditor](https://p
 
 # TODO
 
-* Add MacOS/Linux support
+* Add iOS/Mac OS support
 * Add server configurations modal
 * Add magnet url handling on Windows
 * Use ion-virtual-scroll when availaible for Vue.js
