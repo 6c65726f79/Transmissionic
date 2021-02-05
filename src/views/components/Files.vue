@@ -439,6 +439,7 @@ export default defineComponent({
 
 .name {
   font-size:1rem;
+  line-height: 1.2rem;
   height: 38px;
   overflow: hidden;
   display: -webkit-box;

@@ -168,6 +168,7 @@ img.icon {
   width: 100%;
   font-size:1rem;
   overflow: hidden;
+  line-height: 1.2rem;
 }
 
 .torrent .details {
