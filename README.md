@@ -13,7 +13,7 @@
 
 ----
 
-![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic) ![Build WebUI](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20WebUI?label=Build%20WebUI) ![Build Android](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Android?label=Build%20Android) ![Build Windows](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Electron%20Windows?label=Build%20Windows) ![Build Linux](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build%20Electron%20Linux?label=Build%20Linux) ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c) ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
+![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic) ![Build WebUI](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build?label=Build) ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c) ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
 
 <a href='https://play.google.com/store/apps/details?id=com.sleroy.transmissionic&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="240" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
