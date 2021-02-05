@@ -343,7 +343,7 @@ export default defineComponent({
 
     async loadStorage() {
       await UserSettings.loadSettings();
-      this.privateState.selectedServer = parseInt(UserSettings.state.selectedServer);
+      this.privateState.selectedServer = UserSettings.state.selectedServer;
       this.privateState.serverList = await UserSettings.loadServerList();
       this.privateState.connectionStatus.loading=false;
       SplashScreen.hide();

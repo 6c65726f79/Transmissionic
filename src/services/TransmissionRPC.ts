@@ -23,6 +23,7 @@ class TRPC {
   useNativePlugin: boolean;
   persistentData: any;
   persistentDataValid=false;
+  freeSpaceRefreshInterval: any;
 
   constructor() {
     this.useNativePlugin = (isPlatform("capacitor") && (isPlatform("android") || isPlatform("ios")))
@@ -60,6 +61,14 @@ class TRPC {
     this.invalidatePersitentData();
 
     this.sessionArguments = await this.getSession();
+
+    clearInterval(this.freeSpaceRefreshInterval);
+    this.freeSpaceRefreshInterval = setInterval(async () => {
+      const response = await this.rpcCall("free-space",{path:this.sessionArguments["download-dir"]})
+      if(response.result=="success"){
+        this.sessionArguments["download-dir-free-space"]=response.arguments["size-bytes"];
+      }
+    },60000);
 
     return this.sessionArguments;
   }
