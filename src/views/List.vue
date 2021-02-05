@@ -43,7 +43,6 @@
 
       <template v-slot:default="{item}">
         <Torrent 
-          v-if="!item.deleted"
           :attr-id="item.id"
           :torrent="item" 
           v-on:switch="switchTorrentState"
@@ -467,7 +466,10 @@ export default defineComponent({
                     Utils.responseToast(response.result);
                     if(response.result=="success"){
                       for (const torrent of selectedTorrents) {
-                        torrent.deleted=true;
+                        const index = this.torrentList.indexOf(torrent);
+                        if(index !== -1) {
+                          this.torrentList.splice(index, 1);
+                        }
                       }
                       this.cancelSelection();
                     }

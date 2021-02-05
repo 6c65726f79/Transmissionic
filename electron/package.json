@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Remote for Transmission Daemon",
   "main": "./build/index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "electron:start": "npm run build && electron ./",
     "electron:pack": "npm run build && electron-builder build --dir",
     "electron:build-windows": "npm run build && electron-builder build --windows",
+    "electron:build-linux": "npm run build && electron-builder build --linux",
     "electron:build-mac": "npm run build && electron-builder build --mac"
   },
   "dependencies": {
@@ -23,7 +24,11 @@
     "capacitor",
     "electron"
   ],
-  "author": "",
+  "author": {
+    "name":"Samuel Leroy",
+    "email":"s.leroy1995@gmail.com"
+  },
+  "homepage": "https://github.com/6c65726f79/Transmissionic",
   "license": "MIT",
   "build": {
     "appId": "com.sleroy.transmissionic",
@@ -57,10 +62,18 @@
       }
     ],
     "linux": {
+      "category": "Network",
+      "artifactName": "Transmissionic-${os}-${arch}-v${version}.${ext}",
       "target": [
-        "AppImage",
-        "deb"
-      ]
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "icon": "appIcon.png"
     },
     "mac": {
       "category": "public.app-category.developer-tools",
@@ -68,13 +81,21 @@
       "icon": "appIcon.png"
     },
     "win": {
-      "target": "nsis",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
       "icon": "appIcon.ico"
+    },
+    "deb": {
+      "packageCategory": "Network"
     },
     "nsis": {
       "perMachine": false,
-      "allowElevation": true,
-      "include": "installer.nsh"
+      "include": "installer.nsh",
+      "deleteAppDataOnUninstall": true
     }
   }
 }

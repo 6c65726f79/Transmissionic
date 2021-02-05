@@ -13,6 +13,7 @@ export const UserSettings = {
     timeout:5,
     orderBy:"addedDate",
     reverse:true,
+    selectedServer:0,
     useBits:true,
     ipFlags:false
   }) as Record<string,any>,
@@ -31,11 +32,16 @@ export const UserSettings = {
     for (const setting in this.state) {
       await Storage.get({ key: setting })
         .then((val) => {
-          if(typeof Object(this.state)[setting]=="boolean"){
-            this.setValue(setting,(val.value=="true"));
-          }
-          else {
-            this.setValue(setting,val.value);
+          if(val.value){
+            if(typeof Object(this.state)[setting]=="boolean"){
+              this.setValue(setting,(val.value=="true"));
+            }
+            else if(typeof Object(this.state)[setting]=="number"){
+              this.setValue(setting,parseInt(val.value));
+            }
+            else {
+              this.setValue(setting,val.value);
+            }
           }
         });
     }
@@ -54,7 +60,7 @@ export const UserSettings = {
     let result;
     let defaultServer: Array<any> = [];
 
-    if(!isPlatform("capacitor")){
+    if(!isPlatform("capacitor") && !isPlatform("electron")){
       defaultServer = [
         {
           name:"Default",
