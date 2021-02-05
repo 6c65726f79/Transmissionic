@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-webui:
-    name: Build WebUI
+  npm-dependencies:
+    name: Install and cache NPM dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +26,27 @@ jobs:
         with:
           path: ./node_modules
           key: node_modules
+
+  build-webui:
+    name: Build WebUI
+    needs: npm-dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: Get node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node_modules
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Pre-build
         run: npm run-script prebuild:webui
@@ -53,6 +74,7 @@ jobs:
 
   build-electron-linux:
     name: Build Electron Linux
+    needs: npm-dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -110,6 +132,7 @@ jobs:
 
   build-electron-win:
     name: Build Electron Windows
+    needs: npm-dependencies
     runs-on: windows-latest
 
     steps:
@@ -157,6 +180,7 @@ jobs:
 
   build-android:
     name: Build Android
+    needs: npm-dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -212,10 +236,3 @@ jobs:
           asset_path: ${{steps.sign_app.outputs.signedReleaseFile}}
           asset_name: Transmissionic-android-${{ github.event.release.tag_name }}.apk
           asset_content_type: application/zip
-
-      - name: Publish release
-        uses: StuYarrow/publish-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          id: ${{ github.event.release.id }}
