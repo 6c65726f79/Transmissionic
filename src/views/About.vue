@@ -10,7 +10,7 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <div class="app-details">
-        <img src="../../public/assets/icon/favicon.png">
+        <img :src="iconSrc">
         <ion-title>Transmissionic v{{appVersion}}</ion-title>
       </div>
       <p>
@@ -62,7 +62,8 @@ export default defineComponent({
     }
 
     return { 
-      Locale
+      Locale,
+      iconSrc:"./assets/icon/favicon.png" // Force Vue.js to load relative path without transformAssetUrls
     }
   },
   computed: {
