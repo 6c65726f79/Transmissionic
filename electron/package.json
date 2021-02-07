@@ -16,7 +16,7 @@
     "custom-electron-titlebar": "^3.2.5"
   },
   "devDependencies": {
-    "electron": "^10.1.4",
+    "electron": "^11.2.3",
     "electron-builder": "^22.8.1",
     "typescript": "~4.0.3"
   },
