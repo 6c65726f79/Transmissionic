@@ -3,13 +3,13 @@ updates:
   # Update Ionic dependencies
   - package-ecosystem: "npm"
     directory: "/"
-    target_branch: "dev"
+    target-branch: "dev"
     schedule:
       interval: "daily"
 
   # Update Electron dependencies
   - package-ecosystem: "npm"
     directory: "/electron"
-    target_branch: "dev"
+    target-branch: "dev"
     schedule:
       interval: "daily"
