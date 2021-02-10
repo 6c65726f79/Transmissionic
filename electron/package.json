@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Remote for Transmission Daemon",
   "main": "./build/index.js",
   "scripts": {
