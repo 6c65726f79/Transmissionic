@@ -36,7 +36,7 @@ contextBridge.exposeInMainWorld('net', {
         };
 
         response.on('end', () => {
-          clearInterval(timeout)
+          clearTimeout(timeout)
           if(data!="" && response.statusCode==200){
             result.data = JSON.parse(data);
           }

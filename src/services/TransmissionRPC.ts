@@ -35,7 +35,7 @@ class TRPC {
     this.sessionToken=null;
     this.options = {
       host:'localhost',
-      path:'/transmission/rpc/',
+      path:'/transmission/rpc',
       port:9091,
       https:false,
       timeout:timeout
