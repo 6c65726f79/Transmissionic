@@ -1,9 +1,8 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
   workflow_dispatch:
 
@@ -55,20 +54,14 @@ jobs:
           mv ./dist/ ./web/
           zip -r release.zip ./web/
 
-      - name: Get latest release
-        id: get_release
-        uses: bruceadams/get-release@v1.2.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./release.zip
-          asset_name: Transmissionic-webui-${{ steps.get_release.outputs.tag_name }}.zip
+          asset_name: Transmissionic-webui-${{ github.event.release.tag_name }}.zip
           asset_content_type: application/zip
 
   build-electron-linux:
@@ -105,20 +98,14 @@ jobs:
         working-directory: ./electron
         run: npm run-script electron:build-linux
 
-      - name: Get latest release
-        id: get_release
-        uses: bruceadams/get-release@v1.2.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
       - name: Upload amd64 Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./electron/dist/Transmissionic-linux-amd64-${{ steps.get_release.outputs.tag_name }}.deb
-          asset_name: Transmissionic-linux-amd64-${{ steps.get_release.outputs.tag_name }}.deb
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-linux-amd64-${{ github.event.release.tag_name }}.deb
+          asset_name: Transmissionic-linux-amd64-${{ github.event.release.tag_name }}.deb
           asset_content_type: application/octet-stream
 
       - name: Upload i386 Release Asset
@@ -126,9 +113,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./electron/dist/Transmissionic-linux-i386-${{ steps.get_release.outputs.tag_name }}.deb
-          asset_name: Transmissionic-linux-i386-${{ steps.get_release.outputs.tag_name }}.deb
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-linux-i386-${{ github.event.release.tag_name }}.deb
+          asset_name: Transmissionic-linux-i386-${{ github.event.release.tag_name }}.deb
           asset_content_type: application/octet-stream
 
   build-electron-win:
@@ -165,20 +152,14 @@ jobs:
         working-directory: ./electron
         run: npm run-script electron:build-windows
 
-      - name: Get latest release
-        id: get_release
-        uses: bruceadams/get-release@v1.2.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./electron/dist/Transmissionic-win-${{ steps.get_release.outputs.tag_name }}.exe
-          asset_name: Transmissionic-win-${{ steps.get_release.outputs.tag_name }}.exe
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-win-${{ github.event.release.tag_name }}.exe
+          asset_name: Transmissionic-win-${{ github.event.release.tag_name }}.exe
           asset_content_type: application/octet-stream
 
   build-android:
@@ -225,19 +206,13 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
         env:
           BUILD_TOOLS_VERSION: "30.0.2"
-
-      - name: Get latest release
-        id: get_release
-        uses: bruceadams/get-release@v1.2.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
           
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ${{steps.sign_app.outputs.signedReleaseFile}}
-          asset_name: Transmissionic-android-${{ steps.get_release.outputs.tag_name }}.apk
+          asset_name: Transmissionic-android-${{ github.event.release.tag_name }}.apk
           asset_content_type: application/zip
