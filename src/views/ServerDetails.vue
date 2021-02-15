@@ -43,7 +43,7 @@
         
         <ion-item>
           <ion-label position="floating">{{ Locale.rpcPath }}</ion-label>
-          <ion-input v-model="newConf.path" placeholder="/transmission/rpc/"></ion-input>
+          <ion-input v-model="newConf.path" placeholder="/transmission/rpc"></ion-input>
         </ion-item>
 
         <ion-item>
