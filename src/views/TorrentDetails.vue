@@ -464,7 +464,7 @@ export default defineComponent({
         this.privateState.selectedTab=e.detail.value
       }
 
-      const segment = this.$refs["segment-" + e.detail.value] as Record<string,any>;
+      const segment = this.$refs[`segment-${e.detail.value}`] as Record<string,any>;
       segment.$el.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
@@ -473,7 +473,10 @@ export default defineComponent({
     },
     async slideChanged() {
       const slider = this.$refs.slider as Record<string,any>;
-      this.privateState.selectedTab=await slider.$el.getActiveIndex();
+      const activeIndex = await slider.$el.getActiveIndex();
+      const segment = this.$refs[`segment-${activeIndex}`] as Record<string,any>;
+      this.privateState.selectedTab=activeIndex;
+      segment.$el.click();
     },
     changeDirectory(directory: string) {
       this.privateState.currentDirectory=directory;
