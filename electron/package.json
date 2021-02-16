@@ -2,6 +2,7 @@
   "name": "transmissionic",
   "version": "1.0.3",
   "description": "Remote for Transmission Daemon",
+  "repository": "github:6c65726f79/Transmissionic",
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc",
@@ -9,7 +10,9 @@
     "electron:pack": "npm run build && electron-builder build --dir",
     "electron:build-windows": "npm run build && electron-builder build --windows",
     "electron:build-linux": "npm run build && electron-builder build --linux",
-    "electron:build-mac": "npm run build && electron-builder build --mac"
+    "electron:build-mac": "npm run build && electron-builder build --mac",
+    "electron:publish-windows": "npm run build && electron-builder build --windows --publish always",
+    "electron:publish-linux": "npm run build && electron-builder build --linux --publish always"
   },
   "dependencies": {
     "@capacitor-community/electron": "1.3.3",
@@ -96,6 +99,10 @@
       "perMachine": false,
       "include": "installer.nsh",
       "deleteAppDataOnUninstall": true
+    },
+    "publish": {
+      "provider": "github",
+      "vPrefixedTagName": true
     }
   }
 }
