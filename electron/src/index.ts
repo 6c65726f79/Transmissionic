@@ -1,6 +1,7 @@
-import { app,ipcMain,dialog  } from "electron";
+import { app  } from "electron";
 import fs from "fs";
 import { createCapacitorElectronApp } from "@capacitor-community/electron";
+import { autoUpdater } from "electron-updater"
 
 // The MainWindow object can be accessed via myCapacitorApp.getMainWindow()
 const myCapacitorApp = createCapacitorElectronApp({
@@ -48,6 +49,7 @@ if (!gotTheLock) {
   // Some Electron APIs can only be used after this event occurs.
   app.on("ready", () => {
     myCapacitorApp.init();
+    autoUpdater.checkForUpdatesAndNotify();
     const mainWindow = myCapacitorApp.getMainWindow();
     if (mainWindow && openFile) {
       mainWindow.webContents.on('did-finish-load', function() {
