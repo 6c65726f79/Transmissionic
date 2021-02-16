@@ -1,15 +1,19 @@
 name: Build
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
   workflow_dispatch:
 
 jobs:
-  npm-dependencies:
-    name: Install and cache NPM dependencies
+  dependencies:
+    name: Create draft release and install dependencies
     runs-on: ubuntu-latest
+    outputs: 
+      version: v${{steps.version.outputs.prop}}
+      upload_url: ${{ steps.create_release.outputs.upload_url }} 
 
     steps:
       - uses: actions/checkout@v2
@@ -21,11 +25,29 @@ jobs:
       - uses: c-hive/gha-npm-cache@v1
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Get version
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with: 
+            path: 'package.json'
+            prop_path: 'version'
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{steps.version.outputs.prop}}
+          release_name: v${{steps.version.outputs.prop}}
+          draft: true
+          prerelease: false
 
   build-webui:
     name: Build WebUI
-    needs: npm-dependencies
+    needs: dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -38,7 +60,7 @@ jobs:
       - uses: c-hive/gha-npm-cache@v1
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Pre-build
         run: npm run-script prebuild:webui
@@ -59,14 +81,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ needs.dependencies.outputs.upload_url }}
           asset_path: ./release.zip
-          asset_name: Transmissionic-webui-${{ github.event.release.tag_name }}.zip
+          asset_name: Transmissionic-webui-${{ needs.dependencies.outputs.version }}.zip
           asset_content_type: application/zip
 
   build-electron-linux:
     name: Build Electron Linux
-    needs: npm-dependencies
+    needs: dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -92,7 +114,7 @@ jobs:
 
       - name: Install electron dependencies
         working-directory: ./electron
-        run: npm install
+        run: npm ci
 
       - name: Build electron
         working-directory: ./electron
@@ -103,9 +125,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./electron/dist/Transmissionic-linux-amd64-${{ github.event.release.tag_name }}.deb
-          asset_name: Transmissionic-linux-amd64-${{ github.event.release.tag_name }}.deb
+          upload_url: ${{ needs.dependencies.outputs.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-linux-amd64-${{ needs.dependencies.outputs.version }}.deb
+          asset_name: Transmissionic-linux-amd64-${{ needs.dependencies.outputs.version }}.deb
           asset_content_type: application/octet-stream
 
       - name: Upload i386 Release Asset
@@ -113,14 +135,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./electron/dist/Transmissionic-linux-i386-${{ github.event.release.tag_name }}.deb
-          asset_name: Transmissionic-linux-i386-${{ github.event.release.tag_name }}.deb
+          upload_url: ${{ needs.dependencies.outputs.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-linux-i386-${{ needs.dependencies.outputs.version }}.deb
+          asset_name: Transmissionic-linux-i386-${{ needs.dependencies.outputs.version }}.deb
           asset_content_type: application/octet-stream
 
   build-electron-win:
     name: Build Electron Windows
-    needs: npm-dependencies
+    needs: dependencies
     runs-on: windows-latest
 
     steps:
@@ -146,7 +168,7 @@ jobs:
 
       - name: Install electron dependencies
         working-directory: ./electron
-        run: npm install
+        run: npm ci
 
       - name: Build electron
         working-directory: ./electron
@@ -157,14 +179,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./electron/dist/Transmissionic-win-${{ github.event.release.tag_name }}.exe
-          asset_name: Transmissionic-win-${{ github.event.release.tag_name }}.exe
+          upload_url: ${{ needs.dependencies.outputs.upload_url }}
+          asset_path: ./electron/dist/Transmissionic-win-${{ needs.dependencies.outputs.version }}.exe
+          asset_name: Transmissionic-win-${{ needs.dependencies.outputs.version }}.exe
           asset_content_type: application/octet-stream
 
   build-android:
     name: Build Android
-    needs: npm-dependencies
+    needs: dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -183,7 +205,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install
+          npm ci
           npm install -g @ionic/cli
           npm install -g @capacitor/cli
 
@@ -212,7 +234,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ needs.dependencies.outputs.upload_url }}
           asset_path: ${{steps.sign_app.outputs.signedReleaseFile}}
-          asset_name: Transmissionic-android-${{ github.event.release.tag_name }}.apk
+          asset_name: Transmissionic-android-${{ needs.dependencies.outputs.version }}.apk
           asset_content_type: application/zip
