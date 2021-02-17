@@ -67,7 +67,7 @@
             <ion-fab-button color="light" :data-desc="Locale.torrentFile" @click="inputFile()">
               <ion-icon :ios="documentOutline" :md="documentSharp"></ion-icon>
             </ion-fab-button>
-            <ion-fab-button color="light" :data-desc="Locale.magnet" @click="inputLink('magnet')">
+            <ion-fab-button color="light" :data-desc="Locale.magnet" @click="inputMagnet()">
               <ion-icon :ios="magnetOutline" :md="magnetSharp"></ion-icon>
             </ion-fab-button>
             <!--<ion-fab-button color="light" data-desc="URL" @click="inputLink('url')">
@@ -576,14 +576,15 @@ export default defineComponent({
     inputFile() {
       FileHandler.inputFile();
     },
-    async inputLink(type: string) {
+    async inputMagnet() {
       const alert = await alertController
         .create({
-          header: type=="magnet" ? Locale.magnet : "URL",
+          header: Locale.magnet,
+          message: "BitTorrent info hash (BTIH)",
           inputs: [
             {
               name: 'link',
-              placeholder: type=="magnet" ? Locale.magnetLink : "Torrent URL"
+              placeholder: Locale.magnetLink
             }
           ],
           buttons: [
@@ -594,12 +595,7 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data) => {
-                if(type=="magnet"){
-                  FileHandler.readMagnet(data.link)
-                }
-                else {
-                  FileHandler.readURL(data.link)
-                }
+                FileHandler.readMagnet(data.link)
               },
             },
           ],
