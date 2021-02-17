@@ -170,5 +170,8 @@
     "ok": "OK",
     "informations": "Informations",
     "torrentFile": "Fichier torrent",
-    "chooseServerName": "Veuillez choisir un nom de serveur"
+    "chooseServerName": "Veuillez choisir un nom de serveur",
+    "updateAvailable": "Mise à jour disponible",
+    "download": "Télécharger",
+    "magnetLink": "Lien magnet ou hash"
 }
