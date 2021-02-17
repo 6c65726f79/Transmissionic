@@ -583,7 +583,7 @@ export default defineComponent({
           inputs: [
             {
               name: 'link',
-              placeholder: type=="magnet" ? "Magnet link" : "Torrent URL"
+              placeholder: type=="magnet" ? Locale.magnetLink : "Torrent URL"
             }
           ],
           buttons: [

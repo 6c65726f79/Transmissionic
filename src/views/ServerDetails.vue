@@ -178,7 +178,7 @@ export default defineComponent({
       return conf;
     },
     authEnabled: function () {
-      return isPlatform("electron") || isPlatform("capacitor")
+      return isPlatform("electron") || isPlatform("capacitor") || process.env.NODE_ENV==="development"
     }
   },
   methods: {
