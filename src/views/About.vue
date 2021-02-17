@@ -11,7 +11,7 @@
     <ion-content :fullscreen="true" class="ion-padding">
       <div class="app-details">
         <img :src="iconSrc">
-        <ion-title>Transmissionic v{{appVersion}}</ion-title>
+        <ion-title>Transmissionic {{appVersion}}</ion-title>
         <p v-if="updateAvailable && downloadUrl">
           <b>{{ Locale.updateAvailable }}</b> : {{newVersion}} (<a :href="downloadUrl">{{ Locale.download }}</a>)
         </p>
@@ -84,7 +84,7 @@ export default defineComponent({
   },
   computed: {
     appVersion: function(): string {
-      return process.env.PACKAGE_VERSION || "";
+      return `v${process.env.PACKAGE_VERSION}` || "v1.0.0";
     },
     isWebUI: function() {
       return !isPlatform("electron") && !isPlatform("capacitor")
@@ -120,12 +120,14 @@ export default defineComponent({
       const currentNums = current.substring(1).split('.');
       const latestNums = latest.substring(1).split('.');
       for (let i = 0; i < latestNums.length; i++) {
-        if(Number.isInteger(latestNums[i]) && Number.isInteger(currentNums[i])){
-          if( latestNums[i]>currentNums[i]){
+        const latestNum = parseInt(latestNums[i]);
+        const currentNum = parseInt(currentNums[i]);
+        if(!isNaN(latestNum) && !isNaN(currentNum)){
+          if(latestNum>currentNum){
             return true;
           }
         }
-        else if(Number.isInteger(latestNums[i]) && !Number.isInteger(currentNums[i])){
+        else if(!isNaN(latestNum) && isNaN(currentNum)){
           return true;
         }
       }
