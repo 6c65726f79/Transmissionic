@@ -170,5 +170,8 @@
     "ok": "OK",
     "informations": "Informations",
     "torrentFile": "Torrent file",
-    "chooseServerName": "Please choose a server name"
+    "chooseServerName": "Please choose a server name",
+    "updateAvailable": "Update available",
+    "download": "Download",
+    "magnetLink": "Magnet link or hash"
 }
