@@ -173,5 +173,6 @@
     "chooseServerName": "Veuillez choisir un nom de serveur",
     "updateAvailable": "Mise à jour disponible",
     "download": "Télécharger",
-    "magnetLink": "Lien magnet ou hash"
+    "magnetLink": "Lien magnet ou hash",
+    "expandSideMenu": "Étendre le menu latéral sur grand écran"
 }
