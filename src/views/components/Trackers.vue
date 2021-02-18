@@ -231,6 +231,8 @@ export default defineComponent({
                   trackerAdd:[data.address]
                 }
 
+                TransmissionRPC.invalidatePersitentData();
+
                 TransmissionRPC.torrentAction("set", this.details.id, args)
                   .then((response) => {
                     Utils.responseToast(response.result);
@@ -280,6 +282,8 @@ export default defineComponent({
                   trackerReplace:[tracker.id,data.address]
                 }
 
+                TransmissionRPC.invalidatePersitentData();
+
                 TransmissionRPC.torrentAction("set", this.details.id, args)
                   .then((response) => {
                     Utils.responseToast(response.result)
@@ -314,6 +318,8 @@ export default defineComponent({
                 const args = {
                   "trackerRemove":[tracker.id]
                 }
+                
+                TransmissionRPC.invalidatePersitentData();
 
                 TransmissionRPC.torrentAction("set", this.details.id, args)
                   .then((response) => {

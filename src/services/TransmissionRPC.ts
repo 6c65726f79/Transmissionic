@@ -233,7 +233,7 @@ class TRPC {
 
   invalidatePersitentData() {
     this.persistentDataValid = false;
-    this.persistentData = undefined;
+    //this.persistentData = undefined;
   }
 
   async getTorrentDetails(id: number) {
@@ -300,6 +300,11 @@ class TRPC {
   }
 
   async torrentAction(action: string, torrentId: number|Array<number>, args: Record<string, any> = {}){
+    switch (action) {
+      case "remove":
+        this.invalidatePersitentData();
+        break;
+    }
     return this.rpcCall("torrent-"+action, Object.assign({ids:torrentId}, args))
   }
 
