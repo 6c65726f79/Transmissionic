@@ -251,9 +251,6 @@ export default defineComponent({
             this.privateState.connectionStatus.error=error.message;
           }
         })
-        .then(() => {
-          this.privateState.connectionStatus.loading=false;
-        })
 
       if(UserSettings.state.useBits){
         // Bytes to bits
@@ -264,6 +261,8 @@ export default defineComponent({
       if(!this.privateState.modified){
         this.privateState.newOptions = _.cloneDeep(this.privateState.details);
       }
+      
+      this.privateState.connectionStatus.loading=false;
     },
     optionList(details: Record<string,any>): Record<string,any> {
       // Return torrent options only
