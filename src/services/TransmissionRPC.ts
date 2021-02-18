@@ -193,11 +193,10 @@ class TRPC {
 
   readPersitentData(details: any) {
     const trackers: Record<string,any> = {};
-    const downloadDir: Array<string> = [];
+    const downloadDirList: Array<string> = [];
     let trId=0;
 
     for (const torrent of details) {
-
       let dir = torrent.downloadDir
       //eslint-disable-next-line
       if(dir.match(/[\/\\]$/)){
@@ -205,8 +204,8 @@ class TRPC {
         dir = dir.substring(0,dir.length-1);
       }
 
-      if(!downloadDir.includes(dir)){
-        downloadDir.push(dir)
+      if(!downloadDirList.includes(dir)){
+        downloadDirList.push(dir)
       }
 
       for(const tracker of torrent.trackers){
@@ -235,7 +234,7 @@ class TRPC {
 
     this.persistentData = {
       trackers: Object.values(trackers),
-      downloadDir: downloadDir.sort()
+      downloadDir: downloadDirList.sort()
     }
     this.persistentDataValid = true;
   }

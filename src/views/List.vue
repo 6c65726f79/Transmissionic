@@ -97,10 +97,10 @@
 
       <ion-toolbar v-else id="footer">
         <ion-buttons slot="start">
-          <!-- TODO : Add server configuration modal
-          <ion-button fill="clear">
-            <ion-icon slot="icon-only" :ios="ionicons.constructOutline" :md="ionicons.constructSharp"></ion-icon>
-          </ion-button>-->
+          <!-- TODO : Add server configuration modal -->
+          <ion-button fill="clear" @click="serverConfiguration()">
+            <ion-icon slot="icon-only" :ios="constructOutline" :md="constructSharp"></ion-icon>
+          </ion-button>
           <ion-button fill="clear" @click="switchAltSpeed()">
             <ion-icon 
               slot="icon-only"
@@ -171,10 +171,13 @@ import {
   informationCircleOutline,
   informationCircleSharp,
   arrowDownOutline,
-  arrowUpOutline
+  arrowUpOutline,
+  constructOutline,
+  constructSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
+import ServerConfig from './ServerConfig.vue'
 import VirtualScroll from './components/VirtualScroll.vue'
 import Torrent from './components/Torrent.vue'
 import OrderPopover from './components/OrderPopover.vue'
@@ -331,7 +334,9 @@ export default defineComponent({
       informationCircleOutline,
       informationCircleSharp,
       arrowDownOutline,
-      arrowUpOutline
+      arrowUpOutline,
+      constructOutline,
+      constructSharp
     }
   },
   async created() {
@@ -556,6 +561,13 @@ export default defineComponent({
           buttons: [Locale.ok],
         });
       return alert.present();
+    },
+    async serverConfiguration() {
+      const modal = await modalController
+        .create({
+          component: ServerConfig
+        })
+      return modal.present();
     },
     longPress(e: Event, id: number) {
       if(e){
