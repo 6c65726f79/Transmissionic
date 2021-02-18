@@ -13,7 +13,7 @@
         <img :src="iconSrc">
         <ion-title>Transmissionic {{appVersion}}</ion-title>
         <p v-if="updateAvailable && downloadUrl">
-          <b>{{ Locale.updateAvailable }}</b> : {{newVersion}} (<a :href="downloadUrl">{{ Locale.download }}</a>)
+          <b>{{ Locale.updateAvailable }}</b> {{newVersion}} (<a :href="downloadUrl">{{ Locale.download }}</a>)
         </p>
       </div>
       <p>
