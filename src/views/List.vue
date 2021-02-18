@@ -595,7 +595,12 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data) => {
-                FileHandler.readMagnet(data.link)
+                if(data.link.toLowerCase().match(/\b[0-9a-f]{40}\b/)){
+                  FileHandler.readMagnet(`magnet:?xt=urn:btih:${data.link}`)
+                }
+                else {
+                  FileHandler.readMagnet(data.link)
+                }
               },
             },
           ],
