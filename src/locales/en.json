@@ -171,7 +171,7 @@
     "informations": "Informations",
     "torrentFile": "Torrent file",
     "chooseServerName": "Please choose a server name",
-    "updateAvailable": "Update available",
+    "updateAvailable": "Update available:",
     "download": "Download",
     "magnetLink": "Magnet link or hash",
     "expandSideMenu": "Expand side menu on large screen"
