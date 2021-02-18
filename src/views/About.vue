@@ -84,7 +84,7 @@ export default defineComponent({
   },
   computed: {
     appVersion: function(): string {
-      return `v${process.env.PACKAGE_VERSION}` || "v1.0.0";
+      return `v${process.env.PACKAGE_VERSION||"1.0.0"}`;
     },
     isWebUI: function() {
       return !isPlatform("electron") && !isPlatform("capacitor")
