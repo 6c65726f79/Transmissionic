@@ -106,11 +106,13 @@ export default defineComponent({
       fetch('https://api.github.com/repos/6c65726f79/Transmissionic/releases/latest')
         .then(async (response) => {
           const result = await response.json()
-          this.updateAvailable = this.isNewerVersion(this.appVersion,result.name)
-          this.newVersion = result.name;
-          for(const asset of result.assets){
-            if(asset.name.match(/^Transmissionic-webui-v(\d+\.){3,}zip$/g)){
-              this.downloadUrl = asset.browser_download_url;
+          if(!result.prerelease){
+            this.updateAvailable = this.isNewerVersion(this.appVersion,result.name)
+            this.newVersion = result.name;
+            for(const asset of result.assets){
+              if(asset.name.match(/^Transmissionic-webui-v(\d+\.){3,}zip$/g)){
+                this.downloadUrl = asset.browser_download_url;
+              }
             }
           }
         })
@@ -126,9 +128,12 @@ export default defineComponent({
           if(latestNum>currentNum){
             return true;
           }
+          else if(latestNum<currentNum){
+            return false;
+          }
         }
-        else if(!isNaN(latestNum) && isNaN(currentNum)){
-          return true;
+        else if(isNaN(currentNum)){
+          return false;
         }
       }
       return false;
