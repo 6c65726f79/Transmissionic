@@ -197,8 +197,16 @@ class TRPC {
     let trId=0;
 
     for (const torrent of details) {
-      if(!downloadDir.includes(torrent.downloadDir)){
-        downloadDir.push(torrent.downloadDir)
+
+      let dir = torrent.downloadDir
+      //eslint-disable-next-line
+      if(dir.match(/[\/\\]$/)){
+        // Remove last / or \
+        dir = dir.substring(0,dir.length-1);
+      }
+
+      if(!downloadDir.includes(dir)){
+        downloadDir.push(dir)
       }
 
       for(const tracker of torrent.trackers){
@@ -223,10 +231,11 @@ class TRPC {
         }
       }
     }
+    
 
     this.persistentData = {
       trackers: Object.values(trackers),
-      downloadDir: downloadDir
+      downloadDir: downloadDir.sort()
     }
     this.persistentDataValid = true;
   }
