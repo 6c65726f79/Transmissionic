@@ -12,7 +12,7 @@
       </ion-buttons>
     </ion-toolbar>
     <ion-toolbar>
-      <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" :value="selectedTab" scrollable>
+      <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" v-model="selectedTab" scrollable>
         <ion-segment-button :value="0" ref="segment-0">
           <ion-label>Download</ion-label>
         </ion-segment-button>
@@ -248,10 +248,8 @@ export default defineComponent({
     async slideChanged() {
       const slider = this.$refs.slider as Record<string,any>;
       const activeIndex = await slider.$el.getActiveIndex();
-      const segment = this.$refs[`segment-${activeIndex}`] as Record<string,any>;
       this.selectedTab=activeIndex;
       this.setTab(activeIndex, false);
-      segment.$el.click();
     },
     
   },
