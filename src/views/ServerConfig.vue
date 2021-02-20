@@ -17,13 +17,10 @@
           <ion-label>Download</ion-label>
         </ion-segment-button>
         <ion-segment-button :value="1" ref="segment-1">
-          <ion-label>Network</ion-label>
+          <ion-label>Limits</ion-label>
         </ion-segment-button>
         <ion-segment-button :value="2" ref="segment-2">
-          <ion-label>Bandwith</ion-label>
-        </ion-segment-button>
-        <ion-segment-button :value="3" ref="segment-3">
-          <ion-label>Queue</ion-label>
+          <ion-label>Network</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
@@ -44,33 +41,10 @@
             <ion-label position="floating">Default download directory</ion-label>
             <ion-input v-model="config['download-dir']"></ion-input>
           </ion-item>
-        </ion-list>
-
-        <ion-list>
-          <ion-list-header>
-            <ion-label>
-              Global limits
-            </ion-label>
-          </ion-list-header>
 
           <ion-item>
-            <div class="left">
-              <ion-label position="floating">
-                {{ Locale.seedRatioLimit }}
-              </ion-label>
-              <ion-input v-model.number="config.seedRatioLimit" type="number"></ion-input>
-            </div>
-            <ion-toggle v-model="config.seedRatioLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
-          </ion-item>
-
-          <ion-item>
-            <div class="left">
-              <ion-label position="floating">
-                {{ Locale.stopWhenInactive }}
-              </ion-label>
-              <ion-input v-model.number="config['idle-seeding-limit']" type="number"></ion-input>
-            </div>
-            <ion-toggle v-model="config['idle-seeding-limit-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+            <ion-label position="floating">Cache size ({{ Locale.units.mega + Locale.units.byte }})</ion-label>
+            <ion-input v-model.number="config['cache-size-mb']" type="number"></ion-input>
           </ion-item>
         </ion-list>
 
@@ -88,36 +62,128 @@
           
 
           <ion-item>
-            <ion-label>Use incomplete directory</ion-label>
+            <ion-label>Use temporary directory</ion-label>
             <ion-toggle v-model="config['incomplete-dir-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Incomplete directory</ion-label>
+          <ion-item :disabled="!config['incomplete-dir-enabled']">
+            <ion-label position="floating">Temporary directory path</ion-label>
             <ion-input v-model="config['incomplete-dir']"></ion-input>
           </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Queue
+            </ion-label>
+          </ion-list-header>
+
+
         </ion-list>
 
       </ion-content>
 
     </ion-slide>
+
     <ion-slide>
-      2
-      <!--<ion-content class="ion-padding" ref="tab2">
-        2
-      </ion-content>-->
+      <ion-content class="ion-padding" ref="tab2">
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Global limits
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label position="floating">
+              {{ Locale.peersLimit }}
+            </ion-label>
+            <ion-input v-model.number="config['peer-limit-global']" type="number"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <div class="left">
+              <ion-label position="floating">
+                {{ Locale.seedRatioLimit }}
+              </ion-label>
+              <ion-input v-model.number="config.seedRatioLimit" type="number" :disabled="!config.seedRatioLimited"></ion-input>
+            </div>
+            <ion-toggle v-model="config.seedRatioLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <div class="left">
+              <ion-label position="floating">
+                {{ Locale.stopWhenInactive }}
+              </ion-label>
+              <ion-input v-model.number="config['idle-seeding-limit']" type="number" :disabled="!config['idle-seeding-limit-enabled']"></ion-input>
+            </div>
+            <ion-toggle v-model="config['idle-seeding-limit-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+        </ion-list>
+
+      </ion-content>
     </ion-slide>
+
     <ion-slide>
-      3
-      <!--<ion-content class="ion-padding" ref="tab3">
-        3
-      </ion-content>-->
-    </ion-slide>
-    <ion-slide>
-      4
-      <!--<ion-content class="ion-padding" ref="tab4">
-        4
-      </ion-content>-->
+      <ion-content class="ion-padding" ref="tab3">
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Peer port
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item :disabled="config['peer-port-random-on-start']">
+            <ion-label position="floating">Port</ion-label>
+            <ion-input v-model.number="config['peer-port']" type="number"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Random port on start</ion-label>
+            <ion-toggle v-model="config['peer-port-random-on-start']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Port forwarding</ion-label>
+            <ion-toggle v-model="config['port-forwarding-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          
+
+          
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Protocols
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label>Distributed hash table (DHT)</ion-label>
+            <ion-toggle v-model="config['dht-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Local peer discovery (LDP)</ion-label>
+            <ion-toggle v-model="config['ldp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Peer exchange (PEX)</ion-label>
+            <ion-toggle v-model="config['pex-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Micro transport protocol (µTP)</ion-label>
+            <ion-toggle v-model="config['utp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+        </ion-list>
+      </ion-content>
     </ion-slide>
   </ion-slides>
 </template>
@@ -200,6 +266,8 @@ export default defineComponent({
   },
   async mounted() {
     Utils.customScrollbar(this.$refs.tab1)
+    Utils.customScrollbar(this.$refs.tab2)
+    Utils.customScrollbar(this.$refs.tab3)
 
     setTimeout(()=>{
       // Workaround to fix SwiperJS when opening/closing modal multiple times
