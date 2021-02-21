@@ -23,7 +23,7 @@
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
-        <ion-segment ref="tabs" @ionChange="segmentChanged($event)" :value="privateState.selectedTab" scrollable>
+        <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" v-model="privateState.selectedTab" scrollable>
           <ion-segment-button :value="0" ref="segment-0">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
@@ -251,9 +251,6 @@ export default defineComponent({
             this.privateState.connectionStatus.error=error.message;
           }
         })
-        .then(() => {
-          this.privateState.connectionStatus.loading=false;
-        })
 
       if(UserSettings.state.useBits){
         // Bytes to bits
@@ -264,6 +261,8 @@ export default defineComponent({
       if(!this.privateState.modified){
         this.privateState.newOptions = _.cloneDeep(this.privateState.details);
       }
+      
+      this.privateState.connectionStatus.loading=false;
     },
     optionList(details: Record<string,any>): Record<string,any> {
       // Return torrent options only
@@ -455,18 +454,18 @@ export default defineComponent({
         })
       return modal.present();
     },
-    segmentChanged(e: any) {
+    setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;
       if(slider){
-        slider.$el.slideTo(e.detail.value);
+        slider.$el.slideTo(index);
       }
       else {
-        this.privateState.selectedTab=e.detail.value
+        this.privateState.selectedTab=index
       }
 
-      const segment = this.$refs[`segment-${e.detail.value}`] as Record<string,any>;
+      const segment = this.$refs[`segment-${index}`] as Record<string,any>;
       segment.$el.scrollIntoView({
-        behavior: 'smooth',
+        behavior: smooth ? 'smooth' : 'instant',
         block: 'center',
         inline: 'center'
       });
@@ -474,9 +473,8 @@ export default defineComponent({
     async slideChanged() {
       const slider = this.$refs.slider as Record<string,any>;
       const activeIndex = await slider.$el.getActiveIndex();
-      const segment = this.$refs[`segment-${activeIndex}`] as Record<string,any>;
       this.privateState.selectedTab=activeIndex;
-      segment.$el.click();
+      this.setTab(activeIndex, false);
     },
     changeDirectory(directory: string) {
       this.privateState.currentDirectory=directory;

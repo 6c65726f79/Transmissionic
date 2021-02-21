@@ -12,7 +12,7 @@
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
-        <ion-segment ref="tabs" @ionChange="segmentChanged($event)" :value="selectedTab" scrollable>
+        <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" v-model="selectedTab" scrollable>
           <ion-segment-button :value="0" ref="segment-0">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
@@ -318,28 +318,27 @@ export default defineComponent({
           }
         });
     },
-    segmentChanged (e: any) {
+    setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;
       if(slider){
-        slider.$el.slideTo(e.detail.value);
+        slider.$el.slideTo(index);
       }
       else {
-        this.selectedTab=e.detail.value
+        this.selectedTab=index
       }
 
-      const segment = this.$refs[`segment-${e.detail.value}`] as Record<string,any>;
+      const segment = this.$refs[`segment-${index}`] as Record<string,any>;
       segment.$el.scrollIntoView({
-        behavior: 'smooth',
+        behavior: smooth ? 'smooth' : 'instant',
         block: 'center',
         inline: 'center'
       });
     },
-    async slideChanged () {
+    async slideChanged() {
       const slider = this.$refs.slider as Record<string,any>;
       const activeIndex = await slider.$el.getActiveIndex();
-      const segment = this.$refs[`segment-${activeIndex}`] as Record<string,any>;
       this.selectedTab=activeIndex;
-      segment.$el.click();
+      this.setTab(activeIndex, false);
     },
   },
 });

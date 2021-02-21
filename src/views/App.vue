@@ -1,6 +1,6 @@
 <template>
   <IonApp>
-    <IonSplitPane contentId="main-content">
+    <IonSplitPane contentId="main-content" :disabled="!sharedState.expandMenu">
       <ion-menu contentId="main-content" type="overlay" menu-id="left" :swipeGesture="privateState.swipeEnabled" v-on:ionDidClose="closeTrackerList()">
 
         <!-- Main menu -->
@@ -347,6 +347,7 @@ export default defineComponent({
       this.privateState.serverList = await UserSettings.loadServerList();
       this.privateState.connectionStatus.loading=false;
       SplashScreen.hide();
+      this.$forceUpdate();
     },
 
     setRefreshInterval() {
@@ -502,6 +503,10 @@ export default defineComponent({
 
 .filter-name::first-letter {
   text-transform: uppercase;
+}
+
+ion-menu.menu-pane-visible {
+  max-width: 304px;
 }
 
 ion-note {

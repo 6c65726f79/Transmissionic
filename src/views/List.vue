@@ -67,7 +67,7 @@
             <ion-fab-button color="light" :data-desc="Locale.torrentFile" @click="inputFile()">
               <ion-icon :ios="documentOutline" :md="documentSharp"></ion-icon>
             </ion-fab-button>
-            <ion-fab-button color="light" :data-desc="Locale.magnet" @click="inputLink('magnet')">
+            <ion-fab-button color="light" :data-desc="Locale.magnet" @click="inputMagnet()">
               <ion-icon :ios="magnetOutline" :md="magnetSharp"></ion-icon>
             </ion-fab-button>
             <!--<ion-fab-button color="light" data-desc="URL" @click="inputLink('url')">
@@ -97,15 +97,15 @@
 
       <ion-toolbar v-else id="footer">
         <ion-buttons slot="start">
-          <!-- TODO : Add server configuration modal
-          <ion-button fill="clear">
-            <ion-icon slot="icon-only" :ios="ionicons.constructOutline" :md="ionicons.constructSharp"></ion-icon>
-          </ion-button>-->
+          <!-- TODO : Add server configuration modal -->
+          <ion-button fill="clear" @click="serverConfiguration()">
+            <ion-icon slot="icon-only" :ios="constructOutline" :md="constructSharp"></ion-icon>
+          </ion-button>
           <ion-button fill="clear" @click="switchAltSpeed()">
             <ion-icon 
               slot="icon-only"
-              :color="privateState.altSpeedEnabled ? 'primary' : null"
-              :ios="privateState.altSpeedEnabled ? speedometer : speedometerOutline"
+              :color="altSpeedEnabled() ? 'primary' : null"
+              :ios="altSpeedEnabled() ? speedometer : speedometerOutline"
               :md="speedometerSharp">
             </ion-icon>
           </ion-button>
@@ -171,10 +171,13 @@ import {
   informationCircleOutline,
   informationCircleSharp,
   arrowDownOutline,
-  arrowUpOutline
+  arrowUpOutline,
+  constructOutline,
+  constructSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
+import ServerConfig from './ServerConfig.vue'
 import VirtualScroll from './components/VirtualScroll.vue'
 import Torrent from './components/Torrent.vue'
 import OrderPopover from './components/OrderPopover.vue'
@@ -331,14 +334,15 @@ export default defineComponent({
       informationCircleOutline,
       informationCircleSharp,
       arrowDownOutline,
-      arrowUpOutline
+      arrowUpOutline,
+      constructOutline,
+      constructSharp
     }
   },
   async created() {
     this.torrentList = inject('torrentList') as any;
     this.filter = inject('filter') as string;
     this.filterIds = inject('filterIds') as Array<number>;
-    this.privateState.altSpeedEnabled = await TransmissionRPC.getSessionArgument("alt-speed-enabled");
   },
   mounted() {
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
@@ -398,8 +402,12 @@ export default defineComponent({
           break;
       }
     },
+    altSpeedEnabled(): boolean {
+      this.privateState.altSpeedEnabled = TransmissionRPC.sessionArguments['alt-speed-enabled']
+      return this.privateState.altSpeedEnabled;
+    },
     switchAltSpeed(){
-      TransmissionRPC.setSession({"alt-speed-enabled":!this.privateState.altSpeedEnabled})
+      TransmissionRPC.setSession({"alt-speed-enabled":!this.altSpeedEnabled()})
         .then((response) => {
           if(response.result=="success"){
             this.privateState.altSpeedEnabled=!this.privateState.altSpeedEnabled;
@@ -557,6 +565,13 @@ export default defineComponent({
         });
       return alert.present();
     },
+    async serverConfiguration() {
+      const modal = await modalController
+        .create({
+          component: ServerConfig
+        })
+      return modal.present();
+    },
     longPress(e: Event, id: number) {
       if(e){
         e.preventDefault();
@@ -576,14 +591,15 @@ export default defineComponent({
     inputFile() {
       FileHandler.inputFile();
     },
-    async inputLink(type: string) {
+    async inputMagnet() {
       const alert = await alertController
         .create({
-          header: type=="magnet" ? Locale.magnet : "URL",
+          header: Locale.magnet,
+          message: "BitTorrent info hash (BTIH)",
           inputs: [
             {
               name: 'link',
-              placeholder: type=="magnet" ? "Magnet link" : "Torrent URL"
+              placeholder: Locale.magnetLink
             }
           ],
           buttons: [
@@ -594,11 +610,11 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data) => {
-                if(type=="magnet"){
-                  FileHandler.readMagnet(data.link)
+                if(data.link.toLowerCase().match(/^\b[0-9a-f]{40}\b$/)){
+                  FileHandler.readMagnet(`magnet:?xt=urn:btih:${data.link}`)
                 }
                 else {
-                  FileHandler.readURL(data.link)
+                  FileHandler.readMagnet(data.link)
                 }
               },
             },

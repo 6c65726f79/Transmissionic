@@ -179,5 +179,6 @@ export default defineComponent({
   .autocomplete-result ion-label {
     text-overflow:initial;
     white-space:normal;
+    max-width:none;
   }
 </style>

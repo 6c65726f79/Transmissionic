@@ -44,6 +44,10 @@
           <ion-toggle :checked="sharedState.useBits" v-on:ionChange="updateSetting($event,'useBits')"></ion-toggle>
         </ion-item>
 
+        <ion-item>
+          <ion-label>{{ Locale.expandSideMenu }}</ion-label>
+          <ion-toggle :checked="sharedState.expandMenu" v-on:ionChange="updateSetting($event,'expandMenu')"></ion-toggle>
+        </ion-item>
         
         <ion-item>
           <ion-label>{{ Locale.displayFlag }}</ion-label>

@@ -193,12 +193,19 @@ class TRPC {
 
   readPersitentData(details: any) {
     const trackers: Record<string,any> = {};
-    const downloadDir: Array<string> = [];
+    const downloadDirList: Array<string> = [];
     let trId=0;
 
     for (const torrent of details) {
-      if(!downloadDir.includes(torrent.downloadDir)){
-        downloadDir.push(torrent.downloadDir)
+      let dir = torrent.downloadDir
+      //eslint-disable-next-line
+      if(dir.match(/[\/\\]$/)){
+        // Remove last / or \
+        dir = dir.substring(0,dir.length-1);
+      }
+
+      if(!downloadDirList.includes(dir)){
+        downloadDirList.push(dir)
       }
 
       for(const tracker of torrent.trackers){
@@ -223,17 +230,18 @@ class TRPC {
         }
       }
     }
+    
 
     this.persistentData = {
       trackers: Object.values(trackers),
-      downloadDir: downloadDir
+      downloadDir: downloadDirList.sort()
     }
     this.persistentDataValid = true;
   }
 
   invalidatePersitentData() {
     this.persistentDataValid = false;
-    this.persistentData = undefined;
+    //this.persistentData = undefined;
   }
 
   async getTorrentDetails(id: number) {
@@ -300,6 +308,11 @@ class TRPC {
   }
 
   async torrentAction(action: string, torrentId: number|Array<number>, args: Record<string, any> = {}){
+    switch (action) {
+      case "remove":
+        this.invalidatePersitentData();
+        break;
+    }
     return this.rpcCall("torrent-"+action, Object.assign({ids:torrentId}, args))
   }
 

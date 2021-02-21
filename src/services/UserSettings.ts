@@ -15,6 +15,7 @@ export const UserSettings = {
     reverse:true,
     selectedServer:0,
     useBits:true,
+    expandMenu:true,
     ipFlags:false
   }) as Record<string,any>,
 
