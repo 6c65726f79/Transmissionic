@@ -46,6 +46,39 @@
             <ion-label position="floating">Cache size ({{ Locale.units.mega + Locale.units.byte }})</ion-label>
             <ion-input v-model.number="config['cache-size-mb']" type="number"></ion-input>
           </ion-item>
+
+          <ion-item>
+            <ion-label>Start added torrents</ion-label>
+            <ion-toggle v-model="config['start-added-torrents']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Queue
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label>Enabled</ion-label>
+            <ion-toggle v-model="config['download-queue-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item :disabled="!config['download-queue-enabled']">
+            <ion-label position="floating">Queue size</ion-label>
+            <ion-input v-model="config['download-queue-size']"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <div class="left">
+              <ion-label position="floating">
+                {{ Locale.stopWhenInactive }}
+              </ion-label>
+              <ion-input v-model.number="config['queue-stalled-minutes']" type="number" :disabled="!config['queue-stalled-enabled']"></ion-input>
+            </div>
+            <ion-toggle v-model="config['queue-stalled-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
         </ion-list>
 
         <ion-list>
@@ -59,7 +92,6 @@
             <ion-label>Add .part extension to incomplete files</ion-label>
             <ion-toggle v-model="config['rename-partial-files']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
-          
 
           <ion-item>
             <ion-label>Use temporary directory</ion-label>
@@ -72,16 +104,6 @@
           </ion-item>
         </ion-list>
 
-        <ion-list>
-          <ion-list-header>
-            <ion-label>
-              Queue
-            </ion-label>
-          </ion-list-header>
-
-
-        </ion-list>
-
       </ion-content>
 
     </ion-slide>
@@ -92,16 +114,60 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Global limits
+              {{ Locale.bandwidth }}
             </ion-label>
           </ion-list-header>
 
           <ion-item>
-            <ion-label position="floating">
-              {{ Locale.peersLimit }}
-            </ion-label>
-            <ion-input v-model.number="config['peer-limit-global']" type="number"></ion-input>
+            <div class="left">
+              <ion-label position="floating">
+                {{ Locale.downloadLimit }} ({{ speedUnit }})
+              </ion-label>
+              <ion-input v-model.number="config['speed-limit-down']" type="number" :disabled="!config['speed-limit-down-enabled']"></ion-input>
+            </div>
+            <ion-toggle v-model="config['speed-limit-down-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
+          
+          <ion-item>
+            <div class="left">
+              <ion-label position="floating">
+                {{ Locale.uploadLimit }} ({{ speedUnit }})
+              </ion-label>
+              <ion-input v-model.number="config['speed-limit-up']" type="number" :disabled="!config['speed-limit-up-enabled']"></ion-input>
+            </div>
+            <ion-toggle v-model="config['speed-limit-up-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Alternative speed
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label>Enabled</ion-label>
+            <ion-toggle v-model="config['alt-speed-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">{{ Locale.downloadLimit }} ({{ speedUnit }})</ion-label>
+            <ion-input v-model.number="config['alt-speed-down']" type="number"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">{{ Locale.uploadLimit }} ({{ speedUnit }})</ion-label>
+            <ion-input v-model.number="config['alt-speed-up']" type="number"></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Seed
+            </ion-label>
+          </ion-list-header>
 
           <ion-item>
             <div class="left">
@@ -124,6 +190,28 @@
           </ion-item>
         </ion-list>
 
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              {{ Locale.peer.other }}
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label position="floating">
+              Global peer limit
+            </ion-label>
+            <ion-input v-model.number="config['peer-limit-global']" type="number"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">
+              Peer limit by torrent
+            </ion-label>
+            <ion-input v-model.number="config['peer-limit-per-torrent']" type="number"></ion-input>
+          </ion-item>
+        </ion-list>
+
       </ion-content>
     </ion-slide>
 
@@ -132,12 +220,29 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
+              {{ Locale.general }}
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label>Encryption</ion-label>
+            <ion-select placeholder="Select One" :value="config.encryption" v-on:ionChange="config.encryption=$event.target.value" :cancelText="Locale.actions.cancel"> 
+              <ion-select-option value="tolerated">Tolerated</ion-select-option>
+              <ion-select-option value="preferred">Preferred</ion-select-option>
+              <ion-select-option value="required">Required</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
               Peer port
             </ion-label>
           </ion-list-header>
 
           <ion-item :disabled="config['peer-port-random-on-start']">
-            <ion-label position="floating">Port</ion-label>
+            <ion-label position="floating">{{ Locale.port }}</ion-label>
             <ion-input v-model.number="config['peer-port']" type="number"></ion-input>
           </ion-item>
 
@@ -150,10 +255,6 @@
             <ion-label>Port forwarding</ion-label>
             <ion-toggle v-model="config['port-forwarding-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
-
-          
-
-          
         </ion-list>
 
         <ion-list>
@@ -183,15 +284,36 @@
             <ion-toggle v-model="config['utp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
         </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Blocklist
+            </ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label>Enabled</ion-label>
+            <ion-toggle v-model="config['blocklist-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+          </ion-item>
+
+          <ion-item :disabled="!config['blocklist-enabled']">
+            <ion-label position="floating">Blocklist URL</ion-label>
+            <ion-input v-model.number="config['blocklist-url']"></ion-input>
+          </ion-item>
+        </ion-list>
+
       </ion-content>
     </ion-slide>
   </ion-slides>
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
 import { 
   isPlatform,
   modalController,
+  loadingController,
   IonContent,
   IonHeader, 
   IonTitle, 
@@ -209,14 +331,16 @@ import {
   IonListHeader,
   IonItem,
   IonInput,
-  IonToggle
+  IonToggle,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/vue';
 import {
   saveOutline,
   saveSharp
 } from 'ionicons/icons';
 import { TransmissionRPC } from "../services/TransmissionRPC";
-import { defineComponent } from 'vue';
+import { UserSettings } from "../services/UserSettings";
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import * as _ from 'lodash';
@@ -241,7 +365,9 @@ export default defineComponent({
     IonListHeader,
     IonItem,
     IonInput,
-    IonToggle
+    IonToggle,
+    IonSelect,
+    IonSelectOption
   },
   data() {
     return {
@@ -257,12 +383,19 @@ export default defineComponent({
 
     return { 
       Locale,
+      Utils,
       saveOutline,
       saveSharp
     }
   },
   created() {
-    console.log(this.config);
+    if(UserSettings.state.useBits){
+      // Bytes to bits
+      this.config['alt-speed-up'] = this.config['alt-speed-up']*8;
+      this.config['alt-speed-down'] = this.config['alt-speed-down']*8;
+      this.config['speed-limit-up'] = this.config['speed-limit-up']*8;
+      this.config['speed-limit-down'] = this.config['speed-limit-down']*8;
+    }
   },
   async mounted() {
     Utils.customScrollbar(this.$refs.tab1)
@@ -283,19 +416,41 @@ export default defineComponent({
         resistanceRatio:isPlatform("ios") ? 0.85 : 0,
         simulateTouch:false
       }
+    },
+    speedUnit:() => {
+      return Locale.units.kilo + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
     }
   },
   methods: {
     modalClose () {
       modalController.dismiss();
     },
-    formatText(text: string) {
-      const clean = Locale.formatString(text,"","") as string;
-      const linkStart = text.indexOf("{0}");
-      return {
-        before:clean.substring(0,linkStart),
-        after:clean.substring(linkStart)
+    async saveSettings() {
+      const loading = await loadingController.create({});
+      await loading.present();
+
+      const tmpArgs = _.clone(this.config)
+      const args: Record<string,any>={};
+
+      if(UserSettings.state.useBits){
+        // Bits to bytes
+        tmpArgs['alt-speed-up'] = Math.round(tmpArgs['alt-speed-up']/8);
+        tmpArgs['alt-speed-down'] = Math.round(tmpArgs['alt-speed-down']/8);
+        tmpArgs['speed-limit-up'] = Math.round(tmpArgs['speed-limit-up']/8);
+        tmpArgs['speed-limit-down'] = Math.round(tmpArgs['speed-limit-down']/8);
       }
+
+      for(const key in tmpArgs){
+        if(!_.isEqual(tmpArgs[key],TransmissionRPC.sessionArguments[key])){
+          args[key]=tmpArgs[key];
+        }
+      }
+      
+      await TransmissionRPC.setSession(args)
+        .then((response)=> {
+          Utils.responseToast(response.result)
+        })
+      loading.dismiss()
     },
     setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;
