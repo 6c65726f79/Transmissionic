@@ -4,7 +4,7 @@
       <ion-buttons slot="start">
         <ion-back-button defaultHref="#" @click="modalClose()"></ion-back-button>
       </ion-buttons>
-      <ion-title>Server configuration</ion-title>
+      <ion-title>{{ Locale.serverConfig }}</ion-title>
       <ion-buttons slot="end">
         <ion-button @click="saveSettings()" fill="clear">
           <ion-icon slot="icon-only" :ios="saveOutline" :md="saveSharp"></ion-icon>
@@ -17,10 +17,10 @@
           <ion-label>Download</ion-label>
         </ion-segment-button>
         <ion-segment-button :value="1" ref="segment-1">
-          <ion-label>Limits</ion-label>
+          <ion-label>{{ Locale.limits }}</ion-label>
         </ion-segment-button>
         <ion-segment-button :value="2" ref="segment-2">
-          <ion-label>Network</ion-label>
+          <ion-label>{{ Locale.network }}</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
@@ -38,17 +38,17 @@
           </ion-list-header>
 
           <ion-item>
-            <ion-label position="floating">Default download directory</ion-label>
+            <ion-label position="floating">{{ Locale.defaultDownloadDir }}</ion-label>
             <ion-input v-model="config['download-dir']"></ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Cache size ({{ Locale.units.mega + Locale.units.byte }})</ion-label>
+            <ion-label position="floating">{{ Locale.cacheSize }} ({{ Locale.units.mega + Locale.units.byte }})</ion-label>
             <ion-input v-model.number="config['cache-size-mb']" type="number"></ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label>Start added torrents</ion-label>
+            <ion-label>{{ Locale.startAddedTorrents }}</ion-label>
             <ion-toggle v-model="config['start-added-torrents']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
         </ion-list>
@@ -56,17 +56,17 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Queue
+              {{ Locale.queue }}
             </ion-label>
           </ion-list-header>
 
           <ion-item>
-            <ion-label>Enabled</ion-label>
+            <ion-label>{{ Locale.enabled }}</ion-label>
             <ion-toggle v-model="config['download-queue-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item :disabled="!config['download-queue-enabled']">
-            <ion-label position="floating">Queue size</ion-label>
+            <ion-label position="floating">{{ Locale.queueSize }}</ion-label>
             <ion-input v-model="config['download-queue-size']"></ion-input>
           </ion-item>
 
@@ -84,22 +84,22 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Incomplete downloads
+              {{ Locale.incompleteDownloads }}
             </ion-label>
           </ion-list-header>
 
           <ion-item>
-            <ion-label>Add .part extension to incomplete files</ion-label>
+            <ion-label>{{ Locale.addPartExt }}</ion-label>
             <ion-toggle v-model="config['rename-partial-files']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item>
-            <ion-label>Use temporary directory</ion-label>
+            <ion-label>{{ Locale.useTempDir }}</ion-label>
             <ion-toggle v-model="config['incomplete-dir-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item :disabled="!config['incomplete-dir-enabled']">
-            <ion-label position="floating">Temporary directory path</ion-label>
+            <ion-label position="floating">{{ Locale.tempDirPath }}</ion-label>
             <ion-input v-model="config['incomplete-dir']"></ion-input>
           </ion-item>
         </ion-list>
@@ -142,12 +142,12 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Alternative speed
+              {{ Locale.altSpeed }}
             </ion-label>
           </ion-list-header>
 
           <ion-item>
-            <ion-label>Enabled</ion-label>
+            <ion-label>{{ Locale.enabled }}</ion-label>
             <ion-toggle v-model="config['alt-speed-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
@@ -165,7 +165,7 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Seed
+              {{ Locale.seed }}
             </ion-label>
           </ion-list-header>
 
@@ -199,14 +199,14 @@
 
           <ion-item>
             <ion-label position="floating">
-              Global peer limit
+              {{ Locale.globalPeerLimit }}
             </ion-label>
             <ion-input v-model.number="config['peer-limit-global']" type="number"></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="floating">
-              Peer limit by torrent
+              {{ Locale.peerLimitByTorrent }}
             </ion-label>
             <ion-input v-model.number="config['peer-limit-per-torrent']" type="number"></ion-input>
           </ion-item>
@@ -225,11 +225,11 @@
           </ion-list-header>
 
           <ion-item>
-            <ion-label>Encryption</ion-label>
+            <ion-label>{{ Locale.encryption }}</ion-label>
             <ion-select placeholder="Select One" :value="config.encryption" v-on:ionChange="config.encryption=$event.target.value" :cancelText="Locale.actions.cancel"> 
-              <ion-select-option value="tolerated">Tolerated</ion-select-option>
-              <ion-select-option value="preferred">Preferred</ion-select-option>
-              <ion-select-option value="required">Required</ion-select-option>
+              <ion-select-option value="tolerated">{{ Locale.tolerated }}</ion-select-option>
+              <ion-select-option value="preferred">{{ Locale.preferred }}</ion-select-option>
+              <ion-select-option value="required">{{ Locale.required }}</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-list>
@@ -237,7 +237,7 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Peer port
+              {{ Locale.peerPort }}
             </ion-label>
           </ion-list-header>
 
@@ -247,12 +247,12 @@
           </ion-item>
 
           <ion-item>
-            <ion-label>Random port on start</ion-label>
+            <ion-label>{{ Locale.randomPortOnStart }}</ion-label>
             <ion-toggle v-model="config['peer-port-random-on-start']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item>
-            <ion-label>Port forwarding</ion-label>
+            <ion-label>{{ Locale.portForwarding }}</ion-label>
             <ion-toggle v-model="config['port-forwarding-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
         </ion-list>
@@ -260,27 +260,27 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Protocols
+              {{ Locale.protocols }}
             </ion-label>
           </ion-list-header>
 
           <ion-item>
-            <ion-label>Distributed hash table (DHT)</ion-label>
+            <ion-label>{{ Locale.DHT }} (DHT)</ion-label>
             <ion-toggle v-model="config['dht-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item>
-            <ion-label>Local peer discovery (LDP)</ion-label>
+            <ion-label>{{ Locale.LPD }} (LPD)</ion-label>
             <ion-toggle v-model="config['ldp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item>
-            <ion-label>Peer exchange (PEX)</ion-label>
+            <ion-label>{{ Locale.PEX }} (PEX)</ion-label>
             <ion-toggle v-model="config['pex-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item>
-            <ion-label>Micro transport protocol (µTP)</ion-label>
+            <ion-label>{{ Locale.MTP }} (µTP)</ion-label>
             <ion-toggle v-model="config['utp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
         </ion-list>
@@ -288,17 +288,17 @@
         <ion-list>
           <ion-list-header>
             <ion-label>
-              Blocklist
+              {{ Locale.blocklist }}
             </ion-label>
           </ion-list-header>
 
           <ion-item>
-            <ion-label>Enabled</ion-label>
+            <ion-label>{{ Locale.enabled }}</ion-label>
             <ion-toggle v-model="config['blocklist-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
 
           <ion-item :disabled="!config['blocklist-enabled']">
-            <ion-label position="floating">Blocklist URL</ion-label>
+            <ion-label position="floating">{{ Locale.blocklistUrl }}</ion-label>
             <ion-input v-model.number="config['blocklist-url']"></ion-input>
           </ion-item>
         </ion-list>
