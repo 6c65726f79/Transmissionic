@@ -280,7 +280,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label>{{ Locale.MTP }} (µTP)</ion-label>
+            <ion-label>{{ Locale.UTP }} (µTP)</ion-label>
             <ion-toggle v-model="config['utp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
           </ion-item>
         </ion-list>
