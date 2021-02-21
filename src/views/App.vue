@@ -347,6 +347,7 @@ export default defineComponent({
       this.privateState.serverList = await UserSettings.loadServerList();
       this.privateState.connectionStatus.loading=false;
       SplashScreen.hide();
+      this.$forceUpdate();
     },
 
     setRefreshInterval() {
