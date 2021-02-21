@@ -104,8 +104,8 @@
           <ion-button fill="clear" @click="switchAltSpeed()">
             <ion-icon 
               slot="icon-only"
-              :color="privateState.altSpeedEnabled ? 'primary' : null"
-              :ios="privateState.altSpeedEnabled ? speedometer : speedometerOutline"
+              :color="altSpeedEnabled() ? 'primary' : null"
+              :ios="altSpeedEnabled() ? speedometer : speedometerOutline"
               :md="speedometerSharp">
             </ion-icon>
           </ion-button>
@@ -343,7 +343,6 @@ export default defineComponent({
     this.torrentList = inject('torrentList') as any;
     this.filter = inject('filter') as string;
     this.filterIds = inject('filterIds') as Array<number>;
-    this.privateState.altSpeedEnabled = await TransmissionRPC.getSessionArgument("alt-speed-enabled");
   },
   mounted() {
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
@@ -403,8 +402,12 @@ export default defineComponent({
           break;
       }
     },
+    altSpeedEnabled(): boolean {
+      this.privateState.altSpeedEnabled = TransmissionRPC.sessionArguments['alt-speed-enabled']
+      return this.privateState.altSpeedEnabled;
+    },
     switchAltSpeed(){
-      TransmissionRPC.setSession({"alt-speed-enabled":!this.privateState.altSpeedEnabled})
+      TransmissionRPC.setSession({"alt-speed-enabled":!this.altSpeedEnabled()})
         .then((response) => {
           if(response.result=="success"){
             this.privateState.altSpeedEnabled=!this.privateState.altSpeedEnabled;
