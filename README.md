@@ -183,7 +183,7 @@ You can help with the translation by joining the project on [POEditor](https://p
 
 # TODO
 
-* Add iOS/Mac OS support
-* Add server configurations modal
-* Add magnet url handling on Windows
-* Use ion-virtual-scroll when availaible for Vue.js
+- [ ] Add iOS/Mac OS support
+- [x] Add server configurations modal
+- [ ] Add magnet url handling on Windows
+- [ ] Use ion-virtual-scroll when availaible for Vue.js
