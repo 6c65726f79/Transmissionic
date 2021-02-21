@@ -13,7 +13,7 @@
         <img :src="iconSrc">
         <ion-title>Transmissionic {{appVersion}}</ion-title>
         <p v-if="updateAvailable && downloadUrl">
-          <b>{{ Locale.updateAvailable }}</b> {{newVersion}} (<a :href="downloadUrl">{{ Locale.download }}</a>)
+          <b>{{ Locale.updateAvailable }}</b> <a :href="downloadUrl">{{newVersion}}</a>
         </p>
       </div>
       <p>
@@ -107,7 +107,7 @@ export default defineComponent({
         .then(async (response) => {
           const result = await response.json()
           if(!result.prerelease){
-            this.updateAvailable = this.isNewerVersion(this.appVersion,result.name)
+            this.updateAvailable = !this.isNewerVersion(this.appVersion,result.name)
             this.newVersion = result.name;
             for(const asset of result.assets){
               if(asset.name.match(/^Transmissionic-webui-v(\d+\.){3,}zip$/g)){

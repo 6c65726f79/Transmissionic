@@ -14,7 +14,7 @@
     <ion-toolbar>
       <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" v-model="selectedTab" scrollable>
         <ion-segment-button :value="0" ref="segment-0">
-          <ion-label>Download</ion-label>
+          <ion-label>{{ Locale.download }}</ion-label>
         </ion-segment-button>
         <ion-segment-button :value="1" ref="segment-1">
           <ion-label>{{ Locale.limits }}</ion-label>
