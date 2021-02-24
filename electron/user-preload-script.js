@@ -1,8 +1,6 @@
-require('./node_modules/@capacitor-community/electron/dist/electron-bridge.js');
 const { contextBridge,ipcRenderer } = require('electron');
 const { net } = require('electron').remote
 const { Titlebar, Color } = require('custom-electron-titlebar');
-const app = require('electron').remote.app
 let titleBar;
 let request;
 
