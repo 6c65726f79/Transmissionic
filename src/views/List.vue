@@ -101,7 +101,7 @@
           <ion-button fill="clear" @click="serverConfiguration()">
             <ion-icon slot="icon-only" :ios="constructOutline" :md="constructSharp"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" @click="switchAltSpeed()">
+          <ion-button fill="clear" id="alt-speed" @click="switchAltSpeed()">
             <ion-icon 
               slot="icon-only"
               :color="altSpeedEnabled() ? 'primary' : null"
@@ -659,6 +659,11 @@ ion-fab {
 #footer  .bloc {
   white-space: nowrap;
   margin-right:4px;
+}
+
+#alt-speed {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 ion-fab-button[data-desc] {

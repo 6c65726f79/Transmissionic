@@ -22,5 +22,3 @@ function updateHTML(filename) {
 }
 
 updateHTML('./electron/app/index.html');
-
-fs.copyFileSync('./scripts/preloader.js', './electron/preloader.js');
