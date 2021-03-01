@@ -181,6 +181,13 @@ This will open http://localhost:8100/ in a new tab.
 
 You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to suggest it.
 
+Available languages :
+- English
+- French
+- Spanish (Zenón Monge)
+
+Thanks to all contributors.
+
 # TODO
 
 - [ ] Add iOS/Mac OS support
