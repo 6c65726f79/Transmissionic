@@ -147,6 +147,7 @@ export default defineComponent({
         details: {} as Record<string,any>,
         newOptions: {} as Record<string,any>,
         selectedTab:0,
+        visibleTab:0,
         modified:false,
         connectionStatus: {} as Record<string,any>,
         refreshInterval: null as any,
@@ -460,7 +461,8 @@ export default defineComponent({
         slider.$el.slideTo(index);
       }
       else {
-        this.privateState.selectedTab=index
+        this.privateState.selectedTab=index;
+        this.privateState.visibleTab=index;
       }
 
       const segment = this.$refs[`segment-${index}`] as Record<string,any>;
@@ -474,6 +476,7 @@ export default defineComponent({
       const slider = this.$refs.slider as Record<string,any>;
       const activeIndex = await slider.$el.getActiveIndex();
       this.privateState.selectedTab=activeIndex;
+      this.privateState.visibleTab=activeIndex;
       this.setTab(activeIndex, false);
     },
     changeDirectory(directory: string) {
@@ -483,7 +486,7 @@ export default defineComponent({
       modalController.dismiss();
     },
     isVisible(id: number): boolean{
-      return (this.privateState.selectedTab >= id-1 && this.privateState.selectedTab <= id+1);
+      return (this.privateState.visibleTab >= id-1 && this.privateState.visibleTab <= id+1);
     },
     switchTorrentState() {
       Emitter.emit('switch', this.id)
