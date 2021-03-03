@@ -7,5 +7,5 @@ import SpanishCR from "../locales/es-cr.json";
 export const Locale = new LocalizedStrings({
   en:English,
   fr:French,
-  "es-cr":SpanishCR 
+  es:SpanishCR 
 });

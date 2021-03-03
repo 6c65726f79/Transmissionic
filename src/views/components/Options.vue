@@ -9,7 +9,7 @@
           <ion-label position="floating">
            {{ Locale.downloadLimit }} ({{ speedUnit }})
           </ion-label>
-          <ion-input v-model.number="details.downloadLimit" type="number"></ion-input>
+          <ion-input v-model.number="details.downloadLimit" type="number" :disabled="!details.downloadLimited"></ion-input>
         </div>
         <ion-toggle v-model="details.downloadLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
       </ion-item>
@@ -18,7 +18,7 @@
           <ion-label position="floating">
             {{ Locale.uploadLimit }} ({{ speedUnit }})
           </ion-label>
-          <ion-input v-model.number="details.uploadLimit" type="number"></ion-input>
+          <ion-input v-model.number="details.uploadLimit" type="number" :disabled="!details.uploadLimited"></ion-input>
         </div>
         <ion-toggle v-model="details.uploadLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
       </ion-item>
@@ -49,26 +49,29 @@
         <ion-label>
           {{ Locale.useGlobalLimit }}
         </ion-label>
-        <ion-toggle
-          :checked="details.seedRatioMode==0"
-          @ionChange="details.seedRatioMode=($event.detail.checked) ? 0 : 2"
+        <TriToggle
+          :value="details.seedRatioMode"
+          :true="0"
+          v-on:change="details.seedRatioMode=$event.checked ? 0 : 2"
           slot="end"
-          class="swiper-no-swiping">
-        </ion-toggle>
+        ></TriToggle>
+        
+        
       </ion-item>
       <ion-item :disabled="details.seedRatioMode==0">
         <div class="left">
           <ion-label position="floating">
             {{ Locale.seedRatioLimit }}
           </ion-label>
-          <ion-input v-model.number="details.seedRatioLimit" type="number"></ion-input>
+          <ion-input v-model.number="details.seedRatioLimit" type="number" :disabled="details.seedRatioMode==2"></ion-input>
         </div>
-        <ion-toggle
-          :checked="details.seedRatioMode==1"
-          @ionChange="details.seedRatioMode=$event.detail.checked ? 1 : details.seedRatioMode"
+        <TriToggle
+          :value="details.seedRatioMode"
+          :true="1"
+          :false="2"
+          v-on:change="details.seedRatioMode=$event.checked ? 1 : $event.value"
           slot="end"
-          class="swiper-no-swiping">
-        </ion-toggle>
+        ></TriToggle>
       </ion-item>
     </ion-list>
 
@@ -81,26 +84,28 @@
         <ion-label>
           {{ Locale.useGlobalLimit }}
         </ion-label>
-        <ion-toggle
-          :checked="details.seedIdleMode==0"
-          @ionChange="details.seedIdleMode=($event.detail.checked) ? 0 : 2"
+        <TriToggle
+          :value="details.seedIdleMode"
+          :true="0"
+          v-on:change="details.seedIdleMode=$event.checked ? 0 : 2"
           slot="end"
-          class="swiper-no-swiping">
-        </ion-toggle>
+        ></TriToggle>
       </ion-item>
       <ion-item :disabled="details.seedIdleMode==0">
         <div class="left">
           <ion-label position="floating">
             {{ Locale.stopWhenInactive }}
           </ion-label>
-          <ion-input v-model.number="details.seedIdleLimit" type="number"></ion-input>
+          <ion-input v-model.number="details.seedIdleLimit" type="number" :disabled="details.seedIdleMode==2"></ion-input>
         </div>
-        <ion-toggle
-          :checked="details.seedIdleMode==1"
-          @ionChange="details.seedIdleMode=$event.detail.checked ? 1 : details.seedIdleMode"
+        <TriToggle
+          :value="details.seedIdleMode"
+          :true="1"
+          :false="2"
+          v-on:change="details.seedIdleMode=$event.checked ? 1 : $event.value"
           slot="end"
-          class="swiper-no-swiping">
-        </ion-toggle>
+        ></TriToggle>
+        
       </ion-item>
 
     </ion-list>
@@ -120,12 +125,14 @@ import {
   IonSelect,
   IonSelectOption,
 } from '@ionic/vue';
+import TriToggle from './TriToggle.vue'
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 import { UserSettings } from "../../services/UserSettings";
 
 export default defineComponent({
   components: {
+    TriToggle,
     IonContent,
     IonList,
     IonItem,
@@ -156,11 +163,6 @@ export default defineComponent({
   computed: {
     speedUnit:() => {
       return Locale.units.kilo + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
-    }
-  },
-  methods: {
-    toggleChanged(e: any){
-      this.details.seedIdleMode=(e.detail.checked) ? 0 : 2
     }
   }
 })

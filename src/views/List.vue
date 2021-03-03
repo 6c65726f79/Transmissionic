@@ -17,7 +17,7 @@
           </ion-buttons>
         </template>
         <template v-if="privateState.viewSearch">
-          <ion-searchbar id="search" show-cancel-button="always" v-model="privateState.search" @ionCancel="privateState.viewSearch=false" :placeholder="Locale.search" :cancel-button-text="Locale.actions.cancel"></ion-searchbar>
+          <ion-searchbar id="search" show-cancel-button="always" v-model="privateState.search" @ionCancel="closeSearch()" :placeholder="Locale.search" :cancel-button-text="Locale.actions.cancel"></ion-searchbar>
         </template>
       </ion-toolbar>
     </ion-header>
@@ -355,6 +355,9 @@ export default defineComponent({
         const search = document.querySelector("#search") as any;
         search.setFocus()
       },10);
+    },
+    closeSearch(){
+      this.privateState.viewSearch=false
     },
     retry() {
       Emitter.emit("refresh",true);
