@@ -4,7 +4,7 @@
     "settings": "Configuración",
     "about": {
         "about": "Sobre",
-        "description": "Transmissionic es un control remoto libre y multiplataforma para Transmission Daemon  hecho con Ionic y Vue.js",
+        "description": "Transmissionic es un control remoto libre y multiplataforma para Transmission Daemon hecho con Ionic y Vue.js",
         "github": "Este proyecto es software libre, puedes encontrar el código fuente en Github : {0}",
         "poeditor": "Si deseas ayudar con la traducción, únete al proyecto en POEditor : {0}"
     },
@@ -33,10 +33,10 @@
     "auth": "Autenticación",
     "username": "Nombre de usuario",
     "password": "Contraseña",
-    "selection": "Seleccionar",
+    "selection": "Seleccion",
     "torrent": {
-        "one": "Torrent",
-        "other": "Torrents"
+        "one": "torrent",
+        "other": "torrents"
     },
     "actions": {
         "select": "Seleccionar",
@@ -67,8 +67,8 @@
         "verifying": "Verificando"
     },
     "selected": {
-        "one": "Seleccionar",
-        "other": "Seleccionados"
+        "one": "seleccionado",
+        "other": "seleccionados"
     },
     "prompt": {
         "confirm": "Confirmar",
@@ -94,7 +94,7 @@
     "preferences": "Preferencias",
     "uploadSpeed": "Velocidad de subida",
     "and": "y",
-    "ago": "{0} atrás",
+    "ago": "hace {0}",
     "lastActivity": "Última actividad",
     "success": "Completado",
     "speedUnit": "Mostrar velocidad en bit/s",
@@ -171,7 +171,7 @@
     "informations": "Información",
     "torrentFile": "Archivo torrent",
     "chooseServerName": "Favor seleccione un nombre para el servidor",
-    "updateAvailable": "Actualización disponible",
+    "updateAvailable": "Actualización disponible:",
     "download": "Descargar",
     "magnetLink": "Link magnético o hash",
     "expandSideMenu": "Expandir menú lateral en pantallas grandes",
