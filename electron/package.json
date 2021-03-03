@@ -42,6 +42,7 @@
       "assets/*",
       "build/index.js",
       "preloader.js",
+      "user-preload-script.js",
       "plugins/*",
       "capacitor.config.json",
       "app/**"
