@@ -16,7 +16,7 @@
     "@ionic-native/core": "^5.29.0",
     "@ionic-native/http": "^5.29.0",
     "@ionic/pwa-elements": "^3.0.2",
-    "@ionic/vue": "^5.5.5",
+    "@ionic/vue": "^5.6.0",
     "@ionic/vue-router": "^5.5.5",
     "capacitor-file-selector": "0.0.5",
     "capacitor-secure-storage-plugin": "^0.5.0",
