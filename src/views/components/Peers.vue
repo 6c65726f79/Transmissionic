@@ -34,7 +34,7 @@
           </span>
 
           <span style="float:right">
-            {{ Math.round((item.progress*100+ Number.EPSILON) * 100) / 100 }}%
+            {{ Utils.getPercent(item.progress) }}
           </span>
         </div>
       </div>

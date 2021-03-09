@@ -132,7 +132,7 @@
       <ion-item>
         <ion-label class="label">
           <div>{{ Locale.shareRatio }}</div>
-          <span class="selectable">{{ details.uploadRatio}}</span>
+          <span class="selectable">{{ Utils.getRatio(details.uploadRatio, 10) }}</span>
         </ion-label>
       </ion-item>
       <ion-item>

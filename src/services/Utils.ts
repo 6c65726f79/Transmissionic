@@ -25,14 +25,22 @@ export const Utils = {
       unit += Locale.units.perSecond
     }
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['', Locale.units.kilo, Locale.units.mega, Locale.units.giga, Locale.units.tera, Locale.units.peta, Locale.units.exa, Locale.units.zetta, Locale.units.yotta];
+    const sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
     
     if (bytes === 0) return '0 ' + unit;
 
     const val = (useSpeed) ? bytes*8 : bytes
     const i = Math.floor(Math.log(val) / Math.log(k));
 
-    return parseFloat((val / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i] + unit;
+    return (val / Math.pow(k, i)).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:dm}) + ' ' + sizes[i] + unit;
+  },
+
+  getPercent(percentDone: number) {
+    return (percentDone*100).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:2})+'%'
+  },
+
+  getRatio(ratio: number, decimal=3) {
+    return ratio.toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:decimal});
   },
 
   durationToString(seconds: number){
@@ -151,10 +159,10 @@ export const Utils = {
     if(el && isPlatform("desktop")){
       let content;
       if(el.$el){
-        content = el.$el as HTMLIonContentElement;
+        content = el.$el as HTMLElement;
       }
       else{
-        content = el as HTMLIonContentElement;
+        content = el as HTMLElement;
       }
       const styles = document.createElement('style');
 

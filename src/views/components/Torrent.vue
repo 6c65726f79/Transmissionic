@@ -35,7 +35,7 @@
         <span class="bloc fit">
           <!--<ion-icon :icon="ionicons.swapVerticalOutline" color="warning"></ion-icon>-->
           <img class="icon" src="../../../public/assets/both.png">
-          {{ Math.round((torrent.uploadRatio + Number.EPSILON) * 1000) / 1000 }}
+          {{ Utils.getRatio(torrent.uploadRatio) }}
         </span>
 
         <!-- Time remaining -->
@@ -63,7 +63,7 @@
 
         <!-- Size / Percent done -->
         <span class="bloc right fit">
-          {{ Utils.formatBytes(torrent.sizeWhenDone) }} ({{ Math.round((percentDone*100+ Number.EPSILON) * 100) / 100 }}%)
+          {{ Utils.formatBytes(torrent.sizeWhenDone) }} ({{ Utils.getPercent(percentDone) }})
         </span>
       </div>
 
