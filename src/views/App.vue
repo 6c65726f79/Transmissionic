@@ -470,7 +470,6 @@ export default defineComponent({
         this.privateState.connectionStatus.loading=true;
         if(clean){
           this.setRefreshInterval();
-          this.privateState.connectionStatus.loading=true;
           this.privateState.connectionStatus.error="";
           this.privateState.torrentList=[];
         }

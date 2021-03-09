@@ -10,7 +10,7 @@ export const UserSettings = {
     colorScheme:"default",
     language:"default",
     refreshInterval:5,
-    timeout:5,
+    timeout:10,
     orderBy:"addedDate",
     reverse:true,
     selectedServer:0,
