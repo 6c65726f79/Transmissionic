@@ -80,15 +80,7 @@
     "units": {
         "perSecond": "/s",
         "bit": "b",
-        "byte": "B",
-        "kilo": "K",
-        "mega": "M",
-        "giga": "G",
-        "tera": "T",
-        "peta": "P",
-        "exa": "E",
-        "zetta": "Z",
-        "yotta": "Y"
+        "byte": "B"
     },
     "rpcPath": "RPC path",
     "preferences": "Preferences",
