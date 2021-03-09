@@ -12,7 +12,7 @@
         <span class="bloc fit">
           <!-- Using PNGs instead of SVGs to improve performance of the virtualscroll -->
           <!--<ion-icon :icon="ionicons.arrowDownOutline" color="primary"></ion-icon>-->
-          <img class="icon" src="../../../public/assets/down.png">
+          <img class="icon" :src="downIcon">
           {{ Utils.formatBytes(torrent.downloadedEver) }}
           <template v-if="torrent.rateDownload>1">
             ({{ Utils.formatBytes(torrent.rateDownload,2,true) }})
@@ -22,7 +22,7 @@
         <!-- Upload -->
         <span class="bloc fit">
           <!--<ion-icon :icon="ionicons.arrowUpOutline" color="success"></ion-icon>-->
-          <img class="icon" src="../../../public/assets/up.png">
+          <img class="icon" :src="upIcon">
           {{ Utils.formatBytes(torrent.uploadedEver) }}
           <template v-if="torrent.rateUpload>1">
             ({{ Utils.formatBytes(torrent.rateUpload,2,true) }})
@@ -34,7 +34,7 @@
         <!-- Ratio -->
         <span class="bloc fit">
           <!--<ion-icon :icon="ionicons.swapVerticalOutline" color="warning"></ion-icon>-->
-          <img class="icon" src="../../../public/assets/both.png">
+          <img class="icon" :src="bothIcon">
           {{ Utils.getRatio(torrent.uploadRatio) }}
         </span>
 
@@ -96,6 +96,13 @@ export default defineComponent({
   components: {
     IonIcon,
     IonProgressBar,
+  },
+  data() {
+    return {
+      downIcon:"./assets/down.png",
+      upIcon:"./assets/up.png",
+      bothIcon:"./assets/both.png"
+    }
   },
   setup() {
     const ProgressBarColors = ["medium",null,"warning","medium","success",null,"primary"];
