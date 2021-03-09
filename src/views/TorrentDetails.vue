@@ -350,7 +350,6 @@ export default defineComponent({
     async torrentActions() {
       const actionSheet = await actionSheetController
         .create({
-          header: "Actions",
           buttons: [
             {
               text: Locale.formatString(Locale.actions.startNow).toString(),
