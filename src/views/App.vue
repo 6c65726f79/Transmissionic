@@ -25,7 +25,7 @@
           </ion-list>
 
           <ion-list id="trackers-list">
-            <ion-list-header>Trackers</ion-list-header>
+            <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
 
             <ion-item id="tracker-dropdown" lines="none" @click="openTrackerList()">
               <ion-label>{{ privateState.selectedTracker ? Utils.trackerDomain(privateState.selectedTracker).protocol+"://"+Utils.trackerDomain(privateState.selectedTracker).domain : Locale.filters.all }}</ion-label>
