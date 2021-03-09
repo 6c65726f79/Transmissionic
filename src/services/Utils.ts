@@ -50,11 +50,11 @@ export const Utils = {
     return duration.humanize();
   },
 
-  secondsToDate(seconds: number, timeSince=false){
+  secondsToDate(seconds: number, timeSince=false, hourOnly=false){
     if(seconds === 0) return Locale.never;
     Moment.locale(UserSettings.getLanguage())
     const data = Moment(seconds*1000);
-    let result = data.format('L LT');
+    let result = data.format(hourOnly && data.isSame(Date.now(), 'day') ? 'LT' : 'L LT');
     if(timeSince){
       result += " (" + this.timeSince(seconds) + ")";
     }
