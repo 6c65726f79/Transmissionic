@@ -418,7 +418,7 @@ export default defineComponent({
       }
     },
     speedUnit:() => {
-      return Locale.units.kilo + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
+      return 'K' + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
     }
   },
   methods: {
