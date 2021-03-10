@@ -51,9 +51,12 @@
         </ion-item>
         
         <ion-item>
-          <ion-label>{{ Locale.displayFlag }}</ion-label>
+          <ion-label>{{ Locale.displayFlag }}*</ion-label>
           <ion-toggle :checked="sharedState.ipFlags" v-on:ionChange="updateSetting($event,'ipFlags')"></ion-toggle>
         </ion-item>
+        <div class="annotation">
+          * {{ Locale.useIpApi }} <a href="https://ip-api.com/docs/legal" target="_blank"><ion-icon slot="icon-only" :ios="informationCircleOutline" :md="informationCircleSharp"></ion-icon></a>
+        </div>
       </ion-list>
 
       <ion-list>
@@ -101,7 +104,9 @@ import {
 } from '@ionic/vue';
 import {
   saveOutline,
-  saveSharp
+  saveSharp,
+  informationCircleOutline,
+  informationCircleSharp
 } from 'ionicons/icons';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
@@ -149,7 +154,9 @@ export default defineComponent({
     return { 
       Locale,
       saveOutline,
-      saveSharp
+      saveSharp,
+      informationCircleOutline,
+      informationCircleSharp
     }
   },
   mounted() {
@@ -184,5 +191,16 @@ export default defineComponent({
 <style scoped>
 .content {
   padding-top:var(--offset-top);
+}
+
+.annotation {
+  padding: 10px 16px 0px 16px;
+  color:var(--ion-color-medium);
+}
+.annotation a {
+  color:inherit;
+}
+.annotation ion-icon {
+  vertical-align: middle;
 }
 </style>
