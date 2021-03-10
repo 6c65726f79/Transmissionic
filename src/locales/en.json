@@ -148,7 +148,7 @@
     "leechers": "Leechers",
     "downloadCount": "Download count",
     "tier": "Tier",
-    "displayFlag": "Display peer flag (using ip-api.com)",
+    "displayFlag": "Display peer flag",
     "addTracker": "Add tracker",
     "displayMore": "Display more",
     "serverInformation": "Server information",
