@@ -167,7 +167,7 @@ Once Android Studio has loaded the project, build the app from `Build > Make Pro
 
 # Development
 
-You can start a local dev server using Ionic, but you need to disable CORS policy in your browser to connect to Transmission RPC from a different host. For example, run a new instance of chrome with these flags : `--disable-web-security --disable-gpu --user-data-dir=~/chromeTemp`
+You can start a local dev server using Ionic, but you need to disable same origin policy in your browser to connect to Transmission RPC from a different host. For example, run a new instance of chrome with these flags : `--disable-web-security --disable-gpu --user-data-dir=~/chromeTemp`
 
 Then start the dev server by running : 
 
