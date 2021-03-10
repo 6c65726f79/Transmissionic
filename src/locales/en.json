@@ -197,5 +197,6 @@
     "PEX": "Peer exchange",
     "UTP": "Micro transport protocol",
     "blocklist": "Blocklist",
-    "blocklistUrl": "Blocklist URL"
+    "blocklistUrl": "Blocklist URL",
+    "useIpApi": "Using ip-api.com"
 }
