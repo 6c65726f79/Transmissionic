@@ -197,5 +197,6 @@
     "PEX": "Intercambio de pares",
     "UTP": "Micro transport protocol",
     "blocklist": "Lista negra",
-    "blocklistUrl": "URL de la lista negra"
+    "blocklistUrl": "URL de la lista negra",
+    "useIpApi": "Usa ip-api.com"
 }
