@@ -41,7 +41,7 @@
     "actions": {
         "select": "Select",
         "start": "Start",
-        "startNow": "$ref{actions.start} now",
+        "startNow": "Start now",
         "stop": "Stop",
         "reannonce": "Reannonce",
         "verify": "Verify",
