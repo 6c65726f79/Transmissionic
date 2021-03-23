@@ -26,8 +26,9 @@
           <ion-select placeholder="Select One" :value="sharedState.language" v-on:ionChange="updateSetting($event,'language')" :cancelText="Locale.actions.cancel">
             <ion-select-option value="default">{{ Locale.default }}</ion-select-option>
             <ion-select-option value="en">English</ion-select-option>
-            <ion-select-option value="fr">Français</ion-select-option>
             <ion-select-option value="es">Español</ion-select-option>
+            <ion-select-option value="fr">Français</ion-select-option>
+            <ion-select-option value="ru">Pусский</ion-select-option>
           </ion-select>
         </ion-item>
           
