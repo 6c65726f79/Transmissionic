@@ -16,7 +16,7 @@ let ipToCountryLimit = 45;
 let ipToCountryWaitUntil: any;
 
 export const Utils = {
-  formatBytes(bytes: number, decimals = 2, speed = false){
+  formatBytes(bytes: number, decimals = 2, speed = false): string|void{
     if(bytes===undefined) return;
     const useSpeed = speed && UserSettings.state.useBits;
     const k = useSpeed ? 1000 : 1024;
@@ -35,22 +35,22 @@ export const Utils = {
     return (val / Math.pow(k, i)).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:dm}) + ' ' + sizes[i] + unit;
   },
 
-  getPercent(percentDone: number) {
+  getPercent(percentDone: number): string {
     return (percentDone*100).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:2})+'%'
   },
 
-  getRatio(ratio: number, decimal=3) {
+  getRatio(ratio: number, decimal=3): string {
     return ratio.toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:decimal});
   },
 
-  durationToString(seconds: number){
+  durationToString(seconds: number): string{
     if(seconds<0) return "∞";
     Moment.locale(UserSettings.getLanguage())
     const duration = Moment.duration(seconds)
     return duration.humanize();
   },
 
-  secondsToDate(seconds: number, timeSince=false, hourOnly=false){
+  secondsToDate(seconds: number, timeSince=false, hourOnly=false): string{
     if(seconds === 0) return Locale.never;
     Moment.locale(UserSettings.getLanguage())
     const data = Moment(seconds*1000);
@@ -61,10 +61,10 @@ export const Utils = {
     return result
   },
 
-  timeSince(seconds: number){
+  timeSince(seconds: number): string{
     Moment.locale(UserSettings.getLanguage())
     const since = Moment.duration(Date.now()-seconds*1000);
-    return Locale.formatString(Locale.ago,since.humanize());
+    return Locale.formatString(Locale.ago,since.humanize()) as string;
   },
 
   async ipToCountry(ip: string): Promise<any>{
@@ -118,7 +118,7 @@ export const Utils = {
     return result;
   },
 
-  actionStatusResult(action: string, percentDone: number){
+  actionStatusResult(action: string, percentDone: number): number{
     // Predict what will be the status of a torrent after an action
     switch (action) {
       case "start":
@@ -131,7 +131,7 @@ export const Utils = {
     }
   },
 
-  setTheme(theme: string) {
+  setTheme(theme: string): void {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches || window.navigator.userAgent.includes('AndroidDarkMode');
     let dark: boolean;
     switch (theme) {
@@ -149,20 +149,21 @@ export const Utils = {
     this.setStatusBarColor(dark);
   },
 
-  async responseToast(result: string) {
+  async responseToast(result: string): Promise<void> {
     await Toast.show({
       text: result=="success" ? Locale.success : (result!="" ? result : Locale.error)
     });
   },
 
-  customScrollbar(el: any, shadowRoot=true, padding=true){
+  // eslint-disable-next-line
+  customScrollbar(el: any, shadowRoot=true, padding=true): void{
     if(el && isPlatform("desktop")){
       let content;
       if(el.$el){
-        content = el.$el as HTMLElement;
+        content = el.$el as Element;
       }
       else{
-        content = el as HTMLElement;
+        content = el as Element;
       }
       const styles = document.createElement('style');
 
@@ -207,13 +208,13 @@ export const Utils = {
     }
   },
 
-  customTitlebar() {
+  customTitlebar(): void {
     if(window.Titlebar){
       window.Titlebar.new()
     }
   },
 
-  setStatusBarColor(isDark: boolean) {
+  setStatusBarColor(isDark: boolean): void {
     const statusBarColor = getComputedStyle(document.body).getPropertyValue('--ion-toolbar-background') || getComputedStyle(document.body).getPropertyValue('--ion-color-light') // --ion-color-primary
     if(isPlatform("capacitor") && (isPlatform("android") ||  isPlatform("ios"))){
       StatusBar.setStyle({style: isDark ? StatusBarStyle.Dark : StatusBarStyle.Light});
@@ -226,7 +227,7 @@ export const Utils = {
     }
   },
 
-  customDirectives(app: Record<string, any>) {
+  customDirectives(app: Record<string, any>): void {
     app.directive('longpress', {
       beforeMount(el: any, binding: any) {
         let pressTimer: any = null

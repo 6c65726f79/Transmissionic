@@ -19,17 +19,17 @@ export const UserSettings = {
     ipFlags:false
   }) as Record<string,any>,
 
-  getLanguage() {
+  getLanguage(): string {
     return this.state.language=="default" ? navigator.language.substr(0,2) : this.state.language
   },
 
-  setValue(key: string, val: any) {
+  setValue(key: string, val: string|number|boolean): void {
     if(val!=null){
       Object(this.state)[key] = val;
     }
   },
 
-  async loadSettings() {
+  async loadSettings(): Promise<void> {
     for (const setting in this.state) {
       await Storage.get({ key: setting })
         .then((val) => {
@@ -48,7 +48,7 @@ export const UserSettings = {
     }
   },
 
-  saveSettings() {
+  saveSettings(): void {
     for (const setting in this.state) {
       Storage.set({
         key: setting,
@@ -83,7 +83,7 @@ export const UserSettings = {
     return result;
   },
 
-  saveServerList(serverList: Record<string, any>) {
+  saveServerList(serverList: Record<string, any>): void {
     SecureStoragePlugin.set({
       key: "servers",
       value: JSON.stringify(serverList)
