@@ -301,6 +301,7 @@ export default defineComponent({
   async beforeCreate() {
     await UserSettings.loadSettings();
     this.privateState.selectedServer = UserSettings.state.selectedServer;
+    this.$forceUpdate();
     SplashScreen.hide();
     
   },
@@ -439,8 +440,7 @@ export default defineComponent({
 
     selectServer(serverId=0) {
       Emitter.emit("clear-selection");
-      UserSettings.setValue("selectedServer",serverId);
-      UserSettings.saveSettings();
+      UserSettings.setValue("selectedServer",serverId,true);
       this.privateState.torrentList=[];
       this.privateState.selectedIds=[];
       this.privateState.trackerList=[];

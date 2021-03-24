@@ -23,13 +23,28 @@ export const UserSettings = {
     return this.state.language=="default" ? navigator.language.substr(0,2) : this.state.language
   },
 
-  setValue(key: string, val: string|number|boolean): void {
+  setValue(key: string, val: string|number|boolean|unknown, save=false): void {
     if(val!=null){
       Object(this.state)[key] = val;
+    }
+    if(save){
+      this.saveKey(key);
     }
   },
 
   async loadSettings(): Promise<void> {
+
+    if(!isPlatform("capacitor") && !isPlatform("electron")){
+      const defaultJson = await fetch('default.json')
+        .then((response) => response.json())
+        .catch(()=> {return})
+      if(defaultJson){
+        for (const setting in defaultJson) {
+          this.setValue(setting,defaultJson[setting])
+        }
+      }
+    }
+
     for (const setting in this.state) {
       await Storage.get({ key: setting })
         .then((val) => {
@@ -50,11 +65,15 @@ export const UserSettings = {
 
   saveSettings(): void {
     for (const setting in this.state) {
-      Storage.set({
-        key: setting,
-        value: Object(this.state)[setting].toString()
-      });
+      this.saveKey(setting);
     }
+  },
+
+  saveKey(key: string): void {
+    Storage.set({
+      key: key,
+      value: Object(this.state)[key].toString()
+    });
   },
 
   async loadServerList(): Promise<Array<Record<string,unknown>>> {
@@ -75,6 +94,7 @@ export const UserSettings = {
       .then((val: any) => {
         result = (val.value && val.value!="[]") ? JSON.parse(val.value) : result
       })
+      .catch(()=>{return})
     
     return result;
   },
