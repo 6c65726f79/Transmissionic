@@ -27,6 +27,7 @@
 - [Installation](#installation)
   - [Web UI](#web-ui)
   - [Other](#other)
+- [Configuration](#configuration)
 - [Build](#build)
   - [Requirements](#requirements)
   - [Web UI](#web-ui-1)
@@ -98,6 +99,38 @@ Then access the Web UI as described [here](https://github.com/transmission/trans
 ### Other
 
 Simply download the installer for the desired platform from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page and install it.
+
+# Configuration
+
+Configuration is per-devices based, but if you're using the Web UI you can overwrite the default settings by creating a file named `default.json` in the root folder of the Web UI.
+
+The file can contain the following key/value pairs :
+
+| Key               | Type          | Description    |
+| ----------------- | ------------- | ------------------ |
+| colorScheme     | `string`      | Possible values: `light` or `dark`  |
+| language        | `string`      | An ISO 639-1 language code, example: `en` |
+| orderBy         | `string`      | Examples: `name`, `addedDate`, `uploadRatio`, `activityDate` |
+| reverse         | `boolean`     | Reversed ordering                |
+| useBits         | `boolean`     | Display speed in bit/s           |
+| expandMenu      | `boolean`     | Expand side menu on large screen |
+| ipFlags         | `boolean`     | Display peer flag                |
+| refreshInterval | `number`      | Refresh interval in seconds      |
+| timeout         | `number`      | Connection timeout in seconds    |
+
+Configuration file example:
+
+```
+{
+  colorScheme:"dark",
+  language:"en",
+  orderBy:"name",
+  reverse:false,
+  ipFlags:true,
+  refreshInterval:10,
+  timeout:20
+}
+```
 
 # Build
 
