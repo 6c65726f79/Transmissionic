@@ -194,7 +194,7 @@ export default defineComponent({
         selectedIds:[],
         refresh:null as any,
         torrentList:[],
-        serverList: [],
+        serverList: [] as Array<Record<string,unknown>>,
         trackerList: [] as Array<any>,
         swipeEnabled:true,
         trackerListOpened:false,
@@ -298,11 +298,19 @@ export default defineComponent({
       Locale.setLanguage(UserSettings.getLanguage());
     }
   },
+  async beforeCreate() {
+    await UserSettings.loadSettings();
+    this.privateState.selectedServer = UserSettings.state.selectedServer;
+    SplashScreen.hide();
+    
+  },
   created() {
     Utils.setTheme(this.sharedState.colorScheme);
-    this.$nextTick(() => {
-      this.loadStorage()
-    })
+    UserSettings.loadServerList()
+      .then((result)=>{
+        this.privateState.serverList = result;
+        this.privateState.connectionStatus.loading=false;
+      })
 
     this.$watch(() => this.privateState.serverList.length, async () => {
       if(this.privateState.selectedServer>=this.privateState.serverList.length){
@@ -340,15 +348,6 @@ export default defineComponent({
     },
   },
   methods: {
-
-    async loadStorage() {
-      await UserSettings.loadSettings();
-      this.privateState.selectedServer = UserSettings.state.selectedServer;
-      this.privateState.serverList = await UserSettings.loadServerList();
-      this.privateState.connectionStatus.loading=false;
-      SplashScreen.hide();
-      this.$forceUpdate();
-    },
 
     setRefreshInterval() {
       clearInterval(this.privateState.refresh);

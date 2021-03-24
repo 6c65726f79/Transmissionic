@@ -57,12 +57,11 @@ export const UserSettings = {
     }
   },
 
-  async loadServerList(): Promise<any> {
-    let result;
-    let defaultServer: Array<any> = [];
+  async loadServerList(): Promise<Array<Record<string,unknown>>> {
+    let result: Array<Record<string,unknown>> = [];
 
     if(!isPlatform("capacitor") && !isPlatform("electron")){
-      defaultServer = [
+      result = [
         {
           name:"Default",
           host:window.location.hostname,
@@ -74,12 +73,9 @@ export const UserSettings = {
 
     await SecureStoragePlugin.get({ key: "servers" })
       .then((val: any) => {
-        result = (val.value && val.value!="[]") ? JSON.parse(val.value) : defaultServer
+        result = (val.value && val.value!="[]") ? JSON.parse(val.value) : result
       })
-      .catch(() => {
-        result = defaultServer
-      })
-
+    
     return result;
   },
 
