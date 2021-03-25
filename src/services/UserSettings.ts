@@ -5,19 +5,21 @@ import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 const { SecureStoragePlugin } = Plugins;
 
+const defaultSettings: Record<string,any> = {
+  colorScheme:"default",
+  language:"default",
+  refreshInterval:5,
+  timeout:10,
+  orderBy:"addedDate",
+  reverse:true,
+  selectedServer:0,
+  useBits:true,
+  expandMenu:true,
+  ipFlags:false
+}
+
 export const UserSettings = {
-  state: reactive({
-    colorScheme:"default",
-    language:"default",
-    refreshInterval:5,
-    timeout:10,
-    orderBy:"addedDate",
-    reverse:true,
-    selectedServer:0,
-    useBits:true,
-    expandMenu:true,
-    ipFlags:false
-  }) as Record<string,any>,
+  state: reactive({...defaultSettings}) as Record<string,any>,
 
   getLanguage(): string {
     return this.state.language=="default" ? navigator.language.substr(0,2) : this.state.language
@@ -41,6 +43,7 @@ export const UserSettings = {
       if(defaultJson){
         for (const setting in defaultJson) {
           this.setValue(setting,defaultJson[setting])
+          defaultSettings[setting]=defaultJson[setting];
         }
       }
     }
@@ -63,6 +66,12 @@ export const UserSettings = {
     }
   },
 
+  resetSettings(): void {
+    for (const setting in this.state) {
+      this.setValue(setting,defaultSettings[setting],true);
+    }
+  },
+
   saveSettings(): void {
     for (const setting in this.state) {
       this.saveKey(setting);
@@ -70,10 +79,15 @@ export const UserSettings = {
   },
 
   saveKey(key: string): void {
-    Storage.set({
-      key: key,
-      value: Object(this.state)[key].toString()
-    });
+    if(this.state[key] != defaultSettings[key]){
+      Storage.set({
+        key: key,
+        value: Object(this.state)[key].toString()
+      });
+    }
+    else {
+      Storage.remove({key})
+    }
   },
 
   async loadServerList(): Promise<Array<Record<string,unknown>>> {
