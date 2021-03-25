@@ -362,7 +362,7 @@ export default defineComponent({
           }
         },
         {
-          text: "Open in explorer",
+          text: Locale.actions.openInExplorer,
           handler: () => this.openExplorer()
         },
         {

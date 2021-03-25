@@ -73,7 +73,7 @@
       <ion-list v-if="pathMappingEnabled">
         <ion-list-header>
           <ion-label>
-            Remote to local path mapping
+            {{ Locale.pathMapping }}
           </ion-label>
         </ion-list-header>
 
@@ -166,7 +166,7 @@ export default defineComponent({
       history.pushState(modalState, "");
     }
 
-    const placeholder = `Example:\r/mnt/ssd = \\\\192.168.1.1\\ssd\r/home/user/Downloads = Z:\\Downloads`;
+    const placeholder = `${Locale.example}\r/mnt/ssd = \\\\192.168.1.1\\ssd\r/home/user/Downloads = Z:\\Downloads`;
 
     return { 
       Locale,
