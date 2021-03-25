@@ -75,7 +75,8 @@
         "confirmation": "Confirmation",
         "remove": "Confirmer le retrait de {0} ?",
         "deleteData": "Supprimer les données",
-        "delete": "Confirmer la suppression de {0} ?"
+        "delete": "Confirmer la suppression de {0} ?",
+        "reset": "Confirmer la réinitialisation des réglages ?"
     },
     "units": {
         "perSecond": "/s",
@@ -198,5 +199,7 @@
     "UTP": "Micro transport protocol",
     "blocklist": "Liste de blocage",
     "blocklistUrl": "URL de la liste",
-    "useIpApi": "Utilise ip-api.com"
+    "useIpApi": "Utilise ip-api.com",
+    "reset": "Réinitialisation",
+    "resetSettings": "Réinitialiser les réglages"
 }
