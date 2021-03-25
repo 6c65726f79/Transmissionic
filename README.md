@@ -126,17 +126,29 @@ Configuration file example:
 
 ```
 {
-  colorScheme:"dark",
-  language:"en",
-  orderBy:"name",
-  reverse:false,
-  ipFlags:true,
-  refreshInterval:10,
-  timeout:20
+  "colorScheme":"dark",
+  "language":"en",
+  "orderBy":"name",
+  "reverse":false,
+  "ipFlags":true,
+  "refreshInterval":10,
+  "timeout":20
 }
 ```
 
 ### Electron
+
+You can configure path mapping on computer, this allow you to match remote paths with local paths to open the file explorer. This setting works exacly the same as [Transmission Remote GUI](https://github.com/transmission-remote-gui/transgui).
+
+Example:
+```
+/mnt/ssd = \\192.168.1.1\ssd
+```
+`/mnt/ssd` = Remote path on the server where Transmission daemon is running.
+
+`\\192.168.1.1\ssd` = Local path to access the shared folder.
+
+In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` must be shared on the network as `ssd`.
 
 # Build
 
