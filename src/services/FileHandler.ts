@@ -4,6 +4,7 @@ import {
 } from '@ionic/vue';
 import AddTorrent from '../views/AddTorrent.vue'
 import { Emitter } from "./Emitter";
+import { TransmissionRPC } from "./TransmissionRPC";
 import { Capacitor,Plugins } from '@capacitor/core'; 
 const { FileSelector,App } = Plugins; 
 import parseTorrent from 'parse-torrent'
@@ -19,7 +20,7 @@ declare global {
 let currentFile: HTMLInputElement|null;
 
 export const FileHandler = {
-  listenFileOpen() {
+  listenFileOpen(): void {
     if(isPlatform("electron") && window.fileOpen){
       window.fileOpen.receive((arg: any) => {
         this.fileLoaded(arg)
@@ -39,7 +40,7 @@ export const FileHandler = {
     document.body.addEventListener("dragover", (e) => e.preventDefault(), false);
     document.body.addEventListener("drop",(e) => this.handleFileDrop(e), false);
   },
-  async inputFile() {
+  async inputFile(): Promise<void> {
     if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){
       // Capacitor file chooser
       const selectedFile = await FileSelector.fileSelector({ 
@@ -69,7 +70,7 @@ export const FileHandler = {
       currentFile.click();
     }
   },
-  arrayBufferToBase64( buffer: ArrayBuffer ) {
+  arrayBufferToBase64( buffer: ArrayBuffer ): string {
     let binary = '';
     const bytes = new Uint8Array( buffer );
     const len = bytes.byteLength;
@@ -78,18 +79,19 @@ export const FileHandler = {
     }
     return window.btoa( binary );
   },
-  handleFileDrop(e: any) {
+  handleFileDrop(e: DragEvent): void {
     e.preventDefault();
-    if(e.dataTransfer.files.length>0){
+    if(e.dataTransfer){
       this.readFile(e.dataTransfer.files[0])
         .then((result) => {
           this.fileLoaded(result);
         })
     }
   },
-  handleFile(e: any) {
-    if(e.target.files.length>0){
-      this.readFile(e.target.files[0])
+  handleFile(e: Event): void {
+    const files = (e.target as HTMLInputElement).files;
+    if(files){
+      this.readFile(files[0])
         .then((result) => {
           this.fileLoaded(result);
         })
@@ -107,14 +109,14 @@ export const FileHandler = {
       reader.readAsArrayBuffer(file);
     });
   },
-  async loadFile(path: string) {
+  async loadFile(path: string): Promise<void> {
     const file = await fetch(path)
       .then((r) => r.arrayBuffer())
     if(file){
       this.fileLoaded(file)
     }
   },
-  fileLoaded(content: ArrayBuffer) {
+  fileLoaded(content: ArrayBuffer): void {
     const buffer = new Buffer(content);
     const torrentData = this.parseBuffer(buffer);
     if(torrentData!=null){
@@ -122,14 +124,14 @@ export const FileHandler = {
       this.newTorrentModal(torrentData,base64,"file");
     }
   },
-  parseBuffer(buffer: ArrayBuffer) {
+  parseBuffer(buffer: ArrayBuffer): Record<string,any>|void {
     try {
       return parseTorrent(buffer)
     } catch (error) {
       Utils.responseToast(error.message);
     }
   },
-  readMagnet(magnet: string) {
+  readMagnet(magnet: string): void {
     try {
       const torrentData=parseTorrent(magnet);
       this.newTorrentModal(torrentData,magnet,"magnet");
@@ -137,7 +139,7 @@ export const FileHandler = {
       Utils.responseToast(error.message);
     }
   },
-  readURL(url: string) {
+  readURL(url: string): void {
     parseTorrent.remote(url, (err, parsedTorrent) => {
       if (err) {
         Utils.responseToast(err.message);
@@ -147,7 +149,7 @@ export const FileHandler = {
       }
     })
   },
-  async newTorrentModal(torrentData: Record<string,any>, torrent: any, type: string) {
+  async newTorrentModal(torrentData: Record<string,any>, torrent: string, type: string): Promise<void> {
     const modal = await modalController
       .create({
         component: AddTorrent,
@@ -164,5 +166,18 @@ export const FileHandler = {
         Emitter.emit("refresh");
       })
     return modal.present();
+  },
+  openExplorer(dir: string, path: string, isFile=false): void{
+    window.fileOpen.open(this.pathMapping(dir),path,isFile);
+  },
+  pathMapping(path: string): string{
+    const list = TransmissionRPC.pathMapping;
+    let result = path
+    for(const map in list){
+      if(path.startsWith(map)){
+        result = list[map] + path.substr(map.length)
+      }
+    }
+    return result;
   }
 }

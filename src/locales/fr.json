@@ -52,7 +52,8 @@
         "selectAll": "Tout séléctionner",
         "remove": "Retirer",
         "editAddress": "Modifier l'adresse",
-        "setLocation": "Définir l'emplacement"
+        "setLocation": "Définir l'emplacement",
+        "openInExplorer": "Ouvrir dans l'explorateur"
     },
     "filters": {
         "filters": "Filtres",
@@ -75,20 +76,13 @@
         "confirmation": "Confirmation",
         "remove": "Confirmer le retrait de {0} ?",
         "deleteData": "Supprimer les données",
-        "delete": "Confirmer la suppression de {0} ?"
+        "delete": "Confirmer la suppression de {0} ?",
+        "reset": "Confirmer la réinitialisation des réglages ?"
     },
     "units": {
         "perSecond": "/s",
         "bit": "b",
-        "byte": "o",
-        "kilo": "K",
-        "mega": "M",
-        "giga": "G",
-        "tera": "T",
-        "peta": "P",
-        "exa": "E",
-        "zetta": "Z",
-        "yotta": "Y"
+        "byte": "o"
     },
     "rpcPath": "Chemin du RPC",
     "preferences": "Préférences",
@@ -156,7 +150,7 @@
     "leechers": "En téléchargement",
     "downloadCount": "Nombre de téléchargements",
     "tier": "Niveau",
-    "displayFlag": "Drapeau des pairs (utilise ip-api.com)",
+    "displayFlag": "Drapeau des pairs",
     "addTracker": "Ajouter un tracker",
     "displayMore": "Afficher plus",
     "serverInformation": "Information du serveur",
@@ -205,5 +199,10 @@
     "PEX": "Échange de pairs",
     "UTP": "Micro transport protocol",
     "blocklist": "Liste de blocage",
-    "blocklistUrl": "URL de la liste"
+    "blocklistUrl": "URL de la liste",
+    "useIpApi": "Utilise ip-api.com",
+    "reset": "Réinitialisation",
+    "resetSettings": "Réinitialiser les réglages",
+    "pathMapping": "Mappage des chemins distants et locaux",
+    "example": "Exemple"
 }

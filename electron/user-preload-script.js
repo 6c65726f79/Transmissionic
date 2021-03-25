@@ -1,6 +1,7 @@
-const { contextBridge,ipcRenderer } = require('electron');
+const { contextBridge,ipcRenderer,shell } = require('electron');
 const { net } = require('electron').remote
 const { Titlebar, Color } = require('custom-electron-titlebar');
+const path = require('path');
 let titleBar;
 let request;
 
@@ -18,6 +19,10 @@ contextBridge.exposeInMainWorld('Titlebar', {
 contextBridge.exposeInMainWorld('fileOpen', {
   receive: (func) => {
     ipcRenderer.on("file-open", (event, ...args) => func(...args));
+  },
+  open: (dir,location,isFile) => {
+    const fullpath = path.join(dir,location);
+    (isFile) ? shell.showItemInFolder(fullpath) : shell.openPath(fullpath)
   }
 })
 

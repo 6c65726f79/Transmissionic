@@ -102,6 +102,7 @@ import {
 import { Locale } from "../services/Locale";
 import { Utils } from "../services/Utils";
 import { UserSettings } from "../services/UserSettings";
+import { FileHandler } from '../services/FileHandler';
 import LocationAlert from './components/LocationAlert.vue';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Infos from './components/Infos.vue';
@@ -348,42 +349,52 @@ export default defineComponent({
         })
     },
     async torrentActions() {
+      let buttons = [
+        {
+          text: Locale.formatString(Locale.actions.startNow).toString(),
+          handler: () => this.torrentAction("start-now",this.id)
+        },
+        {
+          text: Locale.actions.setLocation,
+          handler: async () => {
+            actionSheetController.dismiss();
+            this.setLocation()
+          }
+        },
+        {
+          text: Locale.actions.openInExplorer,
+          handler: () => this.openExplorer()
+        },
+        {
+          text: Locale.actions.reannonce,
+          handler: () => this.torrentAction("reannounce",this.id)
+        },
+        {
+          text: Locale.actions.verify,
+          handler: () => this.torrentAction("verify",this.id)
+        },
+        {
+          text: Locale.actions.remove,
+          role: 'destructive',
+          handler: async()  => {
+            actionSheetController.dismiss();
+            this.removeTorrents();
+          },
+        },
+        {
+          text: Locale.actions.cancel,
+          role: 'cancel'
+        },
+      ]
+
+      if(!isPlatform("electron")){
+        delete buttons[2];
+        buttons = buttons.filter(Boolean);
+      }
+
       const actionSheet = await actionSheetController
         .create({
-          header: "Actions",
-          buttons: [
-            {
-              text: Locale.formatString(Locale.actions.startNow).toString(),
-              handler: () => this.torrentAction("start-now",this.id)
-            },
-            {
-              text: Locale.actions.setLocation,
-              handler: async () => {
-                actionSheetController.dismiss();
-                this.setLocation()
-              }
-            },
-            {
-              text: Locale.actions.reannonce,
-              handler: () => this.torrentAction("reannounce",this.id)
-            },
-            {
-              text: Locale.actions.verify,
-              handler: () => this.torrentAction("verify",this.id)
-            },
-            {
-              text: Locale.actions.remove,
-              role: 'destructive',
-              handler: async()  => {
-                actionSheetController.dismiss();
-                this.removeTorrents();
-              },
-            },
-            {
-              text: Locale.actions.cancel,
-              role: 'cancel'
-            },
-          ],
+          buttons: buttons,
         });
       return actionSheet.present();
     },
@@ -429,6 +440,18 @@ export default defineComponent({
           ],
         });
       return alert.present();
+    },
+    openExplorer() {
+      let isFile = false;
+      let path = this.privateState.details.name;
+      const directory = this.privateState.details.downloadDir;
+
+      if(this.privateState.details.files.length===1){
+        path = this.privateState.details.files[0].name
+        isFile = true;
+      }
+
+      FileHandler.openExplorer(directory,path,isFile)
     },
     async setLocation() {
       const modal = await modalController

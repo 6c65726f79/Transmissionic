@@ -5,31 +5,49 @@ import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 const { SecureStoragePlugin } = Plugins;
 
-export const UserSettings = {
-  state: reactive({
-    colorScheme:"default",
-    language:"default",
-    refreshInterval:5,
-    timeout:5,
-    orderBy:"addedDate",
-    reverse:true,
-    selectedServer:0,
-    useBits:true,
-    expandMenu:true,
-    ipFlags:false
-  }) as Record<string,any>,
+const defaultSettings: Record<string,any> = {
+  colorScheme:"default",
+  language:"default",
+  refreshInterval:5,
+  timeout:10,
+  orderBy:"addedDate",
+  reverse:true,
+  selectedServer:0,
+  useBits:true,
+  expandMenu:true,
+  ipFlags:false
+}
 
-  getLanguage() {
+export const UserSettings = {
+  state: reactive({...defaultSettings}) as Record<string,any>,
+
+  getLanguage(): string {
     return this.state.language=="default" ? navigator.language.substr(0,2) : this.state.language
   },
 
-  setValue(key: string, val: any) {
+  setValue(key: string, val: string|number|boolean|unknown, save=false): void {
     if(val!=null){
       Object(this.state)[key] = val;
     }
+    if(save){
+      this.saveKey(key);
+    }
   },
 
-  async loadSettings() {
+  async loadSettings(): Promise<void> {
+
+    if(!isPlatform("capacitor") && !isPlatform("electron")){
+      const defaultJson = await fetch('default.json')
+        .then((response) => response.json())
+        .catch(()=> {return})
+      if(defaultJson){
+        for (const setting in defaultJson) {
+          this.setValue(setting,defaultJson[setting])
+          defaultSettings[setting]=defaultJson[setting];
+        }
+      }
+    }
+
     for (const setting in this.state) {
       await Storage.get({ key: setting })
         .then((val) => {
@@ -48,21 +66,35 @@ export const UserSettings = {
     }
   },
 
-  saveSettings() {
+  resetSettings(): void {
     for (const setting in this.state) {
-      Storage.set({
-        key: setting,
-        value: Object(this.state)[setting].toString()
-      });
+      this.setValue(setting,defaultSettings[setting],true);
     }
   },
 
-  async loadServerList(): Promise<any> {
-    let result;
-    let defaultServer: Array<any> = [];
+  saveSettings(): void {
+    for (const setting in this.state) {
+      this.saveKey(setting);
+    }
+  },
+
+  saveKey(key: string): void {
+    if(this.state[key] != defaultSettings[key] || key=="selectedServer"){
+      Storage.set({
+        key: key,
+        value: Object(this.state)[key].toString()
+      });
+    }
+    else {
+      Storage.remove({key})
+    }
+  },
+
+  async loadServerList(): Promise<Array<Record<string,unknown>>> {
+    let result: Array<Record<string,unknown>> = [];
 
     if(!isPlatform("capacitor") && !isPlatform("electron")){
-      defaultServer = [
+      result = [
         {
           name:"Default",
           host:window.location.hostname,
@@ -74,16 +106,14 @@ export const UserSettings = {
 
     await SecureStoragePlugin.get({ key: "servers" })
       .then((val: any) => {
-        result = (val.value && val.value!="[]") ? JSON.parse(val.value) : defaultServer
+        result = (val.value && val.value!="[]") ? JSON.parse(val.value) : result
       })
-      .catch(() => {
-        result = defaultServer
-      })
-
+      .catch(()=>{return})
+    
     return result;
   },
 
-  saveServerList(serverList: Record<string, any>) {
+  saveServerList(serverList: Record<string, any>): void {
     SecureStoragePlugin.set({
       key: "servers",
       value: JSON.stringify(serverList)

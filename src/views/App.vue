@@ -25,7 +25,7 @@
           </ion-list>
 
           <ion-list id="trackers-list">
-            <ion-list-header>Trackers</ion-list-header>
+            <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
 
             <ion-item id="tracker-dropdown" lines="none" @click="openTrackerList()">
               <ion-label>{{ privateState.selectedTracker ? Utils.trackerDomain(privateState.selectedTracker).protocol+"://"+Utils.trackerDomain(privateState.selectedTracker).domain : Locale.filters.all }}</ion-label>
@@ -194,7 +194,7 @@ export default defineComponent({
         selectedIds:[],
         refresh:null as any,
         torrentList:[],
-        serverList: [],
+        serverList: [] as Array<Record<string,unknown>>,
         trackerList: [] as Array<any>,
         swipeEnabled:true,
         trackerListOpened:false,
@@ -298,11 +298,20 @@ export default defineComponent({
       Locale.setLanguage(UserSettings.getLanguage());
     }
   },
+  async beforeCreate() {
+    await UserSettings.loadSettings();
+    this.privateState.selectedServer = UserSettings.state.selectedServer;
+    this.$forceUpdate();
+    SplashScreen.hide();
+    UserSettings.loadServerList()
+      .then((result)=>{
+        this.privateState.serverList = result;
+        this.privateState.connectionStatus.loading=false;
+      })
+    
+  },
   created() {
     Utils.setTheme(this.sharedState.colorScheme);
-    this.$nextTick(() => {
-      this.loadStorage()
-    })
 
     this.$watch(() => this.privateState.serverList.length, async () => {
       if(this.privateState.selectedServer>=this.privateState.serverList.length){
@@ -340,15 +349,6 @@ export default defineComponent({
     },
   },
   methods: {
-
-    async loadStorage() {
-      await UserSettings.loadSettings();
-      this.privateState.selectedServer = UserSettings.state.selectedServer;
-      this.privateState.serverList = await UserSettings.loadServerList();
-      this.privateState.connectionStatus.loading=false;
-      SplashScreen.hide();
-      this.$forceUpdate();
-    },
 
     setRefreshInterval() {
       clearInterval(this.privateState.refresh);
@@ -440,8 +440,7 @@ export default defineComponent({
 
     selectServer(serverId=0) {
       Emitter.emit("clear-selection");
-      UserSettings.setValue("selectedServer",serverId);
-      UserSettings.saveSettings();
+      UserSettings.setValue("selectedServer",serverId,true);
       this.privateState.torrentList=[];
       this.privateState.selectedIds=[];
       this.privateState.trackerList=[];
@@ -470,7 +469,6 @@ export default defineComponent({
         this.privateState.connectionStatus.loading=true;
         if(clean){
           this.setRefreshInterval();
-          this.privateState.connectionStatus.loading=true;
           this.privateState.connectionStatus.error="";
           this.privateState.torrentList=[];
         }

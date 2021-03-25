@@ -52,7 +52,8 @@
         "selectAll": "Seleccionar todo",
         "remove": "Quitar",
         "editAddress": "Editar dirección",
-        "setLocation": "Ajustar ubicación"
+        "setLocation": "Ajustar ubicación",
+        "openInExplorer": "Open in explorer"
     },
     "filters": {
         "filters": "Filtros",
@@ -75,20 +76,13 @@
         "confirmation": "Confirmación",
         "remove": "Desea quitar {0}?",
         "deleteData": "Borrar datos",
-        "delete": "Desea borrar el {0}?"
+        "delete": "Desea borrar el {0}?",
+        "reset": "Confirm settings reset?"
     },
     "units": {
         "perSecond": "/s",
         "bit": "b",
-        "byte": "B",
-        "kilo": "K",
-        "mega": "M",
-        "giga": "G",
-        "tera": "T",
-        "peta": "P",
-        "exa": "E",
-        "zetta": "Z",
-        "yotta": "Y"
+        "byte": "B"
     },
     "rpcPath": "Ruta RPC",
     "preferences": "Preferencias",
@@ -156,7 +150,7 @@
     "leechers": "Sanguijuelas",
     "downloadCount": "Contador de descargas",
     "tier": "Nivel",
-    "displayFlag": "Mostar bandera del compañero (usa ip-api.com)",
+    "displayFlag": "Mostar bandera del compañero",
     "addTracker": "Añadir rastreador",
     "displayMore": "Mostrar más",
     "serverInformation": "Información del servidor",
@@ -205,5 +199,10 @@
     "PEX": "Intercambio de pares",
     "UTP": "Micro transport protocol",
     "blocklist": "Lista negra",
-    "blocklistUrl": "URL de la lista negra"
+    "blocklistUrl": "URL de la lista negra",
+    "useIpApi": "Usa ip-api.com",
+    "reset": "Reset",
+    "resetSettings": "Reset settings",
+    "pathMapping": "Remote to local path mapping",
+    "example": "Example"
 }

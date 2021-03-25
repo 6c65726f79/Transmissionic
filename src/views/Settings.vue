@@ -23,17 +23,18 @@
 
         <ion-item>
           <ion-label>{{ Locale.language }}</ion-label>
-          <ion-select placeholder="Select One" :value="sharedState.language" v-on:ionChange="updateSetting($event,'language')" :cancelText="Locale.actions.cancel">
+          <ion-select placeholder="Select One" v-model="sharedState.language" v-on:ionChange="updateLanguage()" :cancelText="Locale.actions.cancel">
             <ion-select-option value="default">{{ Locale.default }}</ion-select-option>
             <ion-select-option value="en">English</ion-select-option>
-            <ion-select-option value="fr">Français</ion-select-option>
             <ion-select-option value="es">Español</ion-select-option>
+            <ion-select-option value="fr">Français</ion-select-option>
+            <ion-select-option value="ru">Pусский</ion-select-option>
           </ion-select>
         </ion-item>
           
         <ion-item>
           <ion-label>{{ Locale.theme }}</ion-label>
-          <ion-select placeholder="Select One" :value="sharedState.colorScheme" v-on:ionChange="updateSetting($event,'colorScheme')" :cancelText="Locale.actions.cancel">
+          <ion-select placeholder="Select One" v-model="sharedState.colorScheme" :cancelText="Locale.actions.cancel">
             <ion-select-option value="default">{{ Locale.default }}</ion-select-option>
             <ion-select-option value="light">{{ Locale.light }}</ion-select-option>
             <ion-select-option value="dark">{{ Locale.dark }}</ion-select-option>
@@ -42,18 +43,21 @@
 
         <ion-item>
           <ion-label>{{ Locale.speedUnit }}</ion-label>
-          <ion-toggle :checked="sharedState.useBits" v-on:ionChange="updateSetting($event,'useBits')"></ion-toggle>
+          <ion-toggle v-model="sharedState.useBits"></ion-toggle>
         </ion-item>
 
         <ion-item>
           <ion-label>{{ Locale.expandSideMenu }}</ion-label>
-          <ion-toggle :checked="sharedState.expandMenu" v-on:ionChange="updateSetting($event,'expandMenu')"></ion-toggle>
+          <ion-toggle v-model="sharedState.expandMenu"></ion-toggle>
         </ion-item>
         
         <ion-item>
-          <ion-label>{{ Locale.displayFlag }}</ion-label>
-          <ion-toggle :checked="sharedState.ipFlags" v-on:ionChange="updateSetting($event,'ipFlags')"></ion-toggle>
+          <ion-label>{{ Locale.displayFlag }}*</ion-label>
+          <ion-toggle v-model="sharedState.ipFlags"></ion-toggle>
         </ion-item>
+        <div class="annotation">
+          * {{ Locale.useIpApi }} <a href="https://ip-api.com/docs/legal" target="_blank"><ion-icon slot="icon-only" :ios="informationCircleOutline" :md="informationCircleSharp"></ion-icon></a>
+        </div>
       </ion-list>
 
       <ion-list>
@@ -65,11 +69,23 @@
 
         <ion-item>
           <ion-label position="floating">{{ Locale.refreshInterval }}</ion-label>
-          <ion-input type="number" :value="sharedState.refreshInterval" v-on:ionChange="updateSetting($event,'refreshInterval')"></ion-input>
+          <ion-input type="number" v-model="sharedState.refreshInterval" ></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">{{ Locale.connectionTimeout }}</ion-label>
-          <ion-input type="number" :value="sharedState.timeout" v-on:ionChange="updateSetting($event,'timeout')"></ion-input>
+          <ion-input type="number" v-model="sharedState.timeout" ></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>
+            {{ Locale.reset }}
+          </ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          <ion-button color="danger" size="default" @click="resetSettings()">{{ Locale.resetSettings }}</ion-button>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -81,6 +97,7 @@
 import { defineComponent } from 'vue';
 import { 
   modalController,
+  alertController,
   IonContent, 
   IonHeader, 
   IonTitle, 
@@ -101,7 +118,9 @@ import {
 } from '@ionic/vue';
 import {
   saveOutline,
-  saveSharp
+  saveSharp,
+  informationCircleOutline,
+  informationCircleSharp
 } from 'ionicons/icons';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
@@ -149,7 +168,9 @@ export default defineComponent({
     return { 
       Locale,
       saveOutline,
-      saveSharp
+      saveSharp,
+      informationCircleOutline,
+      informationCircleSharp
     }
   },
   mounted() {
@@ -163,19 +184,31 @@ export default defineComponent({
     modalClose () {
       modalController.dismiss();
     },
-    updateSetting (event: any, element: string) {
-      if(typeof event.detail.checked!="undefined"){
-        UserSettings.setValue(element,event.detail.checked);
-      }
-      else {
-        UserSettings.setValue(element,event.detail.value);
-      }
-      if(element=="language"){
-        this.$forceUpdate();
-      }
+    updateLanguage() {
+      this.$forceUpdate();
     },
     async savedToast() {
       Utils.responseToast("success")
+    },
+    async resetSettings(){
+      const alert = await alertController
+        .create({
+          header: Locale.prompt.confirmation,
+          message: Locale.prompt.reset,
+          buttons: [
+            {
+              text: Locale.actions.cancel,
+              role: 'cancel'
+            },
+            {
+              text: Locale.prompt.confirm,
+              handler: () => {
+                UserSettings.resetSettings();
+              },
+            },
+          ],
+        });
+      return alert.present();
     },
   },
 });
@@ -184,5 +217,16 @@ export default defineComponent({
 <style scoped>
 .content {
   padding-top:var(--offset-top);
+}
+
+.annotation {
+  padding: 10px 16px 0px 16px;
+  color:var(--ion-color-medium);
+}
+.annotation a {
+  color:inherit;
+}
+.annotation ion-icon {
+  vertical-align: middle;
 }
 </style>

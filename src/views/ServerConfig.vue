@@ -43,7 +43,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">{{ Locale.cacheSize }} ({{ Locale.units.mega + Locale.units.byte }})</ion-label>
+            <ion-label position="floating">{{ Locale.cacheSize }} (M{{ Locale.units.byte }})</ion-label>
             <ion-input v-model.number="config['cache-size-mb']" type="number"></ion-input>
           </ion-item>
 
@@ -418,7 +418,7 @@ export default defineComponent({
       }
     },
     speedUnit:() => {
-      return Locale.units.kilo + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
+      return 'K' + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
     }
   },
   methods: {

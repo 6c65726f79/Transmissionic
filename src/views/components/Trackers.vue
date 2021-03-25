@@ -47,8 +47,8 @@
             </template>
             <br>
             {{ Locale.peerCount }} : {{ tracker.lastAnnouncePeerCount>=0 ? tracker.lastAnnouncePeerCount : "?" }}<br>
-            {{ Locale.lastUpdate }} : {{ Utils.secondsToDate(tracker.lastAnnounceTime) }}<br>
-            {{ Locale.nextUpdate }} : {{ Utils.secondsToDate(tracker.nextAnnounceTime) }}<br>
+            {{ Locale.lastUpdate }} : {{ Utils.secondsToDate(tracker.lastAnnounceTime, false, true) }}<br>
+            {{ Locale.nextUpdate }} : {{ Utils.secondsToDate(tracker.nextAnnounceTime, false, true) }}<br>
           </p>
           <p v-if="tracker.scrapeState!==0 && tracker.scrapeState!=2">
             <b>{{ Locale.scrape }}</b><br>
@@ -82,8 +82,8 @@
             <template v-if="tracker.downloadCount>=0">
               {{ Locale.downloadCount }} : {{ tracker.downloadCount }}<br>
             </template>
-            {{ Locale.lastUpdate }} : {{ Utils.secondsToDate(tracker.lastScrapeTime) }}<br>
-            {{ Locale.nextUpdate }} : {{ Utils.secondsToDate(tracker.nextScrapeTime) }}<br>
+            {{ Locale.lastUpdate }} : {{ Utils.secondsToDate(tracker.lastScrapeTime, false, true) }}<br>
+            {{ Locale.nextUpdate }} : {{ Utils.secondsToDate(tracker.nextScrapeTime, false, true) }}<br>
           </p>
         </ion-card-content>
       </ion-card>

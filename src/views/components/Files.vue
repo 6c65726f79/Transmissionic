@@ -45,7 +45,7 @@
               </template>
               {{ Utils.formatBytes(item.length) }}
               <template v-if="typeof item.bytesCompleted!='undefined'">
-                ({{ Math.round(item.bytesCompleted/item.length*100) }}%)
+                ({{ Utils.getPercent(item.bytesCompleted/item.length) }})
               </template>
             </div>
           </div>

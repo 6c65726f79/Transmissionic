@@ -24,10 +24,12 @@ class TRPC {
   persistentData: any;
   persistentDataValid=false;
   freeSpaceRefreshInterval: any;
+  pathMapping: Record<string,string>;
 
   constructor() {
     this.useNativePlugin = (isPlatform("capacitor") && (isPlatform("android") || isPlatform("ios")))
     this.lastRequestId = 0;
+    this.pathMapping = {};
   }
 
   async setServer(options: Record<string, any> = {}, timeout=5): Promise<Record<string, any>> {
@@ -56,6 +58,25 @@ class TRPC {
         // Reset auth header from previous connection
         HTTP.useBasicAuth("","");
       }
+    }
+
+    if(this.options.pathMapping){
+      this.options.pathMapping.split(/\r?\n/).forEach((pathMap: string) => {
+        const paths = pathMap.match(/^(.+) ?= ?(.+)$/)||[];
+        for(const key in paths){
+          if(paths[key]){
+            if(paths[key].startsWith(' ')){
+              paths[key]=paths[key].substr(1);
+            }
+            if(paths[key].endsWith(' ')){
+              paths[key]=paths[key].slice(0, -1);
+            }
+          }
+        }
+        if(paths.length>=3){
+          this.pathMapping[paths[1]]=paths[2];
+        }
+      });
     }
 
     this.invalidatePersitentData();
