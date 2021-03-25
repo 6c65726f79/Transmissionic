@@ -4,6 +4,7 @@ import {
 } from '@ionic/vue';
 import AddTorrent from '../views/AddTorrent.vue'
 import { Emitter } from "./Emitter";
+import { TransmissionRPC } from "./TransmissionRPC";
 import { Capacitor,Plugins } from '@capacitor/core'; 
 const { FileSelector,App } = Plugins; 
 import parseTorrent from 'parse-torrent'
@@ -165,5 +166,18 @@ export const FileHandler = {
         Emitter.emit("refresh");
       })
     return modal.present();
+  },
+  openExplorer(dir: string, path: string, isFile=false): void{
+    window.fileOpen.open(this.pathMapping(dir),path,isFile);
+  },
+  pathMapping(path: string): string{
+    const list = TransmissionRPC.pathMapping;
+    let result = path
+    for(const map in list){
+      if(path.startsWith(map)){
+        result = list[map] + path.substr(map.length)
+      }
+    }
+    return result;
   }
 }

@@ -69,6 +69,19 @@
           <ion-input :disabled="!authEnabled" v-model="newConf.auth.password" type="password"></ion-input>
         </ion-item>
       </ion-list>
+
+      <ion-list v-if="pathMappingEnabled">
+        <ion-list-header>
+          <ion-label>
+            Remote to local path mapping
+          </ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          <ion-textarea rows="3" :placeholder="placeholder" v-model="newConf.pathMapping"></ion-textarea>
+        </ion-item>
+        
+      </ion-list>
       
     </ion-content>
   </ion-page>
@@ -94,7 +107,8 @@ import {
   IonToggle,
   IonInput,
   IonPage,
-  IonBackButton
+  IonBackButton,
+  IonTextarea
 } from '@ionic/vue';
 import {
   trashOutline,
@@ -143,7 +157,8 @@ export default defineComponent({
     IonToggle,
     IonInput,
     IonPage,
-    IonBackButton
+    IonBackButton,
+    IonTextarea
   },
   setup() {
     if (!window.history.state.modal) {
@@ -151,8 +166,11 @@ export default defineComponent({
       history.pushState(modalState, "");
     }
 
+    const placeholder = `Example:\r/mnt/ssd = \\\\192.168.1.1\\ssd\r/home/user/Downloads = Z:\\Downloads`;
+
     return { 
       Locale,
+      placeholder,
       trashOutline,
       trashSharp,
       saveOutline,
@@ -179,6 +197,9 @@ export default defineComponent({
     },
     authEnabled: function () {
       return isPlatform("electron") || isPlatform("capacitor") || process.env.NODE_ENV==="development"
+    },
+    pathMappingEnabled: function () {
+      return isPlatform("electron");
     }
   },
   methods: {
