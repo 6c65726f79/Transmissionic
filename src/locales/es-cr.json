@@ -52,7 +52,8 @@
         "selectAll": "Seleccionar todo",
         "remove": "Quitar",
         "editAddress": "Editar dirección",
-        "setLocation": "Ajustar ubicación"
+        "setLocation": "Ajustar ubicación",
+        "openInExplorer": "Open in explorer"
     },
     "filters": {
         "filters": "Filtros",
@@ -201,5 +202,7 @@
     "blocklistUrl": "URL de la lista negra",
     "useIpApi": "Usa ip-api.com",
     "reset": "Reset",
-    "resetSettings": "Reset settings"
+    "resetSettings": "Reset settings",
+    "pathMapping": "Remote to local path mapping",
+    "example": "Example"
 }
