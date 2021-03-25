@@ -106,7 +106,7 @@ Simply download the installer for the desired platform from the [latest release]
 
 ### Web UI
 
-Settings are stored client-side, but you can overwrite the default settings by creating a file named `default.json` in the root folder of the Web UI.
+The settings are stored on the client side, but you can overwrite the default settings by creating a file named `default.json` in the root folder of the Web UI.
 
 The file can contain the following key/value pairs :
 
