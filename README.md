@@ -110,17 +110,17 @@ The settings are stored on the client side, but you can overwrite the default se
 
 The file can contain the following key/value pairs :
 
-| Key               | Type          | Description    |
-| ----------------- | ------------- | ------------------ |
-| colorScheme     | `string`      | Possible values: `light` or `dark`  |
+| Key             | Type          | Description                       |
+| --------------- | ------------- | --------------------------------- |
+| colorScheme     | `string`      | Possible values: `light` or `dark`|
 | language        | `string`      | An ISO 639-1 language code, example: `en` |
 | orderBy         | `string`      | Examples: `name`, `addedDate`, `uploadRatio`, `activityDate` |
-| reverse         | `boolean`     | Reversed ordering                |
-| useBits         | `boolean`     | Display speed in bit/s           |
-| expandMenu      | `boolean`     | Expand side menu on large screen |
-| ipFlags         | `boolean`     | Display peer flag                |
-| refreshInterval | `number`      | Refresh interval in seconds      |
-| timeout         | `number`      | Connection timeout in seconds    |
+| reverse         | `boolean`     | Reversed ordering                 |
+| useBits         | `boolean`     | Display speed in bit/s            |
+| expandMenu      | `boolean`     | Expand side menu on large screen  |
+| ipFlags         | `boolean`     | Display peer flag                 |
+| refreshInterval | `number`      | Refresh interval in seconds       |
+| timeout         | `number`      | Connection timeout in seconds     |
 
 Configuration file example:
 
