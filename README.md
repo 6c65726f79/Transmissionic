@@ -28,10 +28,12 @@
   - [Web UI](#web-ui)
   - [Other](#other)
 - [Configuration](#configuration)
-- [Build](#build)
-  - [Requirements](#requirements)
   - [Web UI](#web-ui-1)
   - [Electron](#electron)
+- [Build](#build)
+  - [Requirements](#requirements)
+  - [Web UI](#web-ui-2)
+  - [Electron](#electron-1)
   - [Android](#android)
 - [Development](#development)
 - [Translation](#translation)
@@ -102,7 +104,9 @@ Simply download the installer for the desired platform from the [latest release]
 
 # Configuration
 
-Configuration is per-devices based, but if you're using the Web UI you can overwrite the default settings by creating a file named `default.json` in the root folder of the Web UI.
+### Web UI
+
+Settings are stored client-side, but you can overwrite the default settings by creating a file named `default.json` in the root folder of the Web UI.
 
 The file can contain the following key/value pairs :
 
@@ -131,6 +135,8 @@ Configuration file example:
   timeout:20
 }
 ```
+
+### Electron
 
 # Build
 
