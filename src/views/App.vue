@@ -303,15 +303,15 @@ export default defineComponent({
     this.privateState.selectedServer = UserSettings.state.selectedServer;
     this.$forceUpdate();
     SplashScreen.hide();
-    
-  },
-  created() {
-    Utils.setTheme(this.sharedState.colorScheme);
     UserSettings.loadServerList()
       .then((result)=>{
         this.privateState.serverList = result;
         this.privateState.connectionStatus.loading=false;
       })
+    
+  },
+  created() {
+    Utils.setTheme(this.sharedState.colorScheme);
 
     this.$watch(() => this.privateState.serverList.length, async () => {
       if(this.privateState.selectedServer>=this.privateState.serverList.length){

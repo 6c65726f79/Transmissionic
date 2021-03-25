@@ -79,7 +79,7 @@ export const UserSettings = {
   },
 
   saveKey(key: string): void {
-    if(this.state[key] != defaultSettings[key]){
+    if(this.state[key] != defaultSettings[key] || key=="selectedServer"){
       Storage.set({
         key: key,
         value: Object(this.state)[key].toString()
