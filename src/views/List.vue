@@ -70,9 +70,6 @@
             <ion-fab-button color="light" :data-desc="Locale.magnet" @click="inputMagnet()">
               <ion-icon :ios="magnetOutline" :md="magnetSharp"></ion-icon>
             </ion-fab-button>
-            <!--<ion-fab-button color="light" data-desc="URL" @click="inputLink('url')">
-              <ion-icon :ios="ionicons.linkOutline" :md="ionicons.linkSharp"></ion-icon>
-            </ion-fab-button>-->
           </ion-fab-list>
         </ion-fab>
       </template>
@@ -97,7 +94,6 @@
 
       <ion-toolbar v-else id="footer">
         <ion-buttons slot="start">
-          <!-- TODO : Add server configuration modal -->
           <ion-button fill="clear" @click="serverConfiguration()">
             <ion-icon slot="icon-only" :ios="constructOutline" :md="constructSharp"></ion-icon>
           </ion-button>
@@ -352,8 +348,7 @@ export default defineComponent({
     openSearch() {
       this.privateState.viewSearch=true;
       setTimeout(() => {
-        const search = document.querySelector("#search") as any;
-        search.setFocus()
+        (document.querySelector("#search") as any).setFocus();
       },10);
     },
     closeSearch(){

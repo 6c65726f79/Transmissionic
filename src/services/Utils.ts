@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const ipToCountryList: Record<string,string> = {};
+const ipToCountryList: Record<string,any> = {};
 let ipToCountryLimit = 45;
 let ipToCountryWaitUntil: any;
 
@@ -68,38 +68,43 @@ export const Utils = {
   },
 
   async ipToCountry(ip: string): Promise<any>{
-    if(!ipToCountryList[ip] && (ipToCountryLimit>0 || (ipToCountryWaitUntil && Date.now() > ipToCountryWaitUntil))) {
+    const wait = (ipToCountryWaitUntil && Date.now() < ipToCountryWaitUntil)||false;
+    const found = (ipToCountryList[ip]!=null);
+    const limited = (ipToCountryLimit<=0);
+    if(found && ipToCountryList[ip]!="loading"){
+      return ipToCountryList[ip];
+    }
+    else if(!found && !limited && !wait) {
       ipToCountryLimit--;
       ipToCountryList[ip]="loading";
       ipToCountryWaitUntil=undefined;
-      await fetch('http://ip-api.com/json/'+ip+'?fields=16387&lang='+UserSettings.getLanguage())
-        .then(async (response) => {
-          // Read the number of requests remaining in the current rate limit window
-          const limit = response.headers.get('X-Rl');
-          ipToCountryLimit = limit ? parseInt(limit) : ipToCountryLimit;
-          if(ipToCountryLimit==0){
-            const wait = response.headers.get('X-Ttl');
-            ipToCountryWaitUntil = wait ? Date.now() + parseInt(wait)*1000 : Date.now() + 60000
-          }
+      ipToCountryList[ip] = await fetch('http://ip-api.com/json/'+ip+'?fields=16387&lang='+UserSettings.getLanguage())
+        .then(this.readIpApi)
 
-          if(response.ok){
-            const details = await response.json();
-            if(details.status=="success"){
-              ipToCountryList[ip]=details;
-            }
-          }
-          else {
-            delete ipToCountryList[ip];
-          }
-        })
-        .catch(() => {
-          delete ipToCountryList[ip];
-          ipToCountryWaitUntil = Date.now() + 60000;
-        })
+      if(ipToCountryList[ip]==null){
+        ipToCountryWaitUntil = Date.now() + 60000;
+      }
+      else {
+        return ipToCountryList[ip];
+      }
+    }
+    
+  },
+
+  async readIpApi(response: Record<string,any>): Promise<any> {
+    // Read the number of requests remaining in the current rate limit window
+    const limit = response.headers.get('X-Rl');
+    ipToCountryLimit = limit ? parseInt(limit) : ipToCountryLimit;
+    if(ipToCountryLimit==0){
+      const wait = response.headers.get('X-Ttl');
+      ipToCountryWaitUntil = wait ? Date.now() + parseInt(wait)*1000 : Date.now() + 60000
     }
 
-    if(ipToCountryList[ip] && ipToCountryList[ip]!="loading"){
-      return ipToCountryList[ip];
+    if(response.ok){
+      const details = await response.json();
+      if(details.status=="success"){
+        return details;
+      }
     }
   },
 
@@ -150,9 +155,8 @@ export const Utils = {
   },
 
   async responseToast(result: string): Promise<void> {
-    await Toast.show({
-      text: result=="success" ? Locale.success : (result!="" ? result : Locale.error)
-    });
+    const text = result=="success" ? Locale.success : (result!="" ? result : Locale.error)
+    await Toast.show({text});
   },
 
   // eslint-disable-next-line

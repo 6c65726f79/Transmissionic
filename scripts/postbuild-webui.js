@@ -18,8 +18,8 @@ function updateHTML(filename) {
     // Load all href from the same directory
     result = result.replace(/="\//g, '="./');
 
-    fs.writeFile(`${filename}`, result, 'utf8', function(err) {
-      if (err) return console.log(err);
+    fs.writeFile(`${filename}`, result, 'utf8', function(error) {
+      if (error) return console.log(error);
     });
   });
 }

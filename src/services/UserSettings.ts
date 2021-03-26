@@ -36,17 +36,7 @@ export const UserSettings = {
 
   async loadSettings(): Promise<void> {
 
-    if(!isPlatform("capacitor") && !isPlatform("electron")){
-      const defaultJson = await fetch('default.json')
-        .then((response) => response.json())
-        .catch(()=> {return})
-      if(defaultJson){
-        for (const setting in defaultJson) {
-          this.setValue(setting,defaultJson[setting])
-          defaultSettings[setting]=defaultJson[setting];
-        }
-      }
-    }
+    await this.loadDefaultSettings();
 
     for (const setting in this.state) {
       await Storage.get({ key: setting })
@@ -63,6 +53,20 @@ export const UserSettings = {
             }
           }
         });
+    }
+  },
+
+  async loadDefaultSettings(): Promise<void> {
+    if(!isPlatform("capacitor") && !isPlatform("electron")){
+      const defaultJson = await fetch('default.json')
+        .then((response) => response.json())
+        .catch(()=> {return})
+      if(defaultJson){
+        for (const setting in defaultJson) {
+          this.setValue(setting,defaultJson[setting])
+          defaultSettings[setting]=defaultJson[setting];
+        }
+      }
     }
   },
 

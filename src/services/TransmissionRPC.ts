@@ -33,7 +33,6 @@ class TRPC {
   }
 
   async setServer(options: Record<string, any> = {}, timeout=5): Promise<Record<string, any>> {
-    // Default parameters
     this.sessionToken=null;
     this.options = {
       host:'localhost',
@@ -49,6 +48,41 @@ class TRPC {
       }
     }
 
+    if(this.options.pathMapping){
+      this.pathMapping = this.readPathMapping(this.options.pathMapping)
+    }
+
+    this.setAuthHeader();
+    this.invalidatePersitentData();
+    this.setFreeSpaceRefreshInterval();
+
+    this.sessionArguments = await this.getSession();
+
+    return this.sessionArguments;
+  }
+
+  readPathMapping(pathMapping: string): Record<string,string> {
+    const result: Record<string,string> = {};
+    pathMapping.split(/\r?\n/).forEach((pathMap: string) => {
+      const paths = pathMap.match(/^(.+) ?= ?(.+)$/)||[];
+      for(const key in paths){
+        if(paths[key]){
+          if(paths[key].startsWith(' ')){
+            paths[key]=paths[key].substr(1);
+          }
+          if(paths[key].endsWith(' ')){
+            paths[key]=paths[key].slice(0, -1);
+          }
+        }
+      }
+      if(paths.length>=3){
+        result[paths[1]]=paths[2];
+      }
+    });
+    return result;
+  }
+
+  setAuthHeader(): void {
     if(this.useNativePlugin){
       HTTP.setRequestTimeout(5);
       if(this.options.auth){
@@ -59,30 +93,9 @@ class TRPC {
         HTTP.useBasicAuth("","");
       }
     }
+  }
 
-    if(this.options.pathMapping){
-      this.options.pathMapping.split(/\r?\n/).forEach((pathMap: string) => {
-        const paths = pathMap.match(/^(.+) ?= ?(.+)$/)||[];
-        for(const key in paths){
-          if(paths[key]){
-            if(paths[key].startsWith(' ')){
-              paths[key]=paths[key].substr(1);
-            }
-            if(paths[key].endsWith(' ')){
-              paths[key]=paths[key].slice(0, -1);
-            }
-          }
-        }
-        if(paths.length>=3){
-          this.pathMapping[paths[1]]=paths[2];
-        }
-      });
-    }
-
-    this.invalidatePersitentData();
-
-    this.sessionArguments = await this.getSession();
-
+  setFreeSpaceRefreshInterval(): void {
     clearInterval(this.freeSpaceRefreshInterval);
     this.freeSpaceRefreshInterval = setInterval(async () => {
       const response = await this.rpcCall("free-space",{path:this.sessionArguments["download-dir"]})
@@ -90,8 +103,6 @@ class TRPC {
         this.sessionArguments["download-dir-free-space"]=response.arguments["size-bytes"];
       }
     },60000);
-
-    return this.sessionArguments;
   }
 
   async getSession(): Promise<Record<string, any>> {
@@ -213,56 +224,68 @@ class TRPC {
   }
 
   readPersitentData(details: any) {
-    const trackers: Record<string,any> = {};
+    const trackers: Array<Record<string,any>> = [];
     const downloadDirList: Array<string> = [];
-    let trId=0;
 
     for (const torrent of details) {
-      let dir = torrent.downloadDir
-      //eslint-disable-next-line
-      if(dir.match(/[\/\\]$/)){
-        // Remove last / or \
-        dir = dir.substring(0,dir.length-1);
-      }
+
+      const dir = this.readDownloadDir(torrent.downloadDir)
 
       if(!downloadDirList.includes(dir)){
         downloadDirList.push(dir)
       }
 
-      for(const tracker of torrent.trackers){
-        //eslint-disable-next-line
-        const regex = /^[\w]+:\/\/[\w\d\.-]+/;
-        const matchs = tracker.announce.match(regex);
-        if(matchs){
-          const tr = matchs[0];
-          if(trackers[tr]){
-            if(!trackers[tr].ids.includes(torrent.id)){
-              trackers[tr].ids.push(torrent.id)
-            }
-          }
-          else {
-            trackers[tr] = {
-              id:trId,
-              announce:tr,
-              ids:[torrent.id]
-            }
-            trId++;
-          }
-        }
-      }
+      trackers.push(this.readTrackers(torrent.id,torrent.trackers))
+
     }
     
+    downloadDirList.sort();
 
     this.persistentData = {
       trackers: Object.values(trackers),
-      downloadDir: downloadDirList.sort()
+      downloadDir: downloadDirList
     }
     this.persistentDataValid = true;
   }
 
+  readDownloadDir(downloadDir: string): string {
+    let result = downloadDir
+    //eslint-disable-next-line
+    if(result.match(/[\/\\]$/)){
+      // Remove last / or \
+      result = result.substring(0,result.length-1);
+    }
+    return result;
+  }
+
+  readTrackers(torrentId:number, trackers: Array<Record<string,any>>): Array<Record<string,any>> {
+    const result: Array<Record<string,any>> = [];
+    let trId=0;
+    for(const tracker of trackers){
+      //eslint-disable-next-line
+      const matchs = tracker.announce.match(/^[\w]+:\/\/[\w\d\.-]+/);
+      if(matchs){
+        const tr = matchs[0];
+        if(result[tr]){
+          if(!result[tr].ids.includes(torrentId)){
+            trackers[tr].ids.push(torrentId)
+          }
+        }
+        else {
+          trackers[tr] = {
+            id:trId,
+            announce:tr,
+            ids:[torrentId]
+          }
+          trId++;
+        }
+      }
+    }
+    return result;
+  }
+
   invalidatePersitentData() {
     this.persistentDataValid = false;
-    //this.persistentData = undefined;
   }
 
   async getTorrentDetails(id: number) {
@@ -401,65 +424,13 @@ class TRPC {
     }
 
     if(this.useNativePlugin){
-      // HTTP request using @ionic-native/http (allow CORS)
-      options.data = datas
-
-      await this.timeout(this.options.timeout*1000, HTTP.sendRequest(requestUrl,options))
-        .then((response) => {
-          ret=response as Record<string, any>;
-        })
-        .catch((error) => {
-          if(error.status){
-            ret=error as Record<string, any>;
-          }
-          else {
-            ret.errorMessage=error;
-          }
-        });
-
-      if(ret.data){
-        ret.data = JSON.parse(ret.data)
-      }
-
+      ret = await this.nativePluginRequest(requestUrl,options,datas);
     }
     else if(window.net){
-      // HTTP request using Electron net (allow CORS)
-      Object.assign(options,{
-        hostname:this.options.host,
-        port:this.options.port,
-        path:this.options.path,
-        protocol:this.options.https ? "https:" : "http:"
-      })
-
-      await this.timeout(this.options.timeout*1000, window.net.request(options, datas))
-        .then((response: any) => {
-          ret=response;
-        })
-        .catch((error) => {
-          if(error.status){
-            ret=error;
-          }
-          else if(error){
-            ret.errorMessage=error;
-          }
-        });
+      ret = await this.electronRequest(options,datas);
     }
     else {
-      // HTTP request using fetch (no CORS)
-      options.body = JSON.stringify(datas);
-
-      await this.timeout(this.options.timeout*1000, fetch(requestUrl,options))
-        .then((response) => {
-          ret=response as Record<string, any>;
-        })
-        .catch((error) => {
-          ret.errorMessage=(error=="TypeError: Failed to fetch") ? "Unable to reach host" : error;
-        });
-
-      if(ret.json && ret.ok){
-        ret.data = await ret.json();
-      }
-
+      ret = await this.browserRequest(requestUrl,options,datas);
     }
 
     // Don't return result if tags doesn't match or server has been changed
@@ -475,28 +446,76 @@ class TRPC {
     return ret;
   }
 
-  HttpRequest(requestUrl: string, options: Record<string,any>) {
-    return new Promise(function (resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      xhr.open(options.method.toUpperCase(), requestUrl);
-      xhr.onload = function () {
-          if (this.status >= 200 && this.status < 300) {
-              resolve(xhr.response);
-          } else {
-              reject({
-                  status: this.status,
-                  statusText: xhr.statusText
-              });
-          }
-      }
-      xhr.onerror = function () {
-          reject({
-              status: this.status,
-              statusText: xhr.statusText
-          });
-      }
-      xhr.send(options.data);
-    });
+  async nativePluginRequest(requestUrl: string, options: any, datas: Record<string, any>) {
+    // HTTP request using @ionic-native/http (allow CORS)
+    let result: Record<string, any>={};
+    options.data = datas
+
+    await this.timeout(this.options.timeout*1000, HTTP.sendRequest(requestUrl,options))
+      .then((response) => {
+        result=response as Record<string, any>;
+      })
+      .catch((error) => {
+        if(error.status){
+          result=error as Record<string, any>;
+        }
+        else {
+          result.errorMessage=error;
+        }
+      });
+
+    if(result.data){
+      result.data = JSON.parse(result.data)
+    }
+
+    return result;
+  }
+
+  async electronRequest(options: any, datas: Record<string, any>) {
+    // HTTP request using Electron net (allow CORS)
+    let result: Record<string, any>={};
+
+    Object.assign(options,{
+      hostname:this.options.host,
+      port:this.options.port,
+      path:this.options.path,
+      protocol:this.options.https ? "https:" : "http:"
+    })
+
+    await this.timeout(this.options.timeout*1000, window.net.request(options, datas))
+      .then((response: any) => {
+        result=response;
+      })
+      .catch((error) => {
+        if(error.status){
+          result=error;
+        }
+        else if(error){
+          result.errorMessage=error;
+        }
+      });
+
+    return result;
+  }
+
+  async browserRequest(requestUrl: string, options: any, datas: Record<string, any>) {
+    // HTTP request using fetch (no CORS)
+    let result: Record<string, any>={};
+    options.body = JSON.stringify(datas);
+
+    await this.timeout(this.options.timeout*1000, fetch(requestUrl,options))
+      .then((response) => {
+        result=response as Record<string, any>;
+      })
+      .catch((error) => {
+        result.errorMessage=(error=="TypeError: Failed to fetch") ? "Unable to reach host" : error;
+      });
+
+    if(result.json && result.ok){
+      result.data = await result.json();
+    }
+
+    return result;
   }
 
   getRequestUrl(): string {

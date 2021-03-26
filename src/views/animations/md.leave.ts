@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createAnimation } from '@ionic/core/dist/collection/utils/animation/animation';
 /**
  * Md Alert Leave Animation

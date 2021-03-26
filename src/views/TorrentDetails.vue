@@ -388,8 +388,7 @@ export default defineComponent({
       ]
 
       if(!isPlatform("electron")){
-        delete buttons[2];
-        buttons = buttons.filter(Boolean);
+        buttons.splice(2, 1);
       }
 
       const actionSheet = await actionSheetController

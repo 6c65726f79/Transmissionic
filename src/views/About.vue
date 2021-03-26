@@ -21,12 +21,12 @@
       </p>
       <p>
         {{formatText(Locale.about.github).before}}
-        <a href="https://github.com/6c65726f79/Transmissionic" target="_blank">https://github.com/6c65726f79/Transmissionic</a>
+        <a href="https://github.com/6c65726f79/Transmissionic" target="_blank" rel="noopener">https://github.com/6c65726f79/Transmissionic</a>
         {{formatText(Locale.about.github).after}}
       </p>
       <p>
         {{formatText(Locale.about.poeditor).before}}
-        <a href="https://poeditor.com/join/project?hash=sbVnI9eo3d" target="_blank">https://poeditor.com/join/project?hash=sbVnI9eo3d</a>
+        <a href="https://poeditor.com/join/project?hash=sbVnI9eo3d" target="_blank" rel="noopener">https://poeditor.com/join/project?hash=sbVnI9eo3d</a>
         {{formatText(Locale.about.poeditor).after}}
       </p>
     </ion-content>

@@ -56,7 +56,7 @@
           <ion-toggle v-model="sharedState.ipFlags"></ion-toggle>
         </ion-item>
         <div class="annotation">
-          * {{ Locale.useIpApi }} <a href="https://ip-api.com/docs/legal" target="_blank"><ion-icon slot="icon-only" :ios="informationCircleOutline" :md="informationCircleSharp"></ion-icon></a>
+          * {{ Locale.useIpApi }} <a href="https://ip-api.com/docs/legal" target="_blank" rel="noopener"><ion-icon slot="icon-only" :ios="informationCircleOutline" :md="informationCircleSharp"></ion-icon></a>
         </div>
       </ion-list>
 

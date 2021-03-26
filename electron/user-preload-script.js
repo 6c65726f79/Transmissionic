@@ -32,7 +32,7 @@ contextBridge.exposeInMainWorld('net', {
       let result;
       request = net.request(options)
       request.on('response', (response) => {
-        let data="";
+        let content="";
         result={
           headers:response.headers,
           status:response.statusCode
@@ -40,8 +40,8 @@ contextBridge.exposeInMainWorld('net', {
 
         response.on('end', () => {
           clearTimeout(timeout)
-          if(data!="" && response.statusCode==200){
-            result.data = JSON.parse(data);
+          if(content!="" && response.statusCode==200){
+            result.data = JSON.parse(content);
           }
           resolve(result)
         })
@@ -51,7 +51,7 @@ contextBridge.exposeInMainWorld('net', {
         })
 
         response.on('data', (chunk) => {
-          data += chunk.toString()
+          content += chunk.toString()
         })
       });
       request.on('error', function (error) {

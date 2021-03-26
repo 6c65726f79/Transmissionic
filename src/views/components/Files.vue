@@ -182,7 +182,6 @@ export default defineComponent({
               // Create folder details
               const resultFile = {
                 name:dirName,
-                /*bytesCompleted:files[id].bytesCompleted,*/
                 length:files[id].length,
                 folder:true,
                 ids:[id]
@@ -283,9 +282,9 @@ export default defineComponent({
                 TransmissionRPC.torrentAction("rename-path", this.id, args)
                   .then(async (response) => {
                     if(response.result=="success"){
-                      for(const file of this.details.files){
-                        if(file.name.startsWith(currentName)){
-                          file.name = file.name.replace(currentName,this.currentDirectory+data.name);
+                      for(const item of this.details.files){
+                        if(item.name.startsWith(currentName)){
+                          item.name = item.name.replace(currentName,this.currentDirectory+data.name);
                         }
                       }
                     }
