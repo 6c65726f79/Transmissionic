@@ -85,7 +85,7 @@
         </ion-list-header>
 
         <ion-item>
-          <ion-button color="danger" size="default" @click="resetSettings()">{{ Locale.resetSettings }}</ion-button>
+          <ion-button size="default" @click="resetSettings()">{{ Locale.resetSettings }}</ion-button>
         </ion-item>
       </ion-list>
     </ion-content>
