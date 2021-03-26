@@ -15,8 +15,8 @@ function updateHTML(filename) {
     // Set Content-Security-Policy to "script-src 'self'"
     let result = data.replace("script-src * 'unsafe-eval'", "script-src 'self'");
 
-    fs.writeFile(`${filename}`, result, 'utf8', function(err) {
-      if (err) return console.log(err);
+    fs.writeFile(`${filename}`, result, 'utf8', function(error) {
+      if (error) return console.log(error);
     });
   });
 }

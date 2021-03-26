@@ -60,7 +60,7 @@ if (!gotTheLock) {
 }
 
 app.on('open-file', (event, path) => {
-  // TODO : Add support for Mac OS
+  // Support for Mac OS
   openFile=fs.readFileSync(path, null);
   const mainWindow = myCapacitorApp.getMainWindow();
   mainWindow.webContents.send('fileopen', openFile)
