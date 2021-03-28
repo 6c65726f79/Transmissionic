@@ -17,28 +17,6 @@
 
 <a href='https://play.google.com/store/apps/details?id=com.sleroy.transmissionic&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="240" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
-### Table of contents
-
-- [About](#about)
-  - [Main features](#main-features)
-  - [Screenshots](#screenshots)
-  - [Motivations](#motivations)
-  - [Inspirations](#inspirations)
-- [Installation](#installation)
-  - [Web UI](#web-ui)
-  - [Other](#other)
-- [Configuration](#configuration)
-  - [Web UI](#web-ui-1)
-  - [Electron](#electron)
-- [Build](#build)
-  - [Requirements](#requirements)
-  - [Web UI](#web-ui-2)
-  - [Electron](#electron-1)
-  - [Android](#android)
-- [Development](#development)
-- [Translation](#translation)
-- [TODO](#todo)
-
 # About
 
 ### Main features
@@ -53,6 +31,7 @@
 * Edit tracker list
 * View peer list with flags
 * Sort torrents by trackers
+* Open files in explorer
 
 ### Screenshots
 
@@ -235,7 +214,7 @@ You can help with the translation by joining the project on [POEditor](https://p
 Available languages :
 - English
 - French
-- Russian (Alek)
+- Russian (Alek Depler)
 - Spanish (Zenón Monge)
 
 Thanks to all contributors.
