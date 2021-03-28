@@ -355,10 +355,8 @@ class TRPC {
   }
 
   async torrentAction(action: string, torrentId: number|Array<number>, args: Record<string, any> = {}){
-    switch (action) {
-      case "remove":
-        this.invalidatePersitentData();
-        break;
+    if(action=="remove"){
+      this.invalidatePersitentData();
     }
     return this.rpcCall("torrent-"+action, Object.assign({ids:torrentId}, args))
   }
