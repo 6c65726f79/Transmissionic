@@ -11,7 +11,7 @@
         <!-- Download -->
         <span class="bloc fit">
           <!-- Using PNGs instead of SVGs to improve performance of the virtualscroll -->
-          <img class="icon" :src="downIcon">
+          <img class="icon" :src="downIcon" alt="Downloaded">
           {{ Utils.formatBytes(torrent.downloadedEver) }}
           <template v-if="torrent.rateDownload>1">
             ({{ Utils.formatBytes(torrent.rateDownload,2,true) }})
@@ -20,7 +20,7 @@
 
         <!-- Upload -->
         <span class="bloc fit">
-          <img class="icon" :src="upIcon">
+          <img class="icon" :src="upIcon" alt="Uploaded">
           {{ Utils.formatBytes(torrent.uploadedEver) }}
           <template v-if="torrent.rateUpload>1">
             ({{ Utils.formatBytes(torrent.rateUpload,2,true) }})
@@ -31,7 +31,7 @@
 
         <!-- Ratio -->
         <span class="bloc fit">
-          <img class="icon" :src="bothIcon">
+          <img class="icon" :src="bothIcon" alt="Ratio">
           {{ Utils.getRatio(torrent.uploadRatio) }}
         </span>
 
@@ -177,8 +177,8 @@ img.icon {
 
 .torrent .details {
   display:flex;
-  flex-direction: row;
   flex-flow: wrap;
+  flex-direction: row;
   width:100%;
   font-size: 14px;
   color:var(--ion-color-medium);

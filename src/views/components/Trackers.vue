@@ -23,11 +23,11 @@
 
         <ion-card-content>
           <p>
-            <b>{{ Locale.address }}</b><br>
+            <strong>{{ Locale.address }}</strong><br>
             <span class="selectable">{{ tracker.announce }}</span><br>
           </p>
           <p v-if="tracker.announceState!==0">
-            <b>{{ Locale.announce }}</b><br>
+            <strong>{{ Locale.announce }}</strong><br>
             {{ Locale.state }} :
             <template v-if="tracker.announceState==3">
               <ion-icon color="warning" :ios="syncCircleOutline" :md="syncCircleSharp"></ion-icon>
@@ -51,7 +51,7 @@
             {{ Locale.nextUpdate }} : {{ Utils.secondsToDate(tracker.nextAnnounceTime, false, true) }}<br>
           </p>
           <p v-if="tracker.scrapeState!==0 && tracker.scrapeState!=2">
-            <b>{{ Locale.scrape }}</b><br>
+            <strong>{{ Locale.scrape }}</strong><br>
             {{ Locale.state }} :
             <template v-if="tracker.scrapeState==3">
               <ion-icon color="warning" :ios="syncCircleOutline" :md="syncCircleSharp"></ion-icon>

@@ -184,8 +184,6 @@ export default defineComponent({
   justify-content: center;
   width: 100%;
   height: 100%;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
 }
 
 .md .location-alert .alert-checkbox-group .alert-checkbox-label {
