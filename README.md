@@ -43,7 +43,7 @@
 
 ### Screenshots
 
-<img src="https://i.imgur.com/2DkHHOC.png" width="300"> <img src="https://i.imgur.com/y6h7ETS.png" width="300">
+<img src="https://i.imgur.com/DEPKQKj.png" width="300"> <img src="https://i.imgur.com/67TkEwU.png" width="300">
 
 ### Motivations
 
