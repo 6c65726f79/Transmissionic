@@ -239,14 +239,12 @@ class TRPC {
       for(const tracker of torrent.trackers){
         const data = this.readTracker(trId,tracker)
         if(data){
-          if(trackers[data.announce]){
-            if(!trackers[data.announce].ids.includes(torrent.id)){
-              trackers[data.announce].ids.push(torrent.id)
-            }
-          }
-          else {
+          if(!trackers[data.announce]){
             trackers[data.announce] = data;
             trId++;
+          }
+          if(!trackers[data.announce].ids.includes(torrent.id)){
+            trackers[data.announce].ids.push(torrent.id)
           }
         }
         
