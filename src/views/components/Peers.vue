@@ -13,7 +13,7 @@
       <div class="peer">
         <div class="main">
           <div class="bloc fit">
-            <img class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)" alt="Country flag">
+            <img v-if="flagEnabled" class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)" alt="Country flag">
             {{item.address}}
             <ion-icon v-if="item.isEncrypted" :ios="lockClosedOutline" :md="lockClosedSharp"></ion-icon>
           </div>
@@ -69,6 +69,11 @@ export default defineComponent({
     return {
       details:{} as Record<string,any>,
       flags:{} as Record<string,any>
+    }
+  },
+  computed: {
+    flagEnabled() {
+      return UserSettings.state.ipFlags;
     }
   },
   setup() {

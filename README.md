@@ -13,7 +13,15 @@
 
 ----
 
-![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic?label=Release) ![GitHub all releases](https://img.shields.io/github/downloads/6c65726f79/Transmissionic/total?label=Downloads) ![Build](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build?label=Build) ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c) ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c) ![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c) ![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
+![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic?label=Release)
+![GitHub all releases](https://img.shields.io/github/downloads/6c65726f79/Transmissionic/total?label=Downloads)
+![Build](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build?label=Build)
+[![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/6c65726f79_Transmissionic?label=Quality%20gate&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/dashboard?id=6c65726f79_Transmissionic)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=6c65726f79_Transmissionic&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=6c65726f79_Transmissionic)
+![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
 
 <a href='https://play.google.com/store/apps/details?id=com.sleroy.transmissionic&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="240" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
