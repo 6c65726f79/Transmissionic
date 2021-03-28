@@ -235,8 +235,22 @@ class TRPC {
         downloadDirList.push(dir)
       }
 
-      trackers.push(this.readTrackers(torrent.id,torrent.trackers))
-
+      let trId=0;
+      for(const tracker of torrent.trackers){
+        const data = this.readTracker(trId,tracker)
+        if(data){
+          if(trackers[data.announce]){
+            if(!trackers[data.announce].ids.includes(torrent.id)){
+              trackers[data.announce].ids.push(torrent.id)
+            }
+          }
+          else {
+            trackers[data.announce] = data;
+            trId++;
+          }
+        }
+        
+      }
     }
     
     downloadDirList.sort();
@@ -258,27 +272,16 @@ class TRPC {
     return result;
   }
 
-  readTrackers(torrentId:number, trackers: Array<Record<string,any>>): Array<Record<string,any>> {
-    const result: Array<Record<string,any>> = [];
-    let trId=0;
-    for(const tracker of trackers){
-      //eslint-disable-next-line
-      const matchs = tracker.announce.match(/^[\w]+:\/\/[\w\d\.-]+/);
-      if(matchs){
-        const tr = matchs[0];
-        if(result[tr]){
-          if(!result[tr].ids.includes(torrentId)){
-            trackers[tr].ids.push(torrentId)
-          }
-        }
-        else {
-          trackers[tr] = {
-            id:trId,
-            announce:tr,
-            ids:[torrentId]
-          }
-          trId++;
-        }
+  readTracker(id:number, tracker: Record<string,any>): Record<string,any>|null {
+    let result: Record<string,any>|null = null;
+    //eslint-disable-next-line
+    const matchs = tracker.announce.match(/^[\w]+:\/\/[\w\d\.-]+/);
+    if(matchs){
+      const tr = matchs[0];
+      result = {
+        id:id,
+        announce:tr,
+        ids:[]
       }
     }
     return result;
@@ -352,10 +355,8 @@ class TRPC {
   }
 
   async torrentAction(action: string, torrentId: number|Array<number>, args: Record<string, any> = {}){
-    switch (action) {
-      case "remove":
-        this.invalidatePersitentData();
-        break;
+    if(action=="remove"){
+      this.invalidatePersitentData();
     }
     return this.rpcCall("torrent-"+action, Object.assign({ids:torrentId}, args))
   }

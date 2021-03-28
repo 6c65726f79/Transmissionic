@@ -10,10 +10,10 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <div class="app-details">
-        <img :src="iconSrc">
+        <img :src="iconSrc" alt="Logo">
         <ion-title>Transmissionic {{appVersion}}</ion-title>
         <p v-if="updateAvailable && downloadUrl">
-          <b>{{ Locale.updateAvailable }}</b> <a :href="downloadUrl">{{newVersion}}</a>
+          <strong>{{ Locale.updateAvailable }}</strong> <a :href="downloadUrl">{{newVersion}}</a>
         </p>
       </div>
       <p>

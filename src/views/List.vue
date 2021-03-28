@@ -348,7 +348,8 @@ export default defineComponent({
     openSearch() {
       this.privateState.viewSearch=true;
       setTimeout(() => {
-        (document.querySelector("#search") as any).setFocus();
+        const search = document.querySelector("#search") as Record<string,any>;
+        search?.setFocus();
       },10);
     },
     closeSearch(){
@@ -391,13 +392,11 @@ export default defineComponent({
     },
     switchTorrentState(torrentId: number){
       const torrent = this.getTorrentsByIds([torrentId])[0];
-      switch (torrent.status) {
-        case 0:
-          this.torrentAction("start",[torrent.id])
-          break;
-        default:
-          this.torrentAction("stop",[torrent.id])
-          break;
+      if(torrent.status===0){
+        this.torrentAction("start",[torrent.id])
+      }
+      else {
+        this.torrentAction("stop",[torrent.id])
       }
     },
     altSpeedEnabled(): boolean {

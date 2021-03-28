@@ -155,7 +155,18 @@ export const Utils = {
   },
 
   async responseToast(result: string): Promise<void> {
-    const text = result=="success" ? Locale.success : (result!="" ? result : Locale.error)
+    let text;
+    switch (result) {
+      case "success":
+        text = Locale.success
+        break;
+      case "":
+        text = Locale.error
+        break;
+      default:
+        text = result
+        break;
+    }
     await Toast.show({text});
   },
 

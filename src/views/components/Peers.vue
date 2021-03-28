@@ -13,7 +13,7 @@
       <div class="peer">
         <div class="main">
           <div class="bloc fit">
-            <img class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)">
+            <img class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)" alt="Country flag">
             {{item.address}}
             <ion-icon v-if="item.isEncrypted" :ios="lockClosedOutline" :md="lockClosedSharp"></ion-icon>
           </div>
@@ -24,12 +24,12 @@
         </div>
         <div class="details">
           <span class="bloc">
-            <img class="icon" src="../../../public/assets/down.png">
+            <img class="icon" src="../../../public/assets/down.png" alt="Download">
             {{Utils.formatBytes(item.rateToClient,2,true)}}
           </span>
 
           <span class="bloc">
-            <img class="icon" src="../../../public/assets/up.png">
+            <img class="icon" src="../../../public/assets/up.png" alt="Upload">
             {{Utils.formatBytes(item.rateToPeer,2,true)}}
           </span>
 
@@ -138,8 +138,8 @@ img.flag {
 
 .main {
   display:flex;
-  flex-direction: row;
   flex-flow: wrap;
+  flex-direction: row;
   font-size:1rem;
   height:20px;
   margin-bottom:2px;
