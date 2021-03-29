@@ -27,7 +27,7 @@
     "mitt": "^2.1.0",
     "moment": "^2.29.1",
     "parse-torrent": "^9.1.3",
-    "vue": "^3.0.7",
+    "vue": "^3.0.9",
     "vue-router": "^4.0.5"
   },
   "devDependencies": {
