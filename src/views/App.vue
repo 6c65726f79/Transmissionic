@@ -160,6 +160,7 @@ import About from './About.vue'
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { Locale } from "../services/Locale";
+import { LocaleController } from "../services/LocaleController";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
 import { Plugins } from '@capacitor/core';
@@ -295,13 +296,15 @@ export default defineComponent({
       Utils.setTheme(val);
     },
     language() {
-      Locale.setLanguage(UserSettings.getLanguage());
+      LocaleController.setLanguage(UserSettings.getLanguage());
     }
   },
   async beforeCreate() {
     await UserSettings.loadSettings();
     this.privateState.selectedServer = UserSettings.state.selectedServer;
-    this.$forceUpdate();
+    if(UserSettings.state.language=="default"){
+      await LocaleController.setLanguage(UserSettings.getLanguage());
+    }
     SplashScreen.hide();
     UserSettings.loadServerList()
       .then((result)=>{
@@ -339,6 +342,7 @@ export default defineComponent({
     Emitter.on('refresh', this.refresh);
     Emitter.on('add-server', () => this.openServerDetailsModal(this.privateState.serverList.length,null,true) );
     Emitter.on('swipe-enabled', (value) => this.privateState.swipeEnabled=value );
+    Emitter.on('language-changed', () => { this.$forceUpdate() });
   },
   computed: {
     colorScheme: function(): string {

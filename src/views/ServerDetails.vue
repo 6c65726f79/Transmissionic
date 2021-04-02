@@ -205,13 +205,7 @@ export default defineComponent({
   methods: {
     async saveSettings () {
       if(!this.newConf.name){
-        const alert = await alertController
-          .create({
-            header: Locale.error,
-            message: Locale.chooseServerName,
-            buttons: [Locale.ok],
-          });
-        return alert.present();
+        this.newConf.name=this.newConf.host || `Server #${this.serverList.length+1}`;
       }
       const newSettings = _.clone(this.serverList)
       newSettings[this.serverId] = _.clone(this.newConf);

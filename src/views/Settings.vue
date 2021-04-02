@@ -23,7 +23,7 @@
 
         <ion-item>
           <ion-label>{{ Locale.language }}</ion-label>
-          <ion-select placeholder="Select One" v-model="sharedState.language" v-on:ionChange="updateLanguage()" :cancelText="Locale.actions.cancel">
+          <ion-select placeholder="Select One" v-model="sharedState.language" :cancelText="Locale.actions.cancel">
             <ion-select-option value="default">{{ Locale.default }}</ion-select-option>
             <ion-select-option value="en">English</ion-select-option>
             <ion-select-option value="es">Español</ion-select-option>
@@ -125,6 +125,7 @@ import {
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { UserSettings } from "../services/UserSettings";
+import { Emitter } from '../services/Emitter';
 
 declare global {
   interface Window {
@@ -174,7 +175,8 @@ export default defineComponent({
     }
   },
   mounted() {
-    Utils.customScrollbar(this.$refs.content)
+    Utils.customScrollbar(this.$refs.content);
+    Emitter.on('language-changed', () => { this.$forceUpdate() });
   },
   methods: {
     saveSettings () {
@@ -183,9 +185,6 @@ export default defineComponent({
     },
     modalClose () {
       modalController.dismiss();
-    },
-    updateLanguage() {
-      this.$forceUpdate();
     },
     async savedToast() {
       Utils.responseToast("success")

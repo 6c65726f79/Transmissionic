@@ -12,9 +12,6 @@
       <div class="app-details">
         <img :src="iconSrc" alt="Logo">
         <ion-title>Transmissionic {{appVersion}}</ion-title>
-        <p v-if="updateAvailable && downloadUrl">
-          <strong>{{ Locale.updateAvailable }}</strong> <a :href="downloadUrl">{{newVersion}}</a>
-        </p>
       </div>
       <p>
         {{Locale.about.description}}
@@ -29,6 +26,14 @@
         <a href="https://poeditor.com/join/project?hash=sbVnI9eo3d" target="_blank" rel="noopener">https://poeditor.com/join/project?hash=sbVnI9eo3d</a>
         {{formatText(Locale.about.poeditor).after}}
       </p>
+      
+      <p v-if="isWebUI">
+        <ion-button size="default" @click="checkForUpdates()">{{ Locale.checkUpdates }}</ion-button>
+      </p>
+
+      <p v-if="updateAvailable && downloadUrl">
+        <strong>{{ Locale.updateAvailable }}</strong> <a :href="downloadUrl" target="_blank" rel="noopener">{{newVersion}}</a>
+      </p>
     </ion-content>
   </ion-page>
 </template>
@@ -41,12 +46,20 @@ import {
   IonHeader, 
   IonTitle, 
   IonToolbar,
+  IonButton,
   IonButtons,
   IonPage,
   IonBackButton
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Locale } from "../services/Locale";
+import { Utils } from "../services/Utils";
+
+declare global {
+  interface Window {
+      updates: any;
+  }
+}
 
 export default defineComponent({
   name: 'About',
@@ -55,6 +68,7 @@ export default defineComponent({
     IonHeader, 
     IonTitle, 
     IonToolbar,
+    IonButton,
     IonButtons,
     IonPage,
     IonBackButton
@@ -77,11 +91,6 @@ export default defineComponent({
       iconSrc:"./assets/icon/favicon.png" // Force Vue.js to load relative path without transformAssetUrls
     }
   },
-  created() {
-    if(this.isWebUI){
-      this.checkForUpdate();
-    }
-  },
   computed: {
     appVersion: function(): string {
       return `v${process.env.PACKAGE_VERSION||"1.0.0"}`;
@@ -102,20 +111,18 @@ export default defineComponent({
         after:clean.substring(linkStart)
       }
     },
-    checkForUpdate() {
+    checkForUpdates() {
       fetch('https://api.github.com/repos/6c65726f79/Transmissionic/releases/latest')
         .then(async (response) => {
+          Utils.responseToast("success");
           const result = await response.json()
           if(!result.prerelease){
             this.updateAvailable = this.isNewerVersion(this.appVersion,result.name)
             this.newVersion = result.name;
-            for(const asset of result.assets){
-              if(asset.name.match(/^Transmissionic-webui-v(\d+\.){3,}zip$/g)){
-                this.downloadUrl = asset.browser_download_url;
-              }
-            }
+            this.downloadUrl = `https://github.com/6c65726f79/Transmissionic/releases/tag/${result.name}`;
           }
         })
+      
     },
     isNewerVersion(current: string, latest: string) {
       if(current==latest) return false;

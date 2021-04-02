@@ -71,10 +71,11 @@ export const Utils = {
     const wait = (ipToCountryWaitUntil && Date.now() < ipToCountryWaitUntil)||false;
     const found = (ipToCountryList[ip]!=null);
     const limited = (ipToCountryLimit<=0);
+    console.log(found,limited,wait,ipToCountryWaitUntil);
     if(found && ipToCountryList[ip]!="loading"){
       return ipToCountryList[ip];
     }
-    else if(!found && !limited && !wait) {
+    else if(!found && (!limited || !wait)) {
       ipToCountryLimit--;
       ipToCountryList[ip]="loading";
       ipToCountryWaitUntil=undefined;

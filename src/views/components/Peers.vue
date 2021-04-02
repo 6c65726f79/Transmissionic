@@ -13,7 +13,7 @@
       <div class="peer">
         <div class="main">
           <div class="bloc fit">
-            <img v-if="flagEnabled" class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)" alt="Country flag">
+            <img v-if="flagEnabled" class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)" alt="">
             {{item.address}}
             <ion-icon v-if="item.isEncrypted" :ios="lockClosedOutline" :md="lockClosedSharp"></ion-icon>
           </div>
@@ -24,12 +24,12 @@
         </div>
         <div class="details">
           <span class="bloc">
-            <img class="icon" src="../../../public/assets/down.png" alt="Download">
+            <img class="icon" :src="downIcon" alt="Download">
             {{Utils.formatBytes(item.rateToClient,2,true)}}
           </span>
 
           <span class="bloc">
-            <img class="icon" src="../../../public/assets/up.png" alt="Upload">
+            <img class="icon" :src="upIcon" alt="Upload">
             {{Utils.formatBytes(item.rateToPeer,2,true)}}
           </span>
 
@@ -67,6 +67,8 @@ export default defineComponent({
   },
   data() {
     return {
+      downIcon:"./assets/down.png",
+      upIcon:"./assets/up.png",
       details:{} as Record<string,any>,
       flags:{} as Record<string,any>
     }
