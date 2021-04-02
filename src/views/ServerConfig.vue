@@ -227,9 +227,9 @@
           <ion-item>
             <ion-label>{{ Locale.encryption }}</ion-label>
             <ion-select placeholder="Select One" :value="config.encryption" v-on:ionChange="config.encryption=$event.target.value" :cancelText="Locale.actions.cancel"> 
-              <ion-select-option value="tolerated">{{ Locale.tolerated }}</ion-select-option>
-              <ion-select-option value="preferred">{{ Locale.preferred }}</ion-select-option>
               <ion-select-option value="required">{{ Locale.required }}</ion-select-option>
+              <ion-select-option value="preferred">{{ Locale.preferred }}</ion-select-option>
+              <ion-select-option value="tolerated">{{ Locale.tolerated }}</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-list>
