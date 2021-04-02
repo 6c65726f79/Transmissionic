@@ -203,5 +203,6 @@
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "pathMapping": "Remote to local path mapping",
-    "example": "Example"
+    "example": "Example",
+    "checkUpdates": "Check for updates"
 }

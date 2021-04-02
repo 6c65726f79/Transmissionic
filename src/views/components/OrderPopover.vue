@@ -79,13 +79,12 @@ export default defineComponent({
   methods: {
     setOrder(order: string) {
       if(order==this.sharedState.orderBy){
-        UserSettings.setValue("reverse",!this.sharedState.reverse);
+        UserSettings.setValue("reverse",!this.sharedState.reverse,true);
       }
       else {
-        UserSettings.setValue("orderBy",order);
-        UserSettings.setValue("reverse",false);
+        UserSettings.setValue("orderBy",order,true);
+        UserSettings.setValue("reverse",false,true);
       }
-      UserSettings.saveSettings();
       popoverController.dismiss();
     }
   }

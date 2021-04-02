@@ -203,5 +203,6 @@
     "reset": "Réinitialisation",
     "resetSettings": "Réinitialiser les réglages",
     "pathMapping": "Mappage des chemins distants et locaux",
-    "example": "Exemple"
+    "example": "Exemple",
+    "checkUpdates": "Vérifier les mises à jour"
 }

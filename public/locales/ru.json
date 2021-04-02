@@ -211,5 +211,6 @@
     "reset": "Сброс",
     "resetSettings": "Сброс настроек",
     "pathMapping": "Маппинг удаленного пути в локальный",
-    "example": "Пример"
+    "example": "Пример",
+    "checkUpdates": "Check for updates"
 }
