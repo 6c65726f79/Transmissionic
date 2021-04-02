@@ -2,18 +2,17 @@
     <VirtualScroll v-bind="$attrs" ref="content" :items="currentDirectoryContent" :item-size="64" key-field="name">
       
       <template v-slot:start >
-        <ul class="breadcrumb swiper-no-swiping" ref="breadcrumb">
-          <div>
-            <li :class="{ active: breadcrumb.length==0 }">
+            
+        <div class="breadcrumb swiper-no-swiping" ref="breadcrumb">
+            <div :class="{ active: breadcrumb.length==0 }">
               <a @click="selectDirectory(0)"><ion-icon class="home" :ios="homeOutline" :md="homeSharp"></ion-icon></a>
               <ion-icon class="chevron" :icon="chevronForwardOutline"></ion-icon>
-            </li>
-            <li v-for="(dir,index) in breadcrumb" v-bind:key="dir" :class="{ active: index == breadcrumb.length-1 }">
+            </div>
+            <div v-for="(dir,index) in breadcrumb" v-bind:key="dir" :class="{ active: index == breadcrumb.length-1 }">
               <a @click="selectDirectory(index+1)">{{dir}}</a>
               <ion-icon class="chevron" :icon="chevronForwardOutline" v-if="index != breadcrumb.length-1"></ion-icon>
-            </li>
-          </div>
-        </ul>
+            </div>
+        </div>
         <div v-if="currentDirectory!=''" class="back click" @click="selectDirectory(-1)">
           <div class="side">
             <ion-icon :ios="returnUpBackOutline" :md="returnUpBackSharp"></ion-icon>
@@ -470,16 +469,26 @@ export default defineComponent({
   overflow: auto;
   white-space: nowrap;
   margin: 0;
+  padding:0px 15px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  /*justify-content: center;*/
 }
-.breadcrumb > div {
+/*.breadcrumb > div {
   position:absolute;
   top:50%;
   left:0px;
-  padding:0 15px;
+  padding:18px 15px;
   transform: translateY(-50%);
+}*/
+
+.breadcrumb div:last-child {
+  margin-right:15px;
+  padding-right:15px;
 }
 
-.breadcrumb li {
+.breadcrumb div {
   display: inline-block;
   color:var(--ion-color-medium);
 }
@@ -496,7 +505,8 @@ export default defineComponent({
   padding: 0 5px;
   color:var(--ion-color-medium);
 }
-.breadcrumb li.active {
+.breadcrumb div.active {
   color:var(--color);
+  padding-right:15px;
 }
 </style>
