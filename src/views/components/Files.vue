@@ -331,7 +331,7 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data) => {
-                if(data){
+                if(data!==undefined){
                   this.priorityUpdate(data, file.ids)
                 }
               },
