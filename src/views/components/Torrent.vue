@@ -8,60 +8,64 @@
       </div>
 
       <div class="details">
-        <!-- Download -->
-        <span class="bloc fit">
-          <!-- Using PNGs instead of SVGs to improve performance of the virtualscroll -->
-          <img class="icon" :src="downIcon" alt="Downloaded">
-          {{ Utils.formatBytes(torrent.downloadedEver) }}
-          <template v-if="torrent.rateDownload>1">
-            ({{ Utils.formatBytes(torrent.rateDownload,2,true) }})
-          </template>
-        </span>
+        <div class="line">
+          <!-- Download -->
+          <span class="bloc fit">
+            <!-- Using PNGs instead of SVGs to improve performance of the virtualscroll -->
+            <img class="icon" :src="downIcon" alt="Downloaded">
+            {{ Utils.formatBytes(torrent.downloadedEver) }}
+            <template v-if="torrent.rateDownload>1">
+              ({{ Utils.formatBytes(torrent.rateDownload,2,true) }})
+            </template>
+          </span>
 
-        <!-- Upload -->
-        <span class="bloc fit">
-          <img class="icon" :src="upIcon" alt="Uploaded">
-          {{ Utils.formatBytes(torrent.uploadedEver) }}
-          <template v-if="torrent.rateUpload>1">
-            ({{ Utils.formatBytes(torrent.rateUpload,2,true) }})
-          </template>
-        </span>
+          <!-- Upload -->
+          <span class="bloc fit">
+            <img class="icon" :src="upIcon" alt="Uploaded">
+            {{ Utils.formatBytes(torrent.uploadedEver) }}
+            <template v-if="torrent.rateUpload>1">
+              ({{ Utils.formatBytes(torrent.rateUpload,2,true) }})
+            </template>
+          </span>
+        </div>
 
-        <div class="linebreak"></div>
+        <!--<div class="linebreak"></div>-->
 
-        <!-- Ratio -->
-        <span class="bloc fit">
-          <img class="icon" :src="bothIcon" alt="Ratio">
-          {{ Utils.getRatio(torrent.uploadRatio) }}
-        </span>
+        <div class="line end">
+          <!-- Ratio -->
+          <span class="bloc fit">
+            <img class="icon" :src="bothIcon" alt="Ratio">
+            {{ Utils.getRatio(torrent.uploadRatio) }}
+          </span>
 
-        <!-- Time remaining -->
-        <span class="bloc truncate" v-if="torrent.status==4">
-          <ion-icon :md="timeSharp" :ios="timeOutline"></ion-icon>
-          {{ Utils.durationToString(torrent.eta*1000) }}
-        </span>
+          <!-- Time remaining -->
+          <span class="bloc truncate" v-if="torrent.status==4">
+            <ion-icon :md="timeSharp" :ios="timeOutline"></ion-icon>
+            {{ Utils.durationToString(torrent.eta*1000) }}
+          </span>
 
-        <!-- Verifying -->
-        <span class="bloc truncate verifying" v-else-if="torrent.status==2">
-          {{Locale.filters.verifying}}
-        </span>
-        
-        <!-- Queued -->
-        <span class="bloc truncate" v-else-if="torrent.status==3">
-          <ion-icon :md="hourglassSharp" :ios="hourglassOutline"></ion-icon>
-          {{Locale.filters.queued}}
-        </span>
+          <!-- Verifying -->
+          <span class="bloc truncate verifying" v-else-if="torrent.status==2">
+            {{Locale.filters.verifying}}
+          </span>
+          
+          <!-- Queued -->
+          <span class="bloc truncate" v-else-if="torrent.status==3">
+            <ion-icon :md="hourglassSharp" :ios="hourglassOutline"></ion-icon>
+            {{Locale.filters.queued}}
+          </span>
 
-        <!-- Error -->
-        <span class="bloc truncate error" v-else-if="torrent.errorString!=''" :title="torrent.errorString">
-          <ion-icon :md="warningSharp" :ios="warningOutline"></ion-icon>
-          {{torrent.errorString}}
-        </span>
+          <!-- Error -->
+          <span class="bloc truncate error" v-else-if="torrent.errorString!=''" :title="torrent.errorString">
+            <ion-icon :md="warningSharp" :ios="warningOutline"></ion-icon>
+            {{torrent.errorString}}
+          </span>
 
-        <!-- Size / Percent done -->
-        <span class="bloc right fit">
-          {{ Utils.formatBytes(torrent.sizeWhenDone) }} ({{ Utils.getPercent(percentDone) }})
-        </span>
+          <!-- Size / Percent done -->
+          <span class="bloc right fit">
+            {{ Utils.formatBytes(torrent.sizeWhenDone) }} ({{ Utils.getPercent(percentDone) }})
+          </span>
+        </div>
       </div>
 
       <ion-progress-bar :value="percentDone" :color="ProgressBarColors[torrent.status]"></ion-progress-bar>
@@ -176,6 +180,7 @@ img.icon {
 }
 
 .torrent .details {
+  height: 22px;
   display:flex;
   flex-flow: wrap;
   flex-direction: row;
@@ -186,7 +191,6 @@ img.icon {
   overflow: hidden;
   position:absolute;
   bottom:0;
-  max-height: 22px;
   line-height: 18px;
 }
 
@@ -218,10 +222,24 @@ img.icon {
 }
 
 .torrent .details .bloc.right {
-  margin-left: auto;
   margin-right:0px;
-  order: 2;
-  flex: 0;
+  float: right;
+  width: auto;
+  margin-left: auto;
+}
+
+.torrent .details .line {
+  height: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: max-content;
+}
+
+.torrent .details .end {
+  flex: 1;
+  display: flex;
+  max-width: inherit;
 }
 
 .torrent .details .linebreak {
@@ -255,10 +273,11 @@ img.icon {
   }
 
   .torrent .details {
-    max-height:40px;
+    height: 40px;
+    flex-direction: column;
   }
 
-  .torrent .details .linebreak {
+  .torrent .details .line {
     width: 100%;
   }
 }
