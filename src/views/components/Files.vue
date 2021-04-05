@@ -473,15 +473,7 @@ export default defineComponent({
   text-align: left;
   display: flex;
   align-items: center;
-  /*justify-content: center;*/
 }
-/*.breadcrumb > div {
-  position:absolute;
-  top:50%;
-  left:0px;
-  padding:18px 15px;
-  transform: translateY(-50%);
-}*/
 
 .breadcrumb div:last-child {
   margin-right:15px;

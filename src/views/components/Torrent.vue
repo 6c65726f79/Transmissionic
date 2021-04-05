@@ -29,8 +29,6 @@
           </span>
         </div>
 
-        <!--<div class="linebreak"></div>-->
-
         <div class="line end">
           <!-- Ratio -->
           <span class="bloc fit">
@@ -240,11 +238,6 @@ img.icon {
   flex: 1;
   display: flex;
   max-width: inherit;
-}
-
-.torrent .details .linebreak {
-  width:0px;
-	height:0px;
 }
 
 .torrent ion-progress-bar {
