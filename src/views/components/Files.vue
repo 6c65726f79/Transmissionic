@@ -39,11 +39,11 @@
                 :md="item.folder ? folderOpenSharp : documentSharp">
               </ion-icon>
 
-              <template v-if="item.bytesCompleted && item.bytesCompleted!=item.length">
+              <template v-if="item.bytesCompleted!=undefined && item.bytesCompleted!=item.length">
                 &nbsp;{{ Utils.formatBytes(item.bytesCompleted) }} {{ Locale.of }}
               </template>
               {{ Utils.formatBytes(item.length) }}
-              <template v-if="item.bytesCompleted">
+              <template v-if="item.bytesCompleted!=undefined">
                 ({{ Utils.getPercent(item.bytesCompleted/item.length) }})
               </template>
             </div>
@@ -331,7 +331,7 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data) => {
-                if(data){
+                if(data!==undefined){
                   this.priorityUpdate(data, file.ids)
                 }
               },
@@ -473,15 +473,7 @@ export default defineComponent({
   text-align: left;
   display: flex;
   align-items: center;
-  /*justify-content: center;*/
 }
-/*.breadcrumb > div {
-  position:absolute;
-  top:50%;
-  left:0px;
-  padding:18px 15px;
-  transform: translateY(-50%);
-}*/
 
 .breadcrumb div:last-child {
   margin-right:15px;
