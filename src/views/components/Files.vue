@@ -39,11 +39,11 @@
                 :md="item.folder ? folderOpenSharp : documentSharp">
               </ion-icon>
 
-              <template v-if="item.bytesCompleted && item.bytesCompleted!=item.length">
+              <template v-if="item.bytesCompleted!=undefined && item.bytesCompleted!=item.length">
                 &nbsp;{{ Utils.formatBytes(item.bytesCompleted) }} {{ Locale.of }}
               </template>
               {{ Utils.formatBytes(item.length) }}
-              <template v-if="item.bytesCompleted">
+              <template v-if="item.bytesCompleted!=undefined">
                 ({{ Utils.getPercent(item.bytesCompleted/item.length) }})
               </template>
             </div>
