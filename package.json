@@ -22,7 +22,7 @@
     "capacitor-secure-storage-plugin": "^0.5.0",
     "cordova-plugin-advanced-http": "^3.1.0",
     "cordova-plugin-file": "^6.0.2",
-    "core-js": "^3.10.0",
+    "core-js": "^3.10.1",
     "localized-strings": "^0.2.4",
     "mitt": "^2.1.0",
     "moment": "^2.29.1",
