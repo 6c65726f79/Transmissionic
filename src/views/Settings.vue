@@ -80,12 +80,12 @@
       <ion-list>
         <ion-list-header>
           <ion-label>
-            Bookmarklet
+            {{ Locale.bookmarklet }}
           </ion-label>
         </ion-list-header>
 
         <ion-item>
-          Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.
+          {{ Locale.bookmarkletDetail }}
         </ion-item>
 
         <ion-item>

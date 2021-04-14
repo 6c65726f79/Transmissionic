@@ -305,7 +305,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-button size="default" @click="updateBlocklist()">Update blocklist</ion-button>
+            <ion-button size="default" @click="updateBlocklist()">{{ Locale.updateBlocklist }}</ion-button>
           </ion-item>
         </ion-list>
 
@@ -438,7 +438,7 @@ export default defineComponent({
         .then((response) => {
           if(response.result=="success"){
             const size = response.arguments['blocklist-size'];
-            Utils.responseToast(`Blocklist size: ${size.toLocaleString(UserSettings.getLanguage())}`);
+            Utils.responseToast(`${Locale.blocklistSize} ${size.toLocaleString(UserSettings.getLanguage())}`);
           }
           else {
             Utils.responseToast(response.result);

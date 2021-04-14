@@ -65,7 +65,7 @@ export default defineComponent({
           },
           {
             value:"queuePosition",
-            label:"Queue position"
+            label:Locale.queuePosition
           },
         ]
       }
