@@ -1,6 +1,10 @@
 <template>
   <div class="torrent">
-    <div class="control" :class="{ paused: (torrent.status==0) }" @click="switchTorrentState($event)"></div>
+    <div v-if="orderByPosition" class="order">
+      <ion-icon :md="caretUpSharp" :ios="caretUpOutline" color="medium" @click="setTorrentPosition($event,'up')"></ion-icon>
+      <ion-icon :md="caretDownSharp" :ios="caretDownOutline" color="medium" @click="setTorrentPosition($event,'down')"></ion-icon>
+    </div>
+    <div v-else class="control" :class="{ paused: (torrent.status==0) }" @click="switchTorrentState($event)"></div>
     <div class="right">
 
       <div class="title" :title="torrent.name">
@@ -84,11 +88,17 @@ import {
   hourglassSharp,
   hourglassOutline,
   warningSharp,
-  warningOutline
+  warningOutline,
+  caretUpSharp,
+  caretUpOutline,
+  caretDownSharp,
+  caretDownOutline
 } from 'ionicons/icons';
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 import { Emitter } from "../../services/Emitter";
+import { UserSettings } from '../../services/UserSettings';
+import { TransmissionRPC } from '../../services/TransmissionRPC';
 
 export default defineComponent({
   props: ['torrent'],
@@ -115,12 +125,19 @@ export default defineComponent({
       hourglassSharp,
       hourglassOutline,
       warningSharp,
-      warningOutline
+      warningOutline,
+      caretUpSharp,
+      caretUpOutline,
+      caretDownSharp,
+      caretDownOutline
     }
   },
   computed: {
     percentDone: function(): string {
       return this.torrent.status==2 ? this.torrent.recheckProgress : this.torrent.percentDone
+    },
+    orderByPosition() {
+      return UserSettings.state.orderBy=="queuePosition";
     }
   },
   methods: {
@@ -128,6 +145,17 @@ export default defineComponent({
       e.stopPropagation();
       Emitter.emit('switch', this.torrent.id)
     },
+    setTorrentPosition(e: Event, direction: string) {
+      e.stopPropagation();
+      let position=this.torrent.queuePosition;
+      (direction=="up") ? position-- : position++;
+      TransmissionRPC.torrentAction("set",[this.torrent.id],{"queuePosition":position})
+        .then((response) => {
+          Utils.responseToast(response.result)
+          const newPos=(direction=="up") ? position-0.5 : position+0.5
+          Object(this.torrent).queuePosition=newPos;
+        })
+    }
   }
 })
 </script>
@@ -162,6 +190,13 @@ img.icon {
 
 .torrent .control.paused {
   background-position:right center;
+}
+
+.torrent .order {
+  width:20px;
+  height:40px;
+  margin:10px 20px;
+  font-size: 20px;
 }
 
 .torrent .right {
