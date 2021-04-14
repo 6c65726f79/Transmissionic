@@ -63,6 +63,10 @@ export default defineComponent({
             value:"activityDate",
             label:Locale.lastActivity
           },
+          {
+            value:"queuePosition",
+            label:"Queue position"
+          },
         ]
       }
     }
