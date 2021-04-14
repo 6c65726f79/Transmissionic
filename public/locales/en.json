@@ -204,5 +204,10 @@
     "resetSettings": "Reset settings",
     "pathMapping": "Remote to local path mapping",
     "example": "Example",
-    "checkUpdates": "Check for updates"
+    "checkUpdates": "Check for updates",
+    "bookmarklet": "Bookmarklet",
+    "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.",
+    "updateBlocklist": "Update blocklist",
+    "blocklistSize": "Blocklist size:",
+    "queuePosition": "Queue position"
 }
