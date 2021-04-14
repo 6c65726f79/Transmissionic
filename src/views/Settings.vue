@@ -80,6 +80,23 @@
       <ion-list>
         <ion-list-header>
           <ion-label>
+            Bookmarklet
+          </ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.
+        </ion-item>
+
+        <ion-item>
+          
+          <a :href="bookmarkletScript"><ion-button size="default" >Download with Transmissionic</ion-button></a>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>
             {{ Locale.reset }}
           </ion-label>
         </ion-list-header>
@@ -166,8 +183,31 @@ export default defineComponent({
       history.pushState(modalState, "");
     }
 
+    /* eslint-disable no-useless-escape */
+    const bookmarkletScript = `
+      javascript:(() => {
+        let found=false;
+        let selection=getSelection().toString();
+        const hashRegex = /^[0-9a-fA-F]{40}$/;
+        const magnetRegex = /^magnet:\\?xt=urn:btih:[0-9a-fA-F]{40}/;
+        if(selection.match(hashRegex)||selection.match(magnetRegex)){
+          found=true;
+        }
+        if(!found){
+          document.querySelectorAll('a').forEach((link)=> {
+            if(link.href.match(magnetRegex) && !found){
+              selection=link.href;
+              found=true;
+            }
+          });
+        }
+        found ? window.open("${window.location.href}#"+selection) : alert("No magnet links or hashes found.");
+      })();
+    `;
+
     return { 
       Locale,
+      bookmarkletScript,
       saveOutline,
       saveSharp,
       informationCircleOutline,
