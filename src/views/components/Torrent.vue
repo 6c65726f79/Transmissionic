@@ -147,12 +147,13 @@ export default defineComponent({
     },
     setTorrentPosition(e: Event, direction: string) {
       e.stopPropagation();
-      let position=this.torrent.queuePosition;
-      (direction=="up") ? position-- : position++;
+      let position=Math.round(this.torrent.queuePosition);
+      let up = UserSettings.state.reverse ? (direction=="down") : (direction=="up");
+      up ? position-- : position++;
       TransmissionRPC.torrentAction("set",[this.torrent.id],{"queuePosition":position})
         .then((response) => {
           Utils.responseToast(response.result)
-          const newPos=(direction=="up") ? position-0.5 : position+0.5
+          const newPos=up ? position-0.1 : position+0.1;
           Object(this.torrent).queuePosition=newPos;
         })
     }
@@ -197,6 +198,10 @@ img.icon {
   height:40px;
   margin:10px 20px;
   font-size: 20px;
+}
+
+.torrent .order ion-icon {
+  cursor:pointer;
 }
 
 .torrent .right {
