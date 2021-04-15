@@ -63,7 +63,7 @@ You must first enable remote access in Transmission settings.
 
 Download `Transmissionic-webui-[version].zip` from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
 
-Unzip it inside the `web` folder of Transmission, whose location varies depending on your operating system :
+Unzip it inside the `web` folder of Transmission, whose location varies depending on your operating system:
 
 Windows
 
@@ -93,9 +93,11 @@ Simply download the installer for the desired platform from the [latest release]
 
 ### Web UI
 
+You don't need to specify the server details as they will be automatically detected from the URL of the Web UI.
+
 The settings are stored on the client side, but you can overwrite the default settings by creating a file named `default.json` in the root folder of the Web UI.
 
-The file can contain the following key/value pairs :
+The file can contain the following key/value pairs:
 
 | Key             | Type          | Description                       |
 | --------------- | ------------- | --------------------------------- |
@@ -137,11 +139,17 @@ Example:
 
 In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` must be shared on the network as `ssd`.
 
+# Bookmarlet
+
+When using the Web UI, you can import magnet links or hashes using a [bookmarlet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
+
+You can use the text selection to highlight a magnet link or a hash before cliking on the bookmarklet, otherwise the script will look for a clickable magnet link in the page.
+
 # Build
 
 ### Requirements
 
-You must have [Node.js](https://nodejs.org/) installed, then you can clone this repo and install dependencies by running this in the root folder of the project :
+You must have [Node.js](https://nodejs.org/) installed, then you can clone this repo and install dependencies by running this in the root folder of the project:
 
 ```
 npm install
@@ -153,7 +161,7 @@ If you want to build the APK, you need to install [Android Studio](https://devel
 
 ### Web UI
 
-Simply run the following commands :
+Simply run the following commands:
 
 ```
 npm run-script prebuild:webui
@@ -167,14 +175,14 @@ This will build the Web UI inside the `dist` folder.
 
 Only Windows and Linux are currently supported, but feel free to make some changes to support other platforms.
 
-First, synchronize Electron content by running this in the root folder of the project :
+First, synchronize Electron content by running this in the root folder of the project:
 
 ```
 ionic cap sync @capacitor-community/electron
 npm run-script postbuild:electron
 ```
 
-Then place your terminal in the `electron` folder and run this :
+Then place your terminal in the `electron` folder and run this:
 
 ```
 # Install dependencies
@@ -189,13 +197,13 @@ The installer will be located in the `electron/dist` folder.
 
 ### Android
 
-Start by running this in the root folder of the project :
+Start by running this in the root folder of the project:
 
 ```
 ionic cap sync android
 ```
 
-Then open Android Studio by running :
+Then open Android Studio by running:
 
 ```
 ionic cap open android
@@ -207,19 +215,19 @@ Once Android Studio has loaded the project, build the app from `Build > Make Pro
 
 You can start a local dev server using Ionic, but you need to disable same origin policy in your browser to connect to Transmission RPC from a different host. For example, run a new instance of chrome with these flags : `--disable-web-security --disable-gpu --user-data-dir=~/chromeTemp`
 
-Then start the dev server by running : 
+Then start the dev server by running this in the root folder of the project: 
 
 ```
 ionic serve
 ```
 
-This will open http://localhost:8100/ in a new tab.
+If you want to contribute and pull your changes to this project, please work on the `dev` branch as it contains all the latest changes.
 
 # Translation
 
-You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to suggest it.
+You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to add it.
 
-Available languages :
+Available languages:
 - English
 - French
 - Russian (Alek Depler)
