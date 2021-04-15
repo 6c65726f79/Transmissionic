@@ -6,7 +6,7 @@
         "about": "О программе",
         "description": "Transmissionic это бесплатное мульти-платфоменное управление для сервера Transmission, созданное с помощью Ionic и Vue.js",
         "github": "Это проект с открытым исходным кодом, который вы можете найти на GitHub: {0}",
-        "poeditor": "Если вы хотите помочь с переводом, вы можете присоединиться к проекту на POEditor : {0}"
+        "poeditor": "Если вы хотите помочь с переводом, вы можете присоединиться к проекту на POEditor: {0}"
     },
     "search": "Поиск",
     "add": "Добавить",
@@ -213,9 +213,9 @@
     "pathMapping": "Маппинг удаленного пути в локальный",
     "example": "Пример",
     "checkUpdates": "Проверить обновления",
-    "bookmarklet": "Bookmarklet",
-    "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.",
-    "updateBlocklist": "Update blocklist",
-    "blocklistSize": "Blocklist size:",
-    "queuePosition": "Queue position"
+    "bookmarklet": "Букмарклет",
+    "bookmarkletDetail": "Перетащите эту кнопку на панель закладок, чтобы импортировать magnet ссылки на веб-сайтах в один клик.",
+    "updateBlocklist": "Обновить черный список",
+    "blocklistSize": "Размер черного списка:",
+    "queuePosition": "Позиция в очереди"
 }
