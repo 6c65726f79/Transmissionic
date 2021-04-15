@@ -212,5 +212,10 @@
     "resetSettings": "Сброс настроек",
     "pathMapping": "Маппинг удаленного пути в локальный",
     "example": "Пример",
-    "checkUpdates": "Проверить обновления"
+    "checkUpdates": "Проверить обновления",
+    "bookmarklet": "Bookmarklet",
+    "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.",
+    "updateBlocklist": "Update blocklist",
+    "blocklistSize": "Blocklist size:",
+    "queuePosition": "Queue position"
 }

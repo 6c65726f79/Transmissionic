@@ -39,6 +39,15 @@ export const FileHandler = {
     }
     document.body.addEventListener("dragover", (e) => e.preventDefault(), false);
     document.body.addEventListener("drop",(e) => this.handleFileDrop(e), false);
+
+    // Read hash from URL
+    let hash = window.location.hash.substring(1);
+    if(hash.match(/^\b[0-9a-fA-F]{40}\b$/)){
+      hash = `magnet:?xt=urn:btih:${hash}`;
+    }
+    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}/)){
+      this.readMagnet(hash);
+    }
   },
   async inputFile(): Promise<void> {
     if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){

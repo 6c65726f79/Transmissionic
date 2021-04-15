@@ -77,6 +77,22 @@
         </ion-item>
       </ion-list>
 
+      <ion-list v-if="bookmarkletEnabled">
+        <ion-list-header>
+          <ion-label>
+            {{ Locale.bookmarklet }}
+          </ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          {{ Locale.bookmarkletDetail }}
+        </ion-item>
+
+        <ion-item>
+          <a :href="bookmarkletScript"><ion-button size="default">Download with Transmissionic</ion-button></a>
+        </ion-item>
+      </ion-list>
+
       <ion-list>
         <ion-list-header>
           <ion-label>
@@ -114,7 +130,8 @@ import {
   IonPage,
   IonInput,
   IonBackButton,
-  IonToggle
+  IonToggle,
+  isPlatform
 } from '@ionic/vue';
 import {
   saveOutline,
@@ -160,14 +177,41 @@ export default defineComponent({
     IonBackButton,
     IonToggle
   },
+  computed: {
+    bookmarkletEnabled(): boolean {
+      return !isPlatform("electron") && !isPlatform("capacitor")
+    }
+  },
   setup() {
     if (!window.history.state.modal) {
       const modalState = { modal: true };
       history.pushState(modalState, "");
     }
 
+    const bookmarkletFunction = (href: string) => {
+      let found=false;
+      let selection=getSelection()?.toString()||"";
+      const hashRegex = /^[0-9a-fA-F]{40}$/;
+      const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}/;
+      if(selection.match(hashRegex)||selection.match(magnetRegex)){
+        found=true;
+      }
+      if(!found){
+        document.querySelectorAll('a').forEach((link)=> {
+          if(link.href.match(magnetRegex) && !found){
+            selection=link.href;
+            found=true;
+          }
+        });
+      }
+      found ? window.open(`${href}#${selection}`) : alert("No magnet links or hashes found.");
+    }
+
+    const bookmarkletScript = `javascript:(${bookmarkletFunction})("${window.location.href}");`;
+
     return { 
       Locale,
+      bookmarkletScript,
       saveOutline,
       saveSharp,
       informationCircleOutline,

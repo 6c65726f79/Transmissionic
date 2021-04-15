@@ -202,7 +202,8 @@ class TRPC {
         'activityDate',
         'sizeWhenDone',
         'eta',
-        'recheckProgress'
+        'recheckProgress',
+        'queuePosition'
       ]
     }
 

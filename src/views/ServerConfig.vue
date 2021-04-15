@@ -27,8 +27,8 @@
   </ion-header>
   
   <ion-slides pager='false' ref="slider" :options="slidesOptions" v-on:ionSlideTransitionEnd="slideChanged">
+    <!-- Download tab -->
     <ion-slide>
-
       <ion-content class="ion-padding" ref="tab1">
         <ion-list>
           <ion-list-header>
@@ -108,6 +108,7 @@
 
     </ion-slide>
 
+    <!-- Limits tab -->
     <ion-slide>
       <ion-content class="ion-padding" ref="tab2">
 
@@ -215,6 +216,7 @@
       </ion-content>
     </ion-slide>
 
+    <!-- Network tab -->
     <ion-slide>
       <ion-content class="ion-padding" ref="tab3">
         <ion-list>
@@ -300,6 +302,10 @@
           <ion-item :disabled="!config['blocklist-enabled']">
             <ion-label position="floating">{{ Locale.blocklistUrl }}</ion-label>
             <ion-input v-model.number="config['blocklist-url']"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-button size="default" @click="updateBlocklist()">{{ Locale.updateBlocklist }}</ion-button>
           </ion-item>
         </ion-list>
 
@@ -424,6 +430,24 @@ export default defineComponent({
   methods: {
     modalClose () {
       modalController.dismiss();
+    },
+    async updateBlocklist() {
+      const loading = await loadingController.create({});
+      await loading.present();
+      await TransmissionRPC.rpcCall("blocklist-update")
+        .then((response) => {
+          if(response.result=="success"){
+            const size = response.arguments['blocklist-size'];
+            Utils.responseToast(`${Locale.blocklistSize} ${size.toLocaleString(UserSettings.getLanguage())}`);
+          }
+          else {
+            Utils.responseToast(response.result);
+          }
+        })
+        .catch((error) => {
+          Utils.responseToast(error.message);
+        })
+      loading.dismiss();
     },
     async saveSettings() {
       const loading = await loadingController.create({});

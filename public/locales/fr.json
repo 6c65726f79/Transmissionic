@@ -204,5 +204,10 @@
     "resetSettings": "Réinitialiser les réglages",
     "pathMapping": "Mappage des chemins distants et locaux",
     "example": "Exemple",
-    "checkUpdates": "Vérifier les mises à jour"
+    "checkUpdates": "Vérifier les mises à jour",
+    "bookmarklet": "Bookmarklet",
+    "bookmarkletDetail": "Glissez et déposez ce bouton dans votre barre des favoris pour importer des liens magnet et hash depuis d'autres sites en un clic.",
+    "updateBlocklist": "Mettre à jour la liste",
+    "blocklistSize": "Taille de la liste :",
+    "queuePosition": "Position dans la file"
 }
