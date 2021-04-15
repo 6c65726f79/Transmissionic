@@ -139,9 +139,9 @@ Example:
 
 In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` must be shared on the network as `ssd`.
 
-# Bookmarlet
+# Bookmarklet
 
-When using the Web UI, you can import magnet links or hashes using a [bookmarlet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
+When using the Web UI, you can import magnet links or hashes using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
 
 You can use the text selection to highlight a magnet link or a hash before cliking on the bookmarklet, otherwise the script will look for a clickable magnet link in the page.
 
