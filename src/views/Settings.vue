@@ -198,7 +198,7 @@ export default defineComponent({
       }
       if(!found){
         document.querySelectorAll('a').forEach((link)=> {
-          if(link.href.match(magnetRegex) && !found){
+          if(!found && link.href.match(magnetRegex)){
             selection=link.href;
             found=true;
           }
