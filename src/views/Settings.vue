@@ -77,7 +77,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-list>
+      <ion-list v-if="bookmarkletEnabled">
         <ion-list-header>
           <ion-label>
             {{ Locale.bookmarklet }}
@@ -89,8 +89,7 @@
         </ion-item>
 
         <ion-item>
-          
-          <a :href="bookmarkletScript"><ion-button size="default" >Download with Transmissionic</ion-button></a>
+          <a :href="bookmarkletScript"><ion-button size="default">Download with Transmissionic</ion-button></a>
         </ion-item>
       </ion-list>
 
@@ -131,7 +130,8 @@ import {
   IonPage,
   IonInput,
   IonBackButton,
-  IonToggle
+  IonToggle,
+  isPlatform
 } from '@ionic/vue';
 import {
   saveOutline,
@@ -176,6 +176,11 @@ export default defineComponent({
     IonInput,
     IonBackButton,
     IonToggle
+  },
+  computed: {
+    bookmarkletEnabled(): boolean {
+      return !isPlatform("electron") && !isPlatform("capacitor")
+    }
   },
   setup() {
     if (!window.history.state.modal) {
