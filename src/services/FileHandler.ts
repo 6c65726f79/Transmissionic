@@ -41,7 +41,8 @@ export const FileHandler = {
     document.body.addEventListener("drop",(e) => this.handleFileDrop(e), false);
 
     // Read hash from URL
-    this.readHashOrMagnet(window.location.hash.substring(1));
+    const hash = window.location.hash.substring(1)
+    hash.startsWith("url:") ? this.readURL(hash.substring(4)) : this.readHashOrMagnet(hash);
   },
   async inputFile(): Promise<void> {
     if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){

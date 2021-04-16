@@ -70,6 +70,9 @@
             <ion-fab-button color="light" :data-desc="Locale.magnet" @click="inputMagnet()">
               <ion-icon :ios="magnetOutline" :md="magnetSharp"></ion-icon>
             </ion-fab-button>
+            <ion-fab-button color="light" data-desc="URL" @click="inputURL()">
+              <ion-icon :ios="globeOutline" :md="globeSharp"></ion-icon>
+            </ion-fab-button>
           </ion-fab-list>
         </ion-fab>
       </template>
@@ -169,7 +172,9 @@ import {
   arrowDownOutline,
   arrowUpOutline,
   constructOutline,
-  constructSharp
+  constructSharp,
+  globeOutline,
+  globeSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
@@ -332,7 +337,9 @@ export default defineComponent({
       arrowDownOutline,
       arrowUpOutline,
       constructOutline,
-      constructSharp
+      constructSharp,
+      globeOutline,
+      globeSharp
     }
   },
   async created() {
@@ -607,12 +614,32 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data) => {
-                if(data.link.toLowerCase().match(/^\b[0-9a-f]{40}\b$/)){
-                  FileHandler.readMagnet(`magnet:?xt=urn:btih:${data.link}`)
-                }
-                else {
-                  FileHandler.readMagnet(data.link)
-                }
+                FileHandler.readHashOrMagnet(data.link);
+              },
+            },
+          ],
+        });
+      return alert.present();
+    },
+    async inputURL() {
+      const alert = await alertController
+        .create({
+          header: "URL",
+          inputs: [
+            {
+              name: 'url',
+              placeholder: "Torrent file URL"
+            }
+          ],
+          buttons: [
+            {
+              text: Locale.actions.cancel,
+              role: 'cancel'
+            },
+            {
+              text: Locale.ok,
+              handler: (data) => {
+                FileHandler.readURL(data.url);
               },
             },
           ],

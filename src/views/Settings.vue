@@ -190,21 +190,28 @@ export default defineComponent({
 
     const bookmarkletFunction = (href: string) => {
       let found=false;
+      let magnetFound=false;
       let selection=(getSelection()||"").toString();
       const hashRegex = /^[0-9a-fA-F]{40}$/;
       const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/;
+      const torrentRegex = /.torrent$|\/torrent|\/download|\/get|\/dl/;
       if(selection.match(hashRegex)||selection.match(magnetRegex)){
         found=true;
       }
       if(!found){
         document.querySelectorAll('a').forEach((link)=> {
-          if(!found && link.href.match(magnetRegex)){
+          if(!found && link.href.match(torrentRegex)){
+            selection="url:"+link.href;
+            found=true;
+          }
+          else if(!magnetFound && link.href.match(magnetRegex)){
             selection=link.href;
+            magnetFound=true;
             found=true;
           }
         });
       }
-      found ? window.open(`${href}#${selection}`) : alert("No hash or magnet link found.");
+      found ? window.open(`${href}#${selection}`) : alert("No torrent or magnet link found.");
     }
 
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${window.location.href}");`;

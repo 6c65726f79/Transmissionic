@@ -137,6 +137,7 @@ import { defineComponent, computed } from 'vue';
 import { 
   isPlatform,
   modalController,
+  loadingController,
   IonContent, 
   IonHeader, 
   IonTitle, 
@@ -274,7 +275,7 @@ export default defineComponent({
     setDownloadDir(directory: string) {
       this.downloadDir=directory;
     },
-    add(){
+    async add(){
       const args = {} as Record<string,any>;
       if(this.downloadDir!=""){
         args["download-dir"]=this.downloadDir;
@@ -310,13 +311,18 @@ export default defineComponent({
         args["files-unwanted"]=unwanted;
       }
       
-      TransmissionRPC.torrentAdd({...this.settings, ...args})
+      const loading = await loadingController.create({});
+      await loading.present();
+
+      await TransmissionRPC.torrentAdd({...this.settings, ...args})
         .then(async (response) => {
           Utils.responseToast(response.result)
           if(response.result=="success"){
             this.modalClose();
           }
         });
+        
+      loading.dismiss();
     },
     setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;
