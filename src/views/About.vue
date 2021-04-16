@@ -32,7 +32,9 @@
       </p>
 
       <p v-if="updateAvailable && downloadUrl">
-        <strong>{{ Locale.updateAvailable }}</strong> <a :href="downloadUrl" target="_blank" rel="noopener">{{newVersion}}</a>
+        <strong>{{formatText(Locale.updateAvailable).before}}</strong>
+        <a :href="downloadUrl" target="_blank" rel="noopener">{{newVersion}}</a>
+        <strong>{{formatText(Locale.updateAvailable).after}}</strong>
       </p>
     </ion-content>
   </ion-page>
