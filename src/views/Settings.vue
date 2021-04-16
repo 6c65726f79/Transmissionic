@@ -204,7 +204,7 @@ export default defineComponent({
           }
         });
       }
-      found ? window.open(`${href}#${selection}`) : alert("No magnet links or hashes found.");
+      found ? window.open(`${href}#${selection}`) : alert("No hash or magnet link found.");
     }
 
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${window.location.href}");`;
