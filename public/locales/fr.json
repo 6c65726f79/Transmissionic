@@ -6,7 +6,8 @@
         "about": "À propos",
         "description": "Transmissionic est un client multiplateforme gratuit pour Transmission Daemon développé avec Ionic et Vue.js.",
         "github": "Ce project est open source, vous pouvez trouver le code source sur GitHub : {0}",
-        "poeditor": "Si vous souhaitez aider pour la traduction, vous pouvez rejoindre le projet sur POEditor : {0}"
+        "poeditor": "Si vous souhaitez aider pour la traduction, vous pouvez rejoindre le projet sur POEditor : {0}",
+        "shortDescription": "Client pour Transmission Daemon"
     },
     "search": "Rechercher",
     "add": "Ajouter",
@@ -209,5 +210,6 @@
     "bookmarkletDetail": "Glissez et déposez ce bouton dans votre barre des favoris pour importer des liens magnet et hash depuis d'autres sites en un clic.",
     "updateBlocklist": "Mettre à jour la liste",
     "blocklistSize": "Taille de la liste : {0}",
-    "queuePosition": "Position dans la file"
+    "queuePosition": "Position dans la file",
+    "torrentFileLink": "Lien d'un fichier torrent"
 }
