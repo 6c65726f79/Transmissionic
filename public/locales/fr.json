@@ -164,7 +164,7 @@
     "ok": "OK",
     "informations": "Informations",
     "torrentFile": "Fichier torrent",
-    "updateAvailable": "Mise à jour disponible :",
+    "updateAvailable": "Mise à jour disponible : {0}",
     "download": "Téléchargement",
     "magnetLink": "Lien magnet ou hash",
     "expandSideMenu": "Étendre le menu latéral sur grand écran",
@@ -208,6 +208,6 @@
     "bookmarklet": "Bookmarklet",
     "bookmarkletDetail": "Glissez et déposez ce bouton dans votre barre des favoris pour importer des liens magnet et hash depuis d'autres sites en un clic.",
     "updateBlocklist": "Mettre à jour la liste",
-    "blocklistSize": "Taille de la liste :",
+    "blocklistSize": "Taille de la liste : {0}",
     "queuePosition": "Position dans la file"
 }
