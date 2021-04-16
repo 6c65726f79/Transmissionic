@@ -164,7 +164,7 @@
     "ok": "OK",
     "informations": "Informations",
     "torrentFile": "Torrent file",
-    "updateAvailable": "Update available:",
+    "updateAvailable": "Update available: {0}",
     "download": "Download",
     "magnetLink": "Magnet link or hash",
     "expandSideMenu": "Expand side menu on large screen",
@@ -208,6 +208,6 @@
     "bookmarklet": "Bookmarklet",
     "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.",
     "updateBlocklist": "Update blocklist",
-    "blocklistSize": "Blocklist size:",
+    "blocklistSize": "Blocklist size: {0}",
     "queuePosition": "Queue position"
 }
