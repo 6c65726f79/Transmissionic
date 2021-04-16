@@ -163,13 +163,14 @@ export const FileHandler = {
     parseTorrent.remote(url, (err, parsedTorrent) => {
       if (err) {
         Utils.responseToast(err.message);
+        this.newTorrentModal(null,url,"url");
       }
       else if(parsedTorrent) {
         this.newTorrentModal(parsedTorrent,url,"url");
       }
     })
   },
-  async newTorrentModal(torrentData: Record<string,any>, torrent: string, type: string): Promise<void> {
+  async newTorrentModal(torrentData: Record<string,any>|null, torrent: string, type: string): Promise<void> {
     const modal = await modalController
       .create({
         component: AddTorrent,

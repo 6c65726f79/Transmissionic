@@ -71,14 +71,21 @@
                 </ion-label>
               </ion-list-header>
 
-              <ion-item>
+              <ion-item v-if="type=='url'">
+                <ion-label class="label no-wrap">
+                  <div>URL</div>
+                  <span class="selectable">{{torrent}}</span>
+                </ion-label>
+              </ion-item>
+
+              <ion-item v-if="data.name">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.name }}</div>
                   <span class="selectable">{{data.name}}</span>
                 </ion-label>
               </ion-item>
 
-              <ion-item>
+              <ion-item v-if="data.length">
                 <ion-label class="label">
                   <div>{{ Locale.totalSize }}</div>
                   <span class="selectable">{{Utils.formatBytes(data.length)}}</span>
@@ -99,21 +106,21 @@
                 </ion-label>
               </ion-item>
               
-              <ion-item>
+              <ion-item v-if="data.comment">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.comment }}</div>
                   <span class="selectable">{{data.comment}}</span>
                 </ion-label>
               </ion-item>
 
-              <ion-item>
+              <ion-item v-if="data.infoHash">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.hash }}</div>
                   <span class="selectable">{{data.infoHash}}</span>
                 </ion-label>
               </ion-item>
 
-              <ion-item>
+              <ion-item v-if="data.announce">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.tracker.one }}</div>
                   <span class="selectable">{{data.announce.length>0 ? Utils.trackerDomain(data.announce[0]).domain : null}}</span>
@@ -320,8 +327,11 @@ export default defineComponent({
           if(response.result=="success"){
             this.modalClose();
           }
-        });
-        
+        })
+        .catch((error) => {
+          Utils.responseToast(error.message)
+        })
+
       loading.dismiss();
     },
     setTab(index: number, smooth=true) {
