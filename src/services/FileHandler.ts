@@ -180,6 +180,7 @@ export const FileHandler = {
       })
     modal.onDidDismiss()
       .then(() => {
+        window.location.hash="";
         currentFile?.remove();
         currentFile=null;
         Emitter.emit("refresh");
