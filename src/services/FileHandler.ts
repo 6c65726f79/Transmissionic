@@ -41,13 +41,7 @@ export const FileHandler = {
     document.body.addEventListener("drop",(e) => this.handleFileDrop(e), false);
 
     // Read hash from URL
-    let hash = window.location.hash.substring(1);
-    if(hash.match(/^\b[0-9a-fA-F]{40}\b$/)){
-      hash = `magnet:?xt=urn:btih:${hash}`;
-    }
-    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}/)){
-      this.readMagnet(hash);
-    }
+    this.readHashOrMagnet(window.location.hash.substring(1));
   },
   async inputFile(): Promise<void> {
     if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){
@@ -91,10 +85,17 @@ export const FileHandler = {
   handleFileDrop(e: DragEvent): void {
     e.preventDefault();
     if(e.dataTransfer){
-      this.readFile(e.dataTransfer.files[0])
-        .then((result) => {
-          this.fileLoaded(result);
-        })
+      if(e.dataTransfer.files.length>0){
+        this.readFile(e.dataTransfer.files[0])
+          .then((result) => {
+            this.fileLoaded(result);
+          })
+      }
+      else {
+        const data = e.dataTransfer.getData("text/plain");
+        this.readHashOrMagnet(data);
+      }
+      
     }
   },
   handleFile(e: Event): void {
@@ -138,6 +139,15 @@ export const FileHandler = {
       return parseTorrent(buffer)
     } catch (error) {
       Utils.responseToast(error.message);
+    }
+  },
+  readHashOrMagnet(text: string): void {
+    let hash = text;
+    if(hash.match(/^\b[0-9a-fA-F]{40}\b$/)){
+      hash = `magnet:?xt=urn:btih:${hash}`;
+    }
+    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/)){
+      this.readMagnet(hash);
     }
   },
   readMagnet(magnet: string): void {

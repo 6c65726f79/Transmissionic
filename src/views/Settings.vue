@@ -190,9 +190,9 @@ export default defineComponent({
 
     const bookmarkletFunction = (href: string) => {
       let found=false;
-      let selection=getSelection()?.toString()||"";
+      let selection=(getSelection()||"").toString();
       const hashRegex = /^[0-9a-fA-F]{40}$/;
-      const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}/;
+      const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/;
       if(selection.match(hashRegex)||selection.match(magnetRegex)){
         found=true;
       }
