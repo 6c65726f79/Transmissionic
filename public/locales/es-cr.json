@@ -6,7 +6,8 @@
         "about": "Sobre",
         "description": "Transmissionic es un control remoto libre y multiplataforma para Transmission Daemon hecho con Ionic y Vue.js",
         "github": "Este proyecto es software libre, puedes encontrar el código fuente en Github : {0}",
-        "poeditor": "Si deseas ayudar con la traducción, únete al proyecto en POEditor : {0}"
+        "poeditor": "Si deseas ayudar con la traducción, únete al proyecto en POEditor : {0}",
+        "shortDescription": "Control remoto para Transmission Daemon"
     },
     "search": "Buscar",
     "add": "Añadir",
@@ -209,5 +210,6 @@
     "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.",
     "updateBlocklist": "Update blocklist",
     "blocklistSize": "Blocklist size: {0}",
-    "queuePosition": "Queue position"
+    "queuePosition": "Queue position",
+    "torrentFileLink": "Torrent file link"
 }
