@@ -628,7 +628,7 @@ export default defineComponent({
           inputs: [
             {
               name: 'url',
-              placeholder: "Torrent file URL"
+              placeholder: Locale.torrentFileLink
             }
           ],
           buttons: [
