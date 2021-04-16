@@ -163,7 +163,7 @@ export const FileHandler = {
     parseTorrent.remote(url, (err, parsedTorrent) => {
       if (err) {
         Utils.responseToast(err.message);
-        this.newTorrentModal(null,url,"url");
+        this.newTorrentModal({},url,"url");
       }
       else if(parsedTorrent) {
         this.newTorrentModal(parsedTorrent,url,"url");
