@@ -71,7 +71,7 @@
               <ion-icon :ios="magnetOutline" :md="magnetSharp"></ion-icon>
             </ion-fab-button>
             <ion-fab-button color="light" data-desc="URL" @click="inputURL()">
-              <ion-icon :ios="globeOutline" :md="globeSharp"></ion-icon>
+              <ion-icon :ios="linkOutline" :md="linkSharp"></ion-icon>
             </ion-fab-button>
           </ion-fab-list>
         </ion-fab>
@@ -173,8 +173,8 @@ import {
   arrowUpOutline,
   constructOutline,
   constructSharp,
-  globeOutline,
-  globeSharp
+  linkOutline,
+  linkSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
@@ -338,8 +338,8 @@ export default defineComponent({
       arrowUpOutline,
       constructOutline,
       constructSharp,
-      globeOutline,
-      globeSharp
+      linkOutline,
+      linkSharp
     }
   },
   async created() {
