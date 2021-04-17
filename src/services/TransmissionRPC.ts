@@ -394,6 +394,11 @@ class TRPC {
         throw Error("HTTP "+response.status);
       }
     }
+    
+    if(ret.result && ret.result!="success"){
+      throw Error(ret.result);
+    }
+
     return ret;
   }
 

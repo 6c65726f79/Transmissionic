@@ -236,23 +236,24 @@ export default defineComponent({
                 TransmissionRPC.torrentAction("set", this.details.id, args)
                   .then((response) => {
                     Utils.responseToast(response.result);
-                    if(response.result=="success"){
-                      const domainDetails = Utils.trackerDomain(data.address);
-                      const newId = this.details.trackerStats.length;
-                      const newTracker = {
-                        id:newId,
-                        tier:this.details.trackerStats.length>0 ? this.details.trackerStats[this.details.trackerStats.length-1].tier+1 : 0,
-                        announce:data.address,
-                        host:domainDetails.protocol+"://"+domainDetails.domain+":"+domainDetails.port,
-                        announceState:0,
-                        scrapeState:0
-                      }
-                      this.details.trackerStats[newId] = newTracker;
-
-                      if(this.displayedCount==this.trackerCount-1){
-                        this.displayMore();
-                      }
+                    const domainDetails = Utils.trackerDomain(data.address);
+                    const newId = this.details.trackerStats.length;
+                    const newTracker = {
+                      id:newId,
+                      tier:this.details.trackerStats.length>0 ? this.details.trackerStats[this.details.trackerStats.length-1].tier+1 : 0,
+                      announce:data.address,
+                      host:domainDetails.protocol+"://"+domainDetails.domain+":"+domainDetails.port,
+                      announceState:0,
+                      scrapeState:0
                     }
+                    this.details.trackerStats[newId] = newTracker;
+
+                    if(this.displayedCount==this.trackerCount-1){
+                      this.displayMore();
+                    }
+                  })
+                  .catch((error) => {
+                    Utils.responseToast(error.message);
                   })
               },
             },
@@ -287,12 +288,13 @@ export default defineComponent({
                 TransmissionRPC.torrentAction("set", this.details.id, args)
                   .then((response) => {
                     Utils.responseToast(response.result)
-                    if(response.result=="success"){
-                      const domainDetails = Utils.trackerDomain(data.address);
-                      this.details.trackerStats[tracker.id].announce = data.address;
-                      this.details.trackerStats[tracker.id].host = domainDetails.protocol+"://"+domainDetails.domain+":"+domainDetails.port
-                    }
-                  });
+                    const domainDetails = Utils.trackerDomain(data.address);
+                    this.details.trackerStats[tracker.id].announce = data.address;
+                    this.details.trackerStats[tracker.id].host = domainDetails.protocol+"://"+domainDetails.domain+":"+domainDetails.port
+                  })
+                  .catch((error) => {
+                    Utils.responseToast(error.message);
+                  })
               },
             },
           ],
@@ -324,12 +326,13 @@ export default defineComponent({
                 TransmissionRPC.torrentAction("set", this.details.id, args)
                   .then((response) => {
                     Utils.responseToast(response.result);
-                    if(response.result=="success"){
-                      const index = this.details.trackerStats.indexOf(tracker)
-                      if(index !== -1) {
-                        this.details.trackerStats.splice(index, 1);
-                      }
+                    const index = this.details.trackerStats.indexOf(tracker)
+                    if(index !== -1) {
+                      this.details.trackerStats.splice(index, 1);
                     }
+                  })
+                  .catch((error) => {
+                    Utils.responseToast(error.message);
                   })
               },
             },

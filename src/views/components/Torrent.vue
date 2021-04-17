@@ -156,6 +156,9 @@ export default defineComponent({
           const newPos=up ? position-0.1 : position+0.1;
           Object(this.torrent).queuePosition=newPos;
         })
+        .catch((error) => {
+          Utils.responseToast(error.message);
+        })
     }
   }
 })

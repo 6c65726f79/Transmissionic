@@ -338,15 +338,16 @@ export default defineComponent({
         args["priority-normal"]=priorityNormal;
       }
 
-
-      TransmissionRPC.torrentAction("set",this.id,args)
-        .then(async (response) => {
+      await TransmissionRPC.torrentAction("set",this.id,args)
+        .then((response) => {
           Utils.responseToast(response.result)
-          if(response.result=="success"){
-            this.privateState.modified=false;
-          }
-          loading.dismiss()
+          this.privateState.modified=false;
         })
+        .catch((error) => {
+          Utils.responseToast(error.message);
+        })
+
+      loading.dismiss();
     },
     async torrentActions() {
       let buttons = [
@@ -399,11 +400,12 @@ export default defineComponent({
     },
     torrentAction(action: string, torrentIds: Array<number>){
       TransmissionRPC.torrentAction(action,torrentIds)
-        .then(async (response) => {
+        .then((response) => {
           Utils.responseToast(response.result)
-          if(response.result=="success"){
-            this.privateState.details.status=Utils.actionStatusResult(action,this.privateState.details.percentDone);
-          }
+          this.privateState.details.status=Utils.actionStatusResult(action,this.privateState.details.percentDone);
+        })
+        .catch((error) => {
+          Utils.responseToast(error.message);
         })
     },
     async removeTorrents(){
@@ -430,9 +432,10 @@ export default defineComponent({
                 TransmissionRPC.torrentAction("remove",[this.id],{'delete-local-data':data.includes("deleteData")})
                   .then(async (response) => {
                     Utils.responseToast(response.result);
-                    if(response.result=="success"){
-                      this.modalClose();
-                    }
+                    this.modalClose();
+                  })
+                  .catch((error) => {
+                    Utils.responseToast(error.message);
                   })
               },
             },
@@ -469,9 +472,10 @@ export default defineComponent({
             TransmissionRPC.torrentAction("set-location",[this.id],result.data)
               .then(async (response) => {
                 Utils.responseToast(response.result);
-                if(response.result=="success"){
-                  this.privateState.details.downloadDir=result.data.location;
-                }
+                this.privateState.details.downloadDir=result.data.location;
+              })
+              .catch((error) => {
+                Utils.responseToast(error.message);
               })
           }
         })

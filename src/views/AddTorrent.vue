@@ -322,11 +322,9 @@ export default defineComponent({
       await loading.present();
 
       await TransmissionRPC.torrentAdd({...this.settings, ...args})
-        .then(async (response) => {
+        .then((response) => {
           Utils.responseToast(response.result)
-          if(response.result=="success"){
-            this.modalClose();
-          }
+          this.modalClose();
         })
         .catch((error) => {
           Utils.responseToast(error.message)

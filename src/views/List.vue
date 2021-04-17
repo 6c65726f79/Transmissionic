@@ -413,21 +413,20 @@ export default defineComponent({
     switchAltSpeed(){
       TransmissionRPC.setSession({"alt-speed-enabled":!this.altSpeedEnabled()})
         .then((response) => {
-          if(response.result=="success"){
-            this.privateState.altSpeedEnabled=!this.privateState.altSpeedEnabled;
-          }
           Utils.responseToast(response.result)
+          this.privateState.altSpeedEnabled=!this.privateState.altSpeedEnabled;
         })
     },
     torrentAction(action: string, torrentIds: Array<number>){
       TransmissionRPC.torrentAction(action,torrentIds)
-        .then(async (response) => {
+        .then((response) => {
           Utils.responseToast(response.result)
-          if(response.result=="success"){
-            for (const torrent of this.getTorrentsByIds(torrentIds)) {
-              torrent.status=Utils.actionStatusResult(action,torrent.percentDone);
-            }
+          for (const torrent of this.getTorrentsByIds(torrentIds)) {
+            torrent.status=Utils.actionStatusResult(action,torrent.percentDone);
           }
+        })
+        .catch((error) => {
+          Utils.responseToast(error.message);
         })
     },
     getTorrentsByIds(torrentIds: Array<number>): Array<any>{
@@ -472,19 +471,20 @@ export default defineComponent({
             },
             {
               text: Locale.prompt.confirm,
-              handler: async (data) => {
+              handler: (data) => {
                 TransmissionRPC.torrentAction("remove",torrentIds,{'delete-local-data':data.includes("deleteData")})
-                  .then(async (response) => {
+                  .then((response) => {
                     Utils.responseToast(response.result);
-                    if(response.result=="success"){
-                      for (const torrent of selectedTorrents) {
-                        const index = this.torrentList.indexOf(torrent);
-                        if(index !== -1) {
-                          this.torrentList.splice(index, 1);
-                        }
+                    for (const torrent of selectedTorrents) {
+                      const index = this.torrentList.indexOf(torrent);
+                      if(index !== -1) {
+                        this.torrentList.splice(index, 1);
                       }
-                      this.cancelSelection();
                     }
+                    this.cancelSelection();
+                  })
+                  .catch((error) => {
+                    Utils.responseToast(error.message);
                   })
               },
             },

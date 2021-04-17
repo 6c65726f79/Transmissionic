@@ -454,12 +454,12 @@ export default defineComponent({
       this.privateState.connectionStatus.loading=true;
       this.privateState.connectionStatus.connected=false;
       TransmissionRPC.setServer(this.privateState.serverList[serverId], this.sharedState.timeout)
-        .then(response => {
+        .then((response) => {
           this.privateState.connectionStatus.sessionArguments = response;
           this.setRefreshInterval();
           this.getTorrents(true);
         })
-        .catch(error => {
+        .catch((error) => {
           if(error.message){
             this.privateState.connectionStatus.loading=false;
             this.privateState.connectionStatus.error=error.message;
@@ -477,12 +477,12 @@ export default defineComponent({
           this.privateState.torrentList=[];
         }
         TransmissionRPC.getTorrents()
-          .then(response => {
+          .then((response) => {
             this.privateState.connectionStatus.error="";
             this.privateState.connectionStatus.connected=true;
             this.privateState.torrentList=response;
           })
-          .catch(error => {
+          .catch((error) => {
             if(error.message){
               this.privateState.connectionStatus.connected=false;
               this.privateState.connectionStatus.error=error.message;
