@@ -481,6 +481,7 @@ export default defineComponent({
                         this.torrentList.splice(index, 1);
                       }
                     }
+                    this.$forceUpdate();
                     this.cancelSelection();
                   })
                   .catch((error) => {

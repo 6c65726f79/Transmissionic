@@ -319,7 +319,9 @@ export default defineComponent({
       }
       
       const loading = await loadingController.create({});
-      await loading.present();
+      if(this.type=="url"){
+        await loading.present();
+      }
 
       await TransmissionRPC.torrentAdd({...this.settings, ...args})
         .then((response) => {
