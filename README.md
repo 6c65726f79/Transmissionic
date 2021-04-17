@@ -141,9 +141,16 @@ In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` m
 
 # Bookmarklet
 
-When using the Web UI, you can import magnet links or hashes using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
+When using the Web UI, you can import magnet and torrent links using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
 
-You can use the text selection to highlight a magnet link or a hash before cliking on the bookmarklet, otherwise the script will look for a clickable magnet link in the page.
+You can use the text selection to highlight a magnet link or a hash before cliking on the bookmarklet, otherwise the script will look for a clickable magnet or torrent link in the page.
+
+For mobile users:
+1. Long-press the bookmarklet button and select "Copy link address".
+2. Add the current page to your favorites and edit the bookmark.
+3. Replace the address with the one you previously copied and change the name to "Download with Transmissionic".
+4. Go on a torrent page.
+5. Tap on the address bar, search for "Download with Transmissionic" and select the bookmark. ([Screenshot](https://i.imgur.com/xcFA4Ez.png))
 
 # Build
 
