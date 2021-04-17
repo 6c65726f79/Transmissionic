@@ -189,25 +189,26 @@ export default defineComponent({
     }
 
     const bookmarkletFunction = (href: string) => {
-      let found=false;
-      let magnetFound=false;
+      let found=0;
       let selection=(getSelection()||"").toString();
       const hashRegex = /^[0-9a-fA-F]{40}$/;
       const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/;
-      const torrentRegex = /.torrent$|\/torrent|\/download|\/get|\/dl/;
       if(selection.match(hashRegex)||selection.match(magnetRegex)){
-        found=true;
+        found=4;
       }
       if(!found){
         document.querySelectorAll('a').forEach((link)=> {
-          if(!found && link.href.match(torrentRegex)){
+          if(found<1 && link.href.match(/\/torrent|\/download|\/get|\/dl/)){
             selection="url:"+link.href;
-            found=true;
+            found=1;
           }
-          else if(!magnetFound && link.href.match(magnetRegex)){
+          else if(found<2 && link.href.match(/\.torrent$/)){
+            selection="url:"+link.href;
+            found=2;
+          }
+          else if(found<3 && link.href.match(magnetRegex)){
             selection=link.href;
-            magnetFound=true;
-            found=true;
+            found=3;
           }
         });
       }
