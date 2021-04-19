@@ -120,10 +120,10 @@
                 </ion-label>
               </ion-item>
 
-              <ion-item v-if="data.announce">
+              <ion-item v-if="data.announce && data.announce.length>0">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.tracker.one }}</div>
-                  <span class="selectable">{{data.announce.length>0 ? Utils.trackerDomain(data.announce[0]).domain : null}}</span>
+                  <span class="selectable">{{ Utils.trackerDomain(data.announce[0]).domain }}</span>
                 </ion-label>
               </ion-item>
             </p>

@@ -29,7 +29,7 @@
             <ion-select-option value="es">Español</ion-select-option>
             <ion-select-option value="fr">Français</ion-select-option>
             <ion-select-option value="nl">Nederlands</ion-select-option>
-            <ion-select-option value="rp">Pусский</ion-select-option>
+            <ion-select-option value="ru">Pусский</ion-select-option>
           </ion-select>
         </ion-item>
           

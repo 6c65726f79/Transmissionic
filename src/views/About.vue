@@ -11,7 +11,7 @@
     <ion-content :fullscreen="true" class="ion-padding">
       <div class="app-details">
         <img :src="iconSrc" alt="Logo">
-        <ion-title>Transmissionic {{appVersion}}</ion-title>
+        <h4>Transmissionic {{appVersion}}</h4>
       </div>
       <p>
         {{Locale.about.description}}
@@ -152,6 +152,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+h4 {
+  margin-top:0px;
+}
 .app-details {
   text-align: center;
   margin:40px 0px;
