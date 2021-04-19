@@ -14,6 +14,7 @@
 ----
 
 ![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic?label=Release)
+![Dev](https://img.shields.io/github/package-json/v/6c65726f79/Transmissionic/dev?color=orange&label=Dev)
 ![GitHub all releases](https://img.shields.io/github/downloads/6c65726f79/Transmissionic/total?label=Downloads)
 ![Build](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build?label=Build)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/6c65726f79_Transmissionic?label=Quality%20gate&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/dashboard?id=6c65726f79_Transmissionic)
@@ -80,11 +81,23 @@ Download `Transmissionic-webui-[version].zip` from the [latest release](https://
 
 Unzip it and replace the `web` folder of Transmission, whose location varies depending on your operating system:
 
-Windows: `C:\Program Files\Transmission\web`
+Windows
 
-Linux: `/usr/share/transmission/web`
+```
+C:\Program Files\Transmission\web
+```
 
-Mac OS: `/Applications/Transmission.app/Contents/Resources/web`
+Linux
+
+```
+/usr/share/transmission/web
+```
+
+Mac OS
+
+```
+/Applications/Transmission.app/Contents/Resources/web
+```
 
 Don't forget to save your current `web` folder if you want to switch back.
 
