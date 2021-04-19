@@ -199,7 +199,7 @@ export default defineComponent({
       }
       if(!found){
         document.querySelectorAll('a').forEach((link)=> {
-          if(found<1 && link.href.match(/\/torrent|\/download|\/get|\/dl/)){
+          if(found<1 && link.href.match(/\/(torrent|download|get|dl)\W/)){
             selection="url:"+link.href;
             found=1;
           }
@@ -213,7 +213,7 @@ export default defineComponent({
           }
         });
       }
-      found ? window.open(`${href}#${selection}`) : alert("No torrent or magnet link found.");
+      found ? window.open(href+"#"+selection) : alert("No torrent or magnet link found.");
     }
 
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${window.location.href}");`;
