@@ -293,7 +293,7 @@ export const Utils = {
     if(isPlatform('capacitor')){
       useBackButton(-1, async () => {
         const top = await this.getTop();
-        if(!top.modal && !top.alert && !top.popover && !top.actionsheet){
+        if(!top.hasTop){
           App.exitApp();
         }
       });
@@ -301,7 +301,7 @@ export const Utils = {
     else {
       window.addEventListener('popstate', async (e: Event) => {
         const top = await this.getTop();
-        if(top.modal || top.alert || top.popover || top.actionsheet){
+        if(top.hasTop){
           e.preventDefault();
           history.go(1);
         }
@@ -335,7 +335,8 @@ export const Utils = {
       modal,
       alert,
       popover,
-      actionsheet
+      actionsheet,
+      hasTop:(modal || alert || popover || actionsheet)
     }
   }
 }
