@@ -495,6 +495,7 @@ export default defineComponent({
       return alert.present();
     },
     async torrentActions(id: number) {
+      Utils.pushState();
       const torrent = this.getTorrentsByIds([id])[0];
       const selection = this.privateState.selection.length>0 ? this.privateState.selection : [torrent.id];
       const actionSheet = await actionSheetController

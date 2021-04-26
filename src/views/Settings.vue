@@ -211,10 +211,7 @@ export default defineComponent({
     }
   },
   setup() {
-    if (!window.history.state.modal) {
-      const modalState = { modal: true };
-      history.pushState(modalState, "");
-    }
+    Utils.pushState();
 
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${window.location.href}");`;
 

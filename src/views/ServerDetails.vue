@@ -161,10 +161,7 @@ export default defineComponent({
     IonTextarea
   },
   setup() {
-    if (!window.history.state.modal) {
-      const modalState = { modal: true };
-      history.pushState(modalState, "");
-    }
+    Utils.pushState();
 
     const placeholder = `${Locale.example}\r/mnt/ssd = \\\\192.168.1.1\\ssd\r/home/user/Downloads = Z:\\Downloads`;
 

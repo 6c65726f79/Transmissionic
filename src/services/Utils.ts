@@ -4,8 +4,7 @@ import {
   alertController,
   popoverController,
   actionSheetController,
-  useBackButton,
-  useIonRouter 
+  useBackButton
 } from '@ionic/vue';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
 const { App,StatusBar,Toast } = Plugins;
@@ -292,36 +291,52 @@ export const Utils = {
 
   backButtonHandle(): void {
     if(isPlatform('capacitor')){
-      const ionRouter = useIonRouter();
-      useBackButton(-1, () => {
-        if (!ionRouter.canGoBack()) {
+      useBackButton(-1, async () => {
+        const top = await this.getTop();
+        if(!top.hasTop){
           App.exitApp();
         }
       });
     }
     else {
       window.addEventListener('popstate', async (e: Event) => {
-        const modal = await modalController.getTop();
-        const alert = await alertController.getTop();
-        const popover = await popoverController.getTop();
-        const actionsheet = await actionSheetController.getTop();
-        if(modal || alert || popover || actionsheet){
+        const top = await this.getTop();
+        if(top.hasTop){
           e.preventDefault();
           history.go(1);
         }
-        if(actionsheet){
-          actionsheet.dismiss();
+        if(top.actionsheet){
+          top.actionsheet.dismiss();
         }
-        else if(popover){
-          popover.dismiss();
+        else if(top.popover){
+          top.popover.dismiss();
         }
-        else if(alert){
-          alert.dismiss();
+        else if(top.alert){
+          top.alert.dismiss();
         }
-        else if(modal){
-          modal.dismiss();
+        else if(top.modal){
+          top.modal.dismiss();
         }
       })
+    }
+  },
+  pushState(): void {
+    if (!window.history.state.modal) {
+      const modalState = { modal: true };
+      history.pushState(modalState, "");
+    }
+  },
+  async getTop(): Promise<Record<string,any>> {
+    const modal = await modalController.getTop();
+    const alert = await alertController.getTop();
+    const popover = await popoverController.getTop();
+    const actionsheet = await actionSheetController.getTop();
+    return {
+      modal,
+      alert,
+      popover,
+      actionsheet,
+      hasTop:(modal || alert || popover || actionsheet)
     }
   }
 }
