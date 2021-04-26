@@ -350,6 +350,7 @@ export default defineComponent({
   mounted() {
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
     Emitter.on('clear-selection', this.cancelSelection )
+    Emitter.on('torrent-position', (data) => this.changeTorrentPosition(data.id,data.up));
   },
   methods: {
     openSearch() {
@@ -546,6 +547,29 @@ export default defineComponent({
           ],
         });
       return actionSheet.present();
+    },
+    changeTorrentPosition(id: number,up: boolean) {
+      let pos = -1;
+      let found = false;
+      while(!found && pos < this.torrentOrderedList.length){
+        pos++;
+        if(this.torrentOrderedList[pos].id==id){
+          found=true;
+        }
+      }
+      const invertWith = up ?  pos-1 : pos+1;
+      if(invertWith>=0 && invertWith<this.torrentOrderedList.length){
+        const newPos = Math.round(this.torrentOrderedList[invertWith].queuePosition);
+        TransmissionRPC.torrentAction("set",[id],{"queuePosition":newPos})
+          .then((response) => {
+            Utils.responseToast(response.result)
+            const add = UserSettings.state.reverse ? -0.1 : 0.1;
+            this.getTorrentsByIds([id])[0].queuePosition=up ? newPos-add : newPos+add;
+          })
+          .catch((error) => {
+            Utils.responseToast(error.message);
+          })
+      }
     },
     async serverInformations() {
       const infos = TransmissionRPC.sessionArguments;
