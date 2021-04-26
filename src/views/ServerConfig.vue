@@ -382,10 +382,7 @@ export default defineComponent({
     }
   },
   setup() {
-    if (!window.history.state.modal) {
-      const modalState = { modal: true };
-      history.pushState(modalState, "");
-    }
+    Utils.pushState();
 
     return { 
       Locale,

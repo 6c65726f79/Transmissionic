@@ -26,6 +26,7 @@ import {
 } from 'ionicons/icons';
 import { UserSettings } from "../../services/UserSettings";
 import { Locale } from "../../services/Locale";
+import { Utils } from "../../services/Utils";
 
 export default defineComponent({
   name: 'OrderPopover',
@@ -72,6 +73,8 @@ export default defineComponent({
     }
   },
   setup() {
+    Utils.pushState();
+
     return {
       Locale,
       caretDownOutline,
