@@ -563,8 +563,8 @@ export default defineComponent({
         TransmissionRPC.torrentAction("set",[id],{"queuePosition":newPos})
           .then((response) => {
             Utils.responseToast(response.result)
-            const add = UserSettings.state.reverse ? -0.1 : 0.1;
-            this.getTorrentsByIds([id])[0].queuePosition=up ? newPos-add : newPos+add;
+            const move = UserSettings.state.reverse ? -0.1 : 0.1;
+            this.getTorrentsByIds([id])[0].queuePosition=up ? newPos-move : newPos+move;
           })
           .catch((error) => {
             Utils.responseToast(error.message);
