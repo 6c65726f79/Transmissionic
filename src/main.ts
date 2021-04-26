@@ -1,4 +1,4 @@
-import { IonicVue, isPlatform, modalController  } from '@ionic/vue';
+import { IonicVue, isPlatform } from '@ionic/vue';
 import { createApp } from 'vue'
 import App from './views/App.vue'
 import router from './router';
@@ -46,11 +46,7 @@ if(isPlatform("electron")){
   Utils.customTitlebar();
 }
 
-if(!isPlatform('android')){
-  window.addEventListener('popstate', () => {
-    modalController.dismiss();
-  })
-}
+Utils.backButtonHandle();
 
 router.isReady().then(() => {
   app.mount('#app');
