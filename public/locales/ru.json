@@ -219,5 +219,5 @@
     "updateBlocklist": "Обновить черный список",
     "blocklistSize": "Размер черного списка: {0}",
     "queuePosition": "Позиция в очереди",
-    "torrentFileLink": "Torrent file link"
+    "torrentFileLink": "Ссылка на файл торрента"
 }
