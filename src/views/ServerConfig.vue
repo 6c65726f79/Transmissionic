@@ -436,13 +436,8 @@ export default defineComponent({
       await loading.present();
       await TransmissionRPC.rpcCall("blocklist-update")
         .then((response) => {
-          if(response.result=="success"){
-            const size = response.arguments['blocklist-size'];
-            Utils.responseToast(`${Locale.blocklistSize} ${size.toLocaleString(UserSettings.getLanguage())}`);
-          }
-          else {
-            Utils.responseToast(response.result);
-          }
+          const size = response.arguments['blocklist-size'].toLocaleString(UserSettings.getLanguage());
+          Utils.responseToast(Locale.formatString(Locale.blocklistSize,size).toString());
         })
         .catch((error) => {
           Utils.responseToast(error.message);

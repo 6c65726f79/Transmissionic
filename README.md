@@ -14,14 +14,11 @@
 ----
 
 ![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic?label=Release)
+![Dev](https://img.shields.io/github/package-json/v/6c65726f79/Transmissionic/dev?color=orange&label=Dev)
 ![GitHub all releases](https://img.shields.io/github/downloads/6c65726f79/Transmissionic/total?label=Downloads)
 ![Build](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build?label=Build)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/6c65726f79_Transmissionic?label=Quality%20gate&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/dashboard?id=6c65726f79_Transmissionic)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=6c65726f79_Transmissionic&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=6c65726f79_Transmissionic)
-![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
 
 <a href='https://play.google.com/store/apps/details?id=com.sleroy.transmissionic&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="240" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
@@ -45,6 +42,25 @@
 
 <img src="https://i.imgur.com/DEPKQKj.png" width="300"> <img src="https://i.imgur.com/67TkEwU.png" width="300">
 
+### Translation
+
+![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
+
+Available languages:
+- Dutch (John)
+- English
+- French
+- Russian (Alek Depler)
+- Spanish (Zenón Monge)
+
+You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to add it.
+
+Thanks to all contributors.
+
 ### Motivations
 
 * Provide a unified interface for all platforms
@@ -63,7 +79,7 @@ You must first enable remote access in Transmission settings.
 
 Download `Transmissionic-webui-[version].zip` from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
 
-Unzip it inside the `web` folder of Transmission, whose location varies depending on your operating system:
+Unzip it and replace the `web` folder of Transmission, whose location varies depending on your operating system:
 
 Windows
 
@@ -82,6 +98,8 @@ Mac OS
 ```
 /Applications/Transmission.app/Contents/Resources/web
 ```
+
+Don't forget to save your current `web` folder if you want to switch back.
 
 Then access the Web UI as described [here](https://github.com/transmission/transmission/wiki/Web-Interface).
 
@@ -141,9 +159,16 @@ In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` m
 
 # Bookmarklet
 
-When using the Web UI, you can import magnet links or hashes using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
+When using the Web UI, you can import magnet and torrent links using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
 
-You can use the text selection to highlight a magnet link or a hash before cliking on the bookmarklet, otherwise the script will look for a clickable magnet link in the page.
+You can use the text selection to highlight a magnet link or a hash before cliking on the bookmarklet, otherwise the script will look for a clickable magnet or torrent link in the page.
+
+For mobile users:
+1. Long-press the bookmarklet button and select "Copy link address".
+2. Add the current page to your favorites and edit the bookmark.
+3. Replace the address with the one you previously copied and change the name to "Download with Transmissionic".
+4. Go on a torrent page.
+5. Tap on the address bar, search for "Download with Transmissionic" and select the bookmark. ([Screenshot](https://i.imgur.com/xcFA4Ez.png))
 
 # Build
 
@@ -222,18 +247,6 @@ ionic serve
 ```
 
 If you want to contribute and pull your changes to this project, please work on the `dev` branch as it contains all the latest changes.
-
-# Translation
-
-You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to add it.
-
-Available languages:
-- English
-- French
-- Russian (Alek Depler)
-- Spanish (Zenón Monge)
-
-Thanks to all contributors.
 
 # TODO
 

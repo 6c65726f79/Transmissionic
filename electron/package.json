@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Remote for Transmission Daemon",
   "repository": "github:6c65726f79/Transmissionic",
   "main": "./build/index.js",
@@ -15,12 +15,12 @@
     "electron:publish-linux": "npm run build && electron-builder build --linux --publish always"
   },
   "dependencies": {
-    "@capacitor-community/electron": "1.4.0",
+    "@capacitor-community/electron": "1.4.1",
     "custom-electron-titlebar": "^3.2.6",
     "electron-updater": "^4.3.8"
   },
   "devDependencies": {
-    "electron": "~12.0.4",
+    "electron": "~12.0.5",
     "electron-builder": "^22.10.5",
     "typescript": "~4.2.4"
   },

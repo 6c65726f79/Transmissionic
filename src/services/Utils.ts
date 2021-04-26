@@ -1,6 +1,14 @@
+import {
+  isPlatform,
+  modalController,
+  alertController,
+  popoverController,
+  actionSheetController,
+  useBackButton,
+  useIonRouter 
+} from '@ionic/vue';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
-const { StatusBar,Toast } = Plugins;
-import { isPlatform } from '@ionic/vue';
+const { App,StatusBar,Toast } = Plugins;
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
 import Moment from "moment"
@@ -71,7 +79,6 @@ export const Utils = {
     const wait = (ipToCountryWaitUntil && Date.now() < ipToCountryWaitUntil)||false;
     const found = (ipToCountryList[ip]!=null);
     const limited = (ipToCountryLimit<=0);
-    console.log(found,limited,wait,ipToCountryWaitUntil);
     if(found && ipToCountryList[ip]!="loading"){
       return ipToCountryList[ip];
     }
@@ -281,5 +288,40 @@ export const Utils = {
         el.addEventListener("touchmove", cancel, {passive: true});
       }
     })
+  },
+
+  backButtonHandle(): void {
+    if(isPlatform('capacitor')){
+      const ionRouter = useIonRouter();
+      useBackButton(-1, () => {
+        if (!ionRouter.canGoBack()) {
+          App.exitApp();
+        }
+      });
+    }
+    else {
+      window.addEventListener('popstate', async (e: Event) => {
+        const modal = await modalController.getTop();
+        const alert = await alertController.getTop();
+        const popover = await popoverController.getTop();
+        const actionsheet = await actionSheetController.getTop();
+        if(modal || alert || popover || actionsheet){
+          e.preventDefault();
+          history.go(1);
+        }
+        if(actionsheet){
+          actionsheet.dismiss();
+        }
+        else if(popover){
+          popover.dismiss();
+        }
+        else if(alert){
+          alert.dismiss();
+        }
+        else if(modal){
+          modal.dismiss();
+        }
+      })
+    }
   }
 }

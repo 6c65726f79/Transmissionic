@@ -28,6 +28,7 @@
             <ion-select-option value="en">English</ion-select-option>
             <ion-select-option value="es">Español</ion-select-option>
             <ion-select-option value="fr">Français</ion-select-option>
+            <ion-select-option value="nl">Nederlands</ion-select-option>
             <ion-select-option value="ru">Pусский</ion-select-option>
           </ion-select>
         </ion-item>
@@ -150,6 +151,33 @@ declare global {
   }
 }
 
+const bookmarkletFunction = (href: string) => {
+  let found=0;
+  let selection=(getSelection()||"").toString();
+  const hashRegex = /^[0-9a-fA-F]{40}$/;
+  const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/;
+  if(selection.match(hashRegex)||selection.match(magnetRegex)){
+    found=4;
+  }
+  else {
+    document.querySelectorAll('a').forEach((link)=> {
+      if(found<1 && link.href.match(/\/(torrent|download|get|dl)\W/)){
+        selection="url:"+link.href;
+        found=1;
+      }
+      else if(found<2 && link.href.match(/\.torrent$/)){
+        selection="url:"+link.href;
+        found=2;
+      }
+      else if(found<3 && link.href.match(magnetRegex)){
+        selection=link.href;
+        found=3;
+      }
+    });
+  }
+  found ? window.open(href+"#"+selection) : alert("No torrent or magnet link found.");
+}
+
 export default defineComponent({
   name: 'Settings',
   data() {
@@ -186,25 +214,6 @@ export default defineComponent({
     if (!window.history.state.modal) {
       const modalState = { modal: true };
       history.pushState(modalState, "");
-    }
-
-    const bookmarkletFunction = (href: string) => {
-      let found=false;
-      let selection=getSelection()?.toString()||"";
-      const hashRegex = /^[0-9a-fA-F]{40}$/;
-      const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}/;
-      if(selection.match(hashRegex)||selection.match(magnetRegex)){
-        found=true;
-      }
-      if(!found){
-        document.querySelectorAll('a').forEach((link)=> {
-          if(link.href.match(magnetRegex) && !found){
-            selection=link.href;
-            found=true;
-          }
-        });
-      }
-      found ? window.open(`${href}#${selection}`) : alert("No magnet links or hashes found.");
     }
 
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${window.location.href}");`;
@@ -252,7 +261,7 @@ export default defineComponent({
           ],
         });
       return alert.present();
-    },
+    }
   },
 });
 </script>

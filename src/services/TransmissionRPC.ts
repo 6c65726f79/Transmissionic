@@ -394,6 +394,11 @@ class TRPC {
         throw Error("HTTP "+response.status);
       }
     }
+    
+    if(ret.result && ret.result!="success"){
+      throw Error(ret.result);
+    }
+
     return ret;
   }
 
@@ -439,7 +444,7 @@ class TRPC {
     }
 
     // Don't report error if there's a more recent request
-    if(ret.errorMessage && requestId<this.lastRequestId){
+    if(ret.errorMessage && action == "torrent-get" && requestId<this.lastRequestId){
       throw Error();
     }
 

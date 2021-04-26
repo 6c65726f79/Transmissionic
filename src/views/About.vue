@@ -11,7 +11,7 @@
     <ion-content :fullscreen="true" class="ion-padding">
       <div class="app-details">
         <img :src="iconSrc" alt="Logo">
-        <ion-title>Transmissionic {{appVersion}}</ion-title>
+        <h4>Transmissionic {{appVersion}}</h4>
       </div>
       <p>
         {{Locale.about.description}}
@@ -32,7 +32,9 @@
       </p>
 
       <p v-if="updateAvailable && downloadUrl">
-        <strong>{{ Locale.updateAvailable }}</strong> <a :href="downloadUrl" target="_blank" rel="noopener">{{newVersion}}</a>
+        <strong>{{formatText(Locale.updateAvailable).before}}</strong>
+        <a :href="downloadUrl" target="_blank" rel="noopener">{{newVersion}}</a>
+        <strong>{{formatText(Locale.updateAvailable).after}}</strong>
       </p>
     </ion-content>
   </ion-page>
@@ -150,6 +152,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+h4 {
+  margin-top:0px;
+}
 .app-details {
   text-align: center;
   margin:40px 0px;

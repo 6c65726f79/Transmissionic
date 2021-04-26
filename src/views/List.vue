@@ -70,6 +70,9 @@
             <ion-fab-button color="light" :data-desc="Locale.magnet" @click="inputMagnet()">
               <ion-icon :ios="magnetOutline" :md="magnetSharp"></ion-icon>
             </ion-fab-button>
+            <ion-fab-button color="light" data-desc="URL" @click="inputURL()">
+              <ion-icon :ios="linkOutline" :md="linkSharp"></ion-icon>
+            </ion-fab-button>
           </ion-fab-list>
         </ion-fab>
       </template>
@@ -169,7 +172,9 @@ import {
   arrowDownOutline,
   arrowUpOutline,
   constructOutline,
-  constructSharp
+  constructSharp,
+  linkOutline,
+  linkSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
@@ -332,7 +337,9 @@ export default defineComponent({
       arrowDownOutline,
       arrowUpOutline,
       constructOutline,
-      constructSharp
+      constructSharp,
+      linkOutline,
+      linkSharp
     }
   },
   async created() {
@@ -343,6 +350,7 @@ export default defineComponent({
   mounted() {
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
     Emitter.on('clear-selection', this.cancelSelection )
+    Emitter.on('torrent-position', (data) => this.changeTorrentPosition(data.id,data.up));
   },
   methods: {
     openSearch() {
@@ -406,21 +414,20 @@ export default defineComponent({
     switchAltSpeed(){
       TransmissionRPC.setSession({"alt-speed-enabled":!this.altSpeedEnabled()})
         .then((response) => {
-          if(response.result=="success"){
-            this.privateState.altSpeedEnabled=!this.privateState.altSpeedEnabled;
-          }
           Utils.responseToast(response.result)
+          this.privateState.altSpeedEnabled=!this.privateState.altSpeedEnabled;
         })
     },
     torrentAction(action: string, torrentIds: Array<number>){
       TransmissionRPC.torrentAction(action,torrentIds)
-        .then(async (response) => {
+        .then((response) => {
           Utils.responseToast(response.result)
-          if(response.result=="success"){
-            for (const torrent of this.getTorrentsByIds(torrentIds)) {
-              torrent.status=Utils.actionStatusResult(action,torrent.percentDone);
-            }
+          for (const torrent of this.getTorrentsByIds(torrentIds)) {
+            torrent.status=Utils.actionStatusResult(action,torrent.percentDone);
           }
+        })
+        .catch((error) => {
+          Utils.responseToast(error.message);
         })
     },
     getTorrentsByIds(torrentIds: Array<number>): Array<any>{
@@ -465,19 +472,21 @@ export default defineComponent({
             },
             {
               text: Locale.prompt.confirm,
-              handler: async (data) => {
+              handler: (data) => {
                 TransmissionRPC.torrentAction("remove",torrentIds,{'delete-local-data':data.includes("deleteData")})
-                  .then(async (response) => {
+                  .then((response) => {
                     Utils.responseToast(response.result);
-                    if(response.result=="success"){
-                      for (const torrent of selectedTorrents) {
-                        const index = this.torrentList.indexOf(torrent);
-                        if(index !== -1) {
-                          this.torrentList.splice(index, 1);
-                        }
+                    for (const torrent of selectedTorrents) {
+                      const index = this.torrentList.indexOf(torrent);
+                      if(index !== -1) {
+                        this.torrentList.splice(index, 1);
                       }
-                      this.cancelSelection();
                     }
+                    this.$forceUpdate();
+                    this.cancelSelection();
+                  })
+                  .catch((error) => {
+                    Utils.responseToast(error.message);
                   })
               },
             },
@@ -538,6 +547,29 @@ export default defineComponent({
           ],
         });
       return actionSheet.present();
+    },
+    changeTorrentPosition(id: number,up: boolean) {
+      let pos = -1;
+      let found = false;
+      while(!found && pos < this.torrentOrderedList.length){
+        pos++;
+        if(this.torrentOrderedList[pos].id==id){
+          found=true;
+        }
+      }
+      const invertWith = up ?  pos-1 : pos+1;
+      if(invertWith>=0 && invertWith<this.torrentOrderedList.length){
+        const newPos = Math.round(this.torrentOrderedList[invertWith].queuePosition);
+        TransmissionRPC.torrentAction("set",[id],{"queuePosition":newPos})
+          .then((response) => {
+            Utils.responseToast(response.result)
+            const move = UserSettings.state.reverse ? -0.1 : 0.1;
+            this.getTorrentsByIds([id])[0].queuePosition=up ? newPos-move : newPos+move;
+          })
+          .catch((error) => {
+            Utils.responseToast(error.message);
+          })
+      }
     },
     async serverInformations() {
       const infos = TransmissionRPC.sessionArguments;
@@ -607,12 +639,32 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data) => {
-                if(data.link.toLowerCase().match(/^\b[0-9a-f]{40}\b$/)){
-                  FileHandler.readMagnet(`magnet:?xt=urn:btih:${data.link}`)
-                }
-                else {
-                  FileHandler.readMagnet(data.link)
-                }
+                FileHandler.readHashOrMagnet(data.link);
+              },
+            },
+          ],
+        });
+      return alert.present();
+    },
+    async inputURL() {
+      const alert = await alertController
+        .create({
+          header: "URL",
+          inputs: [
+            {
+              name: 'url',
+              placeholder: Locale.torrentFileLink
+            }
+          ],
+          buttons: [
+            {
+              text: Locale.actions.cancel,
+              role: 'cancel'
+            },
+            {
+              text: Locale.ok,
+              handler: (data) => {
+                FileHandler.readURL(data.url);
               },
             },
           ],

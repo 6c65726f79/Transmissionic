@@ -71,14 +71,21 @@
                 </ion-label>
               </ion-list-header>
 
-              <ion-item>
+              <ion-item v-if="type=='url'">
+                <ion-label class="label no-wrap">
+                  <div>URL</div>
+                  <span class="selectable">{{torrent}}</span>
+                </ion-label>
+              </ion-item>
+
+              <ion-item v-if="data.name">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.name }}</div>
                   <span class="selectable">{{data.name}}</span>
                 </ion-label>
               </ion-item>
 
-              <ion-item>
+              <ion-item v-if="data.length">
                 <ion-label class="label">
                   <div>{{ Locale.totalSize }}</div>
                   <span class="selectable">{{Utils.formatBytes(data.length)}}</span>
@@ -99,24 +106,24 @@
                 </ion-label>
               </ion-item>
               
-              <ion-item>
+              <ion-item v-if="data.comment">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.comment }}</div>
                   <span class="selectable">{{data.comment}}</span>
                 </ion-label>
               </ion-item>
 
-              <ion-item>
+              <ion-item v-if="data.infoHash">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.hash }}</div>
                   <span class="selectable">{{data.infoHash}}</span>
                 </ion-label>
               </ion-item>
 
-              <ion-item>
+              <ion-item v-if="data.announce && data.announce.length>0">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.tracker.one }}</div>
-                  <span class="selectable">{{data.announce.length>0 ? Utils.trackerDomain(data.announce[0]).domain : null}}</span>
+                  <span class="selectable">{{ Utils.trackerDomain(data.announce[0]).domain }}</span>
                 </ion-label>
               </ion-item>
             </p>
@@ -137,6 +144,7 @@ import { defineComponent, computed } from 'vue';
 import { 
   isPlatform,
   modalController,
+  loadingController,
   IonContent, 
   IonHeader, 
   IonTitle, 
@@ -274,7 +282,7 @@ export default defineComponent({
     setDownloadDir(directory: string) {
       this.downloadDir=directory;
     },
-    add(){
+    async add(){
       const args = {} as Record<string,any>;
       if(this.downloadDir!=""){
         args["download-dir"]=this.downloadDir;
@@ -310,13 +318,21 @@ export default defineComponent({
         args["files-unwanted"]=unwanted;
       }
       
-      TransmissionRPC.torrentAdd({...this.settings, ...args})
-        .then(async (response) => {
+      const loading = await loadingController.create({});
+      if(this.type=="url"){
+        await loading.present();
+      }
+
+      await TransmissionRPC.torrentAdd({...this.settings, ...args})
+        .then((response) => {
           Utils.responseToast(response.result)
-          if(response.result=="success"){
-            this.modalClose();
-          }
-        });
+          this.modalClose();
+        })
+        .catch((error) => {
+          Utils.responseToast(error.message)
+        })
+
+      loading.dismiss();
     },
     setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;

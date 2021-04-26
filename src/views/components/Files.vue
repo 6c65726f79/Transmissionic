@@ -279,16 +279,17 @@ export default defineComponent({
                 }
 
                 TransmissionRPC.torrentAction("rename-path", this.id, args)
-                  .then(async (response) => {
-                    if(response.result=="success"){
-                      for(const item of this.details.files){
-                        if(item.name.startsWith(currentName)){
-                          item.name = item.name.replace(currentName,this.currentDirectory+data.name);
-                        }
+                  .then((response) => {
+                    Utils.responseToast(response.result)
+                    for(const item of this.details.files){
+                      if(item.name.startsWith(currentName)){
+                        item.name = item.name.replace(currentName,this.currentDirectory+data.name);
                       }
                     }
-                    Utils.responseToast(response.result)
-                  });
+                  })
+                  .catch((error) => {
+                    Utils.responseToast(error.message);
+                  })
               },
             },
           ],

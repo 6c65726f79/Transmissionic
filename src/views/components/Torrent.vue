@@ -1,8 +1,8 @@
 <template>
   <div class="torrent">
     <div v-if="orderByPosition" class="order">
-      <ion-icon :md="caretUpSharp" :ios="caretUpOutline" color="medium" @click="setTorrentPosition($event,'up')"></ion-icon>
-      <ion-icon :md="caretDownSharp" :ios="caretDownOutline" color="medium" @click="setTorrentPosition($event,'down')"></ion-icon>
+      <ion-icon :md="caretUpSharp" :ios="caretUpOutline" color="medium" @click="changeTorrentPosition($event,true)"></ion-icon>
+      <ion-icon :md="caretDownSharp" :ios="caretDownOutline" color="medium" @click="changeTorrentPosition($event,false)"></ion-icon>
     </div>
     <div v-else class="control" :class="{ paused: (torrent.status==0) }" @click="switchTorrentState($event)"></div>
     <div class="right">
@@ -98,7 +98,6 @@ import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 import { Emitter } from "../../services/Emitter";
 import { UserSettings } from '../../services/UserSettings';
-import { TransmissionRPC } from '../../services/TransmissionRPC';
 
 export default defineComponent({
   props: ['torrent'],
@@ -145,17 +144,12 @@ export default defineComponent({
       e.stopPropagation();
       Emitter.emit('switch', this.torrent.id)
     },
-    setTorrentPosition(e: Event, direction: string) {
+    changeTorrentPosition(e: Event, up: boolean) {
       e.stopPropagation();
-      let position=Math.round(this.torrent.queuePosition);
-      let up = UserSettings.state.reverse ? (direction=="down") : (direction=="up");
-      up ? position-- : position++;
-      TransmissionRPC.torrentAction("set",[this.torrent.id],{"queuePosition":position})
-        .then((response) => {
-          Utils.responseToast(response.result)
-          const newPos=up ? position-0.1 : position+0.1;
-          Object(this.torrent).queuePosition=newPos;
-        })
+      Emitter.emit("torrent-position",{
+        id:this.torrent.id,
+        up: up
+      })
     }
   }
 })

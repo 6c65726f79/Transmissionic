@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -13,16 +13,16 @@
   "dependencies": {
     "@capacitor/android": "^2.4.7",
     "@capacitor/core": "^2.4.7",
-    "@ionic-native/core": "^5.32.0",
-    "@ionic-native/http": "^5.32.0",
+    "@ionic-native/core": "^5.32.1",
+    "@ionic-native/http": "^5.32.1",
     "@ionic/pwa-elements": "^3.0.2",
-    "@ionic/vue": "^5.6.4",
-    "@ionic/vue-router": "^5.6.4",
+    "@ionic/vue": "^5.6.5",
+    "@ionic/vue-router": "^5.6.5",
     "capacitor-file-selector": "0.0.5",
     "capacitor-secure-storage-plugin": "^0.5.0",
     "cordova-plugin-advanced-http": "^3.1.0",
     "cordova-plugin-file": "^6.0.2",
-    "core-js": "^3.10.1",
+    "core-js": "^3.11.0",
     "localized-strings": "^0.2.4",
     "mitt": "^2.1.0",
     "moment": "^2.29.1",
@@ -31,7 +31,7 @@
     "vue-router": "^4.0.6"
   },
   "devDependencies": {
-    "@capacitor-community/electron": "^1.4.0",
+    "@capacitor-community/electron": "^1.4.1",
     "@capacitor/cli": "^2.4.7",
     "@types/lodash": "^4.14.168",
     "@types/parse-torrent": "^5.8.3",
@@ -44,7 +44,7 @@
     "@vue/cli-service": "^4.5.12",
     "@vue/compiler-sfc": "^3.0.11",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "eslint": "^7.24.0",
+    "eslint": "^7.25.0",
     "eslint-plugin-vue": "^7.9.0",
     "typescript": "~4.2.4"
   },

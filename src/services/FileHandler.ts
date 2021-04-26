@@ -2,13 +2,14 @@ import {
   isPlatform,
   modalController
 } from '@ionic/vue';
+import router from '../router';
+import parseTorrent from 'parse-torrent'
 import AddTorrent from '../views/AddTorrent.vue'
+import { Utils } from './Utils';
 import { Emitter } from "./Emitter";
 import { TransmissionRPC } from "./TransmissionRPC";
 import { Capacitor,Plugins } from '@capacitor/core'; 
 const { FileSelector,App } = Plugins; 
-import parseTorrent from 'parse-torrent'
-import { Utils } from './Utils';
 
 declare const Buffer: any
 declare global {
@@ -41,13 +42,8 @@ export const FileHandler = {
     document.body.addEventListener("drop",(e) => this.handleFileDrop(e), false);
 
     // Read hash from URL
-    let hash = window.location.hash.substring(1);
-    if(hash.match(/^\b[0-9a-fA-F]{40}\b$/)){
-      hash = `magnet:?xt=urn:btih:${hash}`;
-    }
-    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}/)){
-      this.readMagnet(hash);
-    }
+    const hash = window.location.hash.substring(1)
+    hash.startsWith("url:") ? this.readURL(hash.substring(4)) : this.readHashOrMagnet(hash);
   },
   async inputFile(): Promise<void> {
     if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){
@@ -91,10 +87,17 @@ export const FileHandler = {
   handleFileDrop(e: DragEvent): void {
     e.preventDefault();
     if(e.dataTransfer){
-      this.readFile(e.dataTransfer.files[0])
-        .then((result) => {
-          this.fileLoaded(result);
-        })
+      if(e.dataTransfer.files.length>0){
+        this.readFile(e.dataTransfer.files[0])
+          .then((result) => {
+            this.fileLoaded(result);
+          })
+      }
+      else {
+        const data = e.dataTransfer.getData("text/plain");
+        this.readHashOrMagnet(data);
+      }
+      
     }
   },
   handleFile(e: Event): void {
@@ -140,6 +143,15 @@ export const FileHandler = {
       Utils.responseToast(error.message);
     }
   },
+  readHashOrMagnet(text: string): void {
+    let hash = text;
+    if(hash.match(/^\b[0-9a-fA-F]{40}\b$/)){
+      hash = `magnet:?xt=urn:btih:${hash}`;
+    }
+    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/)){
+      this.readMagnet(hash);
+    }
+  },
   readMagnet(magnet: string): void {
     try {
       const torrentData=parseTorrent(magnet);
@@ -152,29 +164,33 @@ export const FileHandler = {
     parseTorrent.remote(url, (err, parsedTorrent) => {
       if (err) {
         Utils.responseToast(err.message);
+        this.newTorrentModal({},url,"url");
       }
       else if(parsedTorrent) {
         this.newTorrentModal(parsedTorrent,url,"url");
       }
     })
   },
-  async newTorrentModal(torrentData: Record<string,any>, torrent: string, type: string): Promise<void> {
-    const modal = await modalController
-      .create({
-        component: AddTorrent,
-        componentProps: {
-          data:torrentData,
-          torrent:torrent,
-          type:type
-        }
-      })
-    modal.onDidDismiss()
-      .then(() => {
-        currentFile?.remove();
-        currentFile=null;
-        Emitter.emit("refresh");
-      })
-    return modal.present();
+  newTorrentModal(torrentData: Record<string,any>|null, torrent: string, type: string): void {
+    router.isReady().then(async () => {
+      const modal = await modalController
+        .create({
+          component: AddTorrent,
+          componentProps: {
+            data:torrentData,
+            torrent:torrent,
+            type:type
+          }
+        })
+      modal.onDidDismiss()
+        .then(() => {
+          window.location.hash="";
+          currentFile?.remove();
+          currentFile=null;
+          Emitter.emit("refresh");
+        })
+      return modal.present();
+    });
   },
   openExplorer(dir: string, path: string, isFile=false): void{
     window.fileOpen.open(this.pathMapping(dir),path,isFile);
