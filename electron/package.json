@@ -15,7 +15,7 @@
     "electron:publish-linux": "npm run build && electron-builder build --linux --publish always"
   },
   "dependencies": {
-    "@capacitor-community/electron": "1.4.1",
+    "@capacitor-community/electron": "1.4.2",
     "custom-electron-titlebar": "^3.2.6",
     "electron-updater": "^4.3.8"
   },
