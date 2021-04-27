@@ -31,7 +31,7 @@
     "vue-router": "^4.0.6"
   },
   "devDependencies": {
-    "@capacitor-community/electron": "^1.4.1",
+    "@capacitor-community/electron": "^1.4.2",
     "@capacitor/cli": "^2.4.7",
     "@types/lodash": "^4.14.168",
     "@types/parse-torrent": "^5.8.3",
