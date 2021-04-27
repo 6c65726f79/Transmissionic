@@ -25,6 +25,9 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
+/* Flags css */
+import 'country-flag-icons/3x2/flags.css';
+
 /* Theme variables */
 import './theme/variables.css';
 import './theme/style.css';
