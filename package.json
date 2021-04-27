@@ -23,7 +23,6 @@
     "cordova-plugin-advanced-http": "^3.1.0",
     "cordova-plugin-file": "^6.0.2",
     "core-js": "^3.11.0",
-    "country-flag-icons": "^1.2.9",
     "localized-strings": "^0.2.4",
     "mitt": "^2.1.0",
     "moment": "^2.29.1",

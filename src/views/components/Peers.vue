@@ -13,7 +13,7 @@
       <div class="peer">
         <div class="main">
           <div class="bloc fit">
-            <div v-if="flagEnabled" class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)"></div>
+            <img v-if="flagEnabled" class="flag" v-bind="flagAttributes(item.address)" @click="countryName(item.address)" alt="">
             {{item.address}}
             <ion-icon v-if="item.isEncrypted" :ios="lockClosedOutline" :md="lockClosedSharp"></ion-icon>
           </div>
@@ -105,7 +105,7 @@ export default defineComponent({
       const ipDetails = await Utils.ipToCountry(adress);
       if(ipDetails){
         this.flags[adress] = {
-          class:`flag:${ipDetails.countryCode}`,
+          src:`./assets/flags/${ipDetails.countryCode}.png`,
           title:ipDetails.country
         }
       }
@@ -130,8 +130,9 @@ img.icon {
 }
 
 .flag {
-  --CountryFlagIcon-height: 16px;
-  vertical-align: middle;
+  height: 16px;
+  object-fit: cover;
+  width: 24px;
 }
 
 
