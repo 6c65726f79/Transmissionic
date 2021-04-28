@@ -155,7 +155,7 @@ const bookmarkletFunction = (href: string) => {
   let found=0;
   let selection=(getSelection()||"").toString();
   const hashRegex = /^[0-9a-fA-F]{40}$/;
-  const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/;
+  const magnetRegex = /^magnet:\?xt=urn:btih:[0-9a-zA-Z]{32,}(&.+)?$/;
   if(selection.match(hashRegex)||selection.match(magnetRegex)){
     found=4;
   }

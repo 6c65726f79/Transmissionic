@@ -148,7 +148,7 @@ export const FileHandler = {
     if(hash.match(/^\b[0-9a-fA-F]{40}\b$/)){
       hash = `magnet:?xt=urn:btih:${hash}`;
     }
-    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-fA-F]{40}(&.+)?$/)){
+    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-zA-Z]{32,}(&.+)?$/)){
       this.readMagnet(hash);
     }
   },
