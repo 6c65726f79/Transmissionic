@@ -161,14 +161,25 @@ export const FileHandler = {
     }
   },
   readURL(url: string): void {
-    parseTorrent.remote(url, (err, parsedTorrent) => {
-      if (err) {
-        this.newTorrentModal({},url,"url");
-      }
-      else if(parsedTorrent) {
-        this.newTorrentModal(parsedTorrent,url,"url");
-      }
-    })
+    if(this.isValidUrl(url)){
+      parseTorrent.remote(url, (err, parsedTorrent) => {
+        if (err) {
+          this.newTorrentModal({},url,"url");
+        }
+        else if(parsedTorrent) {
+          this.newTorrentModal(parsedTorrent,url,"url");
+        }
+      })
+    }
+  },
+  isValidUrl(str: string): boolean {
+    let url;
+    try {
+      url = new URL(str);
+    } catch (_) {
+      return false;  
+    }
+    return url!=null;
   },
   newTorrentModal(torrentData: Record<string,any>|null, torrent: string, type: string): void {
     router.isReady().then(async () => {
