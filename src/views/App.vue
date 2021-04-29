@@ -382,7 +382,7 @@ export default defineComponent({
       const start = this.privateState.trackerList.length;
       const length = Math.round(window.innerHeight/48);
       let loadList = [];
-      if(TransmissionRPC.persistentData){
+      if(TransmissionRPC.persistentData && TransmissionRPC.persistentDataValid){
         loadList=TransmissionRPC.persistentData.trackers.slice(start,start+length);
       }
       this.privateState.trackerList = this.privateState.trackerList.concat(loadList);
