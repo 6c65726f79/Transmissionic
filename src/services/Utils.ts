@@ -10,7 +10,8 @@ import { Plugins, StatusBarStyle } from '@capacitor/core';
 const { App,StatusBar,Toast } = Plugins;
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
-import Moment from "moment"
+import Autolinker from 'autolinker';
+import Moment from "moment";
 
 declare global {
   interface Window {
@@ -72,6 +73,14 @@ export const Utils = {
     Moment.locale(UserSettings.getLanguage())
     const since = Moment.duration(Date.now()-seconds*1000);
     return Locale.formatString(Locale.ago,since.humanize()) as string;
+  },
+
+  autoLink(unsafe: string): string {
+    return Autolinker.link(unsafe,{
+      stripPrefix:false,
+      stripTrailingSlash:false,
+      sanitizeHtml:true
+    })
   },
 
   async ipToCountry(ip: string): Promise<any>{

@@ -18,6 +18,7 @@
     "@ionic/pwa-elements": "^3.0.2",
     "@ionic/vue": "^5.6.5",
     "@ionic/vue-router": "^5.6.5",
+    "autolinker": "^3.14.3",
     "capacitor-file-selector": "0.0.5",
     "capacitor-secure-storage-plugin": "^0.5.0",
     "cordova-plugin-advanced-http": "^3.1.0",
