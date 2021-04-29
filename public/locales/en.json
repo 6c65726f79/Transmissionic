@@ -54,7 +54,8 @@
         "remove": "Remove",
         "editAddress": "Edit address",
         "setLocation": "Set location",
-        "openInExplorer": "Open in explorer"
+        "openInExplorer": "Open in explorer",
+        "copyMagnet": "Copy magnet link"
     },
     "filters": {
         "filters": "Filters",
@@ -207,7 +208,7 @@
     "example": "Example",
     "checkUpdates": "Check for updates",
     "bookmarklet": "Bookmarklet",
-    "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet links and hashes from other websites in one click.",
+    "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet and torrent links from other websites in one click.",
     "updateBlocklist": "Update blocklist",
     "blocklistSize": "Blocklist size: {0}",
     "queuePosition": "Queue position",
