@@ -66,7 +66,7 @@
       <ion-item>
         <ion-label class="label no-wrap">
           <div>{{ Locale.comment }}</div>
-          <span class="selectable">{{ details.comment }}</span>
+          <span class="selectable" v-html="Utils.autoLink(details.comment)"></span>
         </ion-label>
       </ion-item>
       <ion-item>

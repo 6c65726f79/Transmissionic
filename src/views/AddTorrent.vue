@@ -109,7 +109,7 @@
               <ion-item v-if="data.comment">
                 <ion-label class="label no-wrap">
                   <div>{{ Locale.comment }}</div>
-                  <span class="selectable">{{data.comment}}</span>
+                  <span class="selectable" v-html="Utils.autoLink(data.comment)"></span>
                 </ion-label>
               </ion-item>
 

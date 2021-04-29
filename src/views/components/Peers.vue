@@ -105,7 +105,7 @@ export default defineComponent({
       const ipDetails = await Utils.ipToCountry(adress);
       if(ipDetails){
         this.flags[adress] = {
-          src:`http://purecatamphetamine.github.io/country-flag-icons/3x2/${ipDetails.countryCode}.svg`,
+          src:`./assets/flags/${ipDetails.countryCode}.png`,
           title:ipDetails.country
         }
       }
@@ -129,9 +129,10 @@ img.icon {
   height:10px;
 }
 
-img.flag {
-  object-fit: cover;
+.flag {
   height: 16px;
+  object-fit: cover;
+  width: max-content;
 }
 
 

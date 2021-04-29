@@ -117,6 +117,8 @@ import { mdEnterAnimation } from './animations/md.enter';
 import { mdLeaveAnimation } from './animations/md.leave';
 import { Emitter } from "../services/Emitter";
 import * as _ from 'lodash';
+import { Plugins } from '@capacitor/core';
+const { Clipboard } = Plugins;
 
 export default defineComponent({
   name: 'TorrentDetails',
@@ -362,6 +364,15 @@ export default defineComponent({
         {
           text: Locale.actions.openInExplorer,
           handler: () => this.openExplorer()
+        },
+        {
+          text: Locale.actions.copyMagnet,
+          handler: () => {
+            Clipboard.write({
+              string: this.privateState.details.magnetLink
+            });
+            Utils.responseToast("success");
+          }
         },
         {
           text: Locale.actions.reannonce,

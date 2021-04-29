@@ -54,7 +54,8 @@
         "remove": "Retirer",
         "editAddress": "Modifier l'adresse",
         "setLocation": "Définir l'emplacement",
-        "openInExplorer": "Ouvrir dans l'explorateur"
+        "openInExplorer": "Ouvrir dans l'explorateur",
+        "copyMagnet": "Copier le lien magnet"
     },
     "filters": {
         "filters": "Filtres",
@@ -207,7 +208,7 @@
     "example": "Exemple",
     "checkUpdates": "Vérifier les mises à jour",
     "bookmarklet": "Bookmarklet",
-    "bookmarkletDetail": "Glissez et déposez ce bouton dans votre barre des favoris pour importer des liens magnet et hash depuis d'autres sites en un clic.",
+    "bookmarkletDetail": "Glissez et déposez ce bouton dans votre barre des favoris pour importer des torrents ou liens magnet depuis d'autres sites en un clic.",
     "updateBlocklist": "Mettre à jour la liste",
     "blocklistSize": "Taille de la liste : {0}",
     "queuePosition": "Position dans la file",
