@@ -54,7 +54,8 @@
         "remove": "Remove",
         "editAddress": "Edit address",
         "setLocation": "Set location",
-        "openInExplorer": "Open in explorer"
+        "openInExplorer": "Open in explorer",
+        "copyMagnet": "Copy magnet link"
     },
     "filters": {
         "filters": "Filters",
