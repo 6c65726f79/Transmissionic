@@ -56,7 +56,8 @@
         "remove": "Удалить",
         "editAddress": "Изменить адрес",
         "setLocation": "Задать путь",
-        "openInExplorer": "Открыть в проводнике"
+        "openInExplorer": "Открыть в проводнике",
+        "copyMagnet": "Copy magnet link"
     },
     "filters": {
         "filters": "Фильтры",
