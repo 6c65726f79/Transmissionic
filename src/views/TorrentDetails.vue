@@ -367,12 +367,7 @@ export default defineComponent({
         },
         {
           text: Locale.actions.copyMagnet,
-          handler: () => {
-            Clipboard.write({
-              string: this.privateState.details.magnetLink
-            });
-            Utils.responseToast("success");
-          }
+          handler: () => this.copyMagnet()
         },
         {
           text: Locale.actions.reannonce,
@@ -405,6 +400,19 @@ export default defineComponent({
           buttons: buttons,
         });
       return actionSheet.present();
+    },
+    copyMagnet() {
+      const text = this.privateState.details.magnetLink;
+      let promise;
+      if(isPlatform("capacitor")){
+        promise = Clipboard.write({string: text})
+      }
+      else {
+        promise = navigator.clipboard.writeText(text)
+      }
+      promise.then(() => {
+        Utils.responseToast("success");
+      })
     },
     torrentAction(action: string, torrentIds: Array<number>){
       TransmissionRPC.torrentAction(action,torrentIds)
