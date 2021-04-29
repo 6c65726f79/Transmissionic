@@ -117,8 +117,6 @@ import { mdEnterAnimation } from './animations/md.enter';
 import { mdLeaveAnimation } from './animations/md.leave';
 import { Emitter } from "../services/Emitter";
 import * as _ from 'lodash';
-import { Plugins } from '@capacitor/core';
-const { Clipboard } = Plugins;
 
 export default defineComponent({
   name: 'TorrentDetails',
@@ -402,17 +400,12 @@ export default defineComponent({
       return actionSheet.present();
     },
     copyMagnet() {
-      const text = this.privateState.details.magnetLink;
-      let promise;
-      if(isPlatform("capacitor")){
-        promise = Clipboard.write({string: text})
-      }
-      else {
-        promise = navigator.clipboard.writeText(text)
-      }
-      promise.then(() => {
-        Utils.responseToast("success");
-      })
+      Utils.clipboardCopy(this.privateState.details.magnetLink)
+        .then(() => {
+          Utils.responseToast("success");
+        }).catch((error) => {
+          Utils.responseToast(error)
+        })
     },
     torrentAction(action: string, torrentIds: Array<number>){
       TransmissionRPC.torrentAction(action,torrentIds)

@@ -7,7 +7,7 @@ import {
   useBackButton
 } from '@ionic/vue';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
-const { App,StatusBar,Toast } = Plugins;
+const { App,StatusBar,Toast,Clipboard } = Plugins;
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
 import Autolinker from 'autolinker';
@@ -81,6 +81,29 @@ export const Utils = {
       stripTrailingSlash:false,
       sanitizeHtml:true
     })
+  },
+
+  async clipboardCopy(text: string): Promise<any> {
+    let promise;
+    if(isPlatform("capacitor")){
+      promise = Clipboard.write({string: text})
+    }
+    else if(navigator.clipboard && navigator.clipboard.writeText) {
+      promise = navigator.clipboard.writeText(text)
+    }
+    else {
+      const input = document.createElement('input');
+      document.body.appendChild(input);
+      input.value = text;
+      input.focus();
+      input.select();
+      const result = document.execCommand('copy');
+      input.remove();
+      if (!result) {
+        throw Error('Failed to copy text.')
+      }
+    }
+    return promise;
   },
 
   async ipToCountry(ip: string): Promise<any>{
