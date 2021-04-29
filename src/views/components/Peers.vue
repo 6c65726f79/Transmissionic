@@ -132,7 +132,7 @@ img.icon {
 .flag {
   height: 16px;
   object-fit: cover;
-  width: 24px;
+  width: max-content;
 }
 
 
