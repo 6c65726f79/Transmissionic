@@ -1,4 +1,4 @@
-import { app  } from "electron";
+import { app, shell } from "electron";
 import fs from "fs";
 import { createCapacitorElectronApp } from "@capacitor-community/electron";
 import { autoUpdater } from "electron-updater"
@@ -66,6 +66,22 @@ app.on('open-file', (event, path) => {
   mainWindow.webContents.send('fileopen', openFile)
 })
 
+app.on('web-contents-created', (createEvent, contents) => {
+  contents.on('new-window', (e, url) => {
+    shell.openExternal(url)
+    e.preventDefault();
+  });
+  
+  contents.on('will-navigate', (e, url) => {
+    shell.openExternal(url)
+    e.preventDefault()
+  });
+  
+  contents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' }
+  })
+});
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
