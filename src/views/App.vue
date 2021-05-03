@@ -316,7 +316,8 @@ export default defineComponent({
       await LocaleController.setLanguage(UserSettings.getLanguage());
     }
     SplashScreen.hide();
-    UserSettings.loadServerList()
+    document.body.classList.toggle("loading",false);
+    await UserSettings.loadServerList()
       .then((result)=>{
         this.privateState.serverList = result;
         this.privateState.connectionStatus.loading=false;
