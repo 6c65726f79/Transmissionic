@@ -212,7 +212,7 @@ class TRPC {
       args.fields.push('trackers','downloadDir');
     }
 
-    const response = await this.rpcCall("torrent-get", args)
+    const response = await this.rpcCall("torrent-get", args, true, true);
 
     if(response.arguments){
       result=response.arguments.torrents
@@ -365,11 +365,11 @@ class TRPC {
     return this.rpcCall("torrent-add", args);
   }
 
-  async rpcCall(method: string, args: Record<string, any> = {}, retry=true) {
+  async rpcCall(method: string, args: Record<string, any> = {}, retry=true, ignoreError=false) {
     let ret: Record<string, any>={};
     const token = await this.getToken()
 
-    const response = await this.request(method,token,args);
+    const response = await this.request(method,token,args,ignoreError);
 
     if(response.errorMessage){
       throw Error(response.errorMessage);
@@ -402,7 +402,7 @@ class TRPC {
     return ret;
   }
 
-  async request(action: string, token?: string, args: Record<string, any> = {}) {
+  async request(action: string, token?: string, args: Record<string, any> = {}, ignoreError=false) {
     let ret: Record<string, any>={};
 
     const requestId = ++this.lastRequestId;
@@ -444,7 +444,7 @@ class TRPC {
     }
 
     // Don't report error if there's a more recent request
-    if(ret.errorMessage && action == "torrent-get" && requestId<this.lastRequestId){
+    if(ret.errorMessage && ignoreError && requestId<this.lastRequestId){
       throw Error();
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <ion-content class="ion-padding" ref="content">
+  <ion-content class="ion-padding" ref="content" v-if="details">
     <ion-list>
       <ion-list-header>
         {{ Locale.informations }}
