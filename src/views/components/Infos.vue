@@ -30,7 +30,7 @@
       <ion-item>
         <ion-label class="label">
           <div>{{ Locale.files }}</div>
-          <span class="selectable">{{ details.files.length }}</span>
+          <span class="selectable">{{ details.files?.length }}</span>
         </ion-label>
       </ion-item>
       <ion-item>
@@ -102,7 +102,7 @@
       <ion-item>
         <ion-label class="label">
           <div>{{ Locale.tracker.one }}</div>
-          <span class="selectable">{{ details.trackers.length>0 ? Utils.trackerDomain(details.trackers[0].announce).domain : null }}</span>
+          <span class="selectable">{{ (details.trackers && details.trackers.length>0) ? Utils.trackerDomain(details.trackers[0].announce).domain : null }}</span>
         </ion-label>
       </ion-item>
       <ion-item>

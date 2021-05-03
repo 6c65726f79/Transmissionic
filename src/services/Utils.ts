@@ -43,11 +43,11 @@ export const Utils = {
     return (val / Math.pow(k, i)).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:dm}) + ' ' + sizes[i] + unit;
   },
 
-  getPercent(percentDone: number): string {
+  getPercent(percentDone=0): string {
     return (percentDone*100).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:2})+'%'
   },
 
-  getRatio(ratio: number, decimal=3): string {
+  getRatio(ratio=0, decimal=3): string {
     return ratio.toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:decimal});
   },
 
