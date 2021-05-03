@@ -67,16 +67,6 @@ app.on('open-file', (event, path) => {
 })
 
 app.on('web-contents-created', (createEvent, contents) => {
-  contents.on('new-window', (e, url) => {
-    shell.openExternal(url)
-    e.preventDefault();
-  });
-  
-  contents.on('will-navigate', (e, url) => {
-    shell.openExternal(url)
-    e.preventDefault()
-  });
-  
   contents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' }
