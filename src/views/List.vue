@@ -44,12 +44,15 @@
       <template v-slot:default="{item}">
         <Torrent 
           :attr-id="item.id"
-          :torrent="item" 
+          :torrent="item"
           v-on:switch="switchTorrentState"
           @click="torrentClick(item)" 
           @contextmenu="longPress($event,item.id)" 
           v-longpress="longPressFallback"
-          :class="{ selected: privateState.selection.includes(item.id) }">
+          :class="{ 
+            selected: privateState.selection.includes(item.id),
+            removed: privateState.removed.includes(item.id)
+          }">
         </Torrent>
       </template>
 
@@ -204,6 +207,7 @@ export default defineComponent({
         viewPopover:false,
         needFallback:false,
         selection: [] as number[],
+        removed: [] as number[],
         altSpeedEnabled:false
       }
     }
@@ -288,9 +292,9 @@ export default defineComponent({
       }
 
       if(this.privateState.search!=""){
-        const search=this.privateState.search;
+        const search=this.privateState.search.toLowerCase();
         result = _.filter(result, function(o) {
-          return o.name.toLowerCase().indexOf(search.toLowerCase()) >= 0;
+          return o.name.toLowerCase().indexOf(search) >= 0;
         });
       }
 
@@ -310,6 +314,11 @@ export default defineComponent({
     },
     downloadSpeed: function (): number {
       return _.sumBy(this.torrentList, function(o: Record<string,any>) { return o.rateDownload; });
+    }
+  },
+  watch: {
+    "torrentList.length": function() {
+      this.privateState.removed = [];
     }
   },
   setup() {
@@ -477,12 +486,8 @@ export default defineComponent({
                   .then((response) => {
                     Utils.responseToast(response.result);
                     for (const torrent of selectedTorrents) {
-                      const index = this.torrentList.indexOf(torrent);
-                      if(index !== -1) {
-                        this.torrentList.splice(index, 1);
-                      }
+                      this.privateState.removed.push(torrent.id);
                     }
-                    this.$forceUpdate();
                     this.cancelSelection();
                   })
                   .catch((error) => {
@@ -696,6 +701,10 @@ ion-fab {
 
 #top ion-icon {
   vertical-align: top;
+}
+
+#torrentList .removed {
+  display:none;
 }
 
 #footer ion-icon {

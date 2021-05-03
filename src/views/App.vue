@@ -297,6 +297,16 @@ export default defineComponent({
     },
     language() {
       LocaleController.setLanguage(UserSettings.getLanguage());
+    },
+    "privateState.serverList.length": async function() {
+      if(this.privateState.selectedServer>=this.privateState.serverList.length){
+        this.privateState.selectedServer=this.privateState.serverList.length-1;
+      }
+      if(this.privateState.selectedServer<0){
+        this.privateState.serverList = await UserSettings.loadServerList();
+        this.privateState.selectedServer = 0;
+      }
+      this.selectServer(this.privateState.selectedServer);
     }
   },
   async beforeCreate() {
@@ -315,17 +325,6 @@ export default defineComponent({
   },
   created() {
     Utils.setTheme(this.sharedState.colorScheme);
-
-    this.$watch(() => this.privateState.serverList.length, async () => {
-      if(this.privateState.selectedServer>=this.privateState.serverList.length){
-        this.privateState.selectedServer=this.privateState.serverList.length-1;
-      }
-      if(this.privateState.selectedServer<0){
-        this.privateState.serverList = await UserSettings.loadServerList();
-        this.privateState.selectedServer = 0;
-      }
-      this.selectServer(this.privateState.selectedServer);
-    });
 
     // Detect light/dark mode change from OS
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
