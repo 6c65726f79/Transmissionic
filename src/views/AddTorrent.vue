@@ -4,7 +4,7 @@
         <ion-buttons slot="start">
           <ion-back-button defaultHref="#" @click="modalClose()"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ Locale.addTorrent }}</ion-title>
+        <ion-title>{{ multiple ? Locale.addTorrents : Locale.addTorrent }}</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="add()" fill="clear" :disabled="!connectionStatus.connected">
             <ion-icon slot="icon-only" :ios="checkmarkOutline" :md="checkmarkSharp"></ion-icon>
@@ -16,8 +16,11 @@
           <ion-segment-button :value="0" ref="segment-0">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" ref="segment-1" :disabled="!data.files">
+          <ion-segment-button :value="1" v-if="!multiple" ref="segment-1" :disabled="!data.files">
             <ion-label>{{ Locale.files }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button :value="1" v-else ref="segment-1">
+            <ion-label class="text-transform">{{ Locale.torrent.other }}</ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
@@ -49,7 +52,7 @@
             </ion-item>
 
             <ion-item>
-              <ion-label>{{ Locale.startTorrent }}</ion-label>
+              <ion-label>{{ Locale.actions.start }}</ion-label>
               <ion-toggle :checked="!settings.paused" v-on:ionChange="settings.paused=!settings.paused" class="swiper-no-swiping"></ion-toggle>
             </ion-item>
 
@@ -71,6 +74,13 @@
                 </ion-label>
               </ion-list-header>
 
+              <ion-item v-if="multiple">
+                <ion-label class="label no-wrap">
+                  <div class="text-transform">{{ Locale.torrent.other }}</div>
+                  <span class="selectable">{{files.length}}</span>
+                </ion-label>
+              </ion-item>
+
               <ion-item v-if="type=='url'">
                 <ion-label class="label no-wrap">
                   <div>URL</div>
@@ -85,10 +95,10 @@
                 </ion-label>
               </ion-item>
 
-              <ion-item v-if="data.length">
+              <ion-item v-if="totalSize">
                 <ion-label class="label">
                   <div>{{ Locale.totalSize }}</div>
-                  <span class="selectable">{{Utils.formatBytes(data.length)}}</span>
+                  <span class="selectable">{{Utils.formatBytes(totalSize)}}</span>
                 </ion-label>
               </ion-item>
 
@@ -132,7 +142,7 @@
         </ion-content>
 
       </ion-slide>
-      <ion-slide v-if="data.files">
+      <ion-slide v-if="!multiple && data.files">
         <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
       </ion-slide>
     </ion-slides>
@@ -180,7 +190,7 @@ import * as _ from 'lodash';
 
 export default defineComponent({
   name: 'AddTorrent',
-  props: ["data","torrent","type"],
+  props: ["files","type"],
   inject: ["connectionStatus"],
   components: { 
     ConnectionStatus,
@@ -229,12 +239,25 @@ export default defineComponent({
         simulateTouch:false
       }
     },
+    multiple(): boolean {
+      return this.files.length>1
+    },
+    data(): Record<string,any> {
+      return this.multiple ? {} : this.files[0].data;
+    },
+    totalSize(): number|null {
+      let result=0;
+      this.files.forEach((file: Record<string,any>) => {
+        result=result+file.data.length
+      })
+      return result>0 ? result : null;
+    }
   },
   provide() {
     return {
       id: -1,
       details: this.data,
-      fileStats:  this.data.files,
+      fileStats: this.data.files,
       currentDirectory: computed(() => this.currentDirectory)
     } 
   },
@@ -250,7 +273,7 @@ export default defineComponent({
     }
   },
   async created() {
-    if(this.data.files){
+    if(!this.multiple && this.data.files){
       this.fileStats = _.clone(this.data.files);
       this.fileStats.forEach((file: Record<string,any>) => {
         file.wanted=true;
@@ -270,9 +293,6 @@ export default defineComponent({
     retry() {
       Emitter.emit("refresh",true);
     },
-    setOpen(state: boolean) {
-      this.autocompleteOpen = state;
-    },
     changeDirectory(directory: string) {
       this.currentDirectory=directory;
     },
@@ -284,15 +304,15 @@ export default defineComponent({
       if(this.downloadDir!=""){
         args["download-dir"]=this.downloadDir;
       }
-      switch (this.type) {
+      /*switch (this.type) {
         case "magnet":
         case "url":
-          args.filename=this.torrent
+          //args.filename=this.torrent
           break;
         case "file":
-          args.metainfo=this.torrent
+          //args.metainfo=this.torrent
           break;
-      }
+      }*/
 
       const wanted=[];
       const unwanted=[];
@@ -316,8 +336,25 @@ export default defineComponent({
       }
       
       const loading = await loadingController.create({});
-      if(this.type=="url"){
+      if(this.type=="url" || this.multiple){
         await loading.present();
+      }
+
+      for(const torrentFile of this.files) {
+        await this.send(args,torrentFile.torrent);
+      }
+
+      loading.dismiss();
+    },
+    async send(args: Record<string,any>,torrent:string) {
+      switch (this.type) {
+        case "magnet":
+        case "url":
+          args.filename=torrent
+          break;
+        case "file":
+          args.metainfo=torrent
+          break;
       }
 
       await TransmissionRPC.torrentAdd({...this.settings, ...args})
@@ -328,8 +365,6 @@ export default defineComponent({
         .catch((error) => {
           Utils.responseToast(error.message)
         })
-
-      loading.dismiss();
     },
     setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;

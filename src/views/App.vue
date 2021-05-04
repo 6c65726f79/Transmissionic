@@ -41,7 +41,7 @@
             <ion-menu-toggle auto-hide="false" v-for="(f, index) in privateState.filters" :key="index">
               <ion-item @click="privateState.selectedFilter = index" lines="none" :class="{ selected: privateState.selectedFilter === index }">
                 <ion-icon slot="start" :ios="f.iosIcon" :md="f.mdIcon"></ion-icon>
-                <ion-label class="filter-name">{{ f.label() }}</ion-label>
+                <ion-label class="text-transform">{{ f.label() }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
@@ -500,10 +500,6 @@ export default defineComponent({
 <style scoped>
 #logo span {
   color:var(--ion-color-primary);
-}
-
-.filter-name::first-letter {
-  text-transform: uppercase;
 }
 
 ion-menu.menu-pane-visible {

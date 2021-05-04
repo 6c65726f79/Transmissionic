@@ -104,11 +104,11 @@ export const FileHandler = {
       this.readFiles(files)
     }
   },
-  readFiles(files: FileList): void{
+  async readFiles(files: FileList): Promise<void>{
     torrentFiles = [];
-    Array.from(files).forEach(async (file: File) => {
+    for(const file of Array.from(files)){
       torrentFiles.push(await this.readFile(file));
-    });
+    }
     this.filesLoaded();
   },
   readFile(file: File): Promise<ArrayBuffer> {
@@ -123,11 +123,11 @@ export const FileHandler = {
       reader.readAsArrayBuffer(file);
     });
   },
-  loadFiles(paths: Array<string>): void {
+  async loadFiles(paths: Array<string>): Promise<void> {
     torrentFiles = [];
-    paths.forEach(async (path: string) => {
+    for(const path of paths){
       torrentFiles.push(await this.loadFile(path));
-    });
+    }
     this.filesLoaded();
   },
   loadFile(path: string): Promise<ArrayBuffer> {

@@ -74,6 +74,10 @@ input[type=number] {
   width:300px;
 }
 
+.text-transform::first-letter {
+  text-transform: uppercase;
+}
+
 
 ion-menu ion-item {
   cursor:pointer;
