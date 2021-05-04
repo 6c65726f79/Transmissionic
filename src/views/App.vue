@@ -315,14 +315,13 @@ export default defineComponent({
     if(UserSettings.state.language=="default"){
       await LocaleController.setLanguage(UserSettings.getLanguage());
     }
-    SplashScreen.hide();
-    document.body.classList.toggle("loading",false);
     await UserSettings.loadServerList()
       .then((result)=>{
         this.privateState.serverList = result;
         this.privateState.connectionStatus.loading=false;
       })
-    
+    SplashScreen.hide();
+    document.body.classList.toggle("loading",false);
   },
   created() {
     Utils.setTheme(this.sharedState.colorScheme);
