@@ -57,7 +57,11 @@ const chartOptions = {
       position: "bottom" as any
     },
     tooltip: {
-      enabled: false
+      callbacks: {
+        label: function(context: Record<string,any>): string {
+          return Utils.formatBytes(context.raw,1,true) as string;
+        }
+      }
     },
   },
   elements: {
