@@ -3,7 +3,7 @@
     <ion-item>
       {{Locale.statistics}}
     </ion-item>
-    <canvas ref="canvas" width="290" height="200"></canvas>
+    <canvas ref="canvas" width="290" height="150"></canvas>
     <ion-item>
       <table>
         <tr>
