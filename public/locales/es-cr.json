@@ -212,5 +212,10 @@
     "updateBlocklist": "Update blocklist",
     "blocklistSize": "Blocklist size: {0}",
     "queuePosition": "Queue position",
-    "torrentFileLink": "Torrent file link"
+    "torrentFileLink": "Torrent file link",
+    "statistics": "Statistics",
+    "current": "Current",
+    "total": "Total",
+    "duration": "Duration",
+    "addTorrents": "Add multiple torrents"
 }
