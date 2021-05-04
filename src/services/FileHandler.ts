@@ -11,7 +11,6 @@ import { TransmissionRPC } from "./TransmissionRPC";
 import { Capacitor,Plugins } from '@capacitor/core'; 
 const { FileSelector,App } = Plugins; 
 
-declare const Buffer: any
 declare global {
   interface Window {
       fileOpen: any;
@@ -19,12 +18,14 @@ declare global {
 }
 
 let currentFile: HTMLInputElement|null;
+let torrentFiles: Array<ArrayBuffer> = [];
 
 export const FileHandler = {
   listenFileOpen(): void {
     if(isPlatform("electron") && window.fileOpen){
-      window.fileOpen.receive((arg: any) => {
-        this.fileLoaded(arg)
+      window.fileOpen.receive((files: Array<ArrayBuffer>) => {
+        torrentFiles = files;
+        this.filesLoaded();
       });
     }
     else if(isPlatform("capacitor")){
@@ -39,7 +40,7 @@ export const FileHandler = {
       })
     }
     document.body.addEventListener("dragover", (e) => e.preventDefault(), false);
-    document.body.addEventListener("drop",(e) => this.handleFileDrop(e), false);
+    document.body.addEventListener("drop",(e) => this.handleFilesDrop(e), false);
 
     // Read hash from URL
     const hash = window.location.hash.substring(1)
@@ -49,14 +50,14 @@ export const FileHandler = {
     if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){
       // Capacitor file chooser
       const selectedFile = await FileSelector.fileSelector({ 
-        "multiple_selection": false, 
+        "multiple_selection": true, 
         ext: ["torrent"] 
       })
 
       if(isPlatform("android")){
         const paths = JSON.parse(selectedFile.paths) 
         if(paths.length>0){
-          this.loadFile(paths[0]);
+          this.loadFiles(paths);
         }
       }
     }
@@ -66,11 +67,11 @@ export const FileHandler = {
         const input = document.createElement("input");
         input.setAttribute("type", "file");
         input.setAttribute("id", "inputFile");
-        input.setAttribute("multiple", "false");
+        input.setAttribute("multiple", "true");
         input.setAttribute("accept", ".torrent");
         input.setAttribute("style", "display:none;");
         currentFile = document.body.appendChild(input);
-        currentFile.addEventListener("change", (e) => this.handleFile(e), false);
+        currentFile.addEventListener("change", (e) => this.handleFiles(e), false);
       }
       currentFile.click();
     }
@@ -84,14 +85,11 @@ export const FileHandler = {
     }
     return window.btoa( binary );
   },
-  handleFileDrop(e: DragEvent): void {
+  handleFilesDrop(e: DragEvent): void {
     e.preventDefault();
     if(e.dataTransfer){
       if(e.dataTransfer.files.length>0){
-        this.readFile(e.dataTransfer.files[0])
-          .then((result) => {
-            this.fileLoaded(result);
-          })
+        this.readFiles(e.dataTransfer.files);
       }
       else {
         const data = e.dataTransfer.getData("text/plain");
@@ -100,20 +98,24 @@ export const FileHandler = {
       
     }
   },
-  handleFile(e: Event): void {
+  handleFiles(e: Event): void {
     const files = (e.target as HTMLInputElement).files;
     if(files){
-      this.readFile(files[0])
-        .then((result) => {
-          this.fileLoaded(result);
-        })
+      this.readFiles(files)
     }
+  },
+  readFiles(files: FileList): void{
+    torrentFiles = [];
+    Array.from(files).forEach(async (file: File) => {
+      torrentFiles.push(await this.readFile(file));
+    });
+    this.filesLoaded();
   },
   readFile(file: File): Promise<ArrayBuffer> {
     return new Promise(function (resolve, reject) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        resolve(e.target.result)
+        resolve(e.target.result);
       }
       reader.onerror = () => {
         reject();
@@ -121,20 +123,29 @@ export const FileHandler = {
       reader.readAsArrayBuffer(file);
     });
   },
-  async loadFile(path: string): Promise<void> {
-    const file = await fetch(path)
-      .then((r) => r.arrayBuffer())
-    if(file){
-      this.fileLoaded(file)
-    }
+  loadFiles(paths: Array<string>): void {
+    torrentFiles = [];
+    paths.forEach(async (path: string) => {
+      torrentFiles.push(await this.loadFile(path));
+    });
+    this.filesLoaded();
   },
-  fileLoaded(content: ArrayBuffer): void {
-    const buffer = new Buffer(content);
-    const torrentData = this.parseBuffer(buffer);
-    if(torrentData!=null){
-      const base64 = this.arrayBufferToBase64(content);
-      this.newTorrentModal(torrentData,base64,"file");
-    }
+  loadFile(path: string): Promise<ArrayBuffer> {
+    return fetch(path)
+      .then((r) => r.arrayBuffer())
+  },
+  filesLoaded(): void {
+    const files: Array<any> = [];
+    torrentFiles.forEach((torrentFile) => {
+      const buffer = Buffer.from(torrentFile);
+      const data = this.parseBuffer(buffer);
+      const torrent = this.arrayBufferToBase64(torrentFile);
+      files.push({
+        data,
+        torrent
+      });
+    });
+    this.newTorrentModal(files,"file");
   },
   parseBuffer(buffer: ArrayBuffer): Record<string,any>|void {
     try {
@@ -154,8 +165,8 @@ export const FileHandler = {
   },
   readMagnet(magnet: string): void {
     try {
-      const torrentData=parseTorrent(magnet);
-      this.newTorrentModal(torrentData,magnet,"magnet");
+      const data=parseTorrent(magnet);
+      this.newTorrentModal([{data,torrent:magnet}],"magnet");
     } catch (error) {
       Utils.responseToast(error.message);
     }
@@ -163,11 +174,9 @@ export const FileHandler = {
   readURL(url: string): void {
     if(this.isValidUrl(url)){
       parseTorrent.remote(url, (err, parsedTorrent) => {
-        if (err) {
-          this.newTorrentModal({},url,"url");
-        }
-        else if(parsedTorrent) {
-          this.newTorrentModal(parsedTorrent,url,"url");
+        const data = err ? {} : parsedTorrent;
+        if(data) {
+          this.newTorrentModal([{data,torrent:url}],"url");
         }
       })
     }
@@ -181,15 +190,14 @@ export const FileHandler = {
     }
     return url!=null;
   },
-  newTorrentModal(torrentData: Record<string,any>|null, torrent: string, type: string): void {
+  newTorrentModal(files: Array<any>, type: string): void {
     router.isReady().then(async () => {
       const modal = await modalController
         .create({
           component: AddTorrent,
           componentProps: {
-            data:torrentData,
-            torrent:torrent,
-            type:type
+            files,
+            type
           }
         })
       modal.onDidDismiss()
