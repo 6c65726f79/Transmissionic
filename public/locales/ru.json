@@ -220,5 +220,10 @@
     "updateBlocklist": "Обновить черный список",
     "blocklistSize": "Размер черного списка: {0}",
     "queuePosition": "Позиция в очереди",
-    "torrentFileLink": "Ссылка на файл торрента"
+    "torrentFileLink": "Ссылка на файл торрента",
+    "statistics": "Statistics",
+    "current": "Current",
+    "total": "Total",
+    "duration": "Duration",
+    "addTorrents": "Add multiple torrents"
 }
