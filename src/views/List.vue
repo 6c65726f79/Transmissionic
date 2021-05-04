@@ -116,12 +116,14 @@
           </ion-button>
         </ion-buttons>
         <ion-buttons slot="end">
-          <span class="bloc">
-            <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),2,true) }}
-          </span>
-          <span class="bloc">
-            <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),2,true) }}
-          </span>
+          <div>
+            <span class="bloc">
+              <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),2,true) }}
+            </span>
+            <span class="bloc">
+              <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),2,true) }}
+            </span>
+          </div>
           <ion-button fill="clear" @click="openStatsPopover">
             <ion-icon slot="icon-only" :ios="analyticsOutline" :md="analyticsSharp"></ion-icon>
           </ion-button>

@@ -1,22 +1,32 @@
 <template>
   <ion-list id="stats" lines="none">
     <ion-item>
-      Statistics
+      {{Locale.statistics}}
     </ion-item>
     <canvas ref="canvas" width="290" height="200"></canvas>
     <ion-item>
-      Current ({{Utils.durationToString(sessionStats["current-stats"].secondsActive*1000)}})
-    </ion-item>
-    <ion-item>
-      <ion-icon :icon="arrowDownOutline" color="success" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["current-stats"].downloadedBytes)}}
-      <ion-icon :icon="arrowUpOutline" color="primary" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["current-stats"].uploadedBytes)}}
-    </ion-item>
-    <ion-item>
-      Total ({{Utils.durationToString(sessionStats["cumulative-stats"].secondsActive*1000)}})
-    </ion-item>
-    <ion-item>
-      <ion-icon :icon="arrowDownOutline" color="success" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["cumulative-stats"].downloadedBytes)}}
-      <ion-icon :icon="arrowUpOutline" color="primary" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["cumulative-stats"].uploadedBytes)}}
+      <table>
+        <tr>
+          <td></td>
+          <td>{{Locale.current}}</td>
+          <td>{{Locale.total}}</td>
+        </tr>
+        <tr>
+          <td>{{Locale.downloaded}}</td>
+          <td>{{Utils.formatBytes(sessionStats["current-stats"].downloadedBytes)}}</td>
+          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].downloadedBytes)}}</td>
+        </tr>
+        <tr>
+          <td>{{Locale.uploaded}}</td>
+          <td>{{Utils.formatBytes(sessionStats["current-stats"].uploadedBytes)}}</td>
+          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].uploadedBytes)}}</td>
+        </tr>
+        <tr>
+          <td>{{Locale.duration}}</td>
+          <td>{{Utils.durationToString(sessionStats["current-stats"].secondsActive*1000)}}</td>
+          <td>{{Utils.durationToString(sessionStats["cumulative-stats"].secondsActive*1000)}}</td>
+        </tr>
+      </table>
     </ion-item>
   </ion-list>
 </template>
@@ -26,7 +36,6 @@ import { defineComponent } from 'vue';
 import { 
   IonList,
   IonItem,
-  IonIcon
 } from '@ionic/vue';
 import {
   arrowDownOutline,
@@ -53,7 +62,6 @@ const chartOptions = {
   },
   elements: {
     line: {
-      tension:.5,
       borderWidth: 2,
       fill:true
     },
@@ -75,7 +83,7 @@ const chartOptions = {
     y: {
       ticks: {
         callback: function(value: string|number) {
-          return Utils.formatBytes(parseInt(value.toString()),0,true) as string|number;
+          return Utils.formatBytes(parseInt(value.toString()),1,true) as string|number;
         }
       }
     }
@@ -87,7 +95,6 @@ export default defineComponent({
   components: {
     IonList,
     IonItem,
-    IonIcon
   },
   data() {
     return {
@@ -169,5 +176,17 @@ export default defineComponent({
 <style scoped>
 canvas {
   margin: auto;
+}
+
+table {
+  width:100%;
+  margin:5px 0px;
+}
+td {
+  padding: 2px;
+  text-align: right;
+}
+tr td:first-child {
+  text-align: left;;
 }
 </style>
