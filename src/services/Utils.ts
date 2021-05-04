@@ -25,7 +25,7 @@ let ipToCountryWaitUntil: any;
 
 export const Utils = {
   formatBytes(bytes: number, decimals = 2, speed = false): string|void{
-    if(bytes===undefined) return;
+    if(bytes===undefined||bytes<0) return;
     const useSpeed = speed && UserSettings.state.useBits;
     const k = useSpeed ? 1000 : 1024;
     let unit = useSpeed ? Locale.units.bit : Locale.units.byte;

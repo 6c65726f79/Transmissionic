@@ -403,6 +403,7 @@ export default defineComponent({
           component: StatsPopover,
           event: ev,
           translucent: true,
+          cssClass: 'stats-popover',
           showBackdrop: isPlatform("ios")
         })
       popover.onDidDismiss().then(() => Emitter.emit("swipe-enabled",true));

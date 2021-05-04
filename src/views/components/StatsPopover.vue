@@ -1,36 +1,59 @@
 <template>
-  <ion-list id="stats">
-    <canvas ref="canvas1" width="240" height="200"></canvas>
+  <ion-list id="stats" lines="none">
+    <ion-item>
+      Statistics
+    </ion-item>
+    <canvas ref="canvas" width="290" height="200"></canvas>
+    <ion-item>
+      Current ({{Utils.durationToString(sessionStats["current-stats"].secondsActive*1000)}})
+    </ion-item>
+    <ion-item>
+      <ion-icon :icon="arrowDownOutline" color="success" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["current-stats"].downloadedBytes)}}
+      <ion-icon :icon="arrowUpOutline" color="primary" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["current-stats"].uploadedBytes)}}
+    </ion-item>
+    <ion-item>
+      Total ({{Utils.durationToString(sessionStats["cumulative-stats"].secondsActive*1000)}})
+    </ion-item>
+    <ion-item>
+      <ion-icon :icon="arrowDownOutline" color="success" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["cumulative-stats"].downloadedBytes)}}
+      <ion-icon :icon="arrowUpOutline" color="primary" size="small"></ion-icon> {{Utils.formatBytes(sessionStats["cumulative-stats"].uploadedBytes)}}
+    </ion-item>
   </ion-list>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { 
-  IonList
+  IonList,
+  IonItem,
+  IonIcon
 } from '@ionic/vue';
 import {
+  arrowDownOutline,
+  arrowUpOutline,
 } from 'ionicons/icons';
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 import { Chart,registerables  } from "chart.js";
+import { TransmissionRPC } from '../../services/TransmissionRPC';
 Chart.register(...registerables);
 
 let chart: Chart;
+let drawInterval: any;
 
 const chartOptions = {
   responsive: false,
   plugins: {
     legend: {
       position: "bottom" as any
-      /*display: false*/
+    },
+    tooltip: {
+      enabled: false
     },
   },
   elements: {
     line: {
       tension:.5,
-      borderColor: '',
-      backgroundColor: '',
       borderWidth: 2,
       fill:true
     },
@@ -38,8 +61,8 @@ const chartOptions = {
       radius: 0
     }
   },
-  tooltips: {
-    enabled: false
+  animation: {
+    duration: 0
   },
   scales: {
     x: {
@@ -52,7 +75,7 @@ const chartOptions = {
     y: {
       ticks: {
         callback: function(value: string|number) {
-            return Utils.formatBytes(parseInt(value.toString()),0,true) as string|number;
+          return Utils.formatBytes(parseInt(value.toString()),0,true) as string|number;
         }
       }
     }
@@ -62,27 +85,30 @@ const chartOptions = {
 export default defineComponent({
   name: 'OrderPopover',
   components: {
-    IonList
+    IonList,
+    IonItem,
+    IonIcon
   },
   data() {
     return {
       data: {
-        labels: ['11:10', '', '', '', '', '', '', '', '', '', '11:34'],
+        labels: this.labels(),
         datasets: [
           {
             label: Locale.download,
-            data: [435, 321, 532, 801, 1231, 1098, 732, 321, 451, 482, 513],
+            data: this.dataset1(),
             borderColor: "rgb(47,223,117)",
             backgroundColor: "rgba(47,223,117,.2)"
           },
           {
             label: Locale.seed,
-            data: [513, 482, 451, 321, 732, 1098, 1231, 801, 532, 321, 435],
+            data: this.dataset2(),
             borderColor: "rgb(66,140,255)",
             backgroundColor: "rgba(66,140,255,.2)"
           }
         ]
       },
+      sessionStats:TransmissionRPC.sessionStats
     }
   },
   setup() {
@@ -90,22 +116,51 @@ export default defineComponent({
 
     return {
       Locale,
+      Utils,
+      arrowDownOutline,
+      arrowUpOutline,
     };
   },
   created() {
-    this.$nextTick(() => this.draw());
+    this.$nextTick(() => this.setDrawInterval());
+  },
+  beforeUnmount() {
+    clearInterval(drawInterval);
   },
   methods: {
-    draw() {
-      const canvas = this.$refs.canvas1 as HTMLCanvasElement;
+    setDrawInterval() {
+      const canvas = this.$refs.canvas as HTMLCanvasElement;
       chart = new Chart(canvas, {type: 'line',options:chartOptions,data:this.data});
-      console.log(chart)
+      drawInterval = setInterval(() => this.updateData(),10000);
     },
-    addData() {
-      this.data.labels.push("");
-      this.data.datasets[0].data.push(Math.floor(Math.random() * 1000));
-      this.data.datasets[1].data.push(Math.floor(Math.random() * 1000));
+    updateData() {
+      this.data.labels = this.labels();
+      this.data.datasets[0].data = this.dataset1();
+      this.data.datasets[1].data = this.dataset2();
+      this.sessionStats = TransmissionRPC.sessionStats;
       chart.update();
+    },
+    dataset1(): any {
+      return TransmissionRPC.statsHistory.map((values) => values[0] as number);
+    },
+    dataset2(): any {
+      return TransmissionRPC.statsHistory.map((values) => values[1] as number);
+    },
+    labels() {
+      const result=[];
+      for (let i = 0; i < TransmissionRPC.statsHistory.length; i++) {
+        if(i===0){
+          const start = (Date.now()/1000)-(TransmissionRPC.statsHistory.length*10);
+          result.push(Utils.secondsToDate(start, false, true));
+        }
+        else if(i===TransmissionRPC.statsHistory.length-1){
+          result.push(Utils.secondsToDate(Date.now()/1000, false, true));
+        }
+        else {
+          result.push("");
+        }
+      }
+      return result;
     }
   }
 });
@@ -115,5 +170,4 @@ export default defineComponent({
 canvas {
   margin: auto;
 }
-
 </style>

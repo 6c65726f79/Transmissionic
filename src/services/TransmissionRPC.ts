@@ -157,8 +157,7 @@ class TRPC {
 
   addStatsHistory(downloadSpeed: number|null,uploadSpeed: number|null) {
     this.statsHistory.push([downloadSpeed,uploadSpeed]);
-    this.statsHistory=this.statsHistory.slice(-20);
-    console.log(this.statsHistory);
+    this.statsHistory=this.statsHistory.slice(-30);
   }
 
   setSession(args: Record<string, any>): Promise<Record<string, any>> {

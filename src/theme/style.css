@@ -70,6 +70,10 @@ input[type=number] {
   -moz-appearance: textfield !important;
 }
 
+.stats-popover .popover-content {
+  width:300px;
+}
+
 
 ion-menu ion-item {
   cursor:pointer;
