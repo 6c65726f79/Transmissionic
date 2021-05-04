@@ -117,10 +117,10 @@
         </ion-buttons>
         <ion-buttons slot="end">
           <span class="bloc">
-            <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed,2,true) }}
+            <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),2,true) }}
           </span>
           <span class="bloc">
-            <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed,2,true) }}
+            <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),2,true) }}
           </span>
           <ion-button fill="clear" @click="openStatsPopover">
             <ion-icon slot="icon-only" :ios="analyticsOutline" :md="analyticsSharp"></ion-icon>
@@ -316,11 +316,11 @@ export default defineComponent({
         return _.orderBy(this.torrentSelectedList, [this.sharedState.orderBy], orders);
       }
     },
-    uploadSpeed: function (): number {
-      return _.sumBy(this.torrentList, function(o: Record<string,any>) { return o.rateUpload; });
+    uploadSpeed: function (): any {
+      return () => TransmissionRPC.sessionStats.uploadSpeed;
     },
-    downloadSpeed: function (): number {
-      return _.sumBy(this.torrentList, function(o: Record<string,any>) { return o.rateDownload; });
+    downloadSpeed: function (): any {
+      return () => TransmissionRPC.sessionStats.downloadSpeed;
     }
   },
   watch: {
