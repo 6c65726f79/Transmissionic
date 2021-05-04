@@ -122,6 +122,9 @@
           <span class="bloc">
             <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed,2,true) }}
           </span>
+          <ion-button fill="clear" @click="openStatsPopover">
+            <ion-icon slot="icon-only" :ios="analyticsOutline" :md="analyticsSharp"></ion-icon>
+          </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-footer>
@@ -177,7 +180,10 @@ import {
   constructOutline,
   constructSharp,
   linkOutline,
-  linkSharp
+  linkSharp,
+  analyticsOutline,
+  analyticsSharp,
+  
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
@@ -185,6 +191,7 @@ import ServerConfig from './ServerConfig.vue'
 import VirtualScroll from './components/VirtualScroll.vue'
 import Torrent from './components/Torrent.vue'
 import OrderPopover from './components/OrderPopover.vue'
+import StatsPopover from './components/StatsPopover.vue'
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from "../services/FileHandler";
@@ -348,7 +355,9 @@ export default defineComponent({
       constructOutline,
       constructSharp,
       linkOutline,
-      linkSharp
+      linkSharp,
+      analyticsOutline,
+      analyticsSharp,
     }
   },
   async created() {
@@ -380,6 +389,18 @@ export default defineComponent({
       const popover = await popoverController
         .create({
           component: OrderPopover,
+          event: ev,
+          translucent: true,
+          showBackdrop: isPlatform("ios")
+        })
+      popover.onDidDismiss().then(() => Emitter.emit("swipe-enabled",true));
+      return popover.present();
+    },
+    async openStatsPopover(ev: Event) {
+      Emitter.emit("swipe-enabled",false);
+      const popover = await popoverController
+        .create({
+          component: StatsPopover,
           event: ev,
           translucent: true,
           showBackdrop: isPlatform("ios")
