@@ -13,13 +13,13 @@
         </tr>
         <tr>
           <td>{{Locale.downloaded}}</td>
-          <td>{{Utils.formatBytes(sessionStats["current-stats"].downloadedBytes)}}</td>
-          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].downloadedBytes)}}</td>
+          <td>{{Utils.formatBytes(sessionStats["current-stats"].downloadedBytes,1)}}</td>
+          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].downloadedBytes,1)}}</td>
         </tr>
         <tr>
           <td>{{Locale.uploaded}}</td>
-          <td>{{Utils.formatBytes(sessionStats["current-stats"].uploadedBytes)}}</td>
-          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].uploadedBytes)}}</td>
+          <td>{{Utils.formatBytes(sessionStats["current-stats"].uploadedBytes,1)}}</td>
+          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].uploadedBytes,1)}}</td>
         </tr>
         <tr>
           <td>{{Locale.duration}}</td>
