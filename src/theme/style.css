@@ -199,6 +199,11 @@ ion-menu.ios ion-note {
   height: 44px;
 }
 
+.ios ion-list-header ion-label {
+  font-size: 1rem;
+  margin-top: 0px;
+}
+
 ion-infinite-scroll-content {
   padding:8px;
 }
