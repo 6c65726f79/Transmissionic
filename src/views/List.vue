@@ -325,11 +325,6 @@ export default defineComponent({
       return () => TransmissionRPC.sessionStats.downloadSpeed;
     }
   },
-  watch: {
-    "torrentList.length": function() {
-      this.privateState.removed = [];
-    }
-  },
   setup() {
     return { 
       Locale,
