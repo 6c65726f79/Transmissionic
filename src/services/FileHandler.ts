@@ -145,6 +145,7 @@ export const FileHandler = {
         torrent
       });
     });
+    torrentFiles = [];
     this.newTorrentModal(files,"file");
   },
   parseBuffer(buffer: ArrayBuffer): Record<string,any>|void {

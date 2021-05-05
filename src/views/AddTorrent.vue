@@ -304,15 +304,6 @@ export default defineComponent({
       if(this.downloadDir!=""){
         args["download-dir"]=this.downloadDir;
       }
-      /*switch (this.type) {
-        case "magnet":
-        case "url":
-          //args.filename=this.torrent
-          break;
-        case "file":
-          //args.metainfo=this.torrent
-          break;
-      }*/
 
       const wanted=[];
       const unwanted=[];
@@ -336,17 +327,28 @@ export default defineComponent({
       }
       
       const loading = await loadingController.create({});
-      if(this.type=="url" || this.multiple){
-        await loading.present();
-      }
+      await loading.present();
+
+      let error=false;
 
       for(const torrentFile of this.files) {
-        await this.send(args,torrentFile.torrent);
+        if(!error){
+          await this.send(args,torrentFile.torrent)
+            .catch((error) => {
+              Utils.responseToast(error.message)
+              error=true;
+            })
+        }
       }
 
-      loading.dismiss();
+      await loading.dismiss();
+
+      if(!error){
+        Utils.responseToast("success");
+        this.modalClose();
+      }
     },
-    async send(args: Record<string,any>,torrent:string) {
+    send(args: Record<string,any>,torrent:string) {
       switch (this.type) {
         case "magnet":
         case "url":
@@ -357,14 +359,7 @@ export default defineComponent({
           break;
       }
 
-      await TransmissionRPC.torrentAdd({...this.settings, ...args})
-        .then((response) => {
-          Utils.responseToast(response.result)
-          this.modalClose();
-        })
-        .catch((error) => {
-          Utils.responseToast(error.message)
-        })
+      return TransmissionRPC.torrentAdd({...this.settings, ...args});
     },
     setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;
