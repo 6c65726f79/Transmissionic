@@ -32,6 +32,7 @@
     </ConnectionStatus>
 
     <ion-slides v-show="connectionStatus.connected" ref="slider" :options="slidesOptions" v-on:ionSlideTransitionEnd="slideChanged">
+      <!-- General tab --> 
       <ion-slide>
 
         <ion-content class="ion-padding" ref="content">
@@ -142,8 +143,34 @@
         </ion-content>
 
       </ion-slide>
+      <!-- Files tab -->
       <ion-slide v-if="!multiple && data.files">
         <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
+      </ion-slide>
+      <!-- Torrents tab -->
+      <ion-slide v-if="multiple">
+        <VirtualScroll v-bind="$attrs" ref="content" :items="files" :item-size="64" key-field="data.infoHash">
+          <template v-slot:default="{item}">
+            <div class="torrent">
+              <div class="side">
+                <ion-checkbox
+                  v-bind="checkedAttributes(item.data.infoHash)"
+                  v-on:ionChange="checboxUpdate($event,item.data.infoHash)">
+                </ion-checkbox>
+              </div>
+              <div class="middle" @click="fileTitle(item.data.name)" @contextmenu="fileTitle(item.data.name, $event)">
+                <div class="name">
+                  {{item.data.name}}
+                </div>
+                <div class="details">
+                  <ion-icon color="medium" :ios="documentOutline" :md="documentSharp"></ion-icon>
+
+                  {{ Utils.formatBytes(item.data.length) }}
+                </div>
+              </div>
+            </div>
+          </template>
+        </VirtualScroll>
       </ion-slide>
     </ion-slides>
     
@@ -173,14 +200,18 @@ import {
   IonToggle,
   IonSelect,
   IonSelectOption,
-  IonIcon
+  IonIcon,
+  IonCheckbox
 } from '@ionic/vue';
 import {
   checkmarkOutline,
-  checkmarkSharp
+  checkmarkSharp,
+  documentOutline,
+  documentSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
+import VirtualScroll from './components/VirtualScroll.vue';
 import Files from './components/Files.vue';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
@@ -196,6 +227,7 @@ export default defineComponent({
     ConnectionStatus,
     Autocomplete,
     Files,
+    VirtualScroll,
     IonContent, 
     IonHeader, 
     IonTitle, 
@@ -214,7 +246,8 @@ export default defineComponent({
     IonToggle,
     IonSelect,
     IonSelectOption,
-    IonIcon
+    IonIcon,
+    IonCheckbox
   },
   data() {
     return {
@@ -228,6 +261,7 @@ export default defineComponent({
       downloadDir:"",
       currentDirectory:"",
       fileStats:[] as Array<any>,
+      notWanted:[] as Array<string>
     }
   },
   computed: {
@@ -269,7 +303,9 @@ export default defineComponent({
       Utils,
       TransmissionRPC,
       checkmarkOutline,
-      checkmarkSharp
+      checkmarkSharp,
+      documentOutline,
+      documentSharp
     }
   },
   async created() {
@@ -298,6 +334,25 @@ export default defineComponent({
     },
     setDownloadDir(directory: string) {
       this.downloadDir=directory;
+    },
+    fileTitle(title: string, e?: Event){
+      if(e){
+        e.preventDefault();
+      }
+      Utils.responseToast(title)
+    },
+    checkedAttributes(hash: string) {
+      return {
+        checked:!this.notWanted.includes(hash)
+      }
+    },
+    checboxUpdate(e: any, hash: string) {
+      if(e.detail.checked){
+        this.notWanted.splice(this.notWanted.indexOf(hash), 1);
+      }
+      else {
+        this.notWanted.push(hash)
+      }
     },
     async add(){
       const args = {} as Record<string,any>;
@@ -332,7 +387,7 @@ export default defineComponent({
       let error=false;
 
       for(const torrentFile of this.files) {
-        if(!error){
+        if(!error && !this.notWanted.includes(torrentFile.data.infoHash)){
           await this.send(args,torrentFile.torrent)
             .catch((error) => {
               Utils.responseToast(error.message)
@@ -417,5 +472,57 @@ p {
 .label > span:empty:after {
   content:" ";
   white-space: pre;
+}
+
+.torrent {
+  height:64px;
+  border-bottom: 1px solid var(--ion-border-color);
+  text-align:left;
+}
+
+.torrent > div {
+  padding:5px;
+  vertical-align: top;
+}
+
+.side {
+  height:64px;
+  width:50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side ion-icon {
+  font-size:20px;
+  margin: 18px 0px;
+}
+
+.middle {
+  position:relative;
+  display:inline-block;
+  height:64px;
+  width:calc(100% - 50px);
+}
+
+.name {
+  font-size:1rem;
+  line-height: 1.2rem;
+  height: 38px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.details {
+  font-size: 14px;
+  color:var(--ion-color-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.details ion-icon {
+  vertical-align: -2px;
 }
 </style>
