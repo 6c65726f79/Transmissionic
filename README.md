@@ -38,6 +38,14 @@
 * Sort torrents by trackers
 * Open files in explorer
 
+### Compatibility
+
+Browsers
+
+| **Platform**    | Chrome        | Firefox       | Opera         | Edge          |
+| --------------- | ------------- | ------------- | ------------- | ------------- |
+| **Supported**   |               |               |               |               |
+
 ### Screenshots
 
 <img src="https://i.imgur.com/DEPKQKj.png" width="300"> <img src="https://i.imgur.com/67TkEwU.png" width="300">
