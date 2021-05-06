@@ -40,7 +40,7 @@
 
 ### Screenshots
 
-<img src="https://i.imgur.com/DEPKQKj.png" width="300"> <img src="https://i.imgur.com/67TkEwU.png" width="300">
+<img src="https://i.imgur.com/STtzxrY.png" width="300"> <img src="https://i.imgur.com/5Y9ML4s.png" width="300">
 
 ### Translation
 
