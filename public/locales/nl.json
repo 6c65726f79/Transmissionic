@@ -158,7 +158,6 @@
     "serverInformation": "Server information",
     "transmissionVersion": "Transmission version",
     "freeSpace": "Free space",
-    "startTorrent": "Start torrent",
     "addTorrent": "Add torrent",
     "noResult": "No result",
     "startByAddingServer": "Start by {0}adding a server{1}",
