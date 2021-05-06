@@ -158,7 +158,6 @@
     "serverInformation": "Information du serveur",
     "transmissionVersion": "Version de Transmission",
     "freeSpace": "Espace disponible",
-    "startTorrent": "Démarrer le torrent",
     "addTorrent": "Ajouter un torrent",
     "noResult": "Aucun resultat",
     "startByAddingServer": "Commencez par {0}ajouter un serveur{1}",
