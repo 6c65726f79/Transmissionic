@@ -78,6 +78,10 @@ input[type=number] {
   text-transform: uppercase;
 }
 
+.ion-padding.small {
+  padding-top:4px;
+  padding-bottom:4px;
+}
 
 ion-menu ion-item {
   cursor:pointer;

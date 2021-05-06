@@ -89,9 +89,9 @@
           {{ Locale.bookmarkletDetail }}
         </ion-item>
 
-        <ion-item>
+        <div class="ion-padding small">
           <a :href="bookmarkletScript"><ion-button size="default">Download with Transmissionic</ion-button></a>
-        </ion-item>
+        </div>
       </ion-list>
 
       <ion-list>
@@ -101,9 +101,9 @@
           </ion-label>
         </ion-list-header>
 
-        <ion-item>
+        <div class="ion-padding small">
           <ion-button size="default" @click="resetSettings()">{{ Locale.resetSettings }}</ion-button>
-        </ion-item>
+        </div>
       </ion-list>
     </ion-content>
     
