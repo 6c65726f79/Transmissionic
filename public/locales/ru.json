@@ -37,8 +37,8 @@
     "selection": "Выбранное",
     "torrent": {
         "one": "торрент",
-        "few": "торренты",
-        "many": "торренты",
+        "few": "торрента",
+        "many": "торрентов",
         "other": "торренты"
     },
     "actions": {
@@ -155,7 +155,7 @@
     "peerCount": "Количество пиров",
     "lastUpdate": "Последнее обновление",
     "nextUpdate": "Следующее обновление",
-    "scrape": "Скрип",
+    "scrape": "Скрейп",
     "seeders": "Сидеры",
     "leechers": "Личеры",
     "downloadCount": "Количество загрузок",
@@ -166,7 +166,6 @@
     "serverInformation": "Информация о сервере",
     "transmissionVersion": "Версия Transmission",
     "freeSpace": "Свободное место",
-    "startTorrent": "Стартовать торрент",
     "addTorrent": "Добавить торрент",
     "noResult": "Результатов нет, но вы держитесь",
     "startByAddingServer": "Начать {0}с добавлением сервера{1}",
@@ -221,9 +220,9 @@
     "blocklistSize": "Размер черного списка: {0}",
     "queuePosition": "Позиция в очереди",
     "torrentFileLink": "Ссылка на файл торрента",
-    "statistics": "Statistics",
-    "current": "Current",
-    "total": "Total",
-    "duration": "Duration",
-    "addTorrents": "Add multiple torrents"
+    "statistics": "Статистика",
+    "current": "Текущий",
+    "total": "Всего",
+    "duration": "Продолжительность",
+    "addTorrents": "Добавить несколько торрентов"
 }
