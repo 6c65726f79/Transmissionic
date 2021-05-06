@@ -3,7 +3,7 @@
     <ion-list-header id="top">
       <ion-label>
         {{trackerCount}}
-        {{trackerCount > 1 ? Locale.tracker.other : Locale.tracker.one }}
+        {{ LocaleController.getPlural("tracker",trackerCount) }}
       </ion-label>
     </ion-list-header>
     <template v-for="tracker in displayedTrackerList" :key="tracker.id">
@@ -134,6 +134,7 @@ import {
   checkmarkCircleSharp,
   add
 } from 'ionicons/icons';
+import { LocaleController } from "../../services/LocaleController";
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 import { TransmissionRPC } from '../../services/TransmissionRPC';
@@ -171,6 +172,7 @@ export default defineComponent({
     return { 
       Utils,
       Locale,
+      LocaleController,
       ellipsisVerticalOutline,
       ellipsisVerticalSharp,
       syncCircleOutline,

@@ -26,6 +26,7 @@
     "cordova-plugin-file": "^6.0.2",
     "core-js": "^3.11.3",
     "localized-strings": "^0.2.4",
+    "make-plural": "^6.2.2",
     "mitt": "^2.1.0",
     "moment": "^2.29.1",
     "parse-torrent": "^9.1.3",

@@ -31,8 +31,8 @@
       <template v-slot:start>
         <ion-list-header id="top">
           <ion-label>
-            {{torrentSelectedList.length}}
-            {{torrentSelectedList.length > 1 ? Locale.torrent.other : Locale.torrent.one }} ·
+            {{ torrentSelectedList.length }}
+            {{ LocaleController.getPlural("torrent",torrentSelectedList.length) }} ·
             <span @click="openOrderPopover">
               <ion-icon :ios="filterOutline" :md="filterSharp"></ion-icon>
               {{ Locale.order }}
@@ -89,7 +89,8 @@
           </ion-button>
         </ion-buttons>
         <div class="text">
-          {{ privateState.selection.length }} {{ privateState.selection.length>1 ? Locale.selected.other : Locale.selected.one }}
+          {{ privateState.selection.length }}
+          {{ LocaleController.getPlural("selected",privateState.selection.length) }}
         </div>
         <ion-buttons slot="end">
           <ion-button fill="clear" @click="torrentActions(privateState.selection[0])">
@@ -197,6 +198,7 @@ import StatsPopover from './components/StatsPopover.vue'
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from "../services/FileHandler";
+import { LocaleController } from "../services/LocaleController";
 import { Locale } from "../services/Locale";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
@@ -319,15 +321,16 @@ export default defineComponent({
       }
     },
     uploadSpeed: function (): any {
-      return () => TransmissionRPC.sessionStats.uploadSpeed;
+      return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.uploadSpeed : 0;
     },
     downloadSpeed: function (): any {
-      return () => TransmissionRPC.sessionStats.downloadSpeed;
+      return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.downloadSpeed: 0;
     }
   },
   setup() {
     return { 
       Locale,
+      LocaleController,
       Utils,
       searchOutline,
       searchSharp,
@@ -366,6 +369,7 @@ export default defineComponent({
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
     Emitter.on('clear-selection', this.cancelSelection )
     Emitter.on('torrent-position', (data) => this.changeTorrentPosition(data.id,data.up));
+    Emitter.on('language-changed', () => { this.$forceUpdate() });
   },
   methods: {
     openSearch() {
