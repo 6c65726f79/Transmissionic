@@ -4,7 +4,7 @@
         <ion-buttons slot="start">
           <ion-back-button defaultHref="#" @click="modalClose()"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ Locale.addTorrent }}</ion-title>
+        <ion-title>{{ multiple ? Locale.addTorrents : Locale.addTorrent }}</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="add()" fill="clear" :disabled="!connectionStatus.connected">
             <ion-icon slot="icon-only" :ios="checkmarkOutline" :md="checkmarkSharp"></ion-icon>
@@ -16,8 +16,11 @@
           <ion-segment-button :value="0" ref="segment-0">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" ref="segment-1" :disabled="!data.files">
+          <ion-segment-button :value="1" v-if="!multiple" ref="segment-1" :disabled="!data.files">
             <ion-label>{{ Locale.files }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button :value="1" v-else ref="segment-1">
+            <ion-label class="text-transform">{{ Locale.torrent.other }}</ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
@@ -29,6 +32,7 @@
     </ConnectionStatus>
 
     <ion-slides v-show="connectionStatus.connected" ref="slider" :options="slidesOptions" v-on:ionSlideTransitionEnd="slideChanged">
+      <!-- General tab --> 
       <ion-slide>
 
         <ion-content class="ion-padding" ref="content">
@@ -49,7 +53,7 @@
             </ion-item>
 
             <ion-item>
-              <ion-label>{{ Locale.startTorrent }}</ion-label>
+              <ion-label>{{ Locale.actions.start }}</ion-label>
               <ion-toggle :checked="!settings.paused" v-on:ionChange="settings.paused=!settings.paused" class="swiper-no-swiping"></ion-toggle>
             </ion-item>
 
@@ -71,6 +75,13 @@
                 </ion-label>
               </ion-list-header>
 
+              <ion-item v-if="multiple">
+                <ion-label class="label no-wrap">
+                  <div class="text-transform">{{ Locale.torrent.other }}</div>
+                  <span class="selectable">{{files.length}}</span>
+                </ion-label>
+              </ion-item>
+
               <ion-item v-if="type=='url'">
                 <ion-label class="label no-wrap">
                   <div>URL</div>
@@ -85,10 +96,10 @@
                 </ion-label>
               </ion-item>
 
-              <ion-item v-if="data.length">
+              <ion-item v-if="totalSize">
                 <ion-label class="label">
                   <div>{{ Locale.totalSize }}</div>
-                  <span class="selectable">{{Utils.formatBytes(data.length)}}</span>
+                  <span class="selectable">{{Utils.formatBytes(totalSize)}}</span>
                 </ion-label>
               </ion-item>
 
@@ -132,8 +143,34 @@
         </ion-content>
 
       </ion-slide>
-      <ion-slide v-if="data.files">
+      <!-- Files tab -->
+      <ion-slide v-if="!multiple && data.files">
         <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
+      </ion-slide>
+      <!-- Torrents tab -->
+      <ion-slide v-if="multiple">
+        <VirtualScroll v-bind="$attrs" ref="content" :items="files" :item-size="64" key-field="data.infoHash">
+          <template v-slot:default="{item}">
+            <div class="torrent">
+              <div class="side">
+                <ion-checkbox
+                  v-bind="checkedAttributes(item.data.infoHash)"
+                  v-on:ionChange="checboxUpdate($event,item.data.infoHash)">
+                </ion-checkbox>
+              </div>
+              <div class="middle" @click="fileTitle(item.data.name)" @contextmenu="fileTitle(item.data.name, $event)">
+                <div class="name">
+                  {{item.data.name}}
+                </div>
+                <div class="details">
+                  <ion-icon color="medium" :ios="documentOutline" :md="documentSharp"></ion-icon>
+
+                  {{ Utils.formatBytes(item.data.length) }}
+                </div>
+              </div>
+            </div>
+          </template>
+        </VirtualScroll>
       </ion-slide>
     </ion-slides>
     
@@ -163,14 +200,18 @@ import {
   IonToggle,
   IonSelect,
   IonSelectOption,
-  IonIcon
+  IonIcon,
+  IonCheckbox
 } from '@ionic/vue';
 import {
   checkmarkOutline,
-  checkmarkSharp
+  checkmarkSharp,
+  documentOutline,
+  documentSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
+import VirtualScroll from './components/VirtualScroll.vue';
 import Files from './components/Files.vue';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
@@ -180,12 +221,13 @@ import * as _ from 'lodash';
 
 export default defineComponent({
   name: 'AddTorrent',
-  props: ["data","torrent","type"],
+  props: ["files","type"],
   inject: ["connectionStatus"],
   components: { 
     ConnectionStatus,
     Autocomplete,
     Files,
+    VirtualScroll,
     IonContent, 
     IonHeader, 
     IonTitle, 
@@ -204,7 +246,8 @@ export default defineComponent({
     IonToggle,
     IonSelect,
     IonSelectOption,
-    IonIcon
+    IonIcon,
+    IonCheckbox
   },
   data() {
     return {
@@ -218,6 +261,7 @@ export default defineComponent({
       downloadDir:"",
       currentDirectory:"",
       fileStats:[] as Array<any>,
+      notWanted:[] as Array<string>
     }
   },
   computed: {
@@ -229,12 +273,25 @@ export default defineComponent({
         simulateTouch:false
       }
     },
+    multiple(): boolean {
+      return this.files.length>1
+    },
+    data(): Record<string,any> {
+      return this.multiple ? {} : this.files[0].data;
+    },
+    totalSize(): number|null {
+      let result=0;
+      this.files.forEach((file: Record<string,any>) => {
+        result=result+file.data.length
+      })
+      return result>0 ? result : null;
+    }
   },
   provide() {
     return {
       id: -1,
       details: this.data,
-      fileStats:  this.data.files,
+      fileStats: this.data.files,
       currentDirectory: computed(() => this.currentDirectory)
     } 
   },
@@ -246,11 +303,13 @@ export default defineComponent({
       Utils,
       TransmissionRPC,
       checkmarkOutline,
-      checkmarkSharp
+      checkmarkSharp,
+      documentOutline,
+      documentSharp
     }
   },
   async created() {
-    if(this.data.files){
+    if(!this.multiple && this.data.files){
       this.fileStats = _.clone(this.data.files);
       this.fileStats.forEach((file: Record<string,any>) => {
         file.wanted=true;
@@ -270,28 +329,35 @@ export default defineComponent({
     retry() {
       Emitter.emit("refresh",true);
     },
-    setOpen(state: boolean) {
-      this.autocompleteOpen = state;
-    },
     changeDirectory(directory: string) {
       this.currentDirectory=directory;
     },
     setDownloadDir(directory: string) {
       this.downloadDir=directory;
     },
+    fileTitle(title: string, e?: Event){
+      if(e){
+        e.preventDefault();
+      }
+      Utils.responseToast(title)
+    },
+    checkedAttributes(hash: string) {
+      return {
+        checked:!this.notWanted.includes(hash)
+      }
+    },
+    checboxUpdate(e: any, hash: string) {
+      if(e.detail.checked){
+        this.notWanted.splice(this.notWanted.indexOf(hash), 1);
+      }
+      else {
+        this.notWanted.push(hash)
+      }
+    },
     async add(){
       const args = {} as Record<string,any>;
       if(this.downloadDir!=""){
         args["download-dir"]=this.downloadDir;
-      }
-      switch (this.type) {
-        case "magnet":
-        case "url":
-          args.filename=this.torrent
-          break;
-        case "file":
-          args.metainfo=this.torrent
-          break;
       }
 
       const wanted=[];
@@ -316,20 +382,39 @@ export default defineComponent({
       }
       
       const loading = await loadingController.create({});
-      if(this.type=="url"){
-        await loading.present();
+      await loading.present();
+
+      let error=false;
+
+      for(const torrentFile of this.files) {
+        if(!error && !this.notWanted.includes(torrentFile.data.infoHash)){
+          await this.send(args,torrentFile.torrent)
+            .catch((e) => {
+              Utils.responseToast(e.message)
+              error=true;
+            })
+        }
       }
 
-      await TransmissionRPC.torrentAdd({...this.settings, ...args})
-        .then((response) => {
-          Utils.responseToast(response.result)
-          this.modalClose();
-        })
-        .catch((error) => {
-          Utils.responseToast(error.message)
-        })
+      await loading.dismiss();
 
-      loading.dismiss();
+      if(!error){
+        Utils.responseToast("success");
+        this.modalClose();
+      }
+    },
+    send(args: Record<string,any>,torrent:string) {
+      switch (this.type) {
+        case "magnet":
+        case "url":
+          args.filename=torrent
+          break;
+        case "file":
+          args.metainfo=torrent
+          break;
+      }
+
+      return TransmissionRPC.torrentAdd({...this.settings, ...args});
     },
     setTab(index: number, smooth=true) {
       const slider = this.$refs.slider as Record<string,any>;
@@ -387,5 +472,57 @@ p {
 .label > span:empty:after {
   content:" ";
   white-space: pre;
+}
+
+.torrent {
+  height:64px;
+  border-bottom: 1px solid var(--ion-border-color);
+  text-align:left;
+}
+
+.torrent > div {
+  padding:5px;
+  vertical-align: top;
+}
+
+.side {
+  height:64px;
+  width:50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side ion-icon {
+  font-size:20px;
+  margin: 18px 0px;
+}
+
+.middle {
+  position:relative;
+  display:inline-block;
+  height:64px;
+  width:calc(100% - 50px);
+}
+
+.name {
+  font-size:1rem;
+  line-height: 1.2rem;
+  height: 38px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.details {
+  font-size: 14px;
+  color:var(--ion-color-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.details ion-icon {
+  vertical-align: -2px;
 }
 </style>

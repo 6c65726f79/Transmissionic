@@ -15,6 +15,9 @@ declare global {
 type Method = "get" | "post" | "put" | "patch" | "head" | "delete" | "options" | "upload" | "download";
 type Serializer = "json" | "urlencoded" | "utf8" | "multipart" | "raw" | undefined;
 
+let freeSpaceRefreshInterval: any;
+let sessionStatsRefreshInterval: any;
+
 class TRPC {
   sessionToken: any;
   sessionArguments: any;
@@ -23,7 +26,8 @@ class TRPC {
   useNativePlugin: boolean;
   persistentData: any;
   persistentDataValid=false;
-  freeSpaceRefreshInterval: any;
+  sessionStats: any;
+  statsHistory: Array<Array<number|null>>=[];
   pathMapping: Record<string,string>;
 
   constructor() {
@@ -54,9 +58,11 @@ class TRPC {
 
     this.setAuthHeader();
     this.invalidatePersitentData();
-    this.setFreeSpaceRefreshInterval();
-
+    
     this.sessionArguments = await this.getSession();
+
+    this.setFreeSpaceRefreshInterval();
+    this.setSessionStatsRefreshInterval();
 
     return this.sessionArguments;
   }
@@ -96,13 +102,20 @@ class TRPC {
   }
 
   setFreeSpaceRefreshInterval(): void {
-    clearInterval(this.freeSpaceRefreshInterval);
-    this.freeSpaceRefreshInterval = setInterval(async () => {
+    clearInterval(freeSpaceRefreshInterval);
+    freeSpaceRefreshInterval = setInterval(async () => {
       const response = await this.rpcCall("free-space",{path:this.sessionArguments["download-dir"]})
       if(response.result=="success"){
         this.sessionArguments["download-dir-free-space"]=response.arguments["size-bytes"];
       }
     },60000);
+  }
+
+  async setSessionStatsRefreshInterval(): Promise<void> {
+    this.statsHistory=[];
+    clearInterval(sessionStatsRefreshInterval);
+    sessionStatsRefreshInterval = setInterval(() => this.getSessionStats(),10000);
+    await this.getSessionStats();
   }
 
   async getSession(): Promise<Record<string, any>> {
@@ -129,6 +142,22 @@ class TRPC {
         count++;
       },50);
     });
+  }
+
+  getSessionStats() {
+    return this.rpcCall("session-stats")
+      .then((response) => {
+        this.sessionStats = response.arguments;
+        this.addStatsHistory(this.sessionStats.downloadSpeed,this.sessionStats.uploadSpeed)
+      })
+      .catch(() => {
+        this.addStatsHistory(null,null);
+      })
+  }
+
+  addStatsHistory(downloadSpeed: number|null,uploadSpeed: number|null) {
+    this.statsHistory.push([downloadSpeed,uploadSpeed]);
+    this.statsHistory=this.statsHistory.slice(-30);
   }
 
   setSession(args: Record<string, any>): Promise<Record<string, any>> {
@@ -212,7 +241,7 @@ class TRPC {
       args.fields.push('trackers','downloadDir');
     }
 
-    const response = await this.rpcCall("torrent-get", args)
+    const response = await this.rpcCall("torrent-get", args, true, true);
 
     if(response.arguments){
       result=response.arguments.torrents
@@ -365,11 +394,11 @@ class TRPC {
     return this.rpcCall("torrent-add", args);
   }
 
-  async rpcCall(method: string, args: Record<string, any> = {}, retry=true) {
+  async rpcCall(method: string, args: Record<string, any> = {}, retry=true, ignoreError=false) {
     let ret: Record<string, any>={};
     const token = await this.getToken()
 
-    const response = await this.request(method,token,args);
+    const response = await this.request(method,token,args,ignoreError);
 
     if(response.errorMessage){
       throw Error(response.errorMessage);
@@ -402,7 +431,7 @@ class TRPC {
     return ret;
   }
 
-  async request(action: string, token?: string, args: Record<string, any> = {}) {
+  async request(action: string, token?: string, args: Record<string, any> = {}, ignoreError=false) {
     let ret: Record<string, any>={};
 
     const requestId = ++this.lastRequestId;
@@ -444,7 +473,7 @@ class TRPC {
     }
 
     // Don't report error if there's a more recent request
-    if(ret.errorMessage && action == "torrent-get" && requestId<this.lastRequestId){
+    if(ret.errorMessage && ignoreError && requestId<this.lastRequestId){
       throw Error();
     }
 

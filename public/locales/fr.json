@@ -158,7 +158,6 @@
     "serverInformation": "Information du serveur",
     "transmissionVersion": "Version de Transmission",
     "freeSpace": "Espace disponible",
-    "startTorrent": "Démarrer le torrent",
     "addTorrent": "Ajouter un torrent",
     "noResult": "Aucun resultat",
     "startByAddingServer": "Commencez par {0}ajouter un serveur{1}",
@@ -212,5 +211,10 @@
     "updateBlocklist": "Mettre à jour la liste",
     "blocklistSize": "Taille de la liste : {0}",
     "queuePosition": "Position dans la file",
-    "torrentFileLink": "Lien d'un fichier torrent"
+    "torrentFileLink": "Lien d'un fichier torrent",
+    "statistics": "Statistiques",
+    "current": "Actuel",
+    "total": "Total",
+    "duration": "Durée",
+    "addTorrents": "Ajouter plusieurs torrents"
 }

@@ -31,8 +31,8 @@
       <template v-slot:start>
         <ion-list-header id="top">
           <ion-label>
-            {{torrentSelectedList.length}}
-            {{torrentSelectedList.length > 1 ? Locale.torrent.other : Locale.torrent.one }} ·
+            {{ torrentSelectedList.length }}
+            {{ LocaleController.getPlural("torrent",torrentSelectedList.length) }} ·
             <span @click="openOrderPopover">
               <ion-icon :ios="filterOutline" :md="filterSharp"></ion-icon>
               {{ Locale.order }}
@@ -44,12 +44,15 @@
       <template v-slot:default="{item}">
         <Torrent 
           :attr-id="item.id"
-          :torrent="item" 
+          :torrent="item"
           v-on:switch="switchTorrentState"
           @click="torrentClick(item)" 
           @contextmenu="longPress($event,item.id)" 
           v-longpress="longPressFallback"
-          :class="{ selected: privateState.selection.includes(item.id) }">
+          :class="{ 
+            selected: privateState.selection.includes(item.id),
+            removed: privateState.removed.includes(item.id)
+          }">
         </Torrent>
       </template>
 
@@ -86,7 +89,8 @@
           </ion-button>
         </ion-buttons>
         <div class="text">
-          {{ privateState.selection.length }} {{ privateState.selection.length>1 ? Locale.selected.other : Locale.selected.one }}
+          {{ privateState.selection.length }}
+          {{ LocaleController.getPlural("selected",privateState.selection.length) }}
         </div>
         <ion-buttons slot="end">
           <ion-button fill="clear" @click="torrentActions(privateState.selection[0])">
@@ -113,12 +117,17 @@
           </ion-button>
         </ion-buttons>
         <ion-buttons slot="end">
-          <span class="bloc">
-            <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed,2,true) }}
-          </span>
-          <span class="bloc">
-            <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed,2,true) }}
-          </span>
+          <div>
+            <span class="bloc">
+              <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),1,true) }}
+            </span>
+            <span class="bloc">
+              <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),1,true) }}
+            </span>
+          </div>
+          <ion-button fill="clear" @click="openStatsPopover">
+            <ion-icon slot="icon-only" :ios="analyticsOutline" :md="analyticsSharp"></ion-icon>
+          </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-footer>
@@ -174,7 +183,10 @@ import {
   constructOutline,
   constructSharp,
   linkOutline,
-  linkSharp
+  linkSharp,
+  analyticsOutline,
+  analyticsSharp,
+  
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
@@ -182,9 +194,11 @@ import ServerConfig from './ServerConfig.vue'
 import VirtualScroll from './components/VirtualScroll.vue'
 import Torrent from './components/Torrent.vue'
 import OrderPopover from './components/OrderPopover.vue'
+import StatsPopover from './components/StatsPopover.vue'
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from "../services/FileHandler";
+import { LocaleController } from "../services/LocaleController";
 import { Locale } from "../services/Locale";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
@@ -204,6 +218,7 @@ export default defineComponent({
         viewPopover:false,
         needFallback:false,
         selection: [] as number[],
+        removed: [] as number[],
         altSpeedEnabled:false
       }
     }
@@ -288,9 +303,9 @@ export default defineComponent({
       }
 
       if(this.privateState.search!=""){
-        const search=this.privateState.search;
+        const search=this.privateState.search.toLowerCase();
         result = _.filter(result, function(o) {
-          return o.name.toLowerCase().indexOf(search.toLowerCase()) >= 0;
+          return o.name.toLowerCase().indexOf(search) >= 0;
         });
       }
 
@@ -305,16 +320,17 @@ export default defineComponent({
         return _.orderBy(this.torrentSelectedList, [this.sharedState.orderBy], orders);
       }
     },
-    uploadSpeed: function (): number {
-      return _.sumBy(this.torrentList, function(o: Record<string,any>) { return o.rateUpload; });
+    uploadSpeed: function (): any {
+      return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.uploadSpeed : 0;
     },
-    downloadSpeed: function (): number {
-      return _.sumBy(this.torrentList, function(o: Record<string,any>) { return o.rateDownload; });
+    downloadSpeed: function (): any {
+      return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.downloadSpeed: 0;
     }
   },
   setup() {
     return { 
       Locale,
+      LocaleController,
       Utils,
       searchOutline,
       searchSharp,
@@ -339,7 +355,9 @@ export default defineComponent({
       constructOutline,
       constructSharp,
       linkOutline,
-      linkSharp
+      linkSharp,
+      analyticsOutline,
+      analyticsSharp,
     }
   },
   async created() {
@@ -351,6 +369,7 @@ export default defineComponent({
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
     Emitter.on('clear-selection', this.cancelSelection )
     Emitter.on('torrent-position', (data) => this.changeTorrentPosition(data.id,data.up));
+    Emitter.on('language-changed', () => { this.$forceUpdate() });
   },
   methods: {
     openSearch() {
@@ -373,6 +392,19 @@ export default defineComponent({
           component: OrderPopover,
           event: ev,
           translucent: true,
+          showBackdrop: isPlatform("ios")
+        })
+      popover.onDidDismiss().then(() => Emitter.emit("swipe-enabled",true));
+      return popover.present();
+    },
+    async openStatsPopover(ev: Event) {
+      Emitter.emit("swipe-enabled",false);
+      const popover = await popoverController
+        .create({
+          component: StatsPopover,
+          event: ev,
+          translucent: true,
+          cssClass: 'stats-popover',
           showBackdrop: isPlatform("ios")
         })
       popover.onDidDismiss().then(() => Emitter.emit("swipe-enabled",true));
@@ -477,12 +509,8 @@ export default defineComponent({
                   .then((response) => {
                     Utils.responseToast(response.result);
                     for (const torrent of selectedTorrents) {
-                      const index = this.torrentList.indexOf(torrent);
-                      if(index !== -1) {
-                        this.torrentList.splice(index, 1);
-                      }
+                      this.privateState.removed.push(torrent.id);
                     }
-                    this.$forceUpdate();
                     this.cancelSelection();
                   })
                   .catch((error) => {
@@ -573,6 +601,7 @@ export default defineComponent({
       }
     },
     async serverInformations() {
+      Utils.pushState();
       const infos = TransmissionRPC.sessionArguments;
       const alert = await alertController
         .create({
@@ -696,6 +725,10 @@ ion-fab {
 
 #top ion-icon {
   vertical-align: top;
+}
+
+#torrentList .removed {
+  display:none;
 }
 
 #footer ion-icon {

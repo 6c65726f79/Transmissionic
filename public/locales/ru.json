@@ -37,8 +37,8 @@
     "selection": "Выбранное",
     "torrent": {
         "one": "торрент",
-        "few": "торренты",
-        "many": "торренты",
+        "few": "торрента",
+        "many": "торрентов",
         "other": "торренты"
     },
     "actions": {
@@ -57,7 +57,7 @@
         "editAddress": "Изменить адрес",
         "setLocation": "Задать путь",
         "openInExplorer": "Открыть в проводнике",
-        "copyMagnet": "Copy magnet link"
+        "copyMagnet": "Скопировать magnet ссылку"
     },
     "filters": {
         "filters": "Фильтры",
@@ -73,7 +73,7 @@
     },
     "selected": {
         "one": "выбран",
-        "few": "выбраны",
+        "few": "выбрано",
         "many": "выбраны",
         "other": "выбраны"
     },
@@ -102,14 +102,14 @@
     "files": "Файлы",
     "tracker": {
         "one": "Трекер",
-        "few": "Трекеры",
-        "many": "Трекеры",
+        "few": "Трекера",
+        "many": "Трекеров",
         "other": "Трекеры"
     },
     "peer": {
         "one": "Пир",
-        "few": "Пиры",
-        "many": "Пиры",
+        "few": "Пира",
+        "many": "Пиров",
         "other": "Пиры"
     },
     "downloadDir": "Папка загрузок",
@@ -155,7 +155,7 @@
     "peerCount": "Количество пиров",
     "lastUpdate": "Последнее обновление",
     "nextUpdate": "Следующее обновление",
-    "scrape": "Скрип",
+    "scrape": "Скрейп",
     "seeders": "Сидеры",
     "leechers": "Личеры",
     "downloadCount": "Количество загрузок",
@@ -166,7 +166,6 @@
     "serverInformation": "Информация о сервере",
     "transmissionVersion": "Версия Transmission",
     "freeSpace": "Свободное место",
-    "startTorrent": "Стартовать торрент",
     "addTorrent": "Добавить торрент",
     "noResult": "Результатов нет, но вы держитесь",
     "startByAddingServer": "Начать {0}с добавлением сервера{1}",
@@ -220,5 +219,10 @@
     "updateBlocklist": "Обновить черный список",
     "blocklistSize": "Размер черного списка: {0}",
     "queuePosition": "Позиция в очереди",
-    "torrentFileLink": "Ссылка на файл торрента"
+    "torrentFileLink": "Ссылка на файл торрента",
+    "statistics": "Статистика",
+    "current": "Текущий",
+    "total": "Всего",
+    "duration": "Длительность",
+    "addTorrents": "Добавить несколько торрентов"
 }

@@ -3,8 +3,8 @@
     <template v-slot:start>
       <ion-list-header id="top">
         <ion-label>
-          {{details.peers.length}}
-          {{details.peers.length > 1 ? Locale.peer.other : Locale.peer.one }}
+          {{ details.peers.length }}
+          {{ LocaleController.getPlural("peer",details.peers.length) }}
         </ion-label>
       </ion-list-header>
     </template>
@@ -55,6 +55,7 @@ import {
 } from 'ionicons/icons';
 import VirtualScroll from './VirtualScroll.vue';
 import { UserSettings } from "../../services/UserSettings";
+import { LocaleController } from "../../services/LocaleController";
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 
@@ -82,6 +83,7 @@ export default defineComponent({
     return { 
       Utils,
       Locale,
+      LocaleController,
       lockClosedOutline,
       lockClosedSharp
     }

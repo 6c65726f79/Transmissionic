@@ -24,21 +24,21 @@ const myCapacitorApp = createCapacitorElectronApp({
 });
 
 const gotTheLock = app.requestSingleInstanceLock()
-let openFile: Buffer;
+let openFiles: Array<Buffer>;
 
 if (!gotTheLock) {
   app.quit()
 } else {
-  openFile = getFirstTorrent(process.argv);
+  openFiles = getTorrents(process.argv);
 
   app.setAsDefaultProtocolClient("magnet")
 
   app.on('second-instance', (event, commandLine) => {
-    openFile = getFirstTorrent(commandLine);
+    openFiles = getTorrents(commandLine);
     const mainWindow = myCapacitorApp.getMainWindow();
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
-      if (openFile) mainWindow.webContents.send('file-open', openFile)
+      if (openFiles.length>0) mainWindow.webContents.send('file-open', openFiles)
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
     }
@@ -51,9 +51,9 @@ if (!gotTheLock) {
     myCapacitorApp.init();
     autoUpdater.checkForUpdatesAndNotify();
     const mainWindow = myCapacitorApp.getMainWindow();
-    if (mainWindow && openFile) {
+    if (mainWindow && openFiles.length>0) {
       mainWindow.webContents.on('did-finish-load', function() {
-        mainWindow.webContents.send('file-open', openFile)
+        mainWindow.webContents.send('file-open', openFiles)
       });
     }
   });
@@ -61,22 +61,12 @@ if (!gotTheLock) {
 
 app.on('open-file', (event, path) => {
   // Support for Mac OS
-  openFile=fs.readFileSync(path, null);
+  openFiles=[fs.readFileSync(path, null)];
   const mainWindow = myCapacitorApp.getMainWindow();
-  mainWindow.webContents.send('fileopen', openFile)
+  mainWindow.webContents.send('fileopen', openFiles)
 })
 
 app.on('web-contents-created', (createEvent, contents) => {
-  contents.on('new-window', (e, url) => {
-    shell.openExternal(url)
-    e.preventDefault();
-  });
-  
-  contents.on('will-navigate', (e, url) => {
-    shell.openExternal(url)
-    e.preventDefault()
-  });
-  
   contents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' }
@@ -99,11 +89,11 @@ app.on("activate", function () {
 });
 
 // Define any IPC or other custom functionality below here
-function getFirstTorrent (args: Array<any>): Buffer {
-  let result=null;
+function getTorrents (args: Array<any>): Array<Buffer> {
+  const result=[];
   args.forEach((arg: string) => {
-    if(arg && arg.toLowerCase().endsWith(".torrent") && result==null){
-      result = fs.readFileSync(arg, null);
+    if(arg && arg.toLowerCase().endsWith(".torrent")){
+      result.push(fs.readFileSync(arg, null));
     }
   });
   return result;

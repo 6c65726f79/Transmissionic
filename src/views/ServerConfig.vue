@@ -304,9 +304,10 @@
             <ion-input v-model.number="config['blocklist-url']"></ion-input>
           </ion-item>
 
-          <ion-item>
+          
+          <div class="ion-padding small">
             <ion-button size="default" @click="updateBlocklist()">{{ Locale.updateBlocklist }}</ion-button>
-          </ion-item>
+          </div>
         </ion-list>
 
       </ion-content>

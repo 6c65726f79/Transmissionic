@@ -3,11 +3,11 @@
     <ion-list-header id="top">
       <ion-label>
         {{trackerCount}}
-        {{trackerCount > 1 ? Locale.tracker.other : Locale.tracker.one }}
+        {{ LocaleController.getPlural("tracker",trackerCount) }}
       </ion-label>
     </ion-list-header>
     <template v-for="tracker in displayedTrackerList" :key="tracker.id">
-      <ion-card>
+      <ion-card :class="{removed: removed.includes(tracker.announce)}">
         <ion-item>
           <ion-label>
             <ion-badge color="primary">{{ Locale.tier }} {{ tracker.tier+1 }}</ion-badge>
@@ -134,6 +134,7 @@ import {
   checkmarkCircleSharp,
   add
 } from 'ionicons/icons';
+import { LocaleController } from "../../services/LocaleController";
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 import { TransmissionRPC } from '../../services/TransmissionRPC';
@@ -159,12 +160,19 @@ export default defineComponent({
     return {
       details:{} as Record<string,any>,
       displayedCount: 0,
+      removed:[] as number[],
+    }
+  },
+  watch: {
+    "details.trackerStats.length": function() {
+      this.removed = [];
     }
   },
   setup() {
     return { 
       Utils,
       Locale,
+      LocaleController,
       ellipsisVerticalOutline,
       ellipsisVerticalSharp,
       syncCircleOutline,
@@ -326,10 +334,7 @@ export default defineComponent({
                 TransmissionRPC.torrentAction("set", this.details.id, args)
                   .then((response) => {
                     Utils.responseToast(response.result);
-                    const index = this.details.trackerStats.indexOf(tracker)
-                    if(index !== -1) {
-                      this.details.trackerStats.splice(index, 1);
-                    }
+                    this.removed.push(tracker.announce)
                   })
                   .catch((error) => {
                     Utils.responseToast(error.message);
@@ -364,6 +369,10 @@ ion-card-content {
 
 ion-card-content ion-icon {
   vertical-align: middle;
+}
+
+ion-card.removed {
+  display:none;
 }
 
 .error {

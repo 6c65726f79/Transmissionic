@@ -158,7 +158,6 @@
     "serverInformation": "Server information",
     "transmissionVersion": "Transmission version",
     "freeSpace": "Free space",
-    "startTorrent": "Start torrent",
     "addTorrent": "Add torrent",
     "noResult": "No result",
     "startByAddingServer": "Start by {0}adding a server{1}",
@@ -212,5 +211,10 @@
     "updateBlocklist": "Update blocklist",
     "blocklistSize": "Blocklist size: {0}",
     "queuePosition": "Queue position",
-    "torrentFileLink": "Torrent file link"
+    "torrentFileLink": "Torrent file link",
+    "statistics": "Statistics",
+    "current": "Current",
+    "total": "Total",
+    "duration": "Duration",
+    "addTorrents": "Add multiple torrents"
 }

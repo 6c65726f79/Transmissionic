@@ -5,12 +5,15 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background: var(--ion-background-color, #fff);
   scrollbar-color: rgba(127,127,127,.5) transparent; /* Scrollbar style for Firefox */
 }
 
 body:not(.dark) ion-toolbar {
   --background: var(--ion-color-light);
+}
+
+ion-app {
+  background: var(--ion-background-color, #fff);
 }
 
 ion-slides {
@@ -67,6 +70,18 @@ input[type=number] {
   -moz-appearance: textfield !important;
 }
 
+.stats-popover .popover-content {
+  width:300px;
+}
+
+.text-transform::first-letter {
+  text-transform: uppercase;
+}
+
+.ion-padding.small {
+  padding-top:4px;
+  padding-bottom:4px;
+}
 
 ion-menu ion-item {
   cursor:pointer;
@@ -186,6 +201,11 @@ ion-menu.ios ion-note {
   padding-bottom: 0;
   padding-top: 0;
   height: 44px;
+}
+
+.ios ion-list-header ion-label {
+  font-size: 1rem;
+  margin-top: 0px;
 }
 
 ion-infinite-scroll-content {

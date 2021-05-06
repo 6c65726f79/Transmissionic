@@ -222,8 +222,11 @@ export default defineComponent({
       if(file.folder){
         this.$emit("change-directory",this.currentDirectory+file.name+"/");
       }
+      else {
+        this.fileTitle(file.name);
+      }
     },
-    async fileTitle(title: string, e: Event){
+    fileTitle(title: string, e?: Event){
       if(e){
         e.preventDefault();
       }

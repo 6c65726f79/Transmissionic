@@ -4,6 +4,7 @@ import {
   alertController,
   popoverController,
   actionSheetController,
+  menuController,
   useBackButton
 } from '@ionic/vue';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
@@ -25,7 +26,7 @@ let ipToCountryWaitUntil: any;
 
 export const Utils = {
   formatBytes(bytes: number, decimals = 2, speed = false): string|void{
-    if(bytes===undefined) return;
+    if(bytes===undefined||bytes<0) return;
     const useSpeed = speed && UserSettings.state.useBits;
     const k = useSpeed ? 1000 : 1024;
     let unit = useSpeed ? Locale.units.bit : Locale.units.byte;
@@ -43,11 +44,11 @@ export const Utils = {
     return (val / Math.pow(k, i)).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:dm}) + ' ' + sizes[i] + unit;
   },
 
-  getPercent(percentDone: number): string {
+  getPercent(percentDone=0): string {
     return (percentDone*100).toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:2})+'%'
   },
 
-  getRatio(ratio: number, decimal=3): string {
+  getRatio(ratio=0, decimal=3): string {
     return ratio.toLocaleString(UserSettings.getLanguage(), {maximumFractionDigits:decimal});
   },
 
@@ -167,6 +168,7 @@ export const Utils = {
     switch (action) {
       case "start":
       case "start-now":
+      case "reannounce":
         return (percentDone==1) ? 6 : 4;
       case "verify":
         return 2;
@@ -331,25 +333,34 @@ export const Utils = {
       });
     }
     else {
-      window.addEventListener('popstate', async (e: Event) => {
-        const top = await this.getTop();
-        if(top.hasTop){
-          e.preventDefault();
-          history.go(1);
-        }
-        if(top.actionsheet){
-          top.actionsheet.dismiss();
-        }
-        else if(top.popover){
-          top.popover.dismiss();
-        }
-        else if(top.alert){
-          top.alert.dismiss();
-        }
-        else if(top.modal){
-          top.modal.dismiss();
-        }
-      })
+      window.addEventListener('popstate', (e: any) => {
+        if (e.origin && e.origin !== window.location.origin)
+          return;
+
+        this.popState(e)
+      });
+    }
+  },
+  async popState(e: Event): Promise<void> {
+    const top = await this.getTop();
+    if(top.hasTop){
+      e.preventDefault();
+      history.go(1);
+    }
+    if(top.actionsheet){
+      top.actionsheet.dismiss();
+    }
+    else if(top.popover){
+      top.popover.dismiss();
+    }
+    else if(top.alert){
+      top.alert.dismiss();
+    }
+    else if(top.modal){
+      top.modal.dismiss();
+    }
+    else if(top.menu){
+      menuController.close();
     }
   },
   pushState(): void {
@@ -359,11 +370,13 @@ export const Utils = {
     }
   },
   async getTop(): Promise<Record<string,any>> {
+    const menu = await menuController.isOpen();
     const modal = await modalController.getTop();
     const alert = await alertController.getTop();
     const popover = await popoverController.getTop();
     const actionsheet = await actionSheetController.getTop();
     return {
+      menu,
       modal,
       alert,
       popover,

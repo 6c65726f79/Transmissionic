@@ -1,5 +1,7 @@
 import {Locale} from "./Locale";
 import {Emitter} from "./Emitter";
+import { UserSettings } from "./UserSettings";
+import * as Plurals from 'make-plural'
 
 import en from "../../public/locales/en.json";
 
@@ -21,5 +23,10 @@ export const LocaleController = {
         }
         Locale.setLanguage(language);
         Emitter.emit("language-changed");
+    },
+    getPlural(key: string, count: number): string {
+        const lang = UserSettings.getLanguage();
+        const form = Object(Plurals)[lang](count);
+        return Object(Locale)[key][form];
     }
 }

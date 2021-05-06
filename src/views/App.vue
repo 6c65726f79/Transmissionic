@@ -1,7 +1,7 @@
 <template>
   <IonApp>
     <IonSplitPane contentId="main-content" :disabled="!sharedState.expandMenu">
-      <ion-menu contentId="main-content" type="overlay" menu-id="left" :swipeGesture="privateState.swipeEnabled" v-on:ionDidClose="closeTrackerList()">
+      <ion-menu contentId="main-content" type="overlay" menu-id="left" :swipeGesture="privateState.swipeEnabled" v-on:ionDidClose="closeTrackerList()" v-on:ionDidOpen="Utils.pushState()">
 
         <!-- Main menu -->
         <ion-content v-show="!privateState.trackerListOpened" id="navigation" ref="navigation" scrollbar>
@@ -41,7 +41,7 @@
             <ion-menu-toggle auto-hide="false" v-for="(f, index) in privateState.filters" :key="index">
               <ion-item @click="privateState.selectedFilter = index" lines="none" :class="{ selected: privateState.selectedFilter === index }">
                 <ion-icon slot="start" :ios="f.iosIcon" :md="f.mdIcon"></ion-icon>
-                <ion-label class="filter-name">{{ f.label() }}</ion-label>
+                <ion-label class="text-transform">{{ f.label() }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
@@ -297,26 +297,8 @@ export default defineComponent({
     },
     language() {
       LocaleController.setLanguage(UserSettings.getLanguage());
-    }
-  },
-  async beforeCreate() {
-    await UserSettings.loadSettings();
-    this.privateState.selectedServer = UserSettings.state.selectedServer;
-    if(UserSettings.state.language=="default"){
-      await LocaleController.setLanguage(UserSettings.getLanguage());
-    }
-    SplashScreen.hide();
-    UserSettings.loadServerList()
-      .then((result)=>{
-        this.privateState.serverList = result;
-        this.privateState.connectionStatus.loading=false;
-      })
-    
-  },
-  created() {
-    Utils.setTheme(this.sharedState.colorScheme);
-
-    this.$watch(() => this.privateState.serverList.length, async () => {
+    },
+    "privateState.serverList.length": async function() {
       if(this.privateState.selectedServer>=this.privateState.serverList.length){
         this.privateState.selectedServer=this.privateState.serverList.length-1;
       }
@@ -325,10 +307,30 @@ export default defineComponent({
         this.privateState.selectedServer = 0;
       }
       this.selectServer(this.privateState.selectedServer);
-    });
+    }
+  },
+  async beforeCreate() {
+    await UserSettings.loadSettings();
+    this.privateState.selectedServer = UserSettings.state.selectedServer;
+    if(UserSettings.state.language=="default"){
+      await LocaleController.setLanguage(UserSettings.getLanguage());
+    }
+    await UserSettings.loadServerList()
+      .then((result)=>{
+        this.privateState.serverList = result;
+        this.privateState.connectionStatus.loading=false;
+      })
+    SplashScreen.hide();
+    document.body.classList.toggle("loading",false);
+  },
+  created() {
+    Utils.setTheme(this.sharedState.colorScheme);
 
     // Detect light/dark mode change from OS
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e: any) => {
+        if (e.origin && e.origin !== window.location.origin)
+          return;
+
         if(this.sharedState.colorScheme=="default"){
           Utils.setTheme(e.matches ? "dark" : "light");
         }
@@ -501,10 +503,6 @@ export default defineComponent({
 <style scoped>
 #logo span {
   color:var(--ion-color-primary);
-}
-
-.filter-name::first-letter {
-  text-transform: uppercase;
 }
 
 ion-menu.menu-pane-visible {

@@ -40,7 +40,7 @@
 
 ### Screenshots
 
-<img src="https://i.imgur.com/DEPKQKj.png" width="300"> <img src="https://i.imgur.com/67TkEwU.png" width="300">
+<img src="https://i.imgur.com/STtzxrY.png" width="300"> <img src="https://i.imgur.com/5Y9ML4s.png" width="300">
 
 ### Translation
 
@@ -60,6 +60,20 @@ Available languages:
 You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to add it.
 
 Thanks to all contributors.
+
+### Compatibility
+
+**Web UI**
+
+| Browser         | Chrome    | Firefox   | Safari    | Edge      | IE        | Chrome for Android | Safari on iOS  |
+| --------------- | --------- | --------- | --------- | --------- | --------- | ------------------ | -------------- |
+| Version         | ≥23 ✔     | ≥21 ✔     | ≥6 ✔      | ≥79 ✔     | ❌         | ≥90 ✔              | ≥6 ✔           |
+
+**Application**
+
+| OS              | Windows   | Linux     | macOS     | Android   | iOS       |
+| --------------- | --------- | --------- | --------- | --------- | --------- |
+| Version         | ≥7 ✔      | ✔         | ❌         | ≥5.0 ✔     | ❌         |
 
 ### Motivations
 
