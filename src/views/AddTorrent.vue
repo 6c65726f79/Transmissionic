@@ -389,8 +389,8 @@ export default defineComponent({
       for(const torrentFile of this.files) {
         if(!error && !this.notWanted.includes(torrentFile.data.infoHash)){
           await this.send(args,torrentFile.torrent)
-            .catch((error) => {
-              Utils.responseToast(error.message)
+            .catch((e) => {
+              Utils.responseToast(e.message)
               error=true;
             })
         }

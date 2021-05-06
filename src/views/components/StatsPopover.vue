@@ -1,15 +1,15 @@
 <template>
   <ion-list id="stats" lines="none">
-    <ion-item>
+    <ion-item id="title">
       {{Locale.statistics}}
     </ion-item>
     <canvas ref="canvas" width="290" height="150"></canvas>
     <ion-item>
-      <table>
+      <table aria-describedby="title">
         <tr>
-          <td></td>
-          <td><strong>{{Locale.current}}</strong></td>
-          <td><strong>{{Locale.total}}</strong></td>
+          <th scope="col"></th>
+          <th scope="col"><strong>{{Locale.current}}</strong></th>
+          <th scope="col"><strong>{{Locale.total}}</strong></th>
         </tr>
         <tr>
           <td>{{Locale.downloaded}}</td>
@@ -190,7 +190,7 @@ table {
   margin:5px 0px;
   font-size:14px;
 }
-td {
+td,th {
   padding: 2px;
   text-align: right;
 }

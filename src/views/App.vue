@@ -327,7 +327,10 @@ export default defineComponent({
     Utils.setTheme(this.sharedState.colorScheme);
 
     // Detect light/dark mode change from OS
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e: any) => {
+        if (e.origin && e.origin !== window.location.origin)
+          return;
+
         if(this.sharedState.colorScheme=="default"){
           Utils.setTheme(e.matches ? "dark" : "light");
         }
