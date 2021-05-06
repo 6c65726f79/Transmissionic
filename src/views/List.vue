@@ -119,10 +119,10 @@
         <ion-buttons slot="end">
           <div>
             <span class="bloc">
-              <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),2,true) }}
+              <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),1,true) }}
             </span>
             <span class="bloc">
-              <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),2,true) }}
+              <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),1,true) }}
             </span>
           </div>
           <ion-button fill="clear" @click="openStatsPopover">
