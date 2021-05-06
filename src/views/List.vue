@@ -601,6 +601,7 @@ export default defineComponent({
       }
     },
     async serverInformations() {
+      Utils.pushState();
       const infos = TransmissionRPC.sessionArguments;
       const alert = await alertController
         .create({

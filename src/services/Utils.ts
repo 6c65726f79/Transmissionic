@@ -4,6 +4,7 @@ import {
   alertController,
   popoverController,
   actionSheetController,
+  menuController,
   useBackButton
 } from '@ionic/vue';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
@@ -349,6 +350,9 @@ export const Utils = {
         else if(top.modal){
           top.modal.dismiss();
         }
+        else if(top.menu){
+          menuController.close();
+        }
       })
     }
   },
@@ -359,11 +363,13 @@ export const Utils = {
     }
   },
   async getTop(): Promise<Record<string,any>> {
+    const menu = await menuController.isOpen();
     const modal = await modalController.getTop();
     const alert = await alertController.getTop();
     const popover = await popoverController.getTop();
     const actionsheet = await actionSheetController.getTop();
     return {
+      menu,
       modal,
       alert,
       popover,

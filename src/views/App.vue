@@ -1,7 +1,7 @@
 <template>
   <IonApp>
     <IonSplitPane contentId="main-content" :disabled="!sharedState.expandMenu">
-      <ion-menu contentId="main-content" type="overlay" menu-id="left" :swipeGesture="privateState.swipeEnabled" v-on:ionDidClose="closeTrackerList()">
+      <ion-menu contentId="main-content" type="overlay" menu-id="left" :swipeGesture="privateState.swipeEnabled" v-on:ionDidClose="closeTrackerList()" v-on:ionDidOpen="Utils.pushState()">
 
         <!-- Main menu -->
         <ion-content v-show="!privateState.trackerListOpened" id="navigation" ref="navigation" scrollbar>
