@@ -168,6 +168,7 @@ export const Utils = {
     switch (action) {
       case "start":
       case "start-now":
+      case "reannounce":
         return (percentDone==1) ? 6 : 4;
       case "verify":
         return 2;
