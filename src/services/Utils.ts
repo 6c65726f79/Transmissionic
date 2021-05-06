@@ -333,31 +333,32 @@ export const Utils = {
       });
     }
     else {
-      window.addEventListener('popstate', async (e: any) => {
-        if (e.origin && e.origin !== window.location.origin)
-          return;
-          
-        const top = await this.getTop();
-        if(top.hasTop){
-          e.preventDefault();
-          history.go(1);
-        }
-        if(top.actionsheet){
-          top.actionsheet.dismiss();
-        }
-        else if(top.popover){
-          top.popover.dismiss();
-        }
-        else if(top.alert){
-          top.alert.dismiss();
-        }
-        else if(top.modal){
-          top.modal.dismiss();
-        }
-        else if(top.menu){
-          menuController.close();
-        }
-      })
+      window.addEventListener('popstate', (e) => this.popState(e));
+    }
+  },
+  async popState(e: any): Promise<void> {
+    if (e.origin && e.origin !== window.location.origin)
+      return;
+
+    const top = await this.getTop();
+    if(top.hasTop){
+      e.preventDefault();
+      history.go(1);
+    }
+    if(top.actionsheet){
+      top.actionsheet.dismiss();
+    }
+    else if(top.popover){
+      top.popover.dismiss();
+    }
+    else if(top.alert){
+      top.alert.dismiss();
+    }
+    else if(top.modal){
+      top.modal.dismiss();
+    }
+    else if(top.menu){
+      menuController.close();
     }
   },
   pushState(): void {

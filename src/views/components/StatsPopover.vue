@@ -195,6 +195,6 @@ td,th {
   text-align: right;
 }
 tr td:first-child {
-  text-align: left;;
+  text-align: left;
 }
 </style>
