@@ -333,13 +333,15 @@ export const Utils = {
       });
     }
     else {
-      window.addEventListener('popstate', (e) => this.popState(e));
+      window.addEventListener('popstate', (e: any) => {
+        if (e.origin && e.origin !== window.location.origin)
+          return;
+
+        this.popState(e)
+      });
     }
   },
-  async popState(e: any): Promise<void> {
-    if (e.origin && e.origin !== window.location.origin)
-      return;
-
+  async popState(e: Event): Promise<void> {
     const top = await this.getTop();
     if(top.hasTop){
       e.preventDefault();
