@@ -8,8 +8,8 @@
       <table>
         <tr>
           <td></td>
-          <td>{{Locale.current}}</td>
-          <td>{{Locale.total}}</td>
+          <td><strong>{{Locale.current}}</strong></td>
+          <td><strong>{{Locale.total}}</strong></td>
         </tr>
         <tr>
           <td>{{Locale.downloaded}}</td>
@@ -188,6 +188,7 @@ canvas {
 table {
   width:100%;
   margin:5px 0px;
+  font-size:14px;
 }
 td {
   padding: 2px;
