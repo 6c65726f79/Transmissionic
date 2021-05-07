@@ -383,5 +383,17 @@ export const Utils = {
       actionsheet,
       hasTop:(modal || alert || popover || actionsheet)
     }
+  },
+  async loadAppleTouchIcon(): Promise<void> {
+    // Workaround to prevent authentication error on iOS, see https://trac.transmissionbt.com/ticket/5329
+    const data: string = await fetch("./assets/icon/apple-touch-icon.png")
+      .then(response => response.blob())
+      .then(blob => new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onloadend = () => resolve(reader.result as string)
+        reader.onerror = reject
+        reader.readAsDataURL(blob)
+      }))
+    document.querySelector("link[title=ATI]")?.setAttribute("href",data);
   }
 }

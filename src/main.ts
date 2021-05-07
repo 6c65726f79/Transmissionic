@@ -46,6 +46,10 @@ if(isPlatform("electron")){
   Utils.customTitlebar();
 }
 
+if(isPlatform("ios") && isPlatform("mobileweb")){
+  Utils.loadAppleTouchIcon();
+}
+
 Utils.backButtonHandle();
 
 router.isReady().then(() => {
