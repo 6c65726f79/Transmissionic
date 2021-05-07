@@ -149,7 +149,7 @@
       </ion-slide>
       <!-- Torrents tab -->
       <ion-slide v-if="multiple">
-        <VirtualScroll v-bind="$attrs" ref="content" :items="files" :item-size="64" key-field="data.infoHash">
+        <VirtualScroll v-bind="$attrs" :items="files" :item-size="64" key-field="data.infoHash">
           <template v-slot:default="{item}">
             <div class="torrent">
               <div class="side">
