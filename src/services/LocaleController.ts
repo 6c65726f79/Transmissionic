@@ -1,7 +1,6 @@
 import {Locale} from "./Locale";
 import {Emitter} from "./Emitter";
-import { UserSettings } from "./UserSettings";
-import * as Plurals from 'make-plural'
+import * as Plurals from 'make-plural/plurals';
 
 import en from "../../public/locales/en.json";
 
@@ -13,19 +12,22 @@ const fileNames: Record<string,any> = {
 export const LocaleController = {
     async setLanguage(language: string): Promise<void> {
         if(!languages[language]) {
-            const data = await fetch(`locales/${fileNames[language]||language}.json`)
-                .then((response) => response.json())
+            await this.loadLanguages(language)
+                .then((data) => {
+                    languages[language]=data;
+                    Locale.setContent(languages);
+                })
                 .catch(()=> {return})
-            if(data){
-                languages[language]=data;
-                Locale.setContent(languages);
-            }
         }
         Locale.setLanguage(language);
         Emitter.emit("language-changed");
     },
+    loadLanguages(code: string): Promise<Record<string,any>> {
+        return fetch(`locales/${fileNames[code]||code}.json`)
+            .then((response) => response.json())
+    },
     getPlural(key: string, count: number): string {
-        const lang = UserSettings.getLanguage();
+        const lang = Locale.getLanguage();
         const form = Object(Plurals)[lang](count);
         return Object(Locale)[key][form];
     }
