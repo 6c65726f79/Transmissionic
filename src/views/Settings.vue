@@ -28,6 +28,7 @@
             <ion-select-option value="en">English</ion-select-option>
             <ion-select-option value="es">Español</ion-select-option>
             <ion-select-option value="fr">Français</ion-select-option>
+            <ion-select-option value="it">Italiano</ion-select-option>
             <ion-select-option value="nl">Nederlands</ion-select-option>
             <ion-select-option value="ru">Pусский</ion-select-option>
           </ion-select>

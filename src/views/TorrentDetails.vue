@@ -411,7 +411,7 @@ export default defineComponent({
       TransmissionRPC.torrentAction(action,torrentIds)
         .then((response) => {
           Utils.responseToast(response.result)
-          this.privateState.details.status=Utils.actionStatusResult(action,this.privateState.details.percentDone);
+          this.privateState.details.status=Utils.actionStatusResult(action,this.privateState.details.status,this.privateState.details.percentDone);
         })
         .catch((error) => {
           Utils.responseToast(error.message);

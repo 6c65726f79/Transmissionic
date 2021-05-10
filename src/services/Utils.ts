@@ -163,17 +163,18 @@ export const Utils = {
     return result;
   },
 
-  actionStatusResult(action: string, percentDone: number): number{
+  actionStatusResult(action: string, current: number, percentDone: number): number{
     // Predict what will be the status of a torrent after an action
     switch (action) {
       case "start":
       case "start-now":
-      case "reannounce":
         return (percentDone==1) ? 6 : 4;
       case "verify":
         return 2;
-      default:
+      case "stop":
         return 0;
+      default:
+        return current;
     }
   },
 
@@ -381,7 +382,7 @@ export const Utils = {
       alert,
       popover,
       actionsheet,
-      hasTop:(modal || alert || popover || actionsheet)
+      hasTop:(menu || modal || alert || popover || actionsheet)
     }
   },
   async loadAppleTouchIcon(): Promise<void> {

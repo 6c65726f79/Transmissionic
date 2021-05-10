@@ -455,7 +455,7 @@ export default defineComponent({
         .then((response) => {
           Utils.responseToast(response.result)
           for (const torrent of this.getTorrentsByIds(torrentIds)) {
-            torrent.status=Utils.actionStatusResult(action,torrent.percentDone);
+            torrent.status=Utils.actionStatusResult(action,torrent.status,torrent.percentDone);
           }
         })
         .catch((error) => {
