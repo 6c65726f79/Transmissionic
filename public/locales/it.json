@@ -209,7 +209,7 @@
     "bookmarklet": "Bookmarklet",
     "bookmarkletDetail": "Trascina questo tasto nella tua barra dei preferiti per importare, con un click, magnet link e torrent provenienti da altri siti.",
     "updateBlocklist": "Aggiorna blocklist",
-    "blocklistSize": "Dimensione blocklist {0}",
+    "blocklistSize": "Dimensione blocklist: {0}",
     "queuePosition": "Posizione in coda",
     "torrentFileLink": "File torrent",
     "statistics": "Statistiche",
