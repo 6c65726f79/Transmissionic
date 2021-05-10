@@ -35,7 +35,7 @@ export const FileHandler = {
         }
         else {
           const src = Capacitor.convertFileSrc(data.url)
-          this.loadFile(src);
+          this.loadFiles([src]);
         }
       })
     }
