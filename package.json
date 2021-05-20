@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^2.4.7",
-    "@capacitor/core": "^2.4.7",
+    "@capacitor/core": "^3.0.0",
     "@ionic-native/core": "^5.33.0",
     "@ionic-native/http": "^5.33.0",
     "@ionic/pwa-elements": "^3.0.2",
