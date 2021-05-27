@@ -22,7 +22,7 @@
   "devDependencies": {
     "electron": "~13.0.1",
     "electron-builder": "^22.10.5",
-    "typescript": "~4.2.4"
+    "typescript": "~4.3.2"
   },
   "keywords": [
     "capacitor",
