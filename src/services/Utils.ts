@@ -7,8 +7,9 @@ import {
   menuController,
   useBackButton
 } from '@ionic/vue';
-import { Plugins, StatusBarStyle } from '@capacitor/core';
-const { App,StatusBar,Toast,Clipboard } = Plugins;
+import { Plugins } from '@capacitor/core';
+const { App,Toast,Clipboard } = Plugins;
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
 import Autolinker from 'autolinker';
@@ -274,7 +275,7 @@ export const Utils = {
   setStatusBarColor(isDark: boolean): void {
     const statusBarColor = getComputedStyle(document.body).getPropertyValue('--ion-toolbar-background') || getComputedStyle(document.body).getPropertyValue('--ion-color-light') // --ion-color-primary
     if(isPlatform("capacitor") && (isPlatform("android") ||  isPlatform("ios"))){
-      StatusBar.setStyle({style: isDark ? StatusBarStyle.Dark : StatusBarStyle.Light});
+      StatusBar.setStyle({style: isDark ? Style.Dark : Style.Light});
       StatusBar.setBackgroundColor({color:statusBarColor});
     }
     else if(isPlatform("electron")){
