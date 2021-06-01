@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.2.1",
+  "version": "1.2.2-dev",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -11,35 +11,35 @@
     "postbuild:electron": "node scripts/postbuild-electron.js"
   },
   "dependencies": {
-    "@capacitor/android": "^2.4.7",
-    "@capacitor/core": "^2.4.7",
-    "@ionic-native/core": "^5.32.1",
-    "@ionic-native/http": "^5.32.1",
+    "@capacitor/android": "^3.0.0",
+    "@capacitor/core": "^3.0.0",
+    "@ionic-native/core": "^5.33.1",
+    "@ionic-native/http": "^5.33.1",
     "@ionic/pwa-elements": "^3.0.2",
-    "@ionic/vue": "^5.6.6",
-    "@ionic/vue-router": "^5.6.6",
+    "@ionic/vue": "^5.6.8",
+    "@ionic/vue-router": "^5.6.8",
     "autolinker": "^3.14.3",
     "capacitor-file-selector": "0.0.5",
-    "capacitor-secure-storage-plugin": "^0.5.0",
-    "chart.js": "^3.2.1",
+    "capacitor-secure-storage-plugin": "^0.6.2",
+    "chart.js": "^3.3.2",
     "cordova-plugin-advanced-http": "^3.1.0",
     "cordova-plugin-file": "^6.0.2",
-    "core-js": "^3.12.1",
+    "core-js": "^3.13.1",
     "localized-strings": "^0.2.4",
     "make-plural": "^6.2.2",
     "mitt": "^2.1.0",
     "moment": "^2.29.1",
     "parse-torrent": "^9.1.3",
     "vue": "^3.0.9",
-    "vue-router": "^4.0.6"
+    "vue-router": "^4.0.8"
   },
   "devDependencies": {
     "@capacitor-community/electron": "^1.4.2",
-    "@capacitor/cli": "^2.4.7",
-    "@types/lodash": "^4.14.168",
+    "@capacitor/cli": "^3.0.0",
+    "@types/lodash": "^4.14.170",
     "@types/parse-torrent": "^5.8.3",
-    "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
     "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-plugin-eslint": "~4.5.13",
     "@vue/cli-plugin-router": "~4.5.13",
@@ -47,9 +47,9 @@
     "@vue/cli-service": "^4.5.13",
     "@vue/compiler-sfc": "^3.0.11",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "eslint": "^7.26.0",
-    "eslint-plugin-vue": "^7.9.0",
-    "typescript": "~4.2.4"
+    "eslint": "^7.27.0",
+    "eslint-plugin-vue": "^7.10.0",
+    "typescript": "~4.3.2"
   },
   "description": "Remote for Transmission Daemon"
 }
