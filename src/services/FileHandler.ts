@@ -29,7 +29,7 @@ export const FileHandler = {
       });
     }
     else if(isPlatform("capacitor")){
-      App.addListener('appUrlOpen', async (data) => {
+      App.addListener('appUrlOpen', async (data: Record<string,any>) => {
         if(data.url.startsWith("magnet:")){
           this.readMagnet(data.url);
         }
