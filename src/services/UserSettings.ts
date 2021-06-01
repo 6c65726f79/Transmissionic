@@ -40,7 +40,7 @@ export const UserSettings = {
 
     for (const setting in this.state) {
       await Storage.get({ key: setting })
-        .then((val) => {
+        .then((val: Record<string,any>) => {
           if(val.value){
             if(typeof Object(this.state)[setting]=="boolean"){
               this.setValue(setting,(val.value=="true"));
