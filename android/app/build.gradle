@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     defaultConfig {
         applicationId 'com.sleroy.transmissionic'
         minSdkVersion rootProject.ext.minSdkVersion
@@ -15,9 +19,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    lintOptions {
-        abortOnError false
     }
 }
 
