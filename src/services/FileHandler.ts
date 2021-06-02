@@ -60,7 +60,7 @@ export const FileHandler = {
         //const paths = JSON.parse(selectedFile.uri);
         const paths = Capacitor.convertFileSrc(selectedFile.uri);
         if(paths.length>0){
-          this.loadFiles(paths);
+          this.loadFiles([paths]);
         }
       }
     }
