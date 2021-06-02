@@ -44,6 +44,7 @@
 
 ### Translation
 
+![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
@@ -52,6 +53,7 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
+- Chinese (Steven F.)
 - Dutch (John)
 - English
 - French
@@ -194,8 +196,6 @@ You must have [Node.js](https://nodejs.org/) installed, then you can clone this 
 
 ```
 npm install
-npm install -g @ionic/cli
-npm install -g @capacitor/cli
 ```
 
 If you want to build the APK, you need to install [Android Studio](https://developer.android.com/studio).
@@ -205,9 +205,9 @@ If you want to build the APK, you need to install [Android Studio](https://devel
 Simply run the following commands:
 
 ```
-npm run-script prebuild:webui
-ionic build
-npm run-script postbuild:webui
+npm run prebuild:webui
+npm run build
+npm run postbuild:webui
 ```
 
 This will build the Web UI inside the `dist` folder.
@@ -219,8 +219,10 @@ Only Windows and Linux are currently supported, but feel free to make some chang
 First, synchronize Electron content by running this in the root folder of the project:
 
 ```
-ionic cap sync @capacitor-community/electron
-npm run-script postbuild:electron
+npm run build
+npx cap sync @capacitor-community/electron
+npx cap copy @capacitor-community/electron
+npm run postbuild:electron
 ```
 
 Then place your terminal in the `electron` folder and run this:
@@ -229,9 +231,9 @@ Then place your terminal in the `electron` folder and run this:
 # Install dependencies
 npm install
 # Build Windows installer
-npm run-script electron:build-windows
+npm run electron:build-windows
 # Build Linux installer
-npm run-script electron:build-linux
+npm run electron:build-linux
 ```
 
 The installer will be located in the `electron/dist` folder.
@@ -241,13 +243,15 @@ The installer will be located in the `electron/dist` folder.
 Start by running this in the root folder of the project:
 
 ```
-ionic cap sync android
+npm run build
+npx cap sync android
+npx cap copy android
 ```
 
 Then open Android Studio by running:
 
 ```
-ionic cap open android
+npx cap open android
 ```
 
 Once Android Studio has loaded the project, build the app from `Build > Make Project`
@@ -259,7 +263,7 @@ You can start a local dev server using Ionic, but you need to disable same origi
 Then start the dev server by running this in the root folder of the project: 
 
 ```
-ionic serve
+npm run serve
 ```
 
 If you want to contribute and pull your changes to this project, please work on the `dev` branch as it contains all the latest changes.
@@ -269,4 +273,4 @@ If you want to contribute and pull your changes to this project, please work on 
 - [ ] Add iOS/Mac OS support
 - [x] Add server configurations modal
 - [ ] Add magnet url handling on Windows
-- [ ] Use ion-virtual-scroll when availaible for Vue.js
+- [ ] ~~Use ion-virtual-scroll when availaible for Vue.js~~
