@@ -13,8 +13,10 @@
   "dependencies": {
     "@capacitor/android": "^3.0.0",
     "@capacitor/core": "^3.0.0",
+    "@capacitor/splash-screen": "^1.0.0",
     "@capacitor/status-bar": "^1.0.0",
     "@capacitor/storage": "^1.0.0",
+    "@capacitor/toast": "^1.0.0",
     "@ionic-native/core": "^5.33.1",
     "@ionic-native/http": "^5.33.1",
     "@ionic/pwa-elements": "^3.0.2",

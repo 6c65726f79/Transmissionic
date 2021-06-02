@@ -8,7 +8,8 @@ import {
   useBackButton
 } from '@ionic/vue';
 import { Plugins } from '@capacitor/core';
-const { App,Toast,Clipboard } = Plugins;
+const { App,Clipboard } = Plugins;
+import { Toast } from '@capacitor/toast';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";

@@ -28,7 +28,7 @@ export const LocaleController = {
     },
     getPlural(key: string, count: number): string {
         const lang = Locale.getLanguage();
-        const form = Object(Plurals)[lang](count);
+        const form = Object(Plurals)[lang] ? Object(Plurals)[lang](count) : "other";
         return Object(Locale)[key][form];
     }
 }

@@ -38,6 +38,9 @@ export default defineComponent({
       Locale
     }
   },
+  mounted() {
+    Emitter.on('language-changed', () => { this.$forceUpdate() });
+  },
   computed: {
     addServerText: function () {
       const text = Locale.formatString(Locale.startByAddingServer,"","") as string;
