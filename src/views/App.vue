@@ -163,8 +163,7 @@ import { Locale } from "../services/Locale";
 import { LocaleController } from "../services/LocaleController";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
-import { Plugins } from '@capacitor/core';
-const { SplashScreen } = Plugins;
+import { SplashScreen } from '@capacitor/splash-screen';
 
 export default defineComponent({
   name: 'App',
@@ -256,7 +255,7 @@ export default defineComponent({
           },
           {
             value:"selected",
-            label:() => Locale.selected.one,
+            label:() => LocaleController.getPlural("selected",1),
             iosIcon: checkmarkCircleOutline,
             mdIcon: checkmarkCircleSharp
           }
