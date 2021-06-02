@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 import { isPlatform } from '@ionic/vue';
 import 'capacitor-secure-storage-plugin';
 import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
+import { Storage } from '@capacitor/storage';
 const { SecureStoragePlugin } = Plugins;
 
 const defaultSettings: Record<string,any> = {
