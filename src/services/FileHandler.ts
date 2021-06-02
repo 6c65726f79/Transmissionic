@@ -52,17 +52,15 @@ export const FileHandler = {
       /*const selectedFile = await FileSelector.fileSelector({ 
         "multiple_selection": true, 
         ext: ["torrent"] 
-      })*/
-      const selectedFile = await Capacitor.Plugins.FilePicker.pick();
+      })
 
       if(isPlatform("android")){
-        //const paths = JSON.parse(selectedFile.paths) 
-        //const paths = JSON.parse(selectedFile.uri);
+        const paths = JSON.parse(selectedFile.paths);
         const paths = Capacitor.convertFileSrc(selectedFile.uri);
         if(paths.length>0){
           this.loadFiles([paths]);
         }
-      }
+      }*/
     }
     else {
       // Browser file chooser

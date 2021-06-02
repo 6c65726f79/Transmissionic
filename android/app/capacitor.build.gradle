@@ -11,7 +11,6 @@ apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-status-bar')
     implementation project(':capacitor-storage')
-    implementation project(':capacitor-filepicker-plugin')
     implementation project(':capacitor-secure-storage-plugin')
 
 }
