@@ -1,9 +1,8 @@
 import { reactive } from 'vue'
 import { isPlatform } from '@ionic/vue';
 import 'capacitor-secure-storage-plugin';
-import { Plugins } from '@capacitor/core';
 import { Storage } from '@capacitor/storage';
-const { SecureStoragePlugin } = Plugins;
+import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 
 const defaultSettings: Record<string,any> = {
   colorScheme:"default",
