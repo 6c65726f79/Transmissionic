@@ -9,7 +9,7 @@ import { Utils } from './Utils';
 import { Emitter } from "./Emitter";
 import { TransmissionRPC } from "./TransmissionRPC";
 import { Capacitor,Plugins } from '@capacitor/core'; 
-const { FileSelector,App } = Plugins; 
+const { App } = Plugins; 
 
 declare global {
   interface Window {
@@ -49,13 +49,16 @@ export const FileHandler = {
   async inputFile(): Promise<void> {
     if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){
       // Capacitor file chooser
-      const selectedFile = await FileSelector.fileSelector({ 
+      /*const selectedFile = await FileSelector.fileSelector({ 
         "multiple_selection": true, 
         ext: ["torrent"] 
-      })
+      })*/
+      const selectedFile = await Capacitor.Plugins.FilePicker.pick();
 
       if(isPlatform("android")){
-        const paths = JSON.parse(selectedFile.paths) 
+        //const paths = JSON.parse(selectedFile.paths) 
+        //const paths = JSON.parse(selectedFile.uri);
+        const paths = Capacitor.convertFileSrc(selectedFile.uri);
         if(paths.length>0){
           this.loadFiles(paths);
         }

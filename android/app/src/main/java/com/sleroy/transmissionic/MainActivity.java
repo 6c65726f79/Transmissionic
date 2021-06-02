@@ -7,7 +7,6 @@ import android.webkit.WebSettings;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 import com.whitestein.securestorage.SecureStoragePlugin;
-import com.bkon.capacitor.fileselector.FileSelector;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,6 @@ public class MainActivity extends BridgeActivity {
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
       add(SecureStoragePlugin.class);
-      add(FileSelector.class);
     }});
   }
 
