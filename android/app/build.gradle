@@ -2,10 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
     defaultConfig {
         applicationId 'com.sleroy.transmissionic'
         minSdkVersion rootProject.ext.minSdkVersion
