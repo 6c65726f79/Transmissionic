@@ -184,7 +184,10 @@ jobs:
           npm ci
 
       - name: Build and sync web assets
-        run: npx cap sync android
+        run: |
+          npm run build --prod
+          npx cap sync android
+          npx cap copy android
 
       - name: Build APK
         working-directory: ./android
