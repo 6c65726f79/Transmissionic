@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Transmissionic</string>
     <string name="title_activity_main">Transmissionic</string>
-    <string name="package_name">io.ionic.transmissionic</string>
-    <string name="custom_url_scheme">io.ionic.transmissionic</string>
+    <string name="package_name">com.sleroy.transmissionic</string>
+    <string name="custom_url_scheme">com.sleroy.transmissionic</string>
 </resources>
