@@ -103,11 +103,12 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install -g @ionic/cli
-          npm install -g @capacitor/cli
 
       - name: Build and sync web assets
-        run: ionic capacitor sync @capacitor-community/electron
+        run: |
+          npm run build --prod
+          npx cap sync @capacitor-community/electron
+          npx cap copy @capacitor-community/electron
       
       - name: Post-build
         run: npm run-script postbuild:electron
@@ -139,11 +140,12 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install -g @ionic/cli
-          npm install -g @capacitor/cli
 
       - name: Build and sync web assets
-        run: ionic capacitor sync @capacitor-community/electron
+        run: |
+          npm run build --prod
+          npx cap sync @capacitor-community/electron
+          npx cap copy @capacitor-community/electron
       
       - name: Post-build
         run: npm run-script postbuild:electron
