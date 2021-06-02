@@ -1,14 +1,14 @@
 {
-  "appId": "com.sleroy.transmissionic",
-  "appName": "Transmissionic",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "dist",
-  "plugins": {
-    "SplashScreen": {
-      "androidScaleType": "CENTER_CROP",
-      "launchAutoHide": true
-    }
-  },
-  "cordova": {}
+	"appId": "com.sleroy.transmissionic",
+	"appName": "Transmissionic",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "dist",
+	"plugins": {
+		"SplashScreen": {
+			"androidScaleType": "CENTER_CROP",
+			"launchAutoHide": true
+		}
+	},
+	"cordova": {}
 }

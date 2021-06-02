@@ -182,11 +182,9 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install -g @ionic/cli
-          npm install -g @capacitor/cli
 
       - name: Build and sync web assets
-        run: ionic capacitor sync android
+        run: npx cap sync android
 
       - name: Build APK
         working-directory: ./android
