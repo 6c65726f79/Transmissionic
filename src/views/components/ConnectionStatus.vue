@@ -11,7 +11,7 @@
       </template>
       <template v-else-if="serverCount.value==0">
         <strong>{{ Locale.empty }}</strong>
-        <p>{{addServerText.before}}<a @click='addServer()'>{{addServerText.link}}</a>{{addServerText.after}}</p>
+        <p>{{addServerText().before}}<a @click='addServer()'>{{addServerText().link}}</a>{{addServerText().after}}</p>
       </template>
     </div>
   </ion-content>
@@ -41,8 +41,11 @@ export default defineComponent({
   mounted() {
     Emitter.on('language-changed', () => { this.$forceUpdate() });
   },
-  computed: {
-    addServerText: function () {
+  methods: {
+    addServer() {
+      Emitter.emit('add-server')
+    },
+    addServerText() {
       const text = Locale.formatString(Locale.startByAddingServer,"","") as string;
       const linkStart = Locale.startByAddingServer.indexOf("{0}");
       let linkEnd = Locale.startByAddingServer.replace("{0}","").indexOf("{1}");
@@ -55,11 +58,6 @@ export default defineComponent({
         after:text.substring(linkEnd)
       }
     }
-  },
-  methods: {
-    addServer() {
-      Emitter.emit('add-server')
-    },
   }
 });
 </script>
