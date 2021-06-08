@@ -69,7 +69,7 @@ export const FileHandler = {
       input.setAttribute("type", "file");
       input.setAttribute("id", "inputFile");
       input.setAttribute("multiple", "true");
-      input.setAttribute("accept", "*");
+      input.setAttribute("accept", "application/x-bittorrent");
       input.setAttribute("style", "display:none;");
       currentFile = document.body.appendChild(input);
       currentFile.addEventListener("change", (e) => this.handleFiles(e), false);
@@ -107,9 +107,13 @@ export const FileHandler = {
   async readFiles(files: FileList): Promise<void>{
     torrentFiles = [];
     for(const file of Array.from(files)){
-      torrentFiles.push(await this.readFile(file));
+      if(file.type=="application/x-bittorrent"){
+        torrentFiles.push(await this.readFile(file));
+      }
     }
-    this.filesLoaded();
+    if(torrentFiles.length>0){
+      this.filesLoaded();
+    }
   },
   readFile(file: File): Promise<ArrayBuffer> {
     return new Promise(function (resolve, reject) {
