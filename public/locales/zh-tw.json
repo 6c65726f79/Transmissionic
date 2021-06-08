@@ -41,7 +41,7 @@
     "actions": {
         "select": "選取",
         "start": "開始下載",
-        "startNow": "立刻下載",
+        "startNow": "強制下載",
         "stop": "停止下載",
         "reannonce": "更新連線",
         "verify": "檔案驗證",
