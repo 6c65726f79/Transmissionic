@@ -8,8 +8,8 @@ import AddTorrent from '../views/AddTorrent.vue'
 import { Utils } from './Utils';
 import { Emitter } from "./Emitter";
 import { TransmissionRPC } from "./TransmissionRPC";
-import { Capacitor,Plugins } from '@capacitor/core'; 
-const { App } = Plugins; 
+import { Capacitor } from '@capacitor/core'; 
+import { App } from '@capacitor/app';
 
 declare global {
   interface Window {
@@ -47,9 +47,9 @@ export const FileHandler = {
     hash.startsWith("url:") ? this.readURL(hash.substring(4)) : this.readHashOrMagnet(hash);
   },
   async inputFile(): Promise<void> {
-    if(isPlatform("capacitor") && (isPlatform("ios") || isPlatform("android"))){
+    /*
       // Capacitor file chooser
-      /*const selectedFile = await FileSelector.fileSelector({ 
+      const selectedFile = await FileSelector.fileSelector({ 
         "multiple_selection": true, 
         ext: ["torrent"] 
       })
@@ -60,22 +60,21 @@ export const FileHandler = {
         if(paths.length>0){
           this.loadFiles([paths]);
         }
-      }*/
-    }
-    else {
-      // Browser file chooser
-      if(!currentFile){
-        const input = document.createElement("input");
-        input.setAttribute("type", "file");
-        input.setAttribute("id", "inputFile");
-        input.setAttribute("multiple", "true");
-        input.setAttribute("accept", ".torrent");
-        input.setAttribute("style", "display:none;");
-        currentFile = document.body.appendChild(input);
-        currentFile.addEventListener("change", (e) => this.handleFiles(e), false);
       }
-      currentFile.click();
+    */
+   
+    // Browser file chooser
+    if(!currentFile){
+      const input = document.createElement("input");
+      input.setAttribute("type", "file");
+      input.setAttribute("id", "inputFile");
+      input.setAttribute("multiple", "true");
+      input.setAttribute("accept", "application/x-bittorrent");
+      input.setAttribute("style", "display:none;");
+      currentFile = document.body.appendChild(input);
+      currentFile.addEventListener("change", (e) => this.handleFiles(e), false);
     }
+    currentFile.click();
   },
   arrayBufferToBase64( buffer: ArrayBuffer ): string {
     let binary = '';
@@ -108,9 +107,13 @@ export const FileHandler = {
   async readFiles(files: FileList): Promise<void>{
     torrentFiles = [];
     for(const file of Array.from(files)){
-      torrentFiles.push(await this.readFile(file));
+      if(file.type=="application/x-bittorrent"){
+        torrentFiles.push(await this.readFile(file));
+      }
     }
-    this.filesLoaded();
+    if(torrentFiles.length>0){
+      this.filesLoaded();
+    }
   },
   readFile(file: File): Promise<ArrayBuffer> {
     return new Promise(function (resolve, reject) {
