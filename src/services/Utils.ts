@@ -7,8 +7,8 @@ import {
   menuController,
   useBackButton
 } from '@ionic/vue';
-import { Plugins } from '@capacitor/core';
-const { App,Clipboard } = Plugins;
+import { App } from '@capacitor/app';
+import { Clipboard } from '@capacitor/clipboard';
 import { Toast } from '@capacitor/toast';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { UserSettings } from "./UserSettings";

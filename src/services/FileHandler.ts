@@ -8,8 +8,8 @@ import AddTorrent from '../views/AddTorrent.vue'
 import { Utils } from './Utils';
 import { Emitter } from "./Emitter";
 import { TransmissionRPC } from "./TransmissionRPC";
-import { Capacitor,Plugins } from '@capacitor/core'; 
-const { App } = Plugins; 
+import { Capacitor } from '@capacitor/core'; 
+import { App } from '@capacitor/app';
 
 declare global {
   interface Window {
