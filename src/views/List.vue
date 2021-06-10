@@ -199,6 +199,7 @@ import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from "../services/FileHandler";
 import { LocaleController } from "../services/LocaleController";
+import { Shortcuts } from '../services/Shortcuts';
 import { Locale } from "../services/Locale";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
@@ -411,7 +412,7 @@ export default defineComponent({
       return popover.present();
     },
     async torrentClick(torrent: Record<string, any>) {
-      if(this.privateState.selection.length>0) {
+      if(this.privateState.selection.length>0 || Shortcuts.isPressed("Shift")) {
         this.selectTorrent(torrent.id);
       }
       else {

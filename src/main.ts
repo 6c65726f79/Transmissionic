@@ -6,6 +6,7 @@ import router from './router';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 import { FileHandler } from "./services/FileHandler";
+import { Shortcuts } from "./services/Shortcuts";
 import { Locale } from "./services/Locale";
 import { Utils } from "./services/Utils";
 
@@ -32,6 +33,8 @@ import './theme/style.css';
 defineCustomElements(window);
 
 FileHandler.listenFileOpen();
+
+Shortcuts.listenKeys();
 
 const app = createApp(App)
   .use(IonicVue, {
