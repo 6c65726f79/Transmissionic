@@ -17,7 +17,7 @@
             </ion-menu-toggle>
 
             <ion-menu-toggle auto-hide="false">
-              <ion-item @click="openServerDetailsModal(privateState.serverList.length,$event,true)" lines="none" detail="false" class="hydrated">
+              <ion-item @click="addServer($event)" lines="none" detail="false" class="hydrated">
                 <ion-icon slot="start" :ios="addOutline" :md="addSharp"></ion-icon>
                 <ion-label>{{ Locale.add }}</ion-label>
               </ion-item>
@@ -341,9 +341,10 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.trackers);
     
     Emitter.on('refresh', this.refresh);
-    Emitter.on('add-server', () => this.openServerDetailsModal(this.privateState.serverList.length,null,true) );
+    Emitter.on('add-server', () => this.addServer);
     Emitter.on('swipe-enabled', (value) => this.privateState.swipeEnabled=value );
     Emitter.on('language-changed', () => { this.$forceUpdate() });
+    Emitter.on('about', this.openAboutModal);
   },
   computed: {
     colorScheme: function(): string {
@@ -354,6 +355,10 @@ export default defineComponent({
     },
   },
   methods: {
+
+    addServer(e: any=null) {
+      this.openServerDetailsModal(this.privateState.serverList.length,e,true);
+    },
 
     setRefreshInterval() {
       clearInterval(this.privateState.refresh);

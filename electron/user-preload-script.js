@@ -1,19 +1,24 @@
 const { contextBridge,ipcRenderer,shell } = require('electron');
-const { net } = require('electron').remote
+const { app, net, Menu, MenuItem } = require('electron').remote
 const { Titlebar, Color } = require('custom-electron-titlebar');
 const path = require('path');
 let titleBar;
 let request;
+let shortcutsHandler;
 
 contextBridge.exposeInMainWorld('Titlebar', {
   new: () => {
     titleBar = new Titlebar({
       backgroundColor: Color.fromHex('#fff'),
       unfocusEffect:false
-    })
+    });
+    setMainMenu();
   },
   updateBackground: (color) => {
     titleBar.updateBackground(Color.fromHex(color))
+  },
+  shortcuts: (func) => {
+    shortcutsHandler = (shortcut) => func(shortcut);
   }
 })
 contextBridge.exposeInMainWorld('fileOpen', {
@@ -65,3 +70,74 @@ contextBridge.exposeInMainWorld('net', {
     });
   }
 })
+
+function setMainMenu() {
+  const menu = new Menu();
+
+  menu.append(new MenuItem({
+    label: 'File',
+    submenu: [
+      {
+        label: 'Open torrent',
+        accelerator: 'CmdOrCtrl+Alt+O',
+        click() {
+          shortcutsHandler('open-torrent');
+        }
+      },
+      {
+        label: 'Add server',
+        accelerator: 'CmdOrCtrl+Alt+A',
+        click() {
+          shortcutsHandler('add-server');
+        }
+      },
+      {
+        type:'separator'
+      },
+      {
+        label: 'Exit',
+        click() {
+          app.quit();
+        }
+      }
+    ]
+  }));
+
+  menu.append(new MenuItem({
+    label: 'Selection',
+    submenu: [
+      {
+        label: 'Select all',
+        accelerator: 'CmdOrCtrl+A',
+        click() {
+          shortcutsHandler('select-all');
+        }
+      },
+      {
+        label: 'Cancel selection',
+        accelerator: 'CmdOrCtrl+Alt+C',
+        click() {
+          shortcutsHandler('clear-selection');
+        }
+      },
+      {
+        type:'separator'
+      }
+    ]
+  }));
+
+  menu.append(new MenuItem({
+    label: 'Help',
+    submenu: [
+      {
+        label: 'About',
+        accelerator: 'CmdOrCtrl+Alt+H',
+        click() {
+          shortcutsHandler('about');
+        }
+      }
+    ]
+  }));
+
+  titleBar.updateMenu(menu);
+}

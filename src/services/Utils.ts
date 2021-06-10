@@ -15,6 +15,7 @@ import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
 import Autolinker from 'autolinker';
 import Moment from "moment";
+import { Shortcuts } from './Shortcuts';
 
 declare global {
   interface Window {
@@ -269,7 +270,11 @@ export const Utils = {
 
   customTitlebar(): void {
     if(window.Titlebar){
-      window.Titlebar.new()
+      window.Titlebar.new();
+
+      window.Titlebar.shortcuts((shortcut: string) => {
+        Shortcuts.call(shortcut);
+      });
     }
   },
 
