@@ -11,13 +11,13 @@
             Transmiss<span>ionic</span>
           </ion-title>
           <ion-buttons slot="end">
-            <ion-button @click="openSearch()" fill="clear">
+            <ion-button @click="toggleSearch()" fill="clear">
               <ion-icon slot="icon-only" :ios="searchOutline" :md="searchSharp"></ion-icon>
             </ion-button>
           </ion-buttons>
         </template>
         <template v-if="privateState.viewSearch">
-          <ion-searchbar id="search" show-cancel-button="always" v-model="privateState.search" @ionCancel="closeSearch()" :placeholder="Locale.search" :cancel-button-text="Locale.actions.cancel"></ion-searchbar>
+          <ion-searchbar id="search" show-cancel-button="always" v-model="privateState.search" @ionCancel="toggleSearch()" :placeholder="Locale.search" :cancel-button-text="Locale.actions.cancel"></ion-searchbar>
         </template>
       </ion-toolbar>
     </ion-header>
@@ -373,17 +373,17 @@ export default defineComponent({
     Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('open-torrent', this.inputFile);
     Emitter.on('select-all', this.selectAll);
+    Emitter.on('toggle-search', this.toggleSearch);
   },
   methods: {
-    openSearch() {
-      this.privateState.viewSearch=true;
-      setTimeout(() => {
-        const search = document.querySelector("#search") as Record<string,any>;
-        search?.setFocus();
-      },10);
-    },
-    closeSearch(){
-      this.privateState.viewSearch=false
+    toggleSearch() {
+      this.privateState.viewSearch = !this.privateState.viewSearch;
+      if(this.privateState.viewSearch){
+        setTimeout(() => {
+          const search = document.querySelector("#search") as Record<string,any>;
+          search?.setFocus();
+        },10);
+      }
     },
     retry() {
       Emitter.emit("refresh",true);

@@ -104,6 +104,36 @@ function setMainMenu() {
   }));
 
   menu.append(new MenuItem({
+    label: 'Navigation',
+    submenu: [
+      {
+        label: 'Search',
+        accelerator: 'CmdOrCtrl+Alt+S',
+        click() {
+          shortcutsHandler('toggle-search');
+        }
+      },
+      {
+        type:'separator'
+      },
+      {
+        label: 'Next tab',
+        accelerator: 'CmdOrCtrl+🡆',
+        click() {
+          shortcutsHandler('toggle-search');
+        }
+      },
+      {
+        label: 'Previous tab',
+        accelerator: 'CmdOrCtrl+🡄',
+        click() {
+          shortcutsHandler('toggle-search');
+        }
+      },
+    ]
+  }));
+
+  menu.append(new MenuItem({
     label: 'Selection',
     submenu: [
       {

@@ -1,50 +1,76 @@
 import { Emitter } from "./Emitter";
 
-const isKeyPressed = {} as Record<string,any>
+let isKeyPressed = {"ctrl":false,"alt":false} as Record<string,any>
 
 export const Shortcuts = {
     listenKeys(): void {
-        document.onkeydown = (keyDownEvent) => {
-            isKeyPressed[keyDownEvent.key] = true;
-            this.checkShortcuts();
+        document.onkeydown = (keyDownEvent) => { this.keyEventHandler(keyDownEvent, true) };
+        document.onkeyup = (keyUpEvent) => { this.keyEventHandler(keyUpEvent, false) };
+    },
+
+    keyEventHandler(event: KeyboardEvent, pressed: boolean): void {
+        if(!pressed){
+            isKeyPressed = {"ctrl":false,"alt":false};
         }
-        document.onkeyup = (keyUpEvent) => {
-            isKeyPressed[keyUpEvent.key] = false;
-        };
+        if(event.key!="Control" && event.key!="Alt"){
+            isKeyPressed["ctrl"] = event.ctrlKey;
+            isKeyPressed["alt"] = event.altKey;
+            isKeyPressed[event.key] = pressed;
+            if(pressed){
+                this.checkShortcuts();
+            }
+        }
     },
 
     isPressed(keyCode: string): boolean {
         return isKeyPressed[keyCode] ? isKeyPressed[keyCode] : false;
     },
 
-    checkShortcuts(): void {
-        if(this.shortcutActive("Control","Alt","o")) {
-            this.call("open-torrent");
-        }
-        if(this.shortcutActive("Control","Alt","a")) {
-            this.call("add-server");
-        }
-        if(this.shortcutActive("Control","a")) {
-            this.call("select-all");
-        }
-        if(this.shortcutActive("Control","Alt","c")) {
-            this.call("clear-selection");
-        }
-        if(this.shortcutActive("Control","Alt","h")) {
-            this.call("about");
-        }
-    },
+    getPressedKeys(): Array<string> {
+        const pressed = [];
 
-    shortcutActive(...keys: string[]): boolean {
-        for(const key of keys) {
-            if(!this.isPressed(key)) {
-                return false;
+        for(const key in isKeyPressed){
+            if(this.isPressed(key)){
+                pressed.push(key);
             }
         }
-        for(const key of keys) {
-            isKeyPressed[key] = false;
+
+        return pressed;
+    },
+
+    checkShortcuts(): void {
+        const keys = this.getPressedKeys();
+
+        console.log(keys);
+
+        switch (keys.toString()) {
+            case "ctrl,alt,o":
+                this.call("open-torrent");
+                break;
+            case "ctrl,alt,a":
+                this.call("add-server");
+                break;
+            case "ctrl,a":
+                this.call("select-all");
+                break;
+            case "ctrl,alt,c":
+                this.call("clear-selection");
+                break;
+            case "ctrl,alt,h":
+                this.call("about");
+                break;
+            case "ctrl,alt,s":
+                this.call("toggle-search");
+                break;
+            case "ctrl,ArrowRight":
+                this.call("next-tab");
+                break;
+            case "ctrl,ArrowLeft":
+                this.call("previous-tab");
+                break;
+            default:
+                break;
         }
-        return true;
     },
 
     call(shortcut: string): void {
