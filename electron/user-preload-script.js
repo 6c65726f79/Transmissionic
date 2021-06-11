@@ -96,6 +96,7 @@ function setMainMenu() {
       },
       {
         label: 'Exit',
+        accelerator: 'Alt+F4',
         click() {
           app.quit();
         }
@@ -106,6 +107,13 @@ function setMainMenu() {
   menu.append(new MenuItem({
     label: 'Navigation',
     submenu: [
+      {
+        label: 'Back',
+        accelerator: 'Esc',
+        click() {
+          shortcutsHandler('back');
+        }
+      },
       {
         label: 'Search',
         accelerator: 'CmdOrCtrl+Alt+S',
@@ -118,14 +126,14 @@ function setMainMenu() {
       },
       {
         label: 'Next tab',
-        accelerator: 'CmdOrCtrl+🡆',
+        accelerator: 'CmdOrCtrl+RightArrow',
         click() {
           shortcutsHandler('next-tab');
         }
       },
       {
         label: 'Previous tab',
-        accelerator: 'CmdOrCtrl+🡄',
+        accelerator: 'CmdOrCtrl+LeftArrow',
         click() {
           shortcutsHandler('previous-tab');
         }
