@@ -120,14 +120,14 @@ function setMainMenu() {
         label: 'Next tab',
         accelerator: 'CmdOrCtrl+🡆',
         click() {
-          shortcutsHandler('toggle-search');
+          shortcutsHandler('next-tab');
         }
       },
       {
         label: 'Previous tab',
         accelerator: 'CmdOrCtrl+🡄',
         click() {
-          shortcutsHandler('toggle-search');
+          shortcutsHandler('previous-tab');
         }
       },
     ]

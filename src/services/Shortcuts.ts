@@ -41,8 +41,6 @@ export const Shortcuts = {
     checkShortcuts(): void {
         const keys = this.getPressedKeys();
 
-        console.log(keys);
-
         switch (keys.toString()) {
             case "ctrl,alt,o":
                 this.call("open-torrent");

@@ -12,7 +12,7 @@
       </ion-buttons>
     </ion-toolbar>
     <ion-toolbar>
-      <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" v-model="selectedTab" scrollable>
+      <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
         <ion-segment-button :value="0" ref="segment-0">
           <ion-label>{{ Locale.download }}</ion-label>
         </ion-segment-button>
@@ -26,7 +26,7 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-slides pager='false' ref="slider" :options="slidesOptions" v-on:ionSlideTransitionEnd="slideChanged">
+  <ion-slides pager='false' ref="slider" :options="tabController.slidesOptions()" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
     <!-- Download tab -->
     <ion-slide>
       <ion-content class="ion-padding" ref="tab1">
@@ -318,7 +318,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { 
-  isPlatform,
   modalController,
   loadingController,
   IonContent,
@@ -346,6 +345,7 @@ import {
   saveOutline,
   saveSharp
 } from 'ionicons/icons';
+import TabController from '../services/TabController';
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { Utils } from "../services/Utils";
@@ -379,15 +379,17 @@ export default defineComponent({
   data() {
     return {
       config: _.clone(TransmissionRPC.sessionArguments),
-      selectedTab:0,
     }
   },
   setup() {
     Utils.pushState();
 
+    const tabController = new TabController();
+
     return { 
       Locale,
       Utils,
+      tabController,
       saveOutline,
       saveSharp
     }
@@ -405,6 +407,8 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.tab1)
     Utils.customScrollbar(this.$refs.tab2)
     Utils.customScrollbar(this.$refs.tab3)
+    
+    this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
 
     setTimeout(()=>{
       // Workaround to fix SwiperJS when opening/closing modal multiple times
@@ -413,14 +417,6 @@ export default defineComponent({
     },100)
   },
   computed: {
-    slidesOptions: function(): Record<string,any> {
-      return {
-        centeredSlides:true,
-        initialSlide:this.selectedTab,
-        resistanceRatio:isPlatform("ios") ? 0.85 : 0,
-        simulateTouch:false
-      }
-    },
     speedUnit:() => {
       return 'K' + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
     }
@@ -468,29 +464,7 @@ export default defineComponent({
           Utils.responseToast(response.result)
         })
       loading.dismiss()
-    },
-    setTab(index: number, smooth=true) {
-      const slider = this.$refs.slider as Record<string,any>;
-      if(slider){
-        slider.$el.slideTo(index);
-      }
-      else {
-        this.selectedTab=index
-      }
-
-      const segment = this.$refs[`segment-${index}`] as Record<string,any>;
-      segment.$el.scrollIntoView({
-        behavior: smooth ? 'smooth' : 'instant',
-        block: 'center',
-        inline: 'center'
-      });
-    },
-    async slideChanged() {
-      const slider = this.$refs.slider as Record<string,any>;
-      const activeIndex = await slider.$el.getActiveIndex();
-      this.selectedTab=activeIndex;
-      this.setTab(activeIndex, false);
-    },
+    }
     
   },
 });

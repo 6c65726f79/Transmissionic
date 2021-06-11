@@ -12,14 +12,14 @@
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
-        <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" v-model="selectedTab" scrollable>
-          <ion-segment-button :value="0" ref="segment-0">
+        <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
+          <ion-segment-button :value="0">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-if="!multiple" ref="segment-1" :disabled="!data.files">
+          <ion-segment-button :value="1" v-if="!multiple" :disabled="!data.files">
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-else ref="segment-1">
+          <ion-segment-button :value="1" v-else>
             <ion-label class="text-transform">{{ Locale.torrent.other }}</ion-label>
           </ion-segment-button>
         </ion-segment>
@@ -31,7 +31,7 @@
       v-on:retry="retry()">
     </ConnectionStatus>
 
-    <ion-slides v-show="connectionStatus.connected" ref="slider" :options="slidesOptions" v-on:ionSlideTransitionEnd="slideChanged">
+    <ion-slides v-show="connectionStatus.connected" ref="slider" :options="tabController.slidesOptions()" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
       <!-- General tab --> 
       <ion-slide>
 
@@ -179,7 +179,6 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { 
-  isPlatform,
   modalController,
   loadingController,
   IonContent, 
@@ -213,6 +212,7 @@ import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
 import VirtualScroll from './components/VirtualScroll.vue';
 import Files from './components/Files.vue';
+import TabController from '../services/TabController';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { Emitter } from "../services/Emitter";
@@ -255,7 +255,6 @@ export default defineComponent({
         paused:false,
         bandwidthPriority:0
       },
-      selectedTab:0,
       autocompleteOpen:false,
       defaultDownloadDir:"",
       downloadDir:"",
@@ -265,14 +264,6 @@ export default defineComponent({
     }
   },
   computed: {
-    slidesOptions: function(): Record<string,any> {
-      return {
-        centeredSlides:true,
-        initialSlide:this.selectedTab,
-        resistanceRatio:isPlatform("ios") ? 0.85 : 0,
-        simulateTouch:false
-      }
-    },
     multiple(): boolean {
       return this.files.length>1
     },
@@ -297,10 +288,13 @@ export default defineComponent({
   },
   setup() {
     Utils.pushState();
+    
+    const tabController = new TabController();
 
     return { 
       Locale,
       Utils,
+      tabController,
       TransmissionRPC,
       checkmarkOutline,
       checkmarkSharp,
@@ -320,7 +314,9 @@ export default defineComponent({
     this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir')
   },
   mounted() {
-    Utils.customScrollbar(this.$refs.content)
+    Utils.customScrollbar(this.$refs.content);
+
+    this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
   },
   methods: {
     modalClose() {
@@ -415,29 +411,7 @@ export default defineComponent({
       }
 
       return TransmissionRPC.torrentAdd({...this.settings, ...args});
-    },
-    setTab(index: number, smooth=true) {
-      const slider = this.$refs.slider as Record<string,any>;
-      if(slider){
-        slider.$el.slideTo(index);
-      }
-      else {
-        this.selectedTab=index
-      }
-
-      const segment = this.$refs[`segment-${index}`] as Record<string,any>;
-      segment.$el.scrollIntoView({
-        behavior: smooth ? 'smooth' : 'instant',
-        block: 'center',
-        inline: 'center'
-      });
-    },
-    async slideChanged() {
-      const slider = this.$refs.slider as Record<string,any>;
-      const activeIndex = await slider.$el.getActiveIndex();
-      this.selectedTab=activeIndex;
-      this.setTab(activeIndex, false);
-    },
+    }
   },
 });
 </script>
