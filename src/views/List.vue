@@ -33,7 +33,7 @@
           <ion-label>
             {{ torrentSelectedList.length }}
             {{ LocaleController.getPlural("torrent",torrentSelectedList.length) }} ·
-            <span @click="openOrderPopover">
+            <span @click="openOrderPopover" tabindex="0">
               <ion-icon :ios="filterOutline" :md="filterSharp"></ion-icon>
               {{ Locale.order }}
             </span>
@@ -46,7 +46,7 @@
           :attr-id="item.id"
           :torrent="item"
           v-on:switch="switchTorrentState"
-          @click="torrentClick(item)" 
+          @click="torrentClick(item)"
           @contextmenu="longPress($event,item.id)" 
           v-longpress="longPressFallback"
           :class="{ 

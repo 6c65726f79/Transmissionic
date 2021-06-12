@@ -41,9 +41,10 @@ export const Shortcuts = {
     checkShortcuts(): void {
         const keys = this.getPressedKeys();
 
-        console.log(keys.toString())
-
         switch (keys.toString()) {
+            case "Enter":
+                this.simulateClick();
+                break;
             case "alt,t":
                 this.call("add-torrent");
                 break;
@@ -74,6 +75,12 @@ export const Shortcuts = {
             default:
                 break;
         }
+    },
+
+    simulateClick(): void {
+        const active = document.activeElement as HTMLElement;
+        active.blur();
+        active.click();
     },
 
     call(shortcut: string): void {

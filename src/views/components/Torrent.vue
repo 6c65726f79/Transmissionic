@@ -1,5 +1,5 @@
 <template>
-  <div class="torrent">
+  <div class="torrent" tabindex="0">
     <div v-if="orderByPosition" class="order">
       <ion-icon :md="caretUpSharp" :ios="caretUpOutline" color="medium" @click="changeTorrentPosition($event,true)"></ion-icon>
       <ion-icon :md="caretDownSharp" :ios="caretDownOutline" color="medium" @click="changeTorrentPosition($event,false)"></ion-icon>
