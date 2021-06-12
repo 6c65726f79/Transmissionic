@@ -41,23 +41,28 @@ export const Shortcuts = {
     checkShortcuts(): void {
         const keys = this.getPressedKeys();
 
+        console.log(keys.toString())
+
         switch (keys.toString()) {
-            case "ctrl,alt,o":
-                this.call("open-torrent");
+            case "alt,t":
+                this.call("add-torrent");
                 break;
-            case "ctrl,alt,a":
+            case "alt,m":
+                this.call("add-magnet");
+                break;
+            case "alt,n":
                 this.call("add-server");
                 break;
             case "ctrl,a":
                 this.call("select-all");
                 break;
-            case "ctrl,alt,c":
+            case "alt,c":
                 this.call("clear-selection");
                 break;
-            case "ctrl,alt,h":
+            case "alt,h":
                 this.call("about");
                 break;
-            case "ctrl,alt,s":
+            case "alt,s":
                 this.call("toggle-search");
                 break;
             case "ctrl,ArrowRight":

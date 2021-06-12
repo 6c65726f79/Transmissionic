@@ -78,15 +78,22 @@ function setMainMenu() {
     label: 'File',
     submenu: [
       {
-        label: 'Open torrent',
-        accelerator: 'CmdOrCtrl+Alt+O',
+        label: 'Add torrent...',
+        accelerator: 'Alt+T',
         click() {
-          shortcutsHandler('open-torrent');
+          shortcutsHandler('add-torrent');
         }
       },
       {
-        label: 'Add server',
-        accelerator: 'CmdOrCtrl+Alt+A',
+        label: 'Add magnet',
+        accelerator: 'Alt+M',
+        click() {
+          shortcutsHandler('add-magnet');
+        }
+      },
+      {
+        label: 'New server',
+        accelerator: 'Alt+N',
         click() {
           shortcutsHandler('add-server');
         }
@@ -116,7 +123,7 @@ function setMainMenu() {
       },
       {
         label: 'Search',
-        accelerator: 'CmdOrCtrl+Alt+S',
+        accelerator: 'Alt+S',
         click() {
           shortcutsHandler('toggle-search');
         }
@@ -153,7 +160,7 @@ function setMainMenu() {
       },
       {
         label: 'Cancel selection',
-        accelerator: 'CmdOrCtrl+Alt+C',
+        accelerator: 'Alt+C',
         click() {
           shortcutsHandler('clear-selection');
         }
@@ -168,8 +175,14 @@ function setMainMenu() {
     label: 'Help',
     submenu: [
       {
+        label: 'Report issue',
+        click() {
+          shell.openExternal("https://github.com/6c65726f79/Transmissionic/issues/new/choose");
+        }
+      },
+      {
         label: 'About',
-        accelerator: 'CmdOrCtrl+Alt+H',
+        accelerator: 'Alt+H',
         click() {
           shortcutsHandler('about');
         }

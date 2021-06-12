@@ -371,7 +371,8 @@ export default defineComponent({
     Emitter.on('clear-selection', this.cancelSelection)
     Emitter.on('torrent-position', (data) => this.changeTorrentPosition(data.id,data.up));
     Emitter.on('language-changed', () => { this.$forceUpdate() });
-    Emitter.on('open-torrent', this.inputFile);
+    Emitter.on('add-torrent', this.inputFile);
+    Emitter.on('add-magnet', this.inputMagnet);
     Emitter.on('select-all', this.selectAll);
     Emitter.on('toggle-search', this.toggleSearch);
   },
