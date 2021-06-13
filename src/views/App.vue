@@ -349,6 +349,9 @@ export default defineComponent({
     Emitter.on('about', this.openAboutModal);
     Emitter.on('settings', this.openSettingsModal);
     Emitter.on('toggle-menu', () => { menuController.toggle("left") });
+    Emitter.on('select-filter', (index) => {
+      this.privateState.selectedFilter=index-1;
+    })
   },
   computed: {
     colorScheme: function(): string {

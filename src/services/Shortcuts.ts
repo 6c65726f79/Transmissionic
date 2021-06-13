@@ -82,6 +82,17 @@ export const Shortcuts = {
             case "alt,c":
                 this.call("config-server");
                 break;
+            case "1,alt":
+            case "2,alt":
+            case "3,alt":
+            case "4,alt":
+            case "5,alt":
+            case "6,alt":
+            case "7,alt":
+            case "8,alt":
+            case "9,alt":
+                this.call("select-filter",keys[0]);
+                break;
             case "ctrl,ArrowRight":
                 this.call("next-tab");
                 break;
@@ -100,7 +111,7 @@ export const Shortcuts = {
         }
     },
 
-    call(shortcut: string): void {
-        Emitter.emit(shortcut);
+    call(shortcut: string, data?: string): void {
+        Emitter.emit(shortcut, data);
     }
 }

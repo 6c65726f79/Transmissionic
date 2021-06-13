@@ -199,6 +199,7 @@ For mobile users:
 | Alt+N           | New server           |
 | Alt+I           | Server information   |
 | Alt+C           | Server configuration |
+| Alt+[1-9]       | Select filter        |
 | Ctrl+Alt+S      | Search               |
 | Ctrl+Alt+T      | Toggle side menu     |
 | Ctrl+RightArrow | Next tab             |
