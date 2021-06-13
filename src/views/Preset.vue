@@ -13,7 +13,7 @@
             </ion-buttons>
         </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" class="ion-padding">
+    <ion-content :fullscreen="true" class="ion-padding" ref="content">
       
         <ion-list>
             <ion-list-header>
@@ -174,6 +174,9 @@ export default defineComponent({
     },
     async created() {
         this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir')
+    },
+    mounted() {
+        Utils.customScrollbar(this.$refs.content);
     },
     computed: {
         speedUnit:() => {
