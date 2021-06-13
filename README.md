@@ -219,9 +219,7 @@ Only Windows and Linux are currently supported, but feel free to make some chang
 First, synchronize Electron content by running this in the root folder of the project:
 
 ```
-npm run build
 npx cap sync @capacitor-community/electron
-npx cap copy @capacitor-community/electron
 npm run postbuild:electron
 ```
 
@@ -243,9 +241,7 @@ The installer will be located in the `electron/dist` folder.
 Start by running this in the root folder of the project:
 
 ```
-npm run build
 npx cap sync android
-npx cap copy android
 ```
 
 Then open Android Studio by running:
