@@ -7,10 +7,10 @@
         </ion-buttons>
         <ion-title>{{ add ? Locale.newServer : Locale.serverDetails }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="deleteSettings()" fill="clear" v-if="!add">
+          <ion-button @click="deleteSettings()" fill="clear" v-if="!add" :aria-label="Locale.actions.delete">
             <ion-icon slot="icon-only" :ios="trashOutline" :md="trashSharp"></ion-icon>
           </ion-button>
-          <ion-button @click="saveSettings()" fill="clear">
+          <ion-button @click="saveSettings()" fill="clear" aria-label="Save">
             <ion-icon slot="icon-only" v-if="!add" :ios="saveOutline" :md="saveSharp"></ion-icon>
             <ion-icon slot="icon-only" v-if="add" :ios="checkmarkOutline" :md="checkmarkSharp"></ion-icon>
           </ion-button>

@@ -11,13 +11,13 @@
             Transmiss<span>ionic</span>
           </ion-title>
           <ion-buttons slot="end">
-            <ion-button @click="openSearch()" fill="clear">
+            <ion-button @click="toggleSearch()" fill="clear" :aria-label="Locale.search">
               <ion-icon slot="icon-only" :ios="searchOutline" :md="searchSharp"></ion-icon>
             </ion-button>
           </ion-buttons>
         </template>
         <template v-if="privateState.viewSearch">
-          <ion-searchbar id="search" show-cancel-button="always" v-model="privateState.search" @ionCancel="closeSearch()" :placeholder="Locale.search" :cancel-button-text="Locale.actions.cancel"></ion-searchbar>
+          <ion-searchbar id="search" show-cancel-button="always" v-model="privateState.search" @ionCancel="toggleSearch()" :placeholder="Locale.search" :cancel-button-text="Locale.actions.cancel"></ion-searchbar>
         </template>
       </ion-toolbar>
     </ion-header>
@@ -33,7 +33,7 @@
           <ion-label>
             {{ torrentSelectedList.length }}
             {{ LocaleController.getPlural("torrent",torrentSelectedList.length) }} ·
-            <span @click="openOrderPopover">
+            <span @click="openOrderPopover" tabindex="0" :aria-label="Locale.order">
               <ion-icon :ios="filterOutline" :md="filterSharp"></ion-icon>
               {{ Locale.order }}
             </span>
@@ -46,7 +46,7 @@
           :attr-id="item.id"
           :torrent="item"
           v-on:switch="switchTorrentState"
-          @click="torrentClick(item)" 
+          @click="torrentClick(item)"
           @contextmenu="longPress($event,item.id)" 
           v-longpress="longPressFallback"
           :class="{ 
@@ -101,10 +101,10 @@
 
       <ion-toolbar v-else id="footer">
         <ion-buttons slot="start">
-          <ion-button fill="clear" @click="serverConfiguration()">
+          <ion-button fill="clear" @click="serverConfiguration()" :aria-label="Locale.serverConfig">
             <ion-icon slot="icon-only" :ios="constructOutline" :md="constructSharp"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" id="alt-speed" @click="switchAltSpeed()">
+          <ion-button fill="clear" id="alt-speed" @click="switchAltSpeed()" aria-label="Alternative speed" :aria-checked="altSpeedEnabled()">
             <ion-icon 
               slot="icon-only"
               :color="altSpeedEnabled() ? 'primary' : null"
@@ -112,20 +112,20 @@
               :md="speedometerSharp">
             </ion-icon>
           </ion-button>
-          <ion-button fill="clear" @click="serverInformations()">
+          <ion-button fill="clear" @click="serverInformations()" :aria-label="Locale.serverInformation">
             <ion-icon slot="icon-only" :ios="informationCircleOutline" :md="informationCircleSharp"></ion-icon>
           </ion-button>
         </ion-buttons>
         <ion-buttons slot="end">
           <div>
-            <span class="bloc">
+            <span class="bloc" aria-label="Download speed">
               <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),1,true) }}
             </span>
-            <span class="bloc">
+            <span class="bloc" aria-label="Upload speed">
               <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),1,true) }}
             </span>
           </div>
-          <ion-button fill="clear" @click="openStatsPopover">
+          <ion-button fill="clear" @click="openStatsPopover" :aria-label="Locale.statistics">
             <ion-icon slot="icon-only" :ios="analyticsOutline" :md="analyticsSharp"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -199,6 +199,7 @@ import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from "../services/FileHandler";
 import { LocaleController } from "../services/LocaleController";
+import { Shortcuts } from '../services/Shortcuts';
 import { Locale } from "../services/Locale";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
@@ -211,6 +212,7 @@ export default defineComponent({
       torrentList:[] as any,
       filter:"",
       filterIds:[] as number[],
+      connectionStatus: {} as Record<string,any>,
       sharedState: UserSettings.state,
       privateState: {
         viewSearch:false,
@@ -223,7 +225,7 @@ export default defineComponent({
       }
     }
   },
-  inject: ['connectionStatus','serverCount'],
+  inject: ['serverCount'],
   components: {
     ConnectionStatus,
     VirtualScroll,
@@ -364,23 +366,34 @@ export default defineComponent({
     this.torrentList = inject('torrentList') as any;
     this.filter = inject('filter') as string;
     this.filterIds = inject('filterIds') as Array<number>;
+    this.connectionStatus = inject('connectionStatus') as Record<string,any>;
   },
   mounted() {
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
-    Emitter.on('clear-selection', this.cancelSelection )
+    Emitter.on('clear-selection', this.cancelSelection)
     Emitter.on('torrent-position', (data) => this.changeTorrentPosition(data.id,data.up));
     Emitter.on('language-changed', () => { this.$forceUpdate() });
+    Emitter.on('add-torrent', this.inputFile);
+    Emitter.on('add-magnet', this.inputMagnet);
+    Emitter.on('add-url', this.inputURL);
+    Emitter.on('select-all', this.selectAll);
+    Emitter.on('toggle-search', this.toggleSearch);
+    Emitter.on('info-server', this.serverInformations);
+    Emitter.on('config-server', this.serverConfiguration);
+    
   },
   methods: {
-    openSearch() {
-      this.privateState.viewSearch=true;
-      setTimeout(() => {
-        const search = document.querySelector("#search") as Record<string,any>;
-        search?.setFocus();
-      },10);
-    },
-    closeSearch(){
-      this.privateState.viewSearch=false
+    toggleSearch() {
+      this.privateState.viewSearch = !this.privateState.viewSearch;
+      if(this.privateState.viewSearch){
+        setTimeout(() => {
+          const search = document.querySelector("#search") as Record<string,any>;
+          search?.setFocus();
+        },10);
+      }
+      else {
+        this.privateState.search="";
+      }
     },
     retry() {
       Emitter.emit("refresh",true);
@@ -411,18 +424,18 @@ export default defineComponent({
       return popover.present();
     },
     async torrentClick(torrent: Record<string, any>) {
-      if(this.privateState.selection.length>0) {
+      if(this.privateState.selection.length>0 || Shortcuts.isPressed("Shift")) {
         this.selectTorrent(torrent.id);
       }
       else {
         const modal = await modalController
-        .create({
-          component: TorrentDetails,
-          componentProps: {
-            id:torrent.id,
-            name:torrent.name
-          }
-        })
+          .create({
+            component: TorrentDetails,
+            componentProps: {
+              id:torrent.id,
+              name:torrent.name
+            }
+          })
         modal.onDidDismiss()
           .then(() => {
             Emitter.emit("refresh");
@@ -601,35 +614,39 @@ export default defineComponent({
       }
     },
     async serverInformations() {
-      Utils.pushState();
-      const infos = TransmissionRPC.sessionArguments;
-      const alert = await alertController
-        .create({
-          header: Locale.serverInformation,
-          message: `
-            <p>
-              <b>${Locale.transmissionVersion}</b><br>
-              ${infos.version}
-            </p>
-            <p>
-              <b>${Locale.freeSpace}</b><br>
-              ${Utils.formatBytes(infos["download-dir-free-space"])}
-            </p>
-            <p>
-              <b>${Locale.port}</b><br>
-              ${infos["peer-port"]}
-            </p>
-          `,
-          buttons: [Locale.ok],
-        });
-      return alert.present();
+      if(this.connectionStatus.connected){
+        Utils.pushState();
+        const infos = TransmissionRPC.sessionArguments;
+        const alert = await alertController
+          .create({
+            header: Locale.serverInformation,
+            message: `
+              <p>
+                <b>${Locale.transmissionVersion}</b><br>
+                ${infos.version}
+              </p>
+              <p>
+                <b>${Locale.freeSpace}</b><br>
+                ${Utils.formatBytes(infos["download-dir-free-space"])}
+              </p>
+              <p>
+                <b>${Locale.port}</b><br>
+                ${infos["peer-port"]}
+              </p>
+            `,
+            buttons: [Locale.ok],
+          });
+        return alert.present();
+      }
     },
     async serverConfiguration() {
-      const modal = await modalController
+      if(this.connectionStatus.connected){
+        const modal = await modalController
         .create({
           component: ServerConfig
         })
-      return modal.present();
+        return modal.present();
+      }
     },
     longPress(e: Event, id: number) {
       if(e){

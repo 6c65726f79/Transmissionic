@@ -6,20 +6,20 @@
         </ion-buttons>
         <ion-title>{{ multiple ? Locale.addTorrents : Locale.addTorrent }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="add()" fill="clear" :disabled="!connectionStatus.connected">
+          <ion-button @click="add()" fill="clear" :disabled="!connectionStatus.connected" :aria-label="Locale.add">
             <ion-icon slot="icon-only" :ios="checkmarkOutline" :md="checkmarkSharp"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
-        <ion-segment ref="tabs" @ionChange="setTab($event.detail.value)" v-model="selectedTab" scrollable>
-          <ion-segment-button :value="0" ref="segment-0">
+        <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
+          <ion-segment-button :value="0" id="tab1">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-if="!multiple" ref="segment-1" :disabled="!data.files">
+          <ion-segment-button :value="1" v-if="!multiple" :disabled="!data.files" id="tab2">
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-else ref="segment-1">
+          <ion-segment-button :value="1" v-else id="tab2">
             <ion-label class="text-transform">{{ Locale.torrent.other }}</ion-label>
           </ion-segment-button>
         </ion-segment>
@@ -31,11 +31,33 @@
       v-on:retry="retry()">
     </ConnectionStatus>
 
-    <ion-slides v-show="connectionStatus.connected" ref="slider" :options="slidesOptions" v-on:ionSlideTransitionEnd="slideChanged">
+    <ion-slides v-show="connectionStatus.connected" ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
       <!-- General tab --> 
-      <ion-slide>
+      <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
 
         <ion-content class="ion-padding" ref="content">
+
+          <ion-list>
+            <ion-list-header>
+              <ion-label>
+                {{ Locale.preset }}
+              </ion-label>
+            </ion-list-header>
+
+            <div id="presets" class="swiper-no-swiping">
+
+              <ion-chip @click="addPreset()">
+                <ion-label>{{ Locale.add }}</ion-label>
+                <ion-icon :ios="addCircleOutline" :md="addCircleSharp"></ion-icon>
+              </ion-chip>
+
+              <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : null">
+                <ion-label>{{name}}</ion-label>
+                <ion-icon :ios="closeCircleOutline" :md="closeCircleSharp" @click="removePreset(name,$event)"></ion-icon>
+              </ion-chip>
+            </div>
+          </ion-list>
+
           <ion-list>
             <ion-list-header>
               <ion-label>
@@ -46,6 +68,7 @@
             <ion-item class="autocomplete" v-if="connectionStatus.connected">
               <ion-label position="floating">{{ Locale.downloadDir }}</ion-label>
               <autocomplete 
+                :value="settings.downloadDir"
                 :items="TransmissionRPC.persistentData.downloadDir"
                 :placeholder="defaultDownloadDir"
                 v-on:update="setDownloadDir">
@@ -54,14 +77,14 @@
 
             <ion-item>
               <ion-label>{{ Locale.actions.start }}</ion-label>
-              <ion-toggle :checked="!settings.paused" v-on:ionChange="settings.paused=!settings.paused" class="swiper-no-swiping"></ion-toggle>
+              <ion-toggle v-model="settings.start" class="swiper-no-swiping"></ion-toggle>
             </ion-item>
 
             <ion-item>
               <ion-label>
                 {{ Locale.priority.priority }}
               </ion-label>
-              <ion-select placeholder="Select One" :value="settings.bandwidthPriority" v-on:ionChange="settings.bandwidthPriority=$event.target.value" :okText="Locale.ok" :cancelText="Locale.actions.cancel">
+              <ion-select placeholder="Select One" v-model="settings.bandwidthPriority" :okText="Locale.ok" :cancelText="Locale.actions.cancel">
                 <ion-select-option :value="1">{{ Locale.priority.high }}</ion-select-option>
                 <ion-select-option :value="0">{{ Locale.priority.normal }}</ion-select-option>
                 <ion-select-option :value="-1">{{ Locale.priority.low }}</ion-select-option>
@@ -144,11 +167,11 @@
 
       </ion-slide>
       <!-- Files tab -->
-      <ion-slide v-if="!multiple && data.files">
+      <ion-slide v-if="!multiple && data.files" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
       </ion-slide>
       <!-- Torrents tab -->
-      <ion-slide v-if="multiple">
+      <ion-slide v-if="multiple" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <VirtualScroll v-bind="$attrs" :items="files" :item-size="64" key-field="data.infoHash">
           <template v-slot:default="{item}">
             <div class="torrent">
@@ -179,8 +202,8 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { 
-  isPlatform,
   modalController,
+  alertController,
   loadingController,
   IonContent, 
   IonHeader, 
@@ -201,23 +224,31 @@ import {
   IonSelect,
   IonSelectOption,
   IonIcon,
-  IonCheckbox
+  IonCheckbox,
+  IonChip
 } from '@ionic/vue';
 import {
   checkmarkOutline,
   checkmarkSharp,
   documentOutline,
-  documentSharp
+  documentSharp,
+  closeCircleOutline,
+  closeCircleSharp,
+  addCircleOutline,
+  addCircleSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
 import VirtualScroll from './components/VirtualScroll.vue';
 import Files from './components/Files.vue';
+import Preset from './Preset.vue';
+import TabController from '../services/TabController';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { Emitter } from "../services/Emitter";
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import * as _ from 'lodash';
+import { UserSettings } from '../services/UserSettings';
 
 export default defineComponent({
   name: 'AddTorrent',
@@ -247,32 +278,26 @@ export default defineComponent({
     IonSelect,
     IonSelectOption,
     IonIcon,
-    IonCheckbox
+    IonCheckbox,
+    IonChip
   },
   data() {
     return {
       settings:{
-        paused:false,
-        bandwidthPriority:0
+        start:true,
+        bandwidthPriority:0,
+        downloadDir:"",
       },
-      selectedTab:0,
       autocompleteOpen:false,
       defaultDownloadDir:"",
-      downloadDir:"",
       currentDirectory:"",
       fileStats:[] as Array<any>,
-      notWanted:[] as Array<string>
+      notWanted:[] as Array<string>,
+      presets:{} as Record<string,any>,
+      selectedPreset:""
     }
   },
   computed: {
-    slidesOptions: function(): Record<string,any> {
-      return {
-        centeredSlides:true,
-        initialSlide:this.selectedTab,
-        resistanceRatio:isPlatform("ios") ? 0.85 : 0,
-        simulateTouch:false
-      }
-    },
     multiple(): boolean {
       return this.files.length>1
     },
@@ -297,15 +322,22 @@ export default defineComponent({
   },
   setup() {
     Utils.pushState();
+    
+    const tabController = new TabController();
 
     return { 
       Locale,
       Utils,
+      tabController,
       TransmissionRPC,
       checkmarkOutline,
       checkmarkSharp,
       documentOutline,
-      documentSharp
+      documentSharp,
+      closeCircleOutline,
+      closeCircleSharp,
+      addCircleOutline,
+      addCircleSharp
     }
   },
   async created() {
@@ -317,10 +349,13 @@ export default defineComponent({
       });
     }
 
+    this.presets = await UserSettings.loadPresets();
     this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir')
   },
   mounted() {
-    Utils.customScrollbar(this.$refs.content)
+    Utils.customScrollbar(this.$refs.content);
+
+    this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
   },
   methods: {
     modalClose() {
@@ -333,7 +368,7 @@ export default defineComponent({
       this.currentDirectory=directory;
     },
     setDownloadDir(directory: string) {
-      this.downloadDir=directory;
+      this.settings.downloadDir=directory;
     },
     fileTitle(title: string, e?: Event){
       if(e){
@@ -355,9 +390,12 @@ export default defineComponent({
       }
     },
     async add(){
-      const args = {} as Record<string,any>;
-      if(this.downloadDir!=""){
-        args["download-dir"]=this.downloadDir;
+      const args = {
+        paused:!this.settings.start
+      } as Record<string,any>;
+      
+      if(this.settings.downloadDir!=""){
+        args["download-dir"]=this.settings.downloadDir;
       }
 
       const wanted=[];
@@ -389,6 +427,11 @@ export default defineComponent({
       for(const torrentFile of this.files) {
         if(!error && !this.notWanted.includes(torrentFile.data.infoHash)){
           await this.send(args,torrentFile.torrent)
+            .then(async (result) => {
+              if(result.arguments["torrent-added"]){
+                await this.applyPreset(result.arguments["torrent-added"].id);
+              }
+            })
             .catch((e) => {
               Utils.responseToast(e.message)
               error=true;
@@ -416,28 +459,62 @@ export default defineComponent({
 
       return TransmissionRPC.torrentAdd({...this.settings, ...args});
     },
-    setTab(index: number, smooth=true) {
-      const slider = this.$refs.slider as Record<string,any>;
-      if(slider){
-        slider.$el.slideTo(index);
+    selectPreset(name: string){
+      this.selectedPreset = this.selectedPreset==name ? "" : name;
+      if(this.selectedPreset!=""){
+        this.settings = {...this.presets[name]};
       }
       else {
-        this.selectedTab=index
+        this.settings = {
+          start:true,
+          bandwidthPriority:0,
+          downloadDir:""
+        }
       }
+    },
 
-      const segment = this.$refs[`segment-${index}`] as Record<string,any>;
-      segment.$el.scrollIntoView({
-        behavior: smooth ? 'smooth' : 'instant',
-        block: 'center',
-        inline: 'center'
-      });
+    async applyPreset(torrentId: number) {
+      if(this.presets[this.selectedPreset].other.downloadLimited || this.presets[this.selectedPreset].other.uploadLimited){
+        await TransmissionRPC.torrentAction("set",[torrentId],this.presets[this.selectedPreset].other)
+          .catch((error) => {
+            Utils.responseToast(error.message);
+          })
+      }
     },
-    async slideChanged() {
-      const slider = this.$refs.slider as Record<string,any>;
-      const activeIndex = await slider.$el.getActiveIndex();
-      this.selectedTab=activeIndex;
-      this.setTab(activeIndex, false);
+
+    async addPreset() {
+      const modal = await modalController
+        .create({
+          component: Preset
+        })
+      modal.onDidDismiss()
+          .then(async () => {
+            this.presets = await UserSettings.loadPresets();
+          })
+      return modal.present();
     },
+    async removePreset(name: string, e: Event) {
+      e.stopPropagation();
+      const alert = await alertController
+        .create({
+          header: Locale.prompt.confirmation,
+          message: Locale.formatString(Locale.prompt.delete,`"${name}"`) as string,
+          buttons: [
+            {
+              text: Locale.actions.cancel,
+              role: 'cancel'
+            },
+            {
+              text: Locale.prompt.confirm,
+              handler: () => {
+                delete this.presets[name];
+                UserSettings.savePresets(this.presets);
+              },
+            },
+          ],
+        });
+      return alert.present();
+    }
   },
 });
 </script>

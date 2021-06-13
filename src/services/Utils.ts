@@ -15,6 +15,8 @@ import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
 import Autolinker from 'autolinker';
 import Moment from "moment";
+import { Shortcuts } from './Shortcuts';
+import { Emitter } from './Emitter';
 
 declare global {
   interface Window {
@@ -269,7 +271,11 @@ export const Utils = {
 
   customTitlebar(): void {
     if(window.Titlebar){
-      window.Titlebar.new()
+      window.Titlebar.new();
+
+      window.Titlebar.shortcuts((shortcut: string) => {
+        Shortcuts.call(shortcut);
+      });
     }
   },
 
@@ -327,6 +333,8 @@ export const Utils = {
   },
 
   backButtonHandle(): void {
+    Emitter.on('back', () => { this.popState() });
+
     if(isPlatform('capacitor')){
       useBackButton(-1, async () => {
         const top = await this.getTop();
@@ -344,10 +352,10 @@ export const Utils = {
       });
     }
   },
-  async popState(e: Event): Promise<void> {
+  async popState(e: Event|null=null): Promise<void> {
     const top = await this.getTop();
     if(top.hasTop){
-      e.preventDefault();
+      e?.preventDefault();
       history.go(1);
     }
     if(top.actionsheet){

@@ -382,11 +382,11 @@ class TRPC {
     return result;
   }
 
-  async torrentAction(action: string, torrentId: number|Array<number>, args: Record<string, any> = {}){
+  async torrentAction(action: string, torrentIds: Array<number>, args: Record<string, any> = {}){
     if(action=="remove"){
       this.invalidatePersitentData();
     }
-    return this.rpcCall("torrent-"+action, Object.assign({ids:torrentId}, args))
+    return this.rpcCall("torrent-"+action, Object.assign({ids:Object.values(torrentIds)}, args))
   }
 
   async torrentAdd(args: Record<string, any> = {}){

@@ -1,7 +1,9 @@
 import { app, shell } from "electron";
 import fs from "fs";
 import { createCapacitorElectronApp } from "@capacitor-community/electron";
-import { autoUpdater } from "electron-updater"
+import { autoUpdater } from "electron-updater";
+import windowStateKeeper from "electron-window-state";
+require('@electron/remote/main').initialize();
 
 // The MainWindow object can be accessed via myCapacitorApp.getMainWindow()
 const myCapacitorApp = createCapacitorElectronApp({
@@ -48,9 +50,16 @@ if (!gotTheLock) {
   // initialization and is ready to create browser windows.
   // Some Electron APIs can only be used after this event occurs.
   app.on("ready", () => {
+    let mainWindowState = windowStateKeeper({
+      defaultWidth: 990,
+      defaultHeight: 700
+    });
     myCapacitorApp.init();
-    autoUpdater.checkForUpdatesAndNotify();
     const mainWindow = myCapacitorApp.getMainWindow();
+    mainWindow.setPosition(mainWindowState.x,mainWindowState.y);
+    mainWindow.setSize(mainWindowState.width,mainWindowState.height);
+    autoUpdater.checkForUpdatesAndNotify();
+    mainWindowState.manage(mainWindow);
     if (mainWindow && openFiles.length>0) {
       mainWindow.webContents.on('did-finish-load', function() {
         mainWindow.webContents.send('file-open', openFiles)

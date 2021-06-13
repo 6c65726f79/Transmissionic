@@ -212,10 +212,6 @@ ion-infinite-scroll-content {
   padding:8px;
 }
 
-.menubar {
-  display:none !important;
-}
-
 .plt-electron ion-popover {
   top:-30px;
 }

@@ -8,16 +8,16 @@
           <ion-list id="servers-list">
             <ion-list-header>{{ Locale.servers }}</ion-list-header>
   
-            <ion-menu-toggle auto-hide="false" v-for="(s, i) in privateState.serverList" :key="i">
-              <ion-item @click="selectServer(i)"  lines="none" detail="false" class="hydrated" :class="{ selected: privateState.selectedServer === i }">
+            <ion-menu-toggle class="ion-activatable" auto-hide="false" v-for="(s, i) in privateState.serverList" :key="i">
+              <ion-item @click="selectServer(i)" class="hydrated" lines="none" detail="false" :class="{ selected: privateState.selectedServer === i }" button>
                 <ion-icon slot="start" :ios="serverOutline" :md="serverSharp"></ion-icon>
                 <ion-label>{{ s.name }}</ion-label>
-                <ion-icon slot="end" :ios="pencilOutline" :md="pencilSharp" @click="openServerDetailsModal(i,$event)"></ion-icon>
+                <ion-icon slot="end" :ios="pencilOutline" :md="pencilSharp" @click="openServerDetailsModal(i,$event)" tabindex="0" :aria-label="Locale.serverDetails"></ion-icon>
               </ion-item>
             </ion-menu-toggle>
 
             <ion-menu-toggle auto-hide="false">
-              <ion-item @click="openServerDetailsModal(privateState.serverList.length,$event,true)" lines="none" detail="false" class="hydrated">
+              <ion-item @click="addServer($event)" class="hydrated" lines="none" detail="false" button>
                 <ion-icon slot="start" :ios="addOutline" :md="addSharp"></ion-icon>
                 <ion-label>{{ Locale.add }}</ion-label>
               </ion-item>
@@ -27,19 +27,21 @@
           <ion-list id="trackers-list">
             <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
 
-            <ion-item id="tracker-dropdown" lines="none" @click="openTrackerList()">
-              <ion-label>{{ privateState.selectedTracker ? Utils.trackerDomain(privateState.selectedTracker).protocol+"://"+Utils.trackerDomain(privateState.selectedTracker).domain : Locale.filters.all }}</ion-label>
-              <div slot="end">
-                <ion-icon :ios="caretDownOutline" :md="caretDownSharp"></ion-icon>
-              </div>
-            </ion-item>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item @click="openTrackerList($event)" id="tracker-dropdown" lines="none" button>
+                <ion-label>{{ privateState.selectedTracker ? Utils.trackerDomain(privateState.selectedTracker).protocol+"://"+Utils.trackerDomain(privateState.selectedTracker).domain : Locale.filters.all }}</ion-label>
+                <div slot="end">
+                  <ion-icon :ios="caretDownOutline" :md="caretDownSharp"></ion-icon>
+                </div>
+              </ion-item>
+            </ion-menu-toggle>
           </ion-list>
   
           <ion-list id="filters-list">
             <ion-list-header>{{ Locale.filters.filters }}</ion-list-header>
 
             <ion-menu-toggle auto-hide="false" v-for="(f, index) in privateState.filters" :key="index">
-              <ion-item @click="privateState.selectedFilter = index" lines="none" :class="{ selected: privateState.selectedFilter === index }">
+              <ion-item @click="privateState.selectedFilter = index" lines="none" :class="{ selected: privateState.selectedFilter === index }" button>
                 <ion-icon slot="start" :ios="f.iosIcon" :md="f.mdIcon"></ion-icon>
                 <ion-label class="text-transform">{{ f.label() }}</ion-label>
               </ion-item>
@@ -52,12 +54,12 @@
           <ion-list>
             <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
             <ion-menu-toggle auto-hide="false">
-              <ion-item lines="none" @click="selectTracker()" :class="{selected:privateState.selectedTracker==''}">
+              <ion-item @click="selectTracker()" lines="none" :class="{selected:privateState.selectedTracker==''}" button>
                 <ion-label>{{ Locale.filters.all }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
-            <ion-menu-toggle auto-hide="false" v-for="tracker in privateState.trackerList" :key="tracker.id" @click="selectTracker(tracker)">
-              <ion-item lines="none" :class="{selected:privateState.selectedTracker==tracker.announce}">
+            <ion-menu-toggle auto-hide="false" v-for="tracker in privateState.trackerList" :key="tracker.id">
+              <ion-item @click="selectTracker(tracker)" lines="none" :class="{selected:privateState.selectedTracker==tracker.announce}" button>
                 <ion-label :title="tracker.announce">{{tracker.announce}}</ion-label>
                 <div slot="end">
                   <ion-badge>{{ tracker.ids.length }}</ion-badge>
@@ -79,14 +81,14 @@
         <ion-footer>
           <ion-list id="other-list">
             <ion-menu-toggle auto-hide="false">
-              <ion-item @click="openSettingsModal()" lines="none" detail="false" class="hydrated">
+              <ion-item @click="openSettingsModal()" lines="none" detail="false" class="hydrated" button>
                 <ion-icon slot="start" :ios="settingsOutline" :md="settingsSharp"></ion-icon>
                 <ion-label>{{ Locale.settings }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
 
             <ion-menu-toggle auto-hide="false">
-              <ion-item @click="openAboutModal()" lines="none" detail="false" class="hydrated">
+              <ion-item @click="openAboutModal()" lines="none" detail="false" class="hydrated" button>
                 <ion-icon slot="start" :ios="helpCircleOutline" :md="helpCircleSharp"></ion-icon>
                 <ion-label>{{ Locale.about.about }}</ion-label>
               </ion-item>
@@ -119,7 +121,7 @@ import {
   IonFooter,
   IonBadge,
   IonInfiniteScroll, 
-  IonInfiniteScrollContent,
+  IonInfiniteScrollContent
 } from '@ionic/vue';
 import {
   serverOutline,
@@ -182,7 +184,7 @@ export default defineComponent({
     IonFooter,
     IonBadge,
     IonInfiniteScroll, 
-    IonInfiniteScrollContent,
+    IonInfiniteScrollContent
   },
   data() {
     return { 
@@ -341,9 +343,15 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.trackers);
     
     Emitter.on('refresh', this.refresh);
-    Emitter.on('add-server', () => this.openServerDetailsModal(this.privateState.serverList.length,null,true) );
+    Emitter.on('add-server', this.addServer);
     Emitter.on('swipe-enabled', (value) => this.privateState.swipeEnabled=value );
     Emitter.on('language-changed', () => { this.$forceUpdate() });
+    Emitter.on('about', this.openAboutModal);
+    Emitter.on('settings', this.openSettingsModal);
+    Emitter.on('toggle-menu', () => { menuController.toggle("left") });
+    Emitter.on('select-filter', (index) => {
+      this.privateState.selectedFilter=index-1;
+    })
   },
   computed: {
     colorScheme: function(): string {
@@ -354,6 +362,10 @@ export default defineComponent({
     },
   },
   methods: {
+
+    addServer(e: any=null) {
+      this.openServerDetailsModal(this.privateState.serverList.length,e,true);
+    },
 
     setRefreshInterval() {
       clearInterval(this.privateState.refresh);
@@ -369,7 +381,8 @@ export default defineComponent({
       this.getTorrents(clean);
     },
 
-    openTrackerList() {
+    openTrackerList(e: Event) {
+      e.stopPropagation();
       this.privateState.trackerListOpened=true;
       this.displayTrackers();
     },

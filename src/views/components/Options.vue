@@ -32,7 +32,7 @@
         <ion-label>
           {{ Locale.priority.priority }}
         </ion-label>
-        <ion-select placeholder="Select One" :value="details.bandwidthPriority" v-on:ionChange="details.bandwidthPriority=$event.target.value" :okText="Locale.ok" :cancelText="Locale.actions.cancel">
+        <ion-select placeholder="Select One" v-model="details.bandwidthPriority" :okText="Locale.ok" :cancelText="Locale.actions.cancel">
           <ion-select-option :value="1">{{ Locale.priority.high }}</ion-select-option>
           <ion-select-option :value="0">{{ Locale.priority.normal }}</ion-select-option>
           <ion-select-option :value="-1">{{ Locale.priority.low }}</ion-select-option>

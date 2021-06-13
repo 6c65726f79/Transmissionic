@@ -188,6 +188,26 @@ For mobile users:
 4. Go on a torrent page.
 5. Tap on the address bar, search for "Download with Transmissionic" and select the bookmark. ([Screenshot](https://i.imgur.com/xcFA4Ez.png))
 
+# Keyboard shortcuts
+
+| Keys            | Action               |
+| --------------- | -------------------- |
+| Alt+T           | Open torrent         |
+| Alt+M           | Open magnet          |
+| Alt+U           | Open URL             |
+| Alt+S           | Settings             |
+| Alt+N           | New server           |
+| Alt+I           | Server information   |
+| Alt+C           | Server configuration |
+| Alt+[1-9]       | Select filter        |
+| Ctrl+Alt+S      | Search               |
+| Ctrl+Alt+T      | Toggle side menu     |
+| Ctrl+RightArrow | Next tab             |
+| Ctrl+LeftArrow  | Previous tab         |
+| Ctrl+A          | Select all           |
+| Ctrl+Alt+C      | Cancel selection     |
+| Alt+H           | About                |
+
 # Build
 
 ### Requirements
@@ -219,9 +239,7 @@ Only Windows and Linux are currently supported, but feel free to make some chang
 First, synchronize Electron content by running this in the root folder of the project:
 
 ```
-npm run build
 npx cap sync @capacitor-community/electron
-npx cap copy @capacitor-community/electron
 npm run postbuild:electron
 ```
 
@@ -243,9 +261,7 @@ The installer will be located in the `electron/dist` folder.
 Start by running this in the root folder of the project:
 
 ```
-npm run build
 npx cap sync android
-npx cap copy android
 ```
 
 Then open Android Studio by running:
