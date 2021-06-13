@@ -159,6 +159,13 @@ function setMainMenu() {
         }
       },
       {
+        label: 'Toggle side menu',
+        accelerator: 'CmdOrCtrl+Alt+T',
+        click() {
+          shortcutsHandler('toggle-menu');
+        }
+      },
+      {
         type:'separator'
       },
       {

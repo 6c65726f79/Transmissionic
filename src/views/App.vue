@@ -28,7 +28,7 @@
             <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
 
             <ion-menu-toggle auto-hide="false">
-              <ion-item @click="openTrackerList()" id="tracker-dropdown" lines="none" button>
+              <ion-item @click="openTrackerList($event)" id="tracker-dropdown" lines="none" button>
                 <ion-label>{{ privateState.selectedTracker ? Utils.trackerDomain(privateState.selectedTracker).protocol+"://"+Utils.trackerDomain(privateState.selectedTracker).domain : Locale.filters.all }}</ion-label>
                 <div slot="end">
                   <ion-icon :ios="caretDownOutline" :md="caretDownSharp"></ion-icon>
@@ -348,6 +348,7 @@ export default defineComponent({
     Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('about', this.openAboutModal);
     Emitter.on('settings', this.openSettingsModal);
+    Emitter.on('toggle-menu', () => { menuController.toggle("left") });
   },
   computed: {
     colorScheme: function(): string {
@@ -377,7 +378,8 @@ export default defineComponent({
       this.getTorrents(clean);
     },
 
-    openTrackerList() {
+    openTrackerList(e: Event) {
+      e.stopPropagation();
       this.privateState.trackerListOpened=true;
       this.displayTrackers();
     },

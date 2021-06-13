@@ -70,6 +70,9 @@ export const Shortcuts = {
             case "ctrl,alt,s":
                 this.call("toggle-search");
                 break;
+            case "ctrl,alt,t":
+                this.call("toggle-menu");
+                break;
             case "alt,i":
                 this.call("info-server");
                 break;
