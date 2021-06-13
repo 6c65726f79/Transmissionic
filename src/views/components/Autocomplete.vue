@@ -132,6 +132,9 @@ export default defineComponent({
         this.results = val;
       }
     },
+    value: function (val) {
+      this.search = val;
+    }
   },
   mounted() {
     Utils.customScrollbar(this.$refs.results, false, false);

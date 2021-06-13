@@ -121,5 +121,25 @@ export const UserSettings = {
       key: "servers",
       value: JSON.stringify(serverList)
     });
+  },
+
+  async loadPresets(): Promise<Record<string,any>> {
+    let result: Record<string,any> = {};
+
+    await Storage.get({ key: "presets" })
+      .then((val: Record<string,any>) => {
+        if(val.value){
+          result=JSON.parse(val.value);
+        }
+      });
+
+    return result;
+  },
+
+  savePresets(presets: Record<string,any>): void {
+    Storage.set({
+      key: "presets",
+      value: JSON.stringify(presets)
+    });
   }
 }

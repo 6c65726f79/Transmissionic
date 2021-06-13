@@ -428,13 +428,13 @@ export default defineComponent({
       }
       else {
         const modal = await modalController
-        .create({
-          component: TorrentDetails,
-          componentProps: {
-            id:torrent.id,
-            name:torrent.name
-          }
-        })
+          .create({
+            component: TorrentDetails,
+            componentProps: {
+              id:torrent.id,
+              name:torrent.name
+            }
+          })
         modal.onDidDismiss()
           .then(() => {
             Emitter.emit("refresh");

@@ -36,7 +36,27 @@
       <ion-slide>
 
         <ion-content class="ion-padding" ref="content">
+
           <ion-list>
+            <ion-list-header>
+              <ion-label>
+                Preset
+              </ion-label>
+            </ion-list-header>
+
+            <div id="presets" class="swiper-no-swiping">
+
+              <ion-chip @click="addPreset()">
+                <ion-label>{{ Locale.add }}</ion-label>
+                <ion-icon :ios="addCircleOutline" :md="addCircleSharp"></ion-icon>
+              </ion-chip>
+
+              <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : null">
+                <ion-label>{{name}}</ion-label>
+                <ion-icon :ios="closeCircleOutline" :md="closeCircleSharp" @click="removePreset(name,$event)"></ion-icon>
+              </ion-chip>
+            </div>
+
             <ion-list-header>
               <ion-label>
                 {{ Locale.options }}
@@ -46,6 +66,7 @@
             <ion-item class="autocomplete" v-if="connectionStatus.connected">
               <ion-label position="floating">{{ Locale.downloadDir }}</ion-label>
               <autocomplete 
+                :value="settings.downloadDir"
                 :items="TransmissionRPC.persistentData.downloadDir"
                 :placeholder="defaultDownloadDir"
                 v-on:update="setDownloadDir">
@@ -54,7 +75,7 @@
 
             <ion-item>
               <ion-label>{{ Locale.actions.start }}</ion-label>
-              <ion-toggle :checked="!settings.paused" v-on:ionChange="settings.paused=!settings.paused" class="swiper-no-swiping"></ion-toggle>
+              <ion-toggle v-model="settings.start" class="swiper-no-swiping"></ion-toggle>
             </ion-item>
 
             <ion-item>
@@ -180,6 +201,7 @@
 import { defineComponent, computed } from 'vue';
 import { 
   modalController,
+  alertController,
   loadingController,
   IonContent, 
   IonHeader, 
@@ -200,24 +222,31 @@ import {
   IonSelect,
   IonSelectOption,
   IonIcon,
-  IonCheckbox
+  IonCheckbox,
+  IonChip
 } from '@ionic/vue';
 import {
   checkmarkOutline,
   checkmarkSharp,
   documentOutline,
-  documentSharp
+  documentSharp,
+  closeCircleOutline,
+  closeCircleSharp,
+  addCircleOutline,
+  addCircleSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
 import VirtualScroll from './components/VirtualScroll.vue';
 import Files from './components/Files.vue';
+import Preset from './Preset.vue';
 import TabController from '../services/TabController';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { Emitter } from "../services/Emitter";
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import * as _ from 'lodash';
+import { UserSettings } from '../services/UserSettings';
 
 export default defineComponent({
   name: 'AddTorrent',
@@ -247,20 +276,23 @@ export default defineComponent({
     IonSelect,
     IonSelectOption,
     IonIcon,
-    IonCheckbox
+    IonCheckbox,
+    IonChip
   },
   data() {
     return {
       settings:{
-        paused:false,
-        bandwidthPriority:0
+        start:true,
+        bandwidthPriority:0,
+        downloadDir:"",
       },
       autocompleteOpen:false,
       defaultDownloadDir:"",
-      downloadDir:"",
       currentDirectory:"",
       fileStats:[] as Array<any>,
-      notWanted:[] as Array<string>
+      notWanted:[] as Array<string>,
+      presets:{} as Record<string,any>,
+      selectedPreset:""
     }
   },
   computed: {
@@ -299,7 +331,11 @@ export default defineComponent({
       checkmarkOutline,
       checkmarkSharp,
       documentOutline,
-      documentSharp
+      documentSharp,
+      closeCircleOutline,
+      closeCircleSharp,
+      addCircleOutline,
+      addCircleSharp
     }
   },
   async created() {
@@ -311,6 +347,7 @@ export default defineComponent({
       });
     }
 
+    this.presets = await UserSettings.loadPresets();
     this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir')
   },
   mounted() {
@@ -329,7 +366,7 @@ export default defineComponent({
       this.currentDirectory=directory;
     },
     setDownloadDir(directory: string) {
-      this.downloadDir=directory;
+      this.settings.downloadDir=directory;
     },
     fileTitle(title: string, e?: Event){
       if(e){
@@ -351,9 +388,12 @@ export default defineComponent({
       }
     },
     async add(){
-      const args = {} as Record<string,any>;
-      if(this.downloadDir!=""){
-        args["download-dir"]=this.downloadDir;
+      const args = {
+        paused:!this.settings.start
+      } as Record<string,any>;
+      
+      if(this.settings.downloadDir!=""){
+        args["download-dir"]=this.settings.downloadDir;
       }
 
       const wanted=[];
@@ -385,6 +425,11 @@ export default defineComponent({
       for(const torrentFile of this.files) {
         if(!error && !this.notWanted.includes(torrentFile.data.infoHash)){
           await this.send(args,torrentFile.torrent)
+            .then(async (result) => {
+              if(result.arguments["torrent-added"]){
+                await this.applyPreset(result.arguments["torrent-added"].id);
+              }
+            })
             .catch((e) => {
               Utils.responseToast(e.message)
               error=true;
@@ -411,6 +456,62 @@ export default defineComponent({
       }
 
       return TransmissionRPC.torrentAdd({...this.settings, ...args});
+    },
+    selectPreset(name: string){
+      this.selectedPreset = this.selectedPreset==name ? "" : name;
+      if(this.selectedPreset!=""){
+        this.settings = {...this.presets[name]};
+      }
+      else {
+        this.settings = {
+          start:true,
+          bandwidthPriority:0,
+          downloadDir:""
+        }
+      }
+    },
+
+    async applyPreset(torrentId: number) {
+      if(this.presets[this.selectedPreset].other.downloadLimited || this.presets[this.selectedPreset].other.uploadLimited){
+        await TransmissionRPC.torrentAction("set",[torrentId],this.presets[this.selectedPreset].other)
+          .catch((error) => {
+            Utils.responseToast(error.message);
+          })
+      }
+    },
+
+    async addPreset() {
+      const modal = await modalController
+        .create({
+          component: Preset
+        })
+      modal.onDidDismiss()
+          .then(async () => {
+            this.presets = await UserSettings.loadPresets();
+          })
+      return modal.present();
+    },
+    async removePreset(name: string, e: Event) {
+      e.stopPropagation();
+      const alert = await alertController
+        .create({
+          header: Locale.prompt.confirmation,
+          message: Locale.formatString(Locale.prompt.delete,`"${name}"`) as string,
+          buttons: [
+            {
+              text: Locale.actions.cancel,
+              role: 'cancel'
+            },
+            {
+              text: Locale.prompt.confirm,
+              handler: () => {
+                delete this.presets[name];
+                UserSettings.savePresets(this.presets);
+              },
+            },
+          ],
+        });
+      return alert.present();
     }
   },
 });
