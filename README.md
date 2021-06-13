@@ -188,6 +188,24 @@ For mobile users:
 4. Go on a torrent page.
 5. Tap on the address bar, search for "Download with Transmissionic" and select the bookmark. ([Screenshot](https://i.imgur.com/xcFA4Ez.png))
 
+# Keyboard shortcuts
+
+| Keys            | Action               |
+| --------------- | -------------------- |
+| Alt+T           | Add torrent          |
+| Alt+M           | Add magnet           |
+| Alt+S           | Settings             |
+| Alt+N           | New server           |
+| Alt+I           | Server information   |
+| Alt+C           | Server configuration |
+| Ctrl+Alt+S      | Search               |
+| Ctrl+Alt+T      | Toggle side menu     |
+| Ctrl+RightArrow | Next tab             |
+| Ctrl+LeftArrow  | Previous tab         |
+| Ctrl+A          | Select all           |
+| Ctrl+Alt+C      | Cancel selection     |
+| Alt+H           | About                |
+
 # Build
 
 ### Requirements
