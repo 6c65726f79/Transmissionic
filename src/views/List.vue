@@ -375,6 +375,7 @@ export default defineComponent({
     Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('add-torrent', this.inputFile);
     Emitter.on('add-magnet', this.inputMagnet);
+    Emitter.on('add-url', this.inputURL);
     Emitter.on('select-all', this.selectAll);
     Emitter.on('toggle-search', this.toggleSearch);
     Emitter.on('info-server', this.serverInformations);

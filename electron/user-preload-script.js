@@ -78,17 +78,24 @@ function setMainMenu() {
     label: 'File',
     submenu: [
       {
-        label: 'Add torrent...',
+        label: 'Open torrent...',
         accelerator: 'Alt+T',
         click() {
           shortcutsHandler('add-torrent');
         }
       },
       {
-        label: 'Add magnet',
+        label: 'Open magnet',
         accelerator: 'Alt+M',
         click() {
           shortcutsHandler('add-magnet');
+        }
+      },
+      {
+        label: 'Open URL',
+        accelerator: 'Alt+U',
+        click() {
+          shortcutsHandler('add-url');
         }
       },
       {

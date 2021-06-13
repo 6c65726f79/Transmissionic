@@ -192,8 +192,9 @@ For mobile users:
 
 | Keys            | Action               |
 | --------------- | -------------------- |
-| Alt+T           | Add torrent          |
-| Alt+M           | Add magnet           |
+| Alt+T           | Open torrent         |
+| Alt+M           | Open magnet          |
+| Alt+U           | Open URL             |
 | Alt+S           | Settings             |
 | Alt+N           | New server           |
 | Alt+I           | Server information   |

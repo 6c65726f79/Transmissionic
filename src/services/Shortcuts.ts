@@ -52,6 +52,9 @@ export const Shortcuts = {
             case "alt,m":
                 this.call("add-magnet");
                 break;
+            case "alt,u":
+                this.call("add-url");
+                break;
             case "alt,n":
                 this.call("add-server");
                 break;
