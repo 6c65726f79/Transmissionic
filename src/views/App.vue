@@ -12,7 +12,7 @@
               <ion-item @click="selectServer(i)" class="hydrated" lines="none" detail="false" :class="{ selected: privateState.selectedServer === i }" button>
                 <ion-icon slot="start" :ios="serverOutline" :md="serverSharp"></ion-icon>
                 <ion-label>{{ s.name }}</ion-label>
-                <ion-icon slot="end" :ios="pencilOutline" :md="pencilSharp" @click="openServerDetailsModal(i,$event)" tabindex="0"></ion-icon>
+                <ion-icon slot="end" :ios="pencilOutline" :md="pencilSharp" @click="openServerDetailsModal(i,$event)" tabindex="0" :aria-label="Locale.serverDetails"></ion-icon>
               </ion-item>
             </ion-menu-toggle>
 

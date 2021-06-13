@@ -10,6 +10,13 @@ export default class TabController {
         segments:{} as Record<string,any>
     })
 
+    slidesOptions = {
+        centeredSlides:true,
+        initialSlide:this.state.selectedTab,
+        resistanceRatio:isPlatform("ios") ? 0.85 : 0,
+        simulateTouch:false
+    }
+
     constructor() {
         Emitter.on("next-tab", () => { this.setTab(this.state.selectedTab-0+1) });
         Emitter.on("previous-tab", () => { this.setTab(this.state.selectedTab-1) });
@@ -49,15 +56,6 @@ export default class TabController {
 
     isVisible(id: number): boolean{
         return (this.state.visibleTab >= id-1 && this.state.visibleTab <= id+1);
-    }
-
-    slidesOptions(): Record<string,any> {
-        return {
-            centeredSlides:true,
-            initialSlide:this.state.selectedTab,
-            resistanceRatio:isPlatform("ios") ? 0.85 : 0,
-            simulateTouch:false
-        }
     }
     
 }

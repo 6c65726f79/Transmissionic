@@ -6,20 +6,20 @@
         </ion-buttons>
         <ion-title>{{ multiple ? Locale.addTorrents : Locale.addTorrent }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="add()" fill="clear" :disabled="!connectionStatus.connected">
+          <ion-button @click="add()" fill="clear" :disabled="!connectionStatus.connected" :aria-label="Locale.add">
             <ion-icon slot="icon-only" :ios="checkmarkOutline" :md="checkmarkSharp"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
         <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
-          <ion-segment-button :value="0">
+          <ion-segment-button :value="0" id="tab1">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-if="!multiple" :disabled="!data.files">
+          <ion-segment-button :value="1" v-if="!multiple" :disabled="!data.files" id="tab2">
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-else>
+          <ion-segment-button :value="1" v-else id="tab2">
             <ion-label class="text-transform">{{ Locale.torrent.other }}</ion-label>
           </ion-segment-button>
         </ion-segment>
@@ -31,9 +31,9 @@
       v-on:retry="retry()">
     </ConnectionStatus>
 
-    <ion-slides v-show="connectionStatus.connected" ref="slider" :options="tabController.slidesOptions()" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
+    <ion-slides v-show="connectionStatus.connected" ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
       <!-- General tab --> 
-      <ion-slide>
+      <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
 
         <ion-content class="ion-padding" ref="content">
 
@@ -167,11 +167,11 @@
 
       </ion-slide>
       <!-- Files tab -->
-      <ion-slide v-if="!multiple && data.files">
+      <ion-slide v-if="!multiple && data.files" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
       </ion-slide>
       <!-- Torrents tab -->
-      <ion-slide v-if="multiple">
+      <ion-slide v-if="multiple" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <VirtualScroll v-bind="$attrs" :items="files" :item-size="64" key-field="data.infoHash">
           <template v-slot:default="{item}">
             <div class="torrent">

@@ -6,29 +6,29 @@
       </ion-buttons>
       <ion-title>{{ Locale.serverConfig }}</ion-title>
       <ion-buttons slot="end">
-        <ion-button @click="saveSettings()" fill="clear">
+        <ion-button @click="saveSettings()" fill="clear" aria-label="Save">
           <ion-icon slot="icon-only" :ios="saveOutline" :md="saveSharp"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
     <ion-toolbar>
       <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
-        <ion-segment-button :value="0" ref="segment-0">
+        <ion-segment-button :value="0" id="tab1">
           <ion-label>{{ Locale.download }}</ion-label>
         </ion-segment-button>
-        <ion-segment-button :value="1" ref="segment-1">
+        <ion-segment-button :value="1" id="tab2">
           <ion-label>{{ Locale.limits }}</ion-label>
         </ion-segment-button>
-        <ion-segment-button :value="2" ref="segment-2">
+        <ion-segment-button :value="2" id="tab3">
           <ion-label>{{ Locale.network }}</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
   </ion-header>
   
-  <ion-slides pager='false' ref="slider" :options="tabController.slidesOptions()" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
+  <ion-slides pager='false' ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
     <!-- Download tab -->
-    <ion-slide>
+    <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
       <ion-content class="ion-padding" ref="tab1">
         <ion-list>
           <ion-list-header>
@@ -109,7 +109,7 @@
     </ion-slide>
 
     <!-- Limits tab -->
-    <ion-slide>
+    <ion-slide role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
       <ion-content class="ion-padding" ref="tab2">
 
         <ion-list>
@@ -217,7 +217,7 @@
     </ion-slide>
 
     <!-- Network tab -->
-    <ion-slide>
+    <ion-slide role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
       <ion-content class="ion-padding" ref="tab3">
         <ion-list>
           <ion-list-header>

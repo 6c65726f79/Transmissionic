@@ -11,7 +11,7 @@
             Transmiss<span>ionic</span>
           </ion-title>
           <ion-buttons slot="end">
-            <ion-button @click="toggleSearch()" fill="clear">
+            <ion-button @click="toggleSearch()" fill="clear" :aria-label="Locale.search">
               <ion-icon slot="icon-only" :ios="searchOutline" :md="searchSharp"></ion-icon>
             </ion-button>
           </ion-buttons>
@@ -33,7 +33,7 @@
           <ion-label>
             {{ torrentSelectedList.length }}
             {{ LocaleController.getPlural("torrent",torrentSelectedList.length) }} ·
-            <span @click="openOrderPopover" tabindex="0">
+            <span @click="openOrderPopover" tabindex="0" :aria-label="Locale.order">
               <ion-icon :ios="filterOutline" :md="filterSharp"></ion-icon>
               {{ Locale.order }}
             </span>
@@ -101,10 +101,10 @@
 
       <ion-toolbar v-else id="footer">
         <ion-buttons slot="start">
-          <ion-button fill="clear" @click="serverConfiguration()">
+          <ion-button fill="clear" @click="serverConfiguration()" :aria-label="Locale.serverConfig">
             <ion-icon slot="icon-only" :ios="constructOutline" :md="constructSharp"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" id="alt-speed" @click="switchAltSpeed()">
+          <ion-button fill="clear" id="alt-speed" @click="switchAltSpeed()" aria-label="Alternative speed" :aria-checked="altSpeedEnabled()">
             <ion-icon 
               slot="icon-only"
               :color="altSpeedEnabled() ? 'primary' : null"
@@ -112,20 +112,20 @@
               :md="speedometerSharp">
             </ion-icon>
           </ion-button>
-          <ion-button fill="clear" @click="serverInformations()">
+          <ion-button fill="clear" @click="serverInformations()" :aria-label="Locale.serverInformation">
             <ion-icon slot="icon-only" :ios="informationCircleOutline" :md="informationCircleSharp"></ion-icon>
           </ion-button>
         </ion-buttons>
         <ion-buttons slot="end">
           <div>
-            <span class="bloc">
+            <span class="bloc" aria-label="Download speed">
               <ion-icon :icon="arrowDownOutline" color="success"></ion-icon> {{ Utils.formatBytes(downloadSpeed(),1,true) }}
             </span>
-            <span class="bloc">
+            <span class="bloc" aria-label="Upload speed">
               <ion-icon :icon="arrowUpOutline" color="primary"></ion-icon> {{ Utils.formatBytes(uploadSpeed(),1,true) }}
             </span>
           </div>
-          <ion-button fill="clear" @click="openStatsPopover">
+          <ion-button fill="clear" @click="openStatsPopover" :aria-label="Locale.statistics">
             <ion-icon slot="icon-only" :ios="analyticsOutline" :md="analyticsSharp"></ion-icon>
           </ion-button>
         </ion-buttons>

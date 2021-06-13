@@ -7,36 +7,39 @@
         </ion-buttons>
         <ion-title>{{privateState.details.name}}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="switchTorrentState()" fill="clear">
+          <ion-button 
+            @click="switchTorrentState()"
+            fill="clear" 
+            :aria-label="privateState.details.status==0 ? Locale.actions.start : Locale.actions.stop">
             <ion-icon 
               slot="icon-only"
               :ios="privateState.details.status==0 ? playOutline : pauseOutline"
               :md="privateState.details.status==0 ? playSharp : pauseSharp">
             </ion-icon>
           </ion-button>
-          <ion-button @click="saveDetails()" fill="clear" v-if="privateState.modified">
+          <ion-button @click="saveDetails()" fill="clear" v-if="privateState.modified" aria-label="Save">
             <ion-icon slot="icon-only" :ios="saveOutline" :md="saveSharp"></ion-icon>
           </ion-button>
-          <ion-button @click="torrentActions()" fill="clear" v-else>
+          <ion-button @click="torrentActions()" fill="clear" v-else aria-label="Actions">
             <ion-icon slot="icon-only" :ios="ellipsisVerticalOutline" :md="ellipsisVerticalSharp"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
         <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
-          <ion-segment-button :value="0">
+          <ion-segment-button :value="0" id="tab1">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1">
+          <ion-segment-button :value="1" id="tab2">
             <ion-label>{{ Locale.options }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="2">
+          <ion-segment-button :value="2" id="tab3">
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="3">
+          <ion-segment-button :value="3" id="tab4">
             <ion-label>{{ Locale.tracker.other }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="4">
+          <ion-segment-button :value="4" id="tab5">
             <ion-label>{{ Locale.peer.other }}</ion-label>
           </ion-segment-button>
         </ion-segment>
@@ -49,19 +52,19 @@
     </ConnectionStatus>
 
     <ion-slides v-show="privateState.connectionStatus.connected" ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
-      <ion-slide>
+      <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
         <Infos v-if="tabController.isVisible(0)"></Infos>
       </ion-slide>
-      <ion-slide>
+      <ion-slide role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <Options v-if="tabController.isVisible(1)"></Options>
       </ion-slide>
-      <ion-slide>
+      <ion-slide role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
         <Files v-if="tabController.isVisible(2)" v-on:changeDirectory="changeDirectory"></Files>
       </ion-slide>
-      <ion-slide>
+      <ion-slide role="tabpanel" aria-labelledby="tab4" :aria-hidden="tabController.state.selectedTab!=3">
         <Trackers v-if="tabController.isVisible(3)"></Trackers>
       </ion-slide>
-      <ion-slide>
+      <ion-slide role="tabpanel" aria-labelledby="tab5" :aria-hidden="tabController.state.selectedTab!=4">
         <Peers v-if="tabController.isVisible(4)"></Peers>
       </ion-slide>
     </ion-slides>
