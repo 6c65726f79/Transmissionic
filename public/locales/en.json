@@ -216,5 +216,6 @@
     "current": "Current",
     "total": "Total",
     "duration": "Duration",
-    "addTorrents": "Add multiple torrents"
+    "addTorrents": "Add multiple torrents",
+    "preset": "Preset"
 }
