@@ -5,7 +5,7 @@
             <ion-buttons slot="start">
             <ion-back-button defaultHref="#" @click="modalClose()"></ion-back-button>
             </ion-buttons>
-            <ion-title>Preset</ion-title>
+            <ion-title>{{ Locale.preset }}</ion-title>
             <ion-buttons slot="end">
             <ion-button @click="add()" fill="clear">
                 <ion-icon slot="icon-only" :ios="checkmarkOutline" :md="checkmarkSharp"></ion-icon>

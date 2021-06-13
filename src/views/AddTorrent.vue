@@ -40,7 +40,7 @@
           <ion-list>
             <ion-list-header>
               <ion-label>
-                Preset
+                {{ Locale.preset }}
               </ion-label>
             </ion-list-header>
 
@@ -56,7 +56,9 @@
                 <ion-icon :ios="closeCircleOutline" :md="closeCircleSharp" @click="removePreset(name,$event)"></ion-icon>
               </ion-chip>
             </div>
+          </ion-list>
 
+          <ion-list>
             <ion-list-header>
               <ion-label>
                 {{ Locale.options }}
