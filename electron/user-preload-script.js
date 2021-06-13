@@ -1,5 +1,5 @@
 const { contextBridge,ipcRenderer,shell } = require('electron');
-const { app, net, Menu, MenuItem } = require('electron').remote
+const { app, net, Menu, MenuItem } = require('@electron/remote');
 const { Titlebar, Color } = require('custom-electron-titlebar');
 const path = require('path');
 let titleBar;
