@@ -347,6 +347,7 @@ export default defineComponent({
     Emitter.on('swipe-enabled', (value) => this.privateState.swipeEnabled=value );
     Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('about', this.openAboutModal);
+    Emitter.on('settings', this.openSettingsModal);
   },
   computed: {
     colorScheme: function(): string {

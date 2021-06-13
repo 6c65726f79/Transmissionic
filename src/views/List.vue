@@ -212,6 +212,7 @@ export default defineComponent({
       torrentList:[] as any,
       filter:"",
       filterIds:[] as number[],
+      connectionStatus: {} as Record<string,any>,
       sharedState: UserSettings.state,
       privateState: {
         viewSearch:false,
@@ -224,7 +225,7 @@ export default defineComponent({
       }
     }
   },
-  inject: ['connectionStatus','serverCount'],
+  inject: ['serverCount'],
   components: {
     ConnectionStatus,
     VirtualScroll,
@@ -365,6 +366,7 @@ export default defineComponent({
     this.torrentList = inject('torrentList') as any;
     this.filter = inject('filter') as string;
     this.filterIds = inject('filterIds') as Array<number>;
+    this.connectionStatus = inject('connectionStatus') as Record<string,any>;
   },
   mounted() {
     Emitter.on('switch', (id) => this.switchTorrentState(id) )
@@ -375,6 +377,9 @@ export default defineComponent({
     Emitter.on('add-magnet', this.inputMagnet);
     Emitter.on('select-all', this.selectAll);
     Emitter.on('toggle-search', this.toggleSearch);
+    Emitter.on('info-server', this.serverInformations);
+    Emitter.on('config-server', this.serverConfiguration);
+    
   },
   methods: {
     toggleSearch() {
@@ -608,35 +613,39 @@ export default defineComponent({
       }
     },
     async serverInformations() {
-      Utils.pushState();
-      const infos = TransmissionRPC.sessionArguments;
-      const alert = await alertController
-        .create({
-          header: Locale.serverInformation,
-          message: `
-            <p>
-              <b>${Locale.transmissionVersion}</b><br>
-              ${infos.version}
-            </p>
-            <p>
-              <b>${Locale.freeSpace}</b><br>
-              ${Utils.formatBytes(infos["download-dir-free-space"])}
-            </p>
-            <p>
-              <b>${Locale.port}</b><br>
-              ${infos["peer-port"]}
-            </p>
-          `,
-          buttons: [Locale.ok],
-        });
-      return alert.present();
+      if(this.connectionStatus.connected){
+        Utils.pushState();
+        const infos = TransmissionRPC.sessionArguments;
+        const alert = await alertController
+          .create({
+            header: Locale.serverInformation,
+            message: `
+              <p>
+                <b>${Locale.transmissionVersion}</b><br>
+                ${infos.version}
+              </p>
+              <p>
+                <b>${Locale.freeSpace}</b><br>
+                ${Utils.formatBytes(infos["download-dir-free-space"])}
+              </p>
+              <p>
+                <b>${Locale.port}</b><br>
+                ${infos["peer-port"]}
+              </p>
+            `,
+            buttons: [Locale.ok],
+          });
+        return alert.present();
+      }
     },
     async serverConfiguration() {
-      const modal = await modalController
+      if(this.connectionStatus.connected){
+        const modal = await modalController
         .create({
           component: ServerConfig
         })
-      return modal.present();
+        return modal.present();
+      }
     },
     longPress(e: Event, id: number) {
       if(e){

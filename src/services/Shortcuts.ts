@@ -55,17 +55,26 @@ export const Shortcuts = {
             case "alt,n":
                 this.call("add-server");
                 break;
+            case "alt,s":
+                this.call("settings");
+                break;
             case "ctrl,a":
                 this.call("select-all");
                 break;
-            case "alt,c":
+            case "ctrl,alt,c":
                 this.call("clear-selection");
                 break;
             case "alt,h":
                 this.call("about");
                 break;
-            case "alt,s":
+            case "ctrl,alt,s":
                 this.call("toggle-search");
+                break;
+            case "alt,i":
+                this.call("info-server");
+                break;
+            case "alt,c":
+                this.call("config-server");
                 break;
             case "ctrl,ArrowRight":
                 this.call("next-tab");

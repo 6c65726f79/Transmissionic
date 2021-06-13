@@ -92,10 +92,13 @@ function setMainMenu() {
         }
       },
       {
-        label: 'New server',
-        accelerator: 'Alt+N',
+        type:'separator'
+      },
+      {
+        label: 'Settings',
+        accelerator: 'Alt+S',
         click() {
-          shortcutsHandler('add-server');
+          shortcutsHandler('settings');
         }
       },
       {
@@ -112,6 +115,33 @@ function setMainMenu() {
   }));
 
   menu.append(new MenuItem({
+    label: 'Server',
+    submenu: [
+      {
+        label: 'New server',
+        accelerator: 'Alt+N',
+        click() {
+          shortcutsHandler('add-server');
+        }
+      },
+      {
+        label: 'Information',
+        accelerator: 'Alt+I',
+        click() {
+          shortcutsHandler('info-server');
+        }
+      },
+      {
+        label: 'Configuration',
+        accelerator: 'Alt+C',
+        click() {
+          shortcutsHandler('config-server');
+        }
+      },
+    ]
+  }));
+
+  menu.append(new MenuItem({
     label: 'Navigation',
     submenu: [
       {
@@ -123,7 +153,7 @@ function setMainMenu() {
       },
       {
         label: 'Search',
-        accelerator: 'Alt+S',
+        accelerator: 'CmdOrCtrl+Alt+S',
         click() {
           shortcutsHandler('toggle-search');
         }
@@ -160,7 +190,7 @@ function setMainMenu() {
       },
       {
         label: 'Cancel selection',
-        accelerator: 'Alt+C',
+        accelerator: 'CmdOrCtrl+Alt+C',
         click() {
           shortcutsHandler('clear-selection');
         }
