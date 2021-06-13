@@ -92,8 +92,9 @@ export const Shortcuts = {
 
     simulateClick(): void {
         const active = document.activeElement as HTMLElement;
-        active.blur();
-        active.click();
+        if(active.nodeName!="ION-SELECT" && active.nodeName!="ION-BUTTON") {
+            active.click();
+        }
     },
 
     call(shortcut: string): void {
