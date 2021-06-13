@@ -108,7 +108,7 @@
               <ion-item v-if="type=='url'">
                 <ion-label class="label no-wrap">
                   <div>URL</div>
-                  <span class="selectable">{{torrent}}</span>
+                  <span class="selectable">{{files[0].torrent}}</span>
                 </ion-label>
               </ion-item>
 
@@ -428,9 +428,7 @@ export default defineComponent({
         if(!error && !this.notWanted.includes(torrentFile.data.infoHash)){
           await this.send(args,torrentFile.torrent)
             .then(async (result) => {
-              if(result.arguments["torrent-added"]){
-                await this.applyPreset(result.arguments["torrent-added"].id);
-              }
+              await this.applyPreset(result.arguments);
             })
             .catch((e) => {
               Utils.responseToast(e.message)
@@ -473,12 +471,14 @@ export default defineComponent({
       }
     },
 
-    async applyPreset(torrentId: number) {
-      if(this.presets[this.selectedPreset].other.downloadLimited || this.presets[this.selectedPreset].other.uploadLimited){
-        await TransmissionRPC.torrentAction("set",[torrentId],this.presets[this.selectedPreset].other)
-          .catch((error) => {
-            Utils.responseToast(error.message);
-          })
+    async applyPreset(args: Record<string,any>) {
+      if(args["torrent-added"] && this.presets[this.selectedPreset]){
+        if(this.presets[this.selectedPreset].other.downloadLimited || this.presets[this.selectedPreset].other.uploadLimited){
+          await TransmissionRPC.torrentAction("set",[args["torrent-added"].torrentId],this.presets[this.selectedPreset].other)
+            .catch((error) => {
+              Utils.responseToast(error.message);
+            })
+        }
       }
     },
 
