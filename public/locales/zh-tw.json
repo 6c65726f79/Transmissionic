@@ -212,5 +212,6 @@
     "current": "目前",
     "total": "總共",
     "duration": "使用時間",
-    "addTorrents": "批次加入種子檔"
+    "addTorrents": "批次加入種子檔",
+    "preset": "Preset"
 }
