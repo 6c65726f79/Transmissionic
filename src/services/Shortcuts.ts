@@ -43,6 +43,7 @@ export const Shortcuts = {
 
         switch (keys.toString()) {
             case "Enter":
+            case "Shift,Enter":
                 this.simulateClick();
                 break;
             case "alt,t":

@@ -385,6 +385,9 @@ export default defineComponent({
           search?.setFocus();
         },10);
       }
+      else {
+        this.privateState.search="";
+      }
     },
     retry() {
       Emitter.emit("refresh",true);
