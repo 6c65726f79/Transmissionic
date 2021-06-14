@@ -195,7 +195,7 @@ export default defineComponent({
         selectedTracker:"",
         selectedIds:[],
         refresh:null as any,
-        torrentList:[],
+        torrentList:[] as Array<any>,
         serverList: [] as Array<Record<string,unknown>>,
         trackerList: [] as Array<any>,
         swipeEnabled:true,

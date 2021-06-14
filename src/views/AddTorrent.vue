@@ -390,6 +390,8 @@ export default defineComponent({
       }
     },
     async add(){
+      let error = false;
+
       const args = {
         paused:!this.settings.start
       } as Record<string,any>;
@@ -421,27 +423,31 @@ export default defineComponent({
       
       const loading = await loadingController.create({});
       await loading.present();
-
-      let error=false;
-
-      for(const torrentFile of this.files) {
-        if(!error && !this.notWanted.includes(torrentFile.data.infoHash)){
-          await this.send(args,torrentFile.torrent)
-            .then(async (result) => {
-              await this.applyPreset(result.arguments);
-            })
-            .catch((e) => {
-              Utils.responseToast(e.message)
-              error=true;
-            })
-        }
-      }
+      
+      await this.sendFiles(args)
+        .catch((message) => {
+          Utils.responseToast(message);
+          error = true;
+        });
 
       await loading.dismiss();
 
       if(!error){
         Utils.responseToast("success");
         this.modalClose();
+      }
+    },
+    async sendFiles(args: Record<string,any>){
+      for(const torrentFile of this.files) {
+        if(!this.notWanted.includes(torrentFile.data.infoHash)){
+          await this.send(args,torrentFile.torrent)
+            .then(async (result) => {
+              await this.applyPreset(result.arguments);
+            })
+            .catch((e) => {
+              throw(e.message);
+            })
+        }
       }
     },
     send(args: Record<string,any>,torrent:string) {
