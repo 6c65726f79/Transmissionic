@@ -1,6 +1,5 @@
 import { reactive } from 'vue'
 import { isPlatform } from '@ionic/vue';
-import 'capacitor-secure-storage-plugin';
 import { Storage } from '@capacitor/storage';
 import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 

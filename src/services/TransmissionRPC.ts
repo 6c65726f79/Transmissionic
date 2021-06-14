@@ -17,6 +17,7 @@ type Serializer = "json" | "urlencoded" | "utf8" | "multipart" | "raw" | undefin
 
 let freeSpaceRefreshInterval: any;
 let sessionStatsRefreshInterval: any;
+let trackerId=0;
 
 class TRPC {
   sessionToken: any;
@@ -212,7 +213,7 @@ class TRPC {
   }
 
   async getTorrents() {
-    let result: any={};
+    let result: Array<any>=[];
     let loadPersistent=false;
     const args = {
       fields: [
@@ -253,9 +254,10 @@ class TRPC {
     return result
   }
 
-  readPersitentData(details: any) {
-    const trackers: Array<Record<string,any>> = [];
+  readPersitentData(details: Array<any>) {
+    let trackers: Array<Record<string,any>> = [];
     const downloadDirList: Array<string> = [];
+    trackerId=0;
 
     for (const torrent of details) {
 
@@ -265,22 +267,9 @@ class TRPC {
         downloadDirList.push(dir)
       }
 
-      let trId=0;
-      for(const tracker of torrent.trackers){
-        const data = this.readTracker(trId,tracker)
-        if(data){
-          if(!trackers[data.announce]){
-            trackers[data.announce] = data;
-            trId++;
-          }
-          if(!trackers[data.announce].ids.includes(torrent.id)){
-            trackers[data.announce].ids.push(torrent.id)
-          }
-        }
-        
-      }
+      trackers = this.readTrackers(trackers, torrent.trackers, torrent.id);
     }
-    
+
     downloadDirList.sort();
 
     this.persistentData = {
@@ -300,18 +289,29 @@ class TRPC {
     return result;
   }
 
-  readTracker(id:number, tracker: Record<string,any>): Record<string,any>|null {
-    let result: Record<string,any>|null = null;
-    //eslint-disable-next-line
-    const matchs = tracker.announce.match(/^[\w]+:\/\/[\w\d\.-]+/);
-    if(matchs){
-      const tr = matchs[0];
-      result = {
-        id:id,
-        announce:tr,
-        ids:[]
+  readTrackers(trackers: Array<any>, newTrackers: Array<any>, torrentId: number): Array<any>{
+    const result: Array<any> = trackers;
+
+    for(const tracker of newTrackers){
+      //eslint-disable-next-line
+      const matchs = tracker.announce.match(/^[\w]+:\/\/[\w\d\.-]+/);
+      if(matchs){
+        const tr = matchs[0];
+        const data = {
+          id:trackerId,
+          announce:tr,
+          ids:[]
+        }
+        if(!result[data.announce]){
+          result[data.announce] = data;
+          trackerId++;
+        }
+        if(!result[data.announce].ids.includes(torrentId)){
+          result[data.announce].ids.push(torrentId)
+        }
       }
     }
+
     return result;
   }
 

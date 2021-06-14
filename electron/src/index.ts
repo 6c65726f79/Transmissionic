@@ -56,7 +56,9 @@ if (!gotTheLock) {
     });
     myCapacitorApp.init();
     const mainWindow = myCapacitorApp.getMainWindow();
-    mainWindow.setPosition(mainWindowState.x,mainWindowState.y);
+    if(mainWindowState.x && mainWindowState.y){
+      mainWindow.setPosition(mainWindowState.x,mainWindowState.y);
+    }
     mainWindow.setSize(mainWindowState.width,mainWindowState.height);
     autoUpdater.checkForUpdatesAndNotify();
     mainWindowState.manage(mainWindow);
