@@ -445,7 +445,7 @@ export default defineComponent({
               await this.applyPreset(result.arguments);
             })
             .catch((e) => {
-              throw(e.message);
+              throw(`${e.message}: ${torrentFile.data.name}`);
             })
         }
       }

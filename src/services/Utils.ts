@@ -10,6 +10,7 @@ import {
 import { App } from '@capacitor/app';
 import { Clipboard } from '@capacitor/clipboard';
 import { Toast } from '@capacitor/toast';
+import { ScreenReader } from '@capacitor/screen-reader';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
@@ -214,14 +215,14 @@ export const Utils = {
         break;
     }
     await Toast.show({text});
+    await ScreenReader.speak({ value: text, language: UserSettings.getLanguage() });
   },
 
-  // eslint-disable-next-line
-  customScrollbar(el: any, shadowRoot=true, padding=true): void{
+  customScrollbar(el: unknown, shadowRoot=true, padding=true): void{
     if(el && isPlatform("desktop")){
       let content;
-      if(el.$el){
-        content = el.$el as Element;
+      if((el as any).$el){
+        content = (el as any).$el as Element;
       }
       else{
         content = el as Element;
