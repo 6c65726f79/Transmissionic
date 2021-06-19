@@ -425,8 +425,8 @@ export default defineComponent({
       await loading.present();
       
       await this.sendFiles(args)
-        .catch((message) => {
-          Utils.responseToast(message);
+        .catch((e: Error) => {
+          Utils.responseToast(e.message);
           error = true;
         });
 
@@ -445,7 +445,7 @@ export default defineComponent({
               await this.applyPreset(result.arguments);
             })
             .catch((e) => {
-              throw(`${e.message}: ${torrentFile.data.name}`);
+              throw new Error(`${e.message}: ${torrentFile.data.name}`);
             })
         }
       }
