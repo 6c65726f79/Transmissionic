@@ -14,7 +14,10 @@ export default class TabController {
         centeredSlides:true,
         initialSlide:this.state.selectedTab,
         resistanceRatio:isPlatform("ios") ? 0.85 : 0,
-        simulateTouch:false
+        simulateTouch:false,
+        keyboard: {
+            enabled: true
+        }
     }
 
     constructor() {

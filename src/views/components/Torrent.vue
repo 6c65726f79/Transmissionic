@@ -16,7 +16,7 @@
           <!-- Download -->
           <span class="bloc fit">
             <!-- Using PNGs instead of SVGs to improve performance of the virtualscroll -->
-            <img class="icon" :src="downIcon" alt="Downloaded">
+            <img class="icon" :src="downIcon" :alt="Locale.downloaded">
             {{ Utils.formatBytes(torrent.downloadedEver) }}
             <template v-if="torrent.rateDownload>1">
               ({{ Utils.formatBytes(torrent.rateDownload,2,true) }})
@@ -25,7 +25,7 @@
 
           <!-- Upload -->
           <span class="bloc fit">
-            <img class="icon" :src="upIcon" alt="Uploaded">
+            <img class="icon" :src="upIcon" :alt="Locale.uploaded">
             {{ Utils.formatBytes(torrent.uploadedEver) }}
             <template v-if="torrent.rateUpload>1">
               ({{ Utils.formatBytes(torrent.rateUpload,2,true) }})
@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <ion-progress-bar :value="percentDone" :color="ProgressBarColors[torrent.status]"></ion-progress-bar>
+      <ion-progress-bar :value="percentDone" :color="ProgressBarColors[torrent.status]" aria-hidden="true"></ion-progress-bar>
     
     </div>
   </div>
