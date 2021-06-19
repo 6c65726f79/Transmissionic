@@ -445,7 +445,7 @@ export default defineComponent({
               await this.applyPreset(result.arguments);
             })
             .catch((e) => {
-              throw new Error(`${e.message}: ${torrentFile.data.name}`);
+              throw new Error(this.multiple ? `${e.message}: ${torrentFile.data.name}` : e.message);
             })
         }
       }
@@ -480,7 +480,7 @@ export default defineComponent({
     async applyPreset(args: Record<string,any>) {
       if(args["torrent-added"] && this.presets[this.selectedPreset]){
         if(this.presets[this.selectedPreset].other.downloadLimited || this.presets[this.selectedPreset].other.uploadLimited){
-          await TransmissionRPC.torrentAction("set",[args["torrent-added"].torrentId],this.presets[this.selectedPreset].other)
+          await TransmissionRPC.torrentAction("set",[args["torrent-added"].id],this.presets[this.selectedPreset].other)
             .catch((error) => {
               Utils.responseToast(error.message);
             })
