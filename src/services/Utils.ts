@@ -215,7 +215,13 @@ export const Utils = {
         break;
     }
     await Toast.show({text});
-    await ScreenReader.speak({ value: text, language: UserSettings.getLanguage() });
+    try {
+      if(await ScreenReader.isEnabled()){
+        await ScreenReader.speak({ value: text, language: UserSettings.getLanguage() });
+      }
+    } catch (e) {
+      return;
+    }
   },
 
   customScrollbar(el: unknown, shadowRoot=true, padding=true): void{
