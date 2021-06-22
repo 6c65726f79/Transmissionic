@@ -4,6 +4,7 @@
 
 import { isPlatform  } from '@ionic/vue';
 import { HTTP } from '@ionic-native/http';
+import * as _ from 'lodash';
 
 declare const Buffer: any
 declare global {
@@ -386,7 +387,7 @@ class TRPC {
     if(action=="remove"){
       this.invalidatePersitentData();
     }
-    return this.rpcCall("torrent-"+action, Object.assign({ids:Object.values(torrentIds)}, args))
+    return this.rpcCall("torrent-"+action, Object.assign({ids:torrentIds}, args))
   }
 
   async torrentAdd(args: Record<string, any> = {}){
@@ -395,10 +396,11 @@ class TRPC {
   }
 
   async rpcCall(method: string, args: Record<string, any> = {}, retry=true, ignoreError=false) {
+    const argsClone = _.cloneDeep(args);
     let ret: Record<string, any>={};
     const token = await this.getToken()
 
-    const response = await this.request(method,token,args,ignoreError);
+    const response = await this.request(method,token,argsClone,ignoreError);
 
     if(response.errorMessage){
       throw Error(response.errorMessage);
