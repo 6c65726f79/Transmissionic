@@ -247,7 +247,6 @@ import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { Emitter } from "../services/Emitter";
 import { TransmissionRPC } from "../services/TransmissionRPC";
-import * as _ from 'lodash';
 import { UserSettings } from '../services/UserSettings';
 
 export default defineComponent({
