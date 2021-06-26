@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.3.2",
+  "version": "1.3.2-dev",
   "description": "Remote for Transmission Daemon",
   "repository": "github:6c65726f79/Transmissionic",
   "main": "./build/index.js",
