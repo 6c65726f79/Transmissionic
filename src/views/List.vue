@@ -369,9 +369,9 @@ export default defineComponent({
     this.connectionStatus = inject('connectionStatus') as Record<string,any>;
   },
   mounted() {
-    Emitter.on('switch', (id) => this.switchTorrentState(id) )
+    Emitter.on('switch', (id: any) => this.switchTorrentState(id) )
     Emitter.on('clear-selection', this.cancelSelection)
-    Emitter.on('torrent-position', (data) => this.changeTorrentPosition(data.id,data.up));
+    Emitter.on('torrent-position', (data: any) => this.changeTorrentPosition(data.id,data.up));
     Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('add-torrent', this.inputFile);
     Emitter.on('add-magnet', this.inputMagnet);
