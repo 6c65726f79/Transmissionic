@@ -1,8 +1,12 @@
-import { app, BrowserWindow, Menu, MenuItem, nativeImage, Tray } from "electron";
+import { app, shell, BrowserWindow, Menu, MenuItem, nativeImage, Tray } from "electron";
 import { join } from "path";
+import fs from "fs";
 import electronIsDev from 'electron-is-dev';
 import electronServe from 'electron-serve';
+import windowStateKeeper from "electron-window-state";
 import { CapElectronEventEmitter, CapacitorSplashScreen, getCapacitorConfig, setupCapacitorElectronPlugins, setupElectronDeepLinking } from "@capacitor-community/electron";
+import { autoUpdater } from "electron-updater";
+require('@electron/remote/main').initialize();
 
 // Get Config options from capacitor.config file
 const CapacitorFileConfig = getCapacitorConfig()
@@ -44,16 +48,28 @@ class ElectronCapacitorApp {
   }
 
   async init() {
+    let mainWindowState = windowStateKeeper({
+      defaultWidth: 990,
+      defaultHeight: 700
+    });
+
     this.MainWindow = new BrowserWindow({
       show: false,
+      x: mainWindowState.x,
+      y: mainWindowState.y,
+      width: mainWindowState.width,
+      height: mainWindowState.height,
       webPreferences: {
         nodeIntegration: true,
-        contextIsolation: false,
+        devTools: true,
+        contextIsolation: true,
         // Use preload to inject the electron varriant overrides for capacitor plugins.
         // Note: any windows you spawn that you want to include capacitor plugins must have this preload.
         preload: join(app.getAppPath(), "node_modules", "@capacitor-community", "electron", "dist", "runtime", "electron-rt.js"),
       },
     });
+
+    mainWindowState.manage(this.MainWindow);
 
     this.MainWindow.on("closed", () => {
       if (this.SplashScreen && this.SplashScreen.getSplashWindow() && !this.SplashScreen.getSplashWindow().isDestroyed()) {
@@ -116,6 +132,10 @@ class ElectronCapacitorApp {
       if (!CapacitorFileConfig.hideMainWindowOnLaunch) {
         this.MainWindow.show();
       }
+      autoUpdater.checkForUpdatesAndNotify();
+      if (openFiles.length>0) {
+        this.MainWindow.webContents.send('file-open', openFiles);
+      }
       setTimeout(() => {
         if (electronIsDev) {
           this.MainWindow.webContents.openDevTools();
@@ -127,6 +147,10 @@ class ElectronCapacitorApp {
 
 }
 const myCapacitorApp = new ElectronCapacitorApp();
+
+const gotTheLock = app.requestSingleInstanceLock()
+let openFiles: Array<Buffer>;
+
 if (CapacitorFileConfig.deepLinkingEnabled) {
   setupElectronDeepLinking(myCapacitorApp, DeepLinkingConfig);
 }
@@ -134,8 +158,24 @@ if (CapacitorFileConfig.deepLinkingEnabled) {
 
 // Run Application
 (async () => {
-  await app.whenReady();
-  await myCapacitorApp.init()
+  if (!gotTheLock) {
+    app.quit()
+  } else {
+    await app.whenReady();
+    await myCapacitorApp.init()
+    openFiles = getTorrents(process.argv);
+
+    app.on('second-instance', (event, commandLine) => {
+      openFiles = getTorrents(commandLine);
+      const mainWindow = myCapacitorApp.getMainWindow();
+      // Someone tried to run a second instance, we should focus our window.
+      if (mainWindow) {
+        if (openFiles.length>0) mainWindow.webContents.send('file-open', openFiles)
+        if (mainWindow.isMinimized()) mainWindow.restore()
+        mainWindow.focus()
+      }
+    })
+  }
 })();
 
 app.on("window-all-closed", function () {
@@ -155,3 +195,26 @@ app.on("activate", async function () {
 });
 
 // Place all ipc or other electron api calls and custom functionality under this line
+app.on('open-file', (event, path) => {
+  // Support for Mac OS
+  openFiles=[fs.readFileSync(path, null)];
+  const mainWindow = myCapacitorApp.getMainWindow();
+  mainWindow.webContents.send('fileopen', openFiles)
+})
+
+app.on('web-contents-created', (createEvent, contents) => {
+  contents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' }
+  })
+});
+
+function getTorrents (args: Array<any>): Array<Buffer> {
+  const result=[];
+  args.forEach((arg: string) => {
+    if(arg && arg.toLowerCase().endsWith(".torrent")){
+      result.push(fs.readFileSync(arg, null));
+    }
+  });
+  return result;
+}
