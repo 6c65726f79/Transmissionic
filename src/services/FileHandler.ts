@@ -47,29 +47,12 @@ export const FileHandler = {
     hash.startsWith("url:") ? this.readURL(hash.substring(4)) : this.readHashOrMagnet(hash);
   },
   async inputFile(): Promise<void> {
-    /*
-      // Capacitor file chooser
-      const selectedFile = await FileSelector.fileSelector({ 
-        "multiple_selection": true, 
-        ext: ["torrent"] 
-      })
-
-      if(isPlatform("android")){
-        const paths = JSON.parse(selectedFile.paths);
-        const paths = Capacitor.convertFileSrc(selectedFile.uri);
-        if(paths.length>0){
-          this.loadFiles([paths]);
-        }
-      }
-    */
-   
-    // Browser file chooser
     if(!currentFile){
       const input = document.createElement("input");
       input.setAttribute("type", "file");
       input.setAttribute("id", "inputFile");
       input.setAttribute("multiple", "true");
-      input.setAttribute("accept", "application/x-bittorrent");
+      input.setAttribute("accept", isPlatform("ios") ? ".torrent" : "application/x-bittorrent");
       input.setAttribute("style", "display:none;");
       currentFile = document.body.appendChild(input);
       currentFile.addEventListener("change", (e) => this.handleFiles(e), false);
@@ -107,7 +90,7 @@ export const FileHandler = {
   async readFiles(files: FileList): Promise<void>{
     torrentFiles = [];
     for(const file of Array.from(files)){
-      if(file.type=="application/x-bittorrent"){
+      if(file.name.endsWith(".torrent") || file.type=="application/x-bittorrent"){
         torrentFiles.push(await this.readFile(file));
       }
     }

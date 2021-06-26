@@ -5,7 +5,7 @@
 
 <p align="center">
   Transmissionic is a free multi-platform remote for Transmission Daemon built with <a href="https://ionicframework.com/">Ionic</a> and <a href="https://vuejs.org/">Vue.js</a>.<br>
-  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program. (More platform could be added such as Mac OS and iOS)
+  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program. (More platform could be added such as macOS and iOS)
 </p>
 <p align="center">
   
@@ -111,7 +111,7 @@ Linux
 /usr/share/transmission/web
 ```
 
-Mac OS
+macOS
 
 ```
 /Applications/Transmission.app/Contents/Resources/web
@@ -286,7 +286,7 @@ If you want to contribute and pull your changes to this project, please work on 
 
 # TODO
 
-- [ ] Add iOS/Mac OS support
+- [ ] Add iOS/macOS support
 - [x] Add server configurations modal
 - [ ] Add magnet url handling on Windows
 - [ ] ~~Use ion-virtual-scroll when availaible for Vue.js~~
