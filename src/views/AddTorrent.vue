@@ -342,7 +342,7 @@ export default defineComponent({
   },
   async created() {
     if(!this.multiple && this.data.files){
-      this.fileStats = _.clone(this.data.files);
+      this.fileStats = {...this.data.files};
       this.fileStats.forEach((file: Record<string,any>) => {
         file.wanted=true;
         file.name=file.path;

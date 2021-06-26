@@ -90,7 +90,7 @@ export const FileHandler = {
   async readFiles(files: FileList): Promise<void>{
     torrentFiles = [];
     for(const file of Array.from(files)){
-      if(file.name.endsWith(".torrent") || file.type=="application/x-bittorrent"){
+      if(file.name.endsWith(".torrent") || file.name.endsWith(".bittorrent") || file.type=="application/x-bittorrent"){
         torrentFiles.push(await this.readFile(file));
       }
     }
