@@ -157,9 +157,9 @@ export default defineComponent({
     currentDirectoryContent: function (): Array<any> {
       let result=[] as Array<any>;
       const folders={} as Record<string,any>;
-      const files=this.details.files;
+      const files=this.details.files as Record<string,any>;
       for(const id in files){
-        if(files[id].name.startsWith(this.currentDirectory)){
+        if(files[id].name && files[id].name.startsWith(this.currentDirectory)){
           // File is contained in current directory or sub directory
           const currentName = files[id].name.substr(this.currentDirectory.length);
           const slashCount = (currentName.match(/\//g) || []).length;

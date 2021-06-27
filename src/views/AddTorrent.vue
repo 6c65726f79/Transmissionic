@@ -248,6 +248,7 @@ import { Locale } from "../services/Locale";
 import { Emitter } from "../services/Emitter";
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from '../services/UserSettings';
+import * as _ from 'lodash';
 
 export default defineComponent({
   name: 'AddTorrent',
@@ -341,7 +342,7 @@ export default defineComponent({
   },
   async created() {
     if(!this.multiple && this.data.files){
-      this.fileStats = {...this.data.files};
+      this.fileStats = _.clone(this.data.files);
       this.fileStats.forEach((file: Record<string,any>) => {
         file.wanted=true;
         file.name=file.path;
