@@ -342,7 +342,7 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.navigation);
     Utils.customScrollbar(this.$refs.trackers);
     
-    Emitter.on('refresh', () => { this.refresh() });
+    Emitter.on('refresh', () => { this.refresh(true); });
     Emitter.on('add-server', this.addServer);
     Emitter.on('swipe-enabled', (value: any) => this.privateState.swipeEnabled=value );
     Emitter.on('language-changed', () => { this.$forceUpdate() });

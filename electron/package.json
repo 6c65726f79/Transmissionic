@@ -3,7 +3,7 @@
   "version": "1.3.2-dev",
   "description": "Remote for Transmission Daemon",
   "repository": "github:6c65726f79/Transmissionic",
-  "main": "./build/src/index.js",
+  "main": "./build/index.js",
   "scripts": {
     "build": "tsc",
     "electron:start": "npm run build && electron ./",
@@ -12,21 +12,18 @@
     "electron:build-linux": "npm run build && electron-builder build --linux",
     "electron:build-mac": "npm run build && electron-builder build --mac",
     "electron:publish-windows": "npm run build && electron-builder build --windows --publish always",
-    "electron:publish-linux": "npm run build && electron-builder build --linux --publish always",
-    "rebuild-deps": "electron-rebuild"
+    "electron:publish-linux": "npm run build && electron-builder build --linux --publish always"
   },
   "dependencies": {
-    "@capacitor-community/electron": "^3.0.0",
+    "@capacitor-community/electron": "~1.4.2",
+    "@electron/remote": "^1.2.0",
     "custom-electron-titlebar": "^3.2.7",
-    "electron-is-dev": "~2.0.0",
-    "electron-serve": "~1.1.0",
     "electron-updater": "^4.3.9",
     "electron-window-state": "^5.0.3"
   },
   "devDependencies": {
-    "electron": "~13.1.3",
-    "electron-builder": "~22.11.7",
-    "electron-rebuild": "~2.3.5",
+    "electron": "~13.1.4",
+    "electron-builder": "^22.11.7",
     "typescript": "~4.3.4"
   },
   "keywords": [
@@ -44,13 +41,17 @@
     "productName": "Transmissionic",
     "artifactName": "Transmissionic-${os}-v${version}.${ext}",
     "files": [
-      "assets/**",
-      "build/**",
+      "assets/*",
+      "build/index.js",
       "preloader.js",
-      "plugins/**",
+      "user-preload-script.js",
+      "plugins/*",
       "capacitor.config.json",
       "app/**"
     ],
+    "directories": {
+      "buildResources": "assets"
+    },
     "protocols": [
       {
         "name": "Transmissionic.Magnet",
@@ -79,12 +80,12 @@
           ]
         }
       ],
-      "icon": "assets/appIcon.png"
+      "icon": "appIcon.png"
     },
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": "dmg",
-      "icon": "assets/appIcon.png"
+      "icon": "appIcon.png"
     },
     "win": {
       "target": [
@@ -95,7 +96,7 @@
           ]
         }
       ],
-      "icon": "assets/appIcon.ico"
+      "icon": "appIcon.ico"
     },
     "deb": {
       "packageCategory": "Network"
