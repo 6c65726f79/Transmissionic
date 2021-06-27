@@ -55,6 +55,9 @@ class ElectronCapacitorApp {
 
     this.MainWindow = new BrowserWindow({
       show: false,
+      autoHideMenuBar: true,
+      titleBarStyle: "hidden",
+      frame: false,
       x: mainWindowState.x,
       y: mainWindowState.y,
       width: mainWindowState.width,
