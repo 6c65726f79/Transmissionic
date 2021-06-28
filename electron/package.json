@@ -18,7 +18,7 @@
     "@capacitor-community/electron": "~1.4.2",
     "@electron/remote": "^1.2.0",
     "custom-electron-titlebar": "^3.2.7",
-    "electron-updater": "^4.3.9",
+    "electron-updater": "^4.3.10",
     "electron-window-state": "^5.0.3"
   },
   "devDependencies": {
