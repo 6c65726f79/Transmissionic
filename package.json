@@ -21,7 +21,7 @@
     "@capacitor/storage": "^1.0.2",
     "@capacitor/toast": "^1.0.2",
     "@ionic-native/core": "^5.33.1",
-    "@ionic-native/http": "^5.33.1",
+    "@ionic-native/http": "^5.34.0",
     "@ionic/pwa-elements": "^3.0.2",
     "@ionic/vue": "^5.6.10",
     "@ionic/vue-router": "^5.6.10",
