@@ -71,6 +71,7 @@
     "linux": {
       "category": "Network",
       "artifactName": "Transmissionic-${os}-${arch}-v${version}.${ext}",
+      "desktop": "./transmissionic.desktop",
       "target": [
         {
           "target": "deb",
@@ -78,6 +79,9 @@
             "x64",
             "ia32"
           ]
+        },
+        {
+          "target": "AppImage"
         }
       ],
       "icon": "appIcon.png"
