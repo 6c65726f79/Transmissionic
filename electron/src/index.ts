@@ -27,20 +27,24 @@ const myCapacitorApp = createCapacitorElectronApp({
 
 const gotTheLock = app.requestSingleInstanceLock()
 let openFiles: Array<Buffer>;
+let openMagnet: String;
 
 if (!gotTheLock) {
   app.quit()
 } else {
   openFiles = getTorrents(process.argv);
+  openMagnet = getMagnet(process.argv);
 
   app.setAsDefaultProtocolClient("magnet")
 
   app.on('second-instance', (event, commandLine) => {
     openFiles = getTorrents(commandLine);
+    openMagnet = getMagnet(commandLine);
     const mainWindow = myCapacitorApp.getMainWindow();
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
       if (openFiles.length>0) mainWindow.webContents.send('file-open', openFiles)
+      if (openMagnet!=null) mainWindow.webContents.send('magnet-open', openMagnet)
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
     }
@@ -62,9 +66,14 @@ if (!gotTheLock) {
     mainWindow.setSize(mainWindowState.width,mainWindowState.height);
     autoUpdater.checkForUpdatesAndNotify();
     mainWindowState.manage(mainWindow);
-    if (mainWindow && openFiles.length>0) {
+    if (mainWindow) {
       mainWindow.webContents.on('did-finish-load', function() {
-        mainWindow.webContents.send('file-open', openFiles)
+        if(openFiles.length>0){
+          mainWindow.webContents.send('file-open', openFiles);
+        }
+        if(openMagnet!=null){
+          mainWindow.webContents.send('magnet-open', openMagnet);
+        } 
       });
     }
   });
@@ -100,12 +109,22 @@ app.on("activate", function () {
 });
 
 // Define any IPC or other custom functionality below here
-function getTorrents (args: Array<any>): Array<Buffer> {
+function getTorrents(args: Array<any>): Array<Buffer> {
   const result=[];
   args.forEach((arg: string) => {
     if(arg && arg.toLowerCase().endsWith(".torrent")){
       result.push(fs.readFileSync(arg, null));
     }
   });
+  return result;
+}
+
+function getMagnet(args: Array<any>): String {
+  let result=null;
+  args.forEach((arg: string) => {
+    if(arg && arg.toLowerCase().startsWith("magnet:") && result==null){
+      result = arg;
+    }
+  })
   return result;
 }

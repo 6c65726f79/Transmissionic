@@ -14,6 +14,7 @@ import { App } from '@capacitor/app';
 declare global {
   interface Window {
       fileOpen: any;
+      magnetOpen: any;
   }
 }
 
@@ -26,6 +27,9 @@ export const FileHandler = {
       window.fileOpen.receive((files: Array<ArrayBuffer>) => {
         torrentFiles = files;
         this.filesLoaded();
+      });
+      window.magnetOpen.receive((magnet: string) => {
+        this.readMagnet(magnet);
       });
     }
     else if(isPlatform("capacitor")){
