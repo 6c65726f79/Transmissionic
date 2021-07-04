@@ -193,7 +193,7 @@ export const FileHandler = {
           window.location.hash="";
           currentFile?.remove();
           currentFile=null;
-          Emitter.emit("refresh");
+          Emitter.emit("refresh", false);
         })
       return modal.present();
     });

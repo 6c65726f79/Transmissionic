@@ -438,7 +438,7 @@ export default defineComponent({
           })
         modal.onDidDismiss()
           .then(() => {
-            Emitter.emit("refresh");
+            Emitter.emit("refresh", false);
           })
         return modal.present();
       }
