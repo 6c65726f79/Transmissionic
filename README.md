@@ -121,6 +121,12 @@ Don't forget to save your current `web` folder if you want to switch back.
 
 Then access the Web UI as described [here](https://github.com/transmission/transmission/wiki/Web-Interface).
 
+### Linux
+
+You can install the .deb package if your distribution supports it.
+
+Otherwise, you must use the [AppImage](https://appimage.org/). It's recommended to use [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) to take advantage of the torrent file assosiation and magnet link handling.
+
 ### Other
 
 Simply download the installer for the desired platform from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page and install it.
