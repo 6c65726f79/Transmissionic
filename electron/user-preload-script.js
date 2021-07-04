@@ -31,6 +31,12 @@ contextBridge.exposeInMainWorld('fileOpen', {
   }
 })
 
+contextBridge.exposeInMainWorld('magnetOpen', {
+  receive: (func) => {
+    ipcRenderer.on("magnet-open", (event, ...args) => func(...args));
+  }
+})
+
 contextBridge.exposeInMainWorld('net', {
   request: async (options,data) => {
     return new Promise(function (resolve, reject) {
