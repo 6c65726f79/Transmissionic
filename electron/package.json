@@ -72,6 +72,7 @@
       "category": "Network",
       "artifactName": "Transmissionic-${os}-${arch}-v${version}.${ext}",
       "desktop": "./transmissionic.desktop",
+      "icon": "appIcon.icns",
       "target": [
         {
           "target": "deb",
@@ -83,8 +84,7 @@
         {
           "target": "AppImage"
         }
-      ],
-      "icon": "appIcon.png"
+      ]
     },
     "mac": {
       "category": "public.app-category.developer-tools",
