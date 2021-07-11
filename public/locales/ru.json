@@ -13,6 +13,7 @@
     "add": "Добавить",
     "empty": "Пусто",
     "error": {
+        "error": "Ошибка",
         "timeout": "Unable to reach host (Timeout)",
         "hostUnreachable": "Unable to reach host",
         "daemonUnreachable": "Unable to reach Transmission Daemon",
