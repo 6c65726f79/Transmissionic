@@ -12,7 +12,16 @@
     "search": "Cerca",
     "add": "Aggiungi",
     "empty": "Vuoto",
-    "error": "Errore",
+    "error": {
+        "timeout": "Unable to reach host (Timeout)",
+        "hostUnreachable": "Unable to reach host",
+        "daemonUnreachable": "Unable to reach Transmission Daemon",
+        "invalidToken": "Invalid token",
+        "authenticationError": "Authentication error",
+        "torrentNotFound": "Torrent not found",
+        "invalidArgument": "Invalid argument",
+        "requestAborted": "Request aborted"
+    },
     "retry": "Riprova",
     "default": "Predefinito",
     "interface": "Interfaccia",
