@@ -12,7 +12,16 @@
     "search": "Zoeken",
     "add": "Toevoegen",
     "empty": "Legen",
-    "error": "Fout",
+    "error": {
+        "timeout": "Unable to reach host (Timeout)",
+        "hostUnreachable": "Unable to reach host",
+        "daemonUnreachable": "Unable to reach Transmission Daemon",
+        "invalidToken": "Invalid token",
+        "authenticationError": "Authentication error",
+        "torrentNotFound": "Torrent not found",
+        "invalidArgument": "Invalid argument",
+        "requestAborted": "Request aborted"
+    },
     "retry": "Opnieuw proberen",
     "default": "Standaard",
     "interface": "Interface",
