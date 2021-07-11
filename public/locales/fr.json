@@ -24,7 +24,8 @@
         "requestAborted": "Requête interrompue",
         "connectionFailed": "La connexion a échoué",
         "trackerConnectionError": "Impossible de se connecter au tracker",
-        "noDataFound": "Aucune donnée trouvée ! Vérifiez que vos lecteurs sont connectés ou utilisez \"Définir l'emplacement\". Pour retélécharger, supprimez le torrent et ajoutez-le à nouveau."
+        "noDataFound": "Aucune donnée trouvée ! Vérifiez que vos lecteurs sont connectés ou utilisez \"Définir l'emplacement\". Pour retélécharger, supprimez le torrent et ajoutez-le à nouveau.",
+        "pathNotAbsolute": "Le chemin du répertoire de téléchargement n'est pas absolu"
     },
     "retry": "Réessayer",
     "default": "Défaut",
