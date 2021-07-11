@@ -12,7 +12,16 @@
     "search": "搜尋",
     "add": "新增",
     "empty": "空空如也",
-    "error": "錯誤",
+    "error": {
+        "timeout": "Unable to reach host (Timeout)",
+        "hostUnreachable": "Unable to reach host",
+        "daemonUnreachable": "Unable to reach Transmission Daemon",
+        "invalidToken": "Invalid token",
+        "authenticationError": "Authentication error",
+        "torrentNotFound": "Torrent not found",
+        "invalidArgument": "Invalid argument",
+        "requestAborted": "Request aborted"
+    },
     "retry": "重試",
     "default": "預設",
     "interface": "介面",
