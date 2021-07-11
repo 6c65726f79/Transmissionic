@@ -245,7 +245,7 @@ export default defineComponent({
           },
           {
             value:"error",
-            label:() => Locale.error,
+            label:() => Locale.error.error,
             iosIcon: warningOutline,
             mdIcon: warningSharp
           },

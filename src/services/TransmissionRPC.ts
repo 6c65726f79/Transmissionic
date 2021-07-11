@@ -187,7 +187,7 @@ class TRPC {
         throw Error(rep.errorMessage);
       }
       else if(rep.status==401) {
-        throw Error("Unauthorized");
+        throw Error("Authentication error");
       }
 
       token = this.readToken(rep);
@@ -572,7 +572,7 @@ class TRPC {
   timeout(ms: number, promise: Promise<any>) {
     return new Promise(function(resolve, reject) {
       setTimeout(function() {
-        reject("Unable to reach host (timeout)")
+        reject("Unable to reach host (Timeout)")
       }, ms)
       promise.then(resolve, reject)
     })

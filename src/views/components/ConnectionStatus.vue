@@ -2,8 +2,8 @@
   <ion-content>
     <div class="placeholder" >
       <template v-if="connectionStatus.error!=''">
-        <strong>{{ Locale.error }}</strong>
-        <p>{{connectionStatus.error}}</p>
+        <strong>{{ Locale.error.error }}</strong>
+        <p>{{ Utils.localizeError(connectionStatus.error) }}</p>
         <a @click="$emit('retry')">{{ Locale.retry }}</a>
       </template>
       <template v-else-if="connectionStatus.loading">
@@ -25,6 +25,7 @@ import {
 } from '@ionic/vue';
 import { Locale } from "../../services/Locale";
 import { Emitter } from "../../services/Emitter";
+import { Utils } from '../../services/Utils';
 
 export default defineComponent({
   name: 'ConnectionStatus',
@@ -35,7 +36,8 @@ export default defineComponent({
   },
   setup() {
     return { 
-      Locale
+      Locale,
+      Utils
     }
   },
   mounted() {

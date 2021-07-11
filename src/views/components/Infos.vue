@@ -107,8 +107,8 @@
       </ion-item>
       <ion-item>
         <ion-label class="label no-wrap">
-          <div>{{ Locale.error }}</div>
-          <span class="selectable">{{ details.errorString }}</span>
+          <div>{{ Locale.error.error }}</div>
+          <span class="selectable">{{ Utils.localizeError(details.errorString) }}</span>
         </ion-label>
       </ion-item>
       <ion-item>

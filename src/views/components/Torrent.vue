@@ -58,9 +58,9 @@
           </span>
 
           <!-- Error -->
-          <span class="bloc truncate error" v-else-if="torrent.errorString!=''" :title="torrent.errorString">
+          <span class="bloc truncate error" v-else-if="torrent.errorString!=''" :title="Utils.localizeError(torrent.errorString)">
             <ion-icon :md="warningSharp" :ios="warningOutline"></ion-icon>
-            {{torrent.errorString}}
+            {{ Utils.localizeError(torrent.errorString) }}
           </span>
 
           <!-- Size / Percent done -->
