@@ -73,11 +73,11 @@
       "category": "Network",
       "artifactName": "Transmissionic-${os}-${arch}-v${version}.${ext}",
       "desktop": {
-        "Encoding":"UTF-8",
-        "Terminal":false,
-        "Name":"Transmissionic",
-        "Comment":"Remote for Transmission Daemon",
-        "MimeType":"application/x-bittorrent;x-scheme-handler/magnet;"
+        "Encoding": "UTF-8",
+        "Terminal": false,
+        "Name": "Transmissionic",
+        "Comment": "Remote for Transmission Daemon",
+        "MimeType": "application/x-bittorrent;x-scheme-handler/magnet;"
       },
       "icon": "appIcon.icns",
       "target": [
