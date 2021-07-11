@@ -28,7 +28,8 @@
         "pathNotAbsolute": "Download directory path is not absolute",
         "trackerResponseCode": "Tracker gave HTTP response code {0} ({1})",
         "notFound": "Not found",
-        "noResponse": "No response"
+        "noResponse": "No response",
+        "trackerDidNotRespond": "Tracker did not respond"
     },
     "retry": "重試",
     "default": "預設",
