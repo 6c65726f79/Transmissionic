@@ -13,6 +13,7 @@
     "add": "Ajouter",
     "empty": "Vide",
     "error": {
+        "error": "Erreur",
         "timeout": "Impossible de joindre l'hôte (Délai dépassé)",
         "hostUnreachable": "Impossible de joindre l'hôte",
         "daemonUnreachable": "Impossible de joindre Transmission Daemon",
