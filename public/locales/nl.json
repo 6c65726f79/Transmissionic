@@ -13,6 +13,7 @@
     "add": "Toevoegen",
     "empty": "Legen",
     "error": {
+        "error": "Fout",
         "timeout": "Unable to reach host (Timeout)",
         "hostUnreachable": "Unable to reach host",
         "daemonUnreachable": "Unable to reach Transmission Daemon",
