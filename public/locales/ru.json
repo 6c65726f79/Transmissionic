@@ -21,7 +21,10 @@
         "authenticationError": "Authentication error",
         "torrentNotFound": "Torrent not found",
         "invalidArgument": "Invalid argument",
-        "requestAborted": "Request aborted"
+        "requestAborted": "Request aborted",
+        "connectionFailed": "Connection failed",
+        "trackerConnectionError": "Could not connect to tracker",
+        "noDataFound": "No data found! Ensure your drives are connected or use \"Set Location\". To re-download, remove the torrent and re-add it."
     },
     "retry": "Повторить",
     "default": "По-умолчанию",
