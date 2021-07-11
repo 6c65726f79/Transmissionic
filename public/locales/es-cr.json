@@ -25,7 +25,10 @@
         "connectionFailed": "Connection failed",
         "trackerConnectionError": "Could not connect to tracker",
         "noDataFound": "No data found! Ensure your drives are connected or use \"Set Location\". To re-download, remove the torrent and re-add it.",
-        "pathNotAbsolute": "Download directory path is not absolute"
+        "pathNotAbsolute": "Download directory path is not absolute",
+        "trackerResponseCode": "Tracker gave HTTP response code {0} ({1})",
+        "notFound": "Not found",
+        "noResponse": "No response"
     },
     "retry": "Re intentar",
     "default": "Por defecto",
