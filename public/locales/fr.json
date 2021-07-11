@@ -25,7 +25,10 @@
         "connectionFailed": "La connexion a échoué",
         "trackerConnectionError": "Impossible de se connecter au tracker",
         "noDataFound": "Aucune donnée trouvée ! Vérifiez que vos lecteurs sont connectés ou utilisez \"Définir l'emplacement\". Pour retélécharger, supprimez le torrent et ajoutez-le à nouveau.",
-        "pathNotAbsolute": "Le chemin du répertoire de téléchargement n'est pas absolu"
+        "pathNotAbsolute": "Le chemin du répertoire de téléchargement n'est pas absolu",
+        "trackerResponseCode": "Le traqueur a donné le code de réponse HTTP {0} ({1})",
+        "notFound": "Non trouvé",
+        "noResponse": "Aucune réponse"
     },
     "retry": "Réessayer",
     "default": "Défaut",
