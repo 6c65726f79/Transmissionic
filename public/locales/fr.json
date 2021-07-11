@@ -21,7 +21,10 @@
         "authenticationError": "Erreur d'authentification",
         "torrentNotFound": "Torrent non trouvé",
         "invalidArgument": "Argument invalide",
-        "requestAborted": "Requête interrompue"
+        "requestAborted": "Requête interrompue",
+        "connectionFailed": "La connexion a échoué",
+        "trackerConnectionError": "Impossible de se connecter au tracker",
+        "noDataFound": "Aucune donnée trouvée ! Vérifiez que vos lecteurs sont connectés ou utilisez \"Définir l'emplacement\". Pour retélécharger, supprimez le torrent et ajoutez-le à nouveau."
     },
     "retry": "Réessayer",
     "default": "Défaut",
