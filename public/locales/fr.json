@@ -12,7 +12,16 @@
     "search": "Rechercher",
     "add": "Ajouter",
     "empty": "Vide",
-    "error": "Erreur",
+    "error": {
+        "timeout": "Impossible de joindre l'hôte (Délai dépassé)",
+        "hostUnreachable": "Impossible de joindre l'hôte",
+        "daemonUnreachable": "Impossible de joindre Transmission Daemon",
+        "invalidToken": "Token invalide",
+        "authenticationError": "Erreur d'authentification",
+        "torrentNotFound": "Torrent non trouvé",
+        "invalidArgument": "Argument invalide",
+        "requestAborted": "Requête interrompue"
+    },
     "retry": "Réessayer",
     "default": "Défaut",
     "interface": "Interface",
