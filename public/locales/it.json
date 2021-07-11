@@ -24,7 +24,8 @@
         "requestAborted": "Request aborted",
         "connectionFailed": "Connection failed",
         "trackerConnectionError": "Could not connect to tracker",
-        "noDataFound": "No data found! Ensure your drives are connected or use \"Set Location\". To re-download, remove the torrent and re-add it."
+        "noDataFound": "No data found! Ensure your drives are connected or use \"Set Location\". To re-download, remove the torrent and re-add it.",
+        "pathNotAbsolute": "Download directory path is not absolute"
     },
     "retry": "Riprova",
     "default": "Predefinito",
