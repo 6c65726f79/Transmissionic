@@ -212,7 +212,7 @@ For mobile users:
 | Ctrl+LeftArrow  | Previous tab         |
 | Ctrl+A          | Select all           |
 | Ctrl+Alt+C      | Cancel selection     |
-| Alt+H           | About                |
+| Alt+A           | About                |
 
 # Build
 
