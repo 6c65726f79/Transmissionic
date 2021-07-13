@@ -5,7 +5,7 @@
 
 <p align="center">
   Transmissionic is a free multi-platform remote for Transmission Daemon built with <a href="https://ionicframework.com/">Ionic</a> and <a href="https://vuejs.org/">Vue.js</a>.<br>
-  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program. (More platform could be added such as macOS and iOS)
+  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program. (More platforms could be added such as macOS and iOS)
 </p>
 <p align="center">
   
@@ -24,25 +24,26 @@
 
 # About
 
-### Main features
+## Main features
 
 * Manage multiple servers
 * Add torrent from local file or magnet link
 * Drag & drop torrent file
 * Start/stop/reannonce/verify/delete one or more torrents
-* Modify torrent options
+* Modify torrent's options
 * Set the location of a torrent
-* Select and rename torrent files
+* Select and rename torrent's files
 * Edit tracker list
-* View peer list with flags
+* View the list of peers with country flags
 * Sort torrents by trackers
 * Open files in explorer
+* Use presets when adding torrents
 
-### Screenshots
+## Screenshots
 
 <img src="https://i.imgur.com/STtzxrY.png" width="300"> <img src="https://i.imgur.com/5Y9ML4s.png" width="300">
 
-### Translation
+## Translation
 
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
@@ -65,27 +66,27 @@ You can help with the translation by joining the project on [POEditor](https://p
 
 Thanks to all contributors.
 
-### Compatibility
+## Compatibility
 
-**Web UI**
+### Web UI
 
 | Browser         | Chrome    | Firefox   | Safari    | Edge      | IE        | Chrome for Android | Safari on iOS  |
 | --------------- | --------- | --------- | --------- | --------- | --------- | ------------------ | -------------- |
 | Version         | ≥23 ✔     | ≥21 ✔     | ≥6 ✔      | ≥79 ✔     | ❌         | ≥90 ✔              | ≥6 ✔           |
 
-**Application**
+### Application
 
 | OS              | Windows   | Linux     | macOS     | Android   | iOS       |
 | --------------- | --------- | --------- | --------- | --------- | --------- |
 | Version         | ≥7 ✔      | ✔         | ❌         | ≥5.0 ✔     | ❌         |
 
-### Motivations
+## Motivations
 
 * Provide a unified interface for all platforms
 * Improve myself on Vue.js 3 and Ionic 5
 * Get familiar with GitHub
 
-### Inspirations
+## Inspirations
 
 Interface and features inspired by [Transmission Remote](https://github.com/y-polek/TransmissionRemote) and [Transmission Remote GUI](https://github.com/transmission-remote-gui/transgui).
 
@@ -93,7 +94,7 @@ Interface and features inspired by [Transmission Remote](https://github.com/y-po
 
 You must first enable remote access in Transmission settings.
 
-### Web UI
+## Web UI
 
 Download `Transmissionic-webui-[version].zip` from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
 
@@ -121,21 +122,23 @@ Don't forget to save your current `web` folder if you want to switch back.
 
 Then access the Web UI as described [here](https://github.com/transmission/transmission/wiki/Web-Interface).
 
-### Linux
+## Linux
 
-You can install the .deb package if your distribution supports it.
+Download the [AppImage](https://appimage.org/) from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
 
-Otherwise, you must use the [AppImage](https://appimage.org/). It's recommended to use [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) to take advantage of the torrent file assosiation and magnet link handling.
+It's recommended to use [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) to take advantage of the torrent file assosiation and magnet link handling.
 
-### Other
+## Other
 
 Simply download the installer for the desired platform from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page and install it.
 
 # Configuration
 
-### Web UI
+## Web UI
 
 You don't need to specify the server details as they will be automatically detected from the URL of the Web UI.
+
+### Default settings
 
 The settings are stored on the client side, but you can overwrite the default settings by creating a file named `default.json` in the root folder of the Web UI.
 
@@ -167,21 +170,7 @@ Configuration file example:
 }
 ```
 
-### Electron
-
-You can configure path mapping on computer, this allow you to match remote paths with local paths to open the file explorer. This setting works exacly the same as [Transmission Remote GUI](https://github.com/transmission-remote-gui/transgui).
-
-Example:
-```
-/mnt/ssd = \\192.168.1.1\ssd
-```
-`/mnt/ssd` = Remote path on the server where Transmission daemon is running.
-
-`\\192.168.1.1\ssd` = Local path to access the shared folder.
-
-In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` must be shared on the network as `ssd`.
-
-# Bookmarklet
+### Bookmarklet
 
 When using the Web UI, you can import magnet and torrent links using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
 
@@ -193,6 +182,20 @@ For mobile users:
 3. Replace the address with the one you previously copied and change the name to "Download with Transmissionic".
 4. Go on a torrent page.
 5. Tap on the address bar, search for "Download with Transmissionic" and select the bookmark. ([Screenshot](https://i.imgur.com/xcFA4Ez.png))
+
+## Electron
+
+You can configure path mapping on computer, this allow you to match remote paths with local paths to open the file explorer. This parameter works exactly the same way as [Transmission Remote GUI](https://github.com/transmission-remote-gui/transgui).
+
+Example:
+```
+/mnt/ssd = \\192.168.1.1\ssd
+```
+`/mnt/ssd` = Remote path on the server where Transmission daemon is running.
+
+`\\192.168.1.1\ssd` = Local path to access the shared folder.
+
+In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` must be shared on the network as `ssd`.
 
 # Keyboard shortcuts
 
@@ -216,7 +219,7 @@ For mobile users:
 
 # Build
 
-### Requirements
+## Requirements
 
 You must have [Node.js](https://nodejs.org/) installed, then you can clone this repo and install dependencies by running this in the root folder of the project:
 
@@ -224,9 +227,9 @@ You must have [Node.js](https://nodejs.org/) installed, then you can clone this 
 npm install
 ```
 
-If you want to build the APK, you need to install [Android Studio](https://developer.android.com/studio).
+If you want to build the APK, you need to install [Android Studio](https://developer.android.com/studio) or [JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
 
-### Web UI
+## Web UI
 
 Simply run the following commands:
 
@@ -238,7 +241,7 @@ npm run postbuild:webui
 
 This will build the Web UI inside the `dist` folder.
 
-### Electron
+## Electron
 
 Only Windows and Linux are currently supported, but feel free to make some changes to support other platforms.
 
@@ -262,7 +265,7 @@ npm run electron:build-linux
 
 The installer will be located in the `electron/dist` folder.
 
-### Android
+## Android
 
 Start by running this in the root folder of the project:
 
@@ -270,13 +273,25 @@ Start by running this in the root folder of the project:
 npx cap sync android
 ```
 
-Then open Android Studio by running:
+### With Android Studio
+
+Open Android Studio by running:
 
 ```
 npx cap open android
 ```
 
 Once Android Studio has loaded the project, build the app from `Build > Make Project`
+
+### Without Android Studio
+
+Place your terminal in the `android` folder and run this:
+
+```
+./gradlew build
+```
+
+The APK will be located in the `android/app/build/outputs/apk` folder.
 
 # Development
 
