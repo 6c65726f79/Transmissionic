@@ -185,6 +185,8 @@ For mobile users:
 
 ## Electron
 
+### Path mapping
+
 You can configure path mapping on computer, this allow you to match remote paths with local paths to open the file explorer. This parameter works exactly the same way as [Transmission Remote GUI](https://github.com/transmission-remote-gui/transgui).
 
 Example:
