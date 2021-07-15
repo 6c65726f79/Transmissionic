@@ -8,7 +8,7 @@
         <ion-title>{{ Locale.about.about }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" class="ion-padding">
+    <ion-content :fullscreen="true" class="ion-padding" ref="content">
       <div class="app-details">
         <img :src="iconSrc" alt="Logo">
         <h4>Transmissionic {{appVersion}}</h4>
@@ -89,6 +89,9 @@ export default defineComponent({
       Locale,
       iconSrc:"./assets/icon/favicon.png" // Force Vue.js to load relative path without transformAssetUrls
     }
+  },
+  mounted() {
+    Utils.customScrollbar(this.$refs.content);
   },
   computed: {
     appVersion: function(): string {
