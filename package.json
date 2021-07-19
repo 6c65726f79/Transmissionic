@@ -51,7 +51,7 @@
     "@vue/cli-plugin-router": "~4.5.13",
     "@vue/cli-plugin-typescript": "~4.5.13",
     "@vue/cli-service": "^4.5.13",
-    "@vue/compiler-sfc": "^3.1.4",
+    "@vue/compiler-sfc": "^3.1.5",
     "@vue/eslint-config-typescript": "^7.0.0",
     "eslint": "^7.31.0",
     "eslint-plugin-vue": "^7.14.0",
