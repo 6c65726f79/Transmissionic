@@ -9,7 +9,7 @@
       <template v-else-if="connectionStatus.loading">
         <ion-spinner></ion-spinner>
       </template>
-      <template v-else-if="serverCount.value==0">
+      <template v-else-if="serverCount==0">
         <strong>{{ Locale.empty }}</strong>
         <p>{{addServerText().before}}<a @click='addServer()'>{{addServerText().link}}</a>{{addServerText().after}}</p>
       </template>

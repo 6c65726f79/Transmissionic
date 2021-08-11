@@ -225,7 +225,6 @@ export default defineComponent({
       }
     }
   },
-  inject: ['serverCount'],
   components: {
     ConnectionStatus,
     VirtualScroll,
