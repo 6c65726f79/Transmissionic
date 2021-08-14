@@ -113,7 +113,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const ProgressBarColors = ["medium",null,"warning","medium","success",null,"primary"];
+    const ProgressBarColors = ["medium","warning","warning","medium","success",null,"primary"];
 
     return { 
       Locale,
