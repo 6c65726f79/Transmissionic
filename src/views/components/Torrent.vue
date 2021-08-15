@@ -48,7 +48,7 @@
 
           <!-- Verifying -->
           <span class="bloc truncate verifying" v-else-if="torrent.status==2">
-            {{Locale.filters.verifying}}
+            {{Locale.filters.verifying}} ({{Utils.getPercent(torrent.recheckProgress)}})
           </span>
           
           <!-- Queued -->
@@ -65,12 +65,12 @@
 
           <!-- Size / Percent done -->
           <span class="bloc right fit">
-            {{ Utils.formatBytes(torrent.sizeWhenDone) }} ({{ Utils.getPercent(percentDone) }})
+            {{ Utils.formatBytes(torrent.sizeWhenDone) }} ({{ Utils.getPercent(torrent.percentDone) }})
           </span>
         </div>
       </div>
 
-      <ion-progress-bar :value="percentDone" :color="ProgressBarColors[torrent.status]" aria-hidden="true"></ion-progress-bar>
+      <ion-progress-bar :value="torrent.percentDone" :color="ProgressBarColors[torrent.status]" aria-hidden="true"></ion-progress-bar>
     
     </div>
   </div>
@@ -132,9 +132,6 @@ export default defineComponent({
     }
   },
   computed: {
-    percentDone: function(): string {
-      return this.torrent.status==2 ? this.torrent.recheckProgress : this.torrent.percentDone
-    },
     orderByPosition() {
       return UserSettings.state.orderBy=="queuePosition";
     }
