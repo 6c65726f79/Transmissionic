@@ -177,7 +177,7 @@ export default defineComponent({
       details:{} as Record<string,any>,
       statusText:[
         Locale.filters.stopped,
-        "Waiting",
+        Locale.filters.verifying // Waiting for verification,
         Locale.filters.verifying,
         Locale.filters.queued,
         Locale.filters.downloading,
