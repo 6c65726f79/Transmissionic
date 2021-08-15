@@ -43,6 +43,9 @@ const app = createApp(App)
   })
   .use(router)
 
+// Temporary fix injected property warn
+app.config.unwrapInjectedRef = true;
+
 Utils.customDirectives(app);
 
 if(isPlatform("electron")){
