@@ -313,6 +313,7 @@ export default defineComponent({
   async beforeCreate() {
     await UserSettings.loadSettings();
     this.privateState.selectedServer = UserSettings.state.selectedServer;
+    Utils.registerMagnetLinkProtocol();
     if(UserSettings.state.language=="default"){
       await LocaleController.setLanguage(UserSettings.getLanguage());
     }

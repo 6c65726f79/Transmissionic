@@ -476,5 +476,15 @@ export const Utils = {
         reader.readAsDataURL(blob)
       }))
     document.querySelector("link[title=ATI]")?.setAttribute("href",data);
+  },
+  registerMagnetLinkProtocol(): void {
+    if(UserSettings.state.openMagnetLinks){
+      if(navigator.registerProtocolHandler!==null){
+        navigator.registerProtocolHandler("magnet", window.location.href + "#%s", "Transmissionic Magnet Handler" );
+      }
+    }
+    else {
+      navigator.unregisterProtocolHandler("magnet", window.location.href + "#%s");
+    }
   }
 }

@@ -153,6 +153,7 @@ The file can contain the following key/value pairs:
 | useBits         | `boolean`     | Display speed in bit/s            |
 | expandMenu      | `boolean`     | Expand side menu on large screen  |
 | ipFlags         | `boolean`     | Display peer flag                 |
+| openMagnetLinks | `boolean`     | Open magnet links with Transmissionic |
 | refreshInterval | `number`      | Refresh interval in seconds       |
 | timeout         | `number`      | Connection timeout in seconds     |
 

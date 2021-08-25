@@ -80,6 +80,19 @@
         </ion-item>
       </ion-list>
 
+      <ion-list v-if="protocolHandlerAvailable">
+        <ion-list-header>
+          <ion-label>
+              {{ Locale.protocols }}
+          </ion-label>
+        </ion-list-header>
+        
+        <ion-item>
+          <ion-label>{{ Locale.openMagnetLinks }}</ion-label>
+          <ion-toggle v-model="sharedState.openMagnetLinks"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
       <ion-list v-if="bookmarkletEnabled">
         <ion-list-header>
           <ion-label>
@@ -177,7 +190,7 @@ const bookmarkletFunction = (href: string) => {
       }
     });
   }
-  found ? window.open(href+"#"+selection) : alert("No torrent or magnet link found.");
+  found ? window.open(href+"#"+encodeURIComponent(selection)) : alert("No torrent or magnet link found.");
 }
 
 export default defineComponent({
@@ -210,6 +223,9 @@ export default defineComponent({
   computed: {
     bookmarkletEnabled(): boolean {
       return !isPlatform("electron") && !isPlatform("capacitor")
+    },
+    protocolHandlerAvailable(): boolean {
+      return !isPlatform("electron") && !isPlatform("capacitor") && navigator.registerProtocolHandler!==null
     }
   },
   setup() {
@@ -233,13 +249,11 @@ export default defineComponent({
   methods: {
     saveSettings () {
       UserSettings.saveSettings();
-      this.savedToast();
+      Utils.responseToast("success");
+      Utils.registerMagnetLinkProtocol();
     },
     modalClose () {
       modalController.dismiss();
-    },
-    async savedToast() {
-      Utils.responseToast("success")
     },
     async resetSettings(){
       const alert = await alertController
