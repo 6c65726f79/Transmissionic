@@ -27,7 +27,7 @@
         "noDataFound": "找不到檔案! 請確認您的相關磁碟有無連接，或使用 \"設定下載位置\". 如要重新下載，請先移除任務後，再重新加入.",
         "pathNotAbsolute": "請將下載路徑調整成絕對路徑",
         "trackerResponseCode": "Tracker 回傳 HTTP 代碼：{0} ({1})",
-        "notFound": "查無回應",
+        "notFound": "查無位址",
         "noResponse": "沒有回應",
         "trackerDidNotRespond": "Tracker 沒有回應"
     },
@@ -231,5 +231,6 @@
     "total": "總共",
     "duration": "使用時間",
     "addTorrents": "批次加入種子檔",
-    "preset": "預設集"
+    "preset": "預設集",
+    "openMagnetLinks": "Open magnet links with Transmissionic"
 }
