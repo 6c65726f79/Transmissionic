@@ -235,5 +235,6 @@
     "total": "Totale",
     "duration": "Durata",
     "addTorrents": "Aggiungi più torrent",
-    "preset": "Preset"
+    "preset": "Preset",
+    "openMagnetLinks": "Open magnet links with Transmissionic"
 }
