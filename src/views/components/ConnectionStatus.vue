@@ -40,9 +40,6 @@ export default defineComponent({
       Utils
     }
   },
-  mounted() {
-    Emitter.on('language-changed', () => { this.$forceUpdate() });
-  },
   methods: {
     addServer() {
       Emitter.emit('add-server')

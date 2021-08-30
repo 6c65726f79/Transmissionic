@@ -346,7 +346,6 @@ export default defineComponent({
     Emitter.on('refresh', (clean: any) => { this.refresh(clean); });
     Emitter.on('add-server', this.addServer);
     Emitter.on('swipe-enabled', (value: any) => this.privateState.swipeEnabled=value );
-    Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('about', this.openAboutModal);
     Emitter.on('settings', this.openSettingsModal);
     Emitter.on('toggle-menu', () => { menuController.toggle("left") });

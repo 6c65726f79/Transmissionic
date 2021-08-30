@@ -158,7 +158,6 @@ import {
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { UserSettings } from "../services/UserSettings";
-import { Emitter } from '../services/Emitter';
 
 declare global {
   interface Window {
@@ -244,7 +243,6 @@ export default defineComponent({
   },
   mounted() {
     Utils.customScrollbar(this.$refs.content);
-    Emitter.on('language-changed', () => { this.$forceUpdate() });
   },
   methods: {
     saveSettings () {
