@@ -21,7 +21,13 @@ import { Emitter } from './Emitter';
 
 declare global {
   interface Window {
-      Titlebar: any;
+    Titlebar: any;
+  }
+
+  interface Navigator
+  {
+    registerProtocolHandler : (scheme: string, url: string, title: string) => void;
+    unregisterProtocolHandler : (scheme: string, url: string) => void;
   }
 }
 
