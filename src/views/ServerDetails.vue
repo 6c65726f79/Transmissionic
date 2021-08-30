@@ -38,7 +38,7 @@
         
         <ion-item>
           <ion-label position="floating">{{ Locale.port }}</ion-label>
-          <ion-input v-model="newConf.port" type="number" placeholder="9091"></ion-input>
+          <ion-input v-model.number="newConf.port" type="number" placeholder="9091"></ion-input>
         </ion-item>
         
         <ion-item>
