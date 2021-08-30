@@ -480,11 +480,11 @@ export const Utils = {
   registerMagnetLinkProtocol(): void {
     if(UserSettings.state.openMagnetLinks){
       if(navigator.registerProtocolHandler!==null){
-        navigator.registerProtocolHandler("magnet", window.location.href + "#%s", "Transmissionic Magnet Handler" );
+        navigator.registerProtocolHandler("magnet", `${window.location.origin}/#%s`, "Transmissionic Magnet Handler" );
       }
     }
-    else {
-      navigator.unregisterProtocolHandler("magnet", window.location.href + "#%s");
+    else if(navigator.unregisterProtocolHandler!==null){
+      navigator.unregisterProtocolHandler("magnet", `${window.location.origin}/#%s`);
     }
   }
 }
