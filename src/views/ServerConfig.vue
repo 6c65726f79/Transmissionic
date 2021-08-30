@@ -67,7 +67,7 @@
 
           <ion-item :disabled="!config['download-queue-enabled']">
             <ion-label position="floating">{{ Locale.queueSize }}</ion-label>
-            <ion-input v-model.number="config['download-queue-size']"></ion-input>
+            <ion-input v-model.number="config['download-queue-size']" type="number"></ion-input>
           </ion-item>
 
           <ion-item>

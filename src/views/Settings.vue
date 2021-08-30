@@ -72,11 +72,11 @@
 
         <ion-item>
           <ion-label position="floating">{{ Locale.refreshInterval }}</ion-label>
-          <ion-input type="number" v-model="sharedState.refreshInterval" ></ion-input>
+          <ion-input type="number" v-model.number="sharedState.refreshInterval" ></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">{{ Locale.connectionTimeout }}</ion-label>
-          <ion-input type="number" v-model="sharedState.timeout" ></ion-input>
+          <ion-input type="number" v-model.number="sharedState.timeout" ></ion-input>
         </ion-item>
       </ion-list>
 
