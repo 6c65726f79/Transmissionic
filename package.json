@@ -30,7 +30,7 @@
     "chart.js": "^3.5.1",
     "cordova-plugin-advanced-http": "^3.2.0",
     "cordova-plugin-file": "^6.0.2",
-    "core-js": "^3.16.3",
+    "core-js": "^3.16.4",
     "localized-strings": "^0.2.4",
     "make-plural": "^7.0.0",
     "mitt": "^3.0.0",
