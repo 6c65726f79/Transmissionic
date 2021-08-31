@@ -1,90 +1,60 @@
-import { app, shell } from "electron";
+import type { CapacitorElectronConfig } from '@capacitor-community/electron';
+import {
+  getCapacitorElectronConfig,
+  setupElectronDeepLinking,
+} from '@capacitor-community/electron';
+import { app, shell } from 'electron';
 import fs from "fs";
-import { createCapacitorElectronApp } from "@capacitor-community/electron";
-import { autoUpdater } from "electron-updater";
-import windowStateKeeper from "electron-window-state";
-require('@electron/remote/main').initialize();
+import electronIsDev from 'electron-is-dev';
+import unhandled from 'electron-unhandled';
+import { autoUpdater } from 'electron-updater';
 
-// The MainWindow object can be accessed via myCapacitorApp.getMainWindow()
-const myCapacitorApp = createCapacitorElectronApp({
-  splashScreen: {
-    useSplashScreen: false,
-  },
-  mainWindow: {
-    windowOptions: {
-      autoHideMenuBar: true,
-      width: 990,
-      height: 700,
-      titleBarStyle: "hidden",
-      frame: false,
-      webPreferences: {
-        devTools: false,
-        contextIsolation: true
-      }
-    }
-  }
-});
+import {
+  ElectronCapacitorApp,
+  setupContentSecurityPolicy,
+  setupReloadWatcher,
+} from './setup';
 
-const gotTheLock = app.requestSingleInstanceLock()
-let openFiles: Array<Buffer>;
-let openMagnet: String;
+// Graceful handling of unhandled errors.
+unhandled();
 
-if (!gotTheLock) {
-  app.quit()
-} else {
-  openFiles = getTorrents(process.argv);
-  openMagnet = getMagnet(process.argv);
+// Get Config options from capacitor.config
+const capacitorFileConfig: CapacitorElectronConfig =
+  getCapacitorElectronConfig();
 
-  app.setAsDefaultProtocolClient("magnet");
+// Initialize our app. You can pass menu templates into the app here.
+// const myCapacitorApp = new ElectronCapacitorApp(capacitorFileConfig);
+const myCapacitorApp = new ElectronCapacitorApp(
+  capacitorFileConfig
+  //trayMenuTemplate,
+  //appMenuBarMenuTemplate,
+);
 
-  app.on('second-instance', (event, commandLine) => {
-    openFiles = getTorrents(commandLine);
-    openMagnet = getMagnet(commandLine);
-    const mainWindow = myCapacitorApp.getMainWindow();
-    // Someone tried to run a second instance, we should focus our window.
-    if (mainWindow) {
-      if (openFiles.length>0) mainWindow.webContents.send('file-open', openFiles)
-      if (openMagnet!=null) mainWindow.webContents.send('magnet-open', openMagnet)
-      if (mainWindow.isMinimized()) mainWindow.restore()
-      mainWindow.focus()
-    }
-  })
-
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some Electron APIs can only be used after this event occurs.
-  app.on("ready", () => {
-    let mainWindowState = windowStateKeeper({
-      defaultWidth: 990,
-      defaultHeight: 700
-    });
-    myCapacitorApp.init();
-    const mainWindow = myCapacitorApp.getMainWindow();
-    if(mainWindowState.x && mainWindowState.y){
-      mainWindow.setPosition(mainWindowState.x,mainWindowState.y);
-    }
-    mainWindow.setSize(mainWindowState.width,mainWindowState.height);
-    autoUpdater.checkForUpdatesAndNotify();
-    mainWindowState.manage(mainWindow);
-    if (mainWindow) {
-      mainWindow.webContents.on('did-finish-load', function() {
-        if(openFiles.length>0){
-          mainWindow.webContents.send('file-open', openFiles);
-        }
-        if(openMagnet!=null){
-          mainWindow.webContents.send('magnet-open', openMagnet);
-        } 
-      });
-    }
+// If deeplinking is enabled then we will set it up here.
+if (capacitorFileConfig.electron?.deepLinkingEnabled) {
+  setupElectronDeepLinking(myCapacitorApp, {
+    customProtocol:
+      capacitorFileConfig.electron.deepLinkingCustomProtocol ??
+      'mycapacitorapp',
   });
 }
 
-app.on('open-file', (event, path) => {
-  // Support for Mac OS
-  openFiles=[fs.readFileSync(path, null)];
-  const mainWindow = myCapacitorApp.getMainWindow();
-  mainWindow.webContents.send('fileopen', openFiles)
-})
+// If we are in Dev mode, use the file watcher components.
+if (electronIsDev) {
+  setupReloadWatcher(myCapacitorApp);
+}
+
+// Run Application
+(async () => {
+  // Wait for electron app to be ready.
+  await app.whenReady();
+  // Security - Set Content-Security-Policy based on whether or not we are in dev mode.
+  setupContentSecurityPolicy(myCapacitorApp.getCustomURLScheme());
+  // Initialize our app, build windows, and load content.
+  await myCapacitorApp.init();
+  // Check for updates if we are in a packaged app.
+  autoUpdater.checkForUpdatesAndNotify();
+})();
 
 app.on('web-contents-created', (createEvent, contents) => {
   contents.setWindowOpenHandler(({ url }) => {
@@ -93,22 +63,25 @@ app.on('web-contents-created', (createEvent, contents) => {
   })
 });
 
-// Quit when all windows are closed.
-app.on("window-all-closed", function () {
+// Handle when all of our windows are close (platforms have their own expectations).
+app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== "darwin") {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on("activate", function () {
+// When the dock icon is clicked.
+app.on('activate', async function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (myCapacitorApp.getMainWindow().isDestroyed()) myCapacitorApp.init();
+  if (myCapacitorApp.getMainWindow().isDestroyed()) {
+    await myCapacitorApp.init();
+  }
 });
 
-// Define any IPC or other custom functionality below here
+// Place all ipc or other electron api calls and custom functionality under this line
 function getTorrents(args: Array<any>): Array<Buffer> {
   const result=[];
   args.forEach((arg: string) => {

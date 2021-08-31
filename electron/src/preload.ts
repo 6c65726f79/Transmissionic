@@ -1,7 +1,11 @@
-const { contextBridge,ipcRenderer,shell } = require('electron');
-const { app, net, Menu, MenuItem } = require('@electron/remote');
-const { Titlebar, Color } = require('custom-electron-titlebar');
-const path = require('path');
+require('./rt/electron-rt');
+//////////////////////////////
+// User Defined Preload scripts below
+
+import { ipcRenderer, contextBridge, shell } from 'electron';
+import { app, net, Menu, MenuItem } from '@electron/remote';
+import { Titlebar, Color } from 'custom-electron-titlebar';
+import path from 'path';
 let titleBar;
 let request;
 let shortcutsHandler;
