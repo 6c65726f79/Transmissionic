@@ -11,7 +11,7 @@
     "postbuild:electron": "node scripts/postbuild-electron.js"
   },
   "dependencies": {
-    "@capacitor/android": "^3.2.0",
+    "@capacitor/android": "^3.2.1",
     "@capacitor/app": "^1.0.2",
     "@capacitor/clipboard": "^1.0.2",
     "@capacitor/core": "^3.2.0",
