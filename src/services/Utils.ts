@@ -486,11 +486,11 @@ export const Utils = {
   registerMagnetLinkProtocol(): void {
     if(!isPlatform("electron") && !isPlatform("capacitor")){
       if(UserSettings.state.openMagnetLinks){
-        if(navigator.registerProtocolHandler!==null){
+        if(navigator.registerProtocolHandler){
           navigator.registerProtocolHandler("magnet", `${window.location.origin}/#%s`, "Transmissionic Magnet Handler" );
         }
       }
-      else if(navigator.unregisterProtocolHandler!==null){
+      else if(navigator.unregisterProtocolHandler){
         navigator.unregisterProtocolHandler("magnet", `${window.location.origin}/#%s`);
       }
     }
