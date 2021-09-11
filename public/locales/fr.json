@@ -12,7 +12,25 @@
     "search": "Rechercher",
     "add": "Ajouter",
     "empty": "Vide",
-    "error": "Erreur",
+    "error": {
+        "error": "Erreur",
+        "timeout": "Impossible de joindre l'hôte (Délai dépassé)",
+        "hostUnreachable": "Impossible de joindre l'hôte",
+        "daemonUnreachable": "Impossible de joindre Transmission Daemon",
+        "invalidToken": "Token invalide",
+        "authenticationError": "Erreur d'authentification",
+        "torrentNotFound": "Torrent non trouvé",
+        "invalidArgument": "Argument invalide",
+        "requestAborted": "Requête interrompue",
+        "connectionFailed": "La connexion a échoué",
+        "trackerConnectionError": "Impossible de se connecter au tracker",
+        "noDataFound": "Aucune donnée trouvée ! Vérifiez que vos lecteurs sont connectés ou utilisez \"Définir l'emplacement\". Pour retélécharger, supprimez le torrent et ajoutez-le à nouveau.",
+        "pathNotAbsolute": "Le chemin du répertoire de téléchargement n'est pas absolu",
+        "trackerResponseCode": "Le tracker a retourné le code de réponse HTTP {0} ({1})",
+        "notFound": "Non trouvé",
+        "noResponse": "Aucune réponse",
+        "trackerDidNotRespond": "Le tracker n'a pas répondu"
+    },
     "retry": "Réessayer",
     "default": "Défaut",
     "interface": "Interface",
@@ -217,5 +235,6 @@
     "total": "Total",
     "duration": "Durée",
     "addTorrents": "Ajouter plusieurs torrents",
-    "preset": "Préréglage"
+    "preset": "Préréglage",
+    "openMagnetLinks": "Ouvrir les liens magnet avec Transmissionic"
 }

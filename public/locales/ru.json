@@ -12,7 +12,25 @@
     "search": "Поиск",
     "add": "Добавить",
     "empty": "Пусто",
-    "error": "Ошибка",
+    "error": {
+        "error": "Ошибка",
+        "timeout": "Невозможно связаться с хостом (таймаут)",
+        "hostUnreachable": "Невозможно связаться с хостом",
+        "daemonUnreachable": "Невозможно связаться с сервисом Transmission",
+        "invalidToken": "Неправильный токен",
+        "authenticationError": "Ошибка аутентификации",
+        "torrentNotFound": "Торрент не найден",
+        "invalidArgument": "Недопустимый аргумент",
+        "requestAborted": "Запрос отменён",
+        "connectionFailed": "Соединение не установлено",
+        "trackerConnectionError": "Не смог соединиться с трекером",
+        "noDataFound": "Данные не найдены! Убедитесь, что ваши диски подключены или используйте функцию \"Задать путь\". Чтобы повторить загрузку, удалите торрент и добавьте его заново.",
+        "pathNotAbsolute": "Путь папки загрузки не абсолютный",
+        "trackerResponseCode": "Трекер выдал HTTP ответ с кодом {0} ({1})",
+        "notFound": "Не найдено",
+        "noResponse": "Нет ответа",
+        "trackerDidNotRespond": "Трекер не отвечает"
+    },
     "retry": "Повторить",
     "default": "По-умолчанию",
     "interface": "Интерфейс",
@@ -225,5 +243,6 @@
     "total": "Всего",
     "duration": "Длительность",
     "addTorrents": "Добавить несколько торрентов",
-    "preset": "Preset"
+    "preset": "Шаблон",
+    "openMagnetLinks": "Открывать magnet-ссылки с помощью Transmissionic"
 }

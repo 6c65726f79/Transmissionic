@@ -245,7 +245,7 @@ export default defineComponent({
           },
           {
             value:"error",
-            label:() => Locale.error,
+            label:() => Locale.error.error,
             iosIcon: warningOutline,
             mdIcon: warningSharp
           },
@@ -313,6 +313,7 @@ export default defineComponent({
   async beforeCreate() {
     await UserSettings.loadSettings();
     this.privateState.selectedServer = UserSettings.state.selectedServer;
+    Utils.registerMagnetLinkProtocol();
     if(UserSettings.state.language=="default"){
       await LocaleController.setLanguage(UserSettings.getLanguage());
     }
@@ -345,7 +346,6 @@ export default defineComponent({
     Emitter.on('refresh', (clean: any) => { this.refresh(clean); });
     Emitter.on('add-server', this.addServer);
     Emitter.on('swipe-enabled', (value: any) => this.privateState.swipeEnabled=value );
-    Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('about', this.openAboutModal);
     Emitter.on('settings', this.openSettingsModal);
     Emitter.on('toggle-menu', () => { menuController.toggle("left") });

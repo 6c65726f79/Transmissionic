@@ -21,7 +21,13 @@ import { Emitter } from './Emitter';
 
 declare global {
   interface Window {
-      Titlebar: any;
+    Titlebar: any;
+  }
+
+  interface Navigator
+  {
+    registerProtocolHandler : (scheme: string, url: string, title: string) => void;
+    unregisterProtocolHandler : (scheme: string, url: string) => void;
   }
 }
 
@@ -208,10 +214,10 @@ export const Utils = {
         text = Locale.success
         break;
       case "":
-        text = Locale.error
+        text = Locale.error.error
         break;
       default:
-        text = result
+        text = this.localizeError(result);
         break;
     }
     await Toast.show({text});
@@ -222,6 +228,69 @@ export const Utils = {
     } catch (e) {
       return;
     }
+  },
+
+  localizeError(error: string): string{
+    let result;
+    const str = error ? error.toLowerCase() : "";
+    switch (str) {
+      case "unable to reach host (timeout)":
+      case "net::err_connection_timed_out":
+        result = Locale.error.timeout;
+        break;
+      case "unable to reach host":
+        result = Locale.error.hostUnreachable;
+        break;
+      case "unable to reach transmission daemon":
+        result = Locale.error.daemonUnreachable;
+        break;
+      case "invalid token":
+        result = Locale.error.invalidToken;
+        break;
+      case "authentication error":
+        result = Locale.error.authenticationError;
+        break;
+      case "torrent not found":
+        result = Locale.error.torrentNotFound;
+        break;
+      case "invalid argument":
+        result = Locale.error.invalidArgument;
+        break;
+      case "http -1":
+        result = Locale.error.requestAborted;
+        break;
+      case "connection failed":
+        result = Locale.error.connectionFailed;
+        break;
+      case "could not connect to tracker":
+        result = Locale.error.trackerConnectionError;
+        break;
+      case "no data found! ensure your drives are connected or use \"set location\". to re-download, remove the torrent and re-add it.":
+        result = Locale.error.noDataFound;
+        break;
+      case "download directory path is not absolute":
+        result = Locale.error.pathNotAbsolute;
+        break;
+      case "tracker did not respond":
+        result = Locale.error.trackerDidNotRespond;
+        break;
+      case "not found":
+        result = Locale.error.notFound;
+        break;
+      case "no response":
+        result = Locale.error.noResponse;
+        break;
+      default:
+        result = error;
+        break;
+    }
+    if(result){
+      const trackerError = result.match(/Tracker gave HTTP response code (\d+) \(([\w\s]+)\)/);
+      if(trackerError){
+        result = Locale.formatString(Locale.error.trackerResponseCode, trackerError[1], this.localizeError(trackerError[2])).toString();
+      }
+    }
+    return result;
   },
 
   customScrollbar(el: unknown, shadowRoot=true, padding=true): void{
@@ -413,5 +482,17 @@ export const Utils = {
         reader.readAsDataURL(blob)
       }))
     document.querySelector("link[title=ATI]")?.setAttribute("href",data);
+  },
+  registerMagnetLinkProtocol(): void {
+    if(!isPlatform("electron") && !isPlatform("capacitor")){
+      if(UserSettings.state.openMagnetLinks){
+        if(navigator.registerProtocolHandler!==null){
+          navigator.registerProtocolHandler("magnet", `${window.location.origin}/#%s`, "Transmissionic Magnet Handler" );
+        }
+      }
+      else if(navigator.unregisterProtocolHandler!==null){
+        navigator.unregisterProtocolHandler("magnet", `${window.location.origin}/#%s`);
+      }
+    }
   }
 }

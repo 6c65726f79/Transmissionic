@@ -1,5 +1,4 @@
 import {Locale} from "./Locale";
-import {Emitter} from "./Emitter";
 import * as Plurals from 'make-plural/plurals';
 
 import en from "../../public/locales/en.json";
@@ -20,7 +19,6 @@ export const LocaleController = {
                 .catch(()=> {return})
         }
         Locale.setLanguage(language);
-        Emitter.emit("language-changed");
     },
     loadLanguages(code: string): Promise<Record<string,any>> {
         return fetch(`locales/${fileNames[code]||code}.json`)

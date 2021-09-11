@@ -1,7 +1,6 @@
+import { reactive } from 'vue';
 import LocalizedStrings from 'localized-strings';
 
-import English from "../../public/locales/en.json";
+import en from "../../public/locales/en.json";
 
-export const Locale = new LocalizedStrings({
-  en:English
-});
+export const Locale = reactive(new LocalizedStrings({en}));

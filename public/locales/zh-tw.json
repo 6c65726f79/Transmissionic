@@ -12,7 +12,25 @@
     "search": "搜尋",
     "add": "新增",
     "empty": "空空如也",
-    "error": "錯誤",
+    "error": {
+        "error": "錯誤",
+        "timeout": "無法連線到主機(連線逾時)",
+        "hostUnreachable": "無法連線到主機",
+        "daemonUnreachable": "無法連線到 Transmission Daemon",
+        "invalidToken": "無效 Token",
+        "authenticationError": "驗證錯誤",
+        "torrentNotFound": "找不到種子",
+        "invalidArgument": "無效參數",
+        "requestAborted": "中止請求",
+        "connectionFailed": "連線失敗",
+        "trackerConnectionError": "無法連線到此 Tracker",
+        "noDataFound": "找不到檔案! 請確認您的相關磁碟有無連接，或使用 \"設定下載位置\". 如要重新下載，請先移除任務後，再重新加入.",
+        "pathNotAbsolute": "請將下載路徑調整成絕對路徑",
+        "trackerResponseCode": "Tracker 回傳 HTTP 代碼：{0} ({1})",
+        "notFound": "查無位址",
+        "noResponse": "沒有回應",
+        "trackerDidNotRespond": "Tracker 沒有回應"
+    },
     "retry": "重試",
     "default": "預設",
     "interface": "介面",
@@ -213,5 +231,6 @@
     "total": "總共",
     "duration": "使用時間",
     "addTorrents": "批次加入種子檔",
-    "preset": "預設集"
+    "preset": "預設集",
+    "openMagnetLinks": "Open magnet links with Transmissionic"
 }

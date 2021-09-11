@@ -39,7 +39,7 @@
                 {{ Locale.working }}
               </template>
               <span v-else class="error selectable">
-                {{ tracker.lastAnnounceResult }}
+                {{ Utils.localizeError(tracker.lastAnnounceResult) }}
               </span>
               <template v-if="tracker.lastAnnounceSucceeded || tracker.lastAnnounceResult.length>0">
                 ({{ Utils.timeSince(tracker.lastAnnounceTime) }})
@@ -63,7 +63,7 @@
                 {{ Locale.working }}
               </template>
               <span v-else-if="tracker.lastScrapeResult.length>0" class="error selectable">
-                {{ tracker.lastScrapeResult }}
+                {{ Utils.localizeError(tracker.lastScrapeResult) }}
               </span>
               <template v-else>
                 {{ Locale.filters.waiting }}

@@ -31,6 +31,7 @@ export default class TabController {
     }
 
     setTab(index: number, smooth=true): void {
+        index = parseInt(index.toString());
         if(index >= 0 && index <= this.state.segments.$el.childNodes.length){
             if(this.state.slider){
                 this.state.slider.$el.slideTo(index);

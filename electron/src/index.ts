@@ -35,7 +35,7 @@ if (!gotTheLock) {
   openFiles = getTorrents(process.argv);
   openMagnet = getMagnet(process.argv);
 
-  app.setAsDefaultProtocolClient("magnet")
+  app.setAsDefaultProtocolClient("magnet");
 
   app.on('second-instance', (event, commandLine) => {
     openFiles = getTorrents(commandLine);

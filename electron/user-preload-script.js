@@ -232,7 +232,7 @@ function setMainMenu() {
       },
       {
         label: 'About',
-        accelerator: 'Alt+H',
+        accelerator: 'Alt+A',
         click() {
           shortcutsHandler('about');
         }

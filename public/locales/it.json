@@ -12,7 +12,25 @@
     "search": "Cerca",
     "add": "Aggiungi",
     "empty": "Vuoto",
-    "error": "Errore",
+    "error": {
+        "error": "Errore",
+        "timeout": "Unable to reach host (Timeout)",
+        "hostUnreachable": "Unable to reach host",
+        "daemonUnreachable": "Unable to reach Transmission Daemon",
+        "invalidToken": "Invalid token",
+        "authenticationError": "Authentication error",
+        "torrentNotFound": "Torrent not found",
+        "invalidArgument": "Invalid argument",
+        "requestAborted": "Request aborted",
+        "connectionFailed": "Connection failed",
+        "trackerConnectionError": "Could not connect to tracker",
+        "noDataFound": "No data found! Ensure your drives are connected or use \"Set Location\". To re-download, remove the torrent and re-add it.",
+        "pathNotAbsolute": "Download directory path is not absolute",
+        "trackerResponseCode": "Tracker gave HTTP response code {0} ({1})",
+        "notFound": "Not found",
+        "noResponse": "No response",
+        "trackerDidNotRespond": "Tracker did not respond"
+    },
     "retry": "Riprova",
     "default": "Predefinito",
     "interface": "Interfaccia",
@@ -217,5 +235,6 @@
     "total": "Totale",
     "duration": "Durata",
     "addTorrents": "Aggiungi più torrent",
-    "preset": "Preset"
+    "preset": "Preset",
+    "openMagnetLinks": "Open magnet links with Transmissionic"
 }

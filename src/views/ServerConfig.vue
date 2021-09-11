@@ -67,7 +67,7 @@
 
           <ion-item :disabled="!config['download-queue-enabled']">
             <ion-label position="floating">{{ Locale.queueSize }}</ion-label>
-            <ion-input v-model="config['download-queue-size']"></ion-input>
+            <ion-input v-model.number="config['download-queue-size']" type="number"></ion-input>
           </ion-item>
 
           <ion-item>
@@ -409,12 +409,6 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.tab3)
     
     this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
-
-    setTimeout(()=>{
-      // Workaround to fix SwiperJS when opening/closing modal multiple times
-      const slider = this.$refs.slider as Record<string,any>;
-      slider.$el.update()
-    },100)
   },
   computed: {
     speedUnit:() => {

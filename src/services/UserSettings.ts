@@ -13,7 +13,8 @@ const defaultSettings: Record<string,any> = {
   selectedServer:0,
   useBits:true,
   expandMenu:true,
-  ipFlags:false
+  ipFlags:false,
+  openMagnetLinks:false
 }
 
 export const UserSettings = {

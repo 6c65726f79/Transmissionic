@@ -47,7 +47,7 @@ export const FileHandler = {
     document.body.addEventListener("drop",(e) => this.handleFilesDrop(e), false);
 
     // Read hash from URL
-    const hash = window.location.hash.substring(1)
+    const hash = decodeURIComponent(window.location.hash.substring(1));
     hash.startsWith("url:") ? this.readURL(hash.substring(4)) : this.readHashOrMagnet(hash);
   },
   async inputFile(): Promise<void> {
@@ -142,7 +142,7 @@ export const FileHandler = {
   parseBuffer(buffer: ArrayBuffer): Record<string,any>|void {
     try {
       return parseTorrent(buffer)
-    } catch (error) {
+    } catch (error: any) {
       Utils.responseToast(error.message);
     }
   },
@@ -159,7 +159,7 @@ export const FileHandler = {
     try {
       const data=parseTorrent(magnet);
       this.newTorrentModal([{data,torrent:magnet}],"magnet");
-    } catch (error) {
+    } catch (error: any) {
       Utils.responseToast(error.message);
     }
   },

@@ -225,7 +225,6 @@ export default defineComponent({
       }
     }
   },
-  inject: ['serverCount'],
   components: {
     ConnectionStatus,
     VirtualScroll,
@@ -372,7 +371,6 @@ export default defineComponent({
     Emitter.on('switch', (id: any) => this.switchTorrentState(id) )
     Emitter.on('clear-selection', this.cancelSelection)
     Emitter.on('torrent-position', (data: any) => this.changeTorrentPosition(data.id,data.up));
-    Emitter.on('language-changed', () => { this.$forceUpdate() });
     Emitter.on('add-torrent', this.inputFile);
     Emitter.on('add-magnet', this.inputMagnet);
     Emitter.on('add-url', this.inputURL);

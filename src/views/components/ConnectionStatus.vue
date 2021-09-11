@@ -2,14 +2,14 @@
   <ion-content>
     <div class="placeholder" >
       <template v-if="connectionStatus.error!=''">
-        <strong>{{ Locale.error }}</strong>
-        <p>{{connectionStatus.error}}</p>
+        <strong>{{ Locale.error.error }}</strong>
+        <p>{{ Utils.localizeError(connectionStatus.error) }}</p>
         <a @click="$emit('retry')">{{ Locale.retry }}</a>
       </template>
       <template v-else-if="connectionStatus.loading">
         <ion-spinner></ion-spinner>
       </template>
-      <template v-else-if="serverCount.value==0">
+      <template v-else-if="serverCount==0">
         <strong>{{ Locale.empty }}</strong>
         <p>{{addServerText().before}}<a @click='addServer()'>{{addServerText().link}}</a>{{addServerText().after}}</p>
       </template>
@@ -25,6 +25,7 @@ import {
 } from '@ionic/vue';
 import { Locale } from "../../services/Locale";
 import { Emitter } from "../../services/Emitter";
+import { Utils } from '../../services/Utils';
 
 export default defineComponent({
   name: 'ConnectionStatus',
@@ -35,11 +36,9 @@ export default defineComponent({
   },
   setup() {
     return { 
-      Locale
+      Locale,
+      Utils
     }
-  },
-  mounted() {
-    Emitter.on('language-changed', () => { this.$forceUpdate() });
   },
   methods: {
     addServer() {

@@ -107,8 +107,8 @@
       </ion-item>
       <ion-item>
         <ion-label class="label no-wrap">
-          <div>{{ Locale.error }}</div>
-          <span class="selectable">{{ details.errorString }}</span>
+          <div>{{ Locale.error.error }}</div>
+          <span class="selectable">{{ Utils.localizeError(details.errorString) }}</span>
         </ion-label>
       </ion-item>
       <ion-item>
@@ -177,7 +177,7 @@ export default defineComponent({
       details:{} as Record<string,any>,
       statusText:[
         Locale.filters.stopped,
-        "1",
+        Locale.filters.verifying, // Waiting for verification
         Locale.filters.verifying,
         Locale.filters.queued,
         Locale.filters.downloading,
