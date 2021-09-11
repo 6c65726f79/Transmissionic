@@ -224,7 +224,7 @@ export default defineComponent({
       return !isPlatform("electron") && !isPlatform("capacitor")
     },
     protocolHandlerAvailable(): boolean {
-      return !isPlatform("electron") && !isPlatform("capacitor") && navigator.registerProtocolHandler!==null
+      return !isPlatform("electron") && !isPlatform("capacitor") && navigator.registerProtocolHandler!==undefined
     }
   },
   setup() {
