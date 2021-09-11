@@ -484,13 +484,15 @@ export const Utils = {
     document.querySelector("link[title=ATI]")?.setAttribute("href",data);
   },
   registerMagnetLinkProtocol(): void {
-    if(UserSettings.state.openMagnetLinks){
-      if(navigator.registerProtocolHandler!==null){
-        navigator.registerProtocolHandler("magnet", `${window.location.origin}/#%s`, "Transmissionic Magnet Handler" );
+    if(!isPlatform("electron") && !isPlatform("capacitor")){
+      if(UserSettings.state.openMagnetLinks){
+        if(navigator.registerProtocolHandler!==null){
+          navigator.registerProtocolHandler("magnet", `${window.location.origin}/#%s`, "Transmissionic Magnet Handler" );
+        }
       }
-    }
-    else if(navigator.unregisterProtocolHandler!==null){
-      navigator.unregisterProtocolHandler("magnet", `${window.location.origin}/#%s`);
+      else if(navigator.unregisterProtocolHandler!==null){
+        navigator.unregisterProtocolHandler("magnet", `${window.location.origin}/#%s`);
+      }
     }
   }
 }
