@@ -312,5 +312,5 @@ If you want to contribute and pull your changes to this project, please work on 
 
 - [ ] Add iOS/macOS support
 - [x] Add server configurations modal
-- [ ] Add magnet url handling on Windows
+- [x] Add magnet url handling on Windows
 - [ ] ~~Use ion-virtual-scroll when availaible for Vue.js~~

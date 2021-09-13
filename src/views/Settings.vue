@@ -224,13 +224,13 @@ export default defineComponent({
       return !isPlatform("electron") && !isPlatform("capacitor")
     },
     protocolHandlerAvailable(): boolean {
-      return !isPlatform("electron") && !isPlatform("capacitor") && navigator.registerProtocolHandler!==null
+      return !isPlatform("electron") && !isPlatform("capacitor") && navigator.registerProtocolHandler!==undefined
     }
   },
   setup() {
     Utils.pushState();
-
-    const bookmarkletScript = `javascript:(${bookmarkletFunction})("${window.location.href}");`;
+    const href = window.location.href.replace(window.location.hash,"");
+    const bookmarkletScript = `javascript:(${bookmarkletFunction})("${href}");`;
 
     return { 
       Locale,
