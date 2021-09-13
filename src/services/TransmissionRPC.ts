@@ -92,7 +92,7 @@ class TRPC {
 
   setAuthHeader(): void {
     if(this.useNativePlugin){
-      HTTP.setRequestTimeout(5);
+      HTTP.setRequestTimeout(this.options.timeout);
       if(this.options.auth){
         HTTP.useBasicAuth(this.options.auth.username,this.options.auth.password);
       }
