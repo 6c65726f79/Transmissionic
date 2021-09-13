@@ -3,11 +3,10 @@ require('./rt/electron-rt');
 // User Defined Preload scripts below
 
 import { ipcRenderer, contextBridge, shell} from 'electron';
-import { app, net } from '@electron/remote';
 import { Titlebar, Color } from 'custom-electron-titlebar';
 import path from 'path';
 let titleBar: Titlebar;
-let request: Electron.ClientRequest;
+//let request: Electron.ClientRequest;
 let shortcutsHandler: Function;
 
 contextBridge.exposeInMainWorld('Titlebar', {
@@ -42,41 +41,7 @@ contextBridge.exposeInMainWorld('magnetOpen', {
 
 contextBridge.exposeInMainWorld('net', {
   request: async (options,data) => {
-    return new Promise(function (resolve, reject) {
-      let result;
-      request = net.request(options)
-      request.on('response', (response) => {
-        let content="";
-        result={
-          headers:response.headers,
-          status:response.statusCode
-        };
-
-        response.on('end', () => {
-          clearTimeout(timeout)
-          if(content!="" && response.statusCode==200){
-            result.data = JSON.parse(content);
-          }
-          resolve(result)
-        })
-
-        response.on('error', (error) => {
-          reject(error.message);
-        })
-
-        response.on('data', (chunk) => {
-          content += chunk.toString()
-        })
-      });
-      request.on('error', function (error) {
-        reject(error.message);
-      })
-      request.write(JSON.stringify(data))
-      request.end()
-      const timeout = setTimeout(() => {
-        request.abort()
-      },options.timeout*1000)
-    });
+    return ipcRenderer.invoke('request', {options,data});
   }
 })
 

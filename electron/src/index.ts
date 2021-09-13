@@ -3,7 +3,7 @@ import {
   getCapacitorElectronConfig,
   setupElectronDeepLinking,
 } from '@capacitor-community/electron';
-import { app, shell, Menu, ipcMain } from 'electron';
+import { app, shell, Menu, ipcMain, net } from 'electron';
 //import { Menu } from '@electron/remote';
 import fs from "fs";
 import electronIsDev from 'electron-is-dev';
@@ -16,7 +16,8 @@ import {
   setupReloadWatcher,
 } from './setup';
 
-let mainWindow;
+let mainWindow: Electron.BrowserWindow;
+let request: Electron.ClientRequest;
 
 // Graceful handling of unhandled errors.
 unhandled();
@@ -108,6 +109,44 @@ function getMagnet(args: Array<any>): String {
   })
   return result;
 }
+
+ipcMain.handle('request', async (event, args) => {
+  return new Promise(function (resolve, reject) {
+    let result;
+    request = net.request(args.options)
+    request.on('response', (response) => {
+      let content="";
+      result={
+        headers:response.headers,
+        status:response.statusCode
+      };
+
+      response.on('end', () => {
+        clearTimeout(timeout)
+        if(content!="" && response.statusCode==200){
+          result.data = JSON.parse(content);
+        }
+        resolve(result)
+      })
+
+      response.on('error', (error) => {
+        reject(error.message);
+      })
+
+      response.on('data', (chunk) => {
+        content += chunk.toString()
+      })
+    });
+    request.on('error', function (error) {
+      reject(error.message);
+    })
+    request.write(JSON.stringify(args.data))
+    request.end()
+    const timeout = setTimeout(() => {
+      request.abort()
+    },args.options.timeout*1000)
+  });
+})
 
 function shortcutsHandler(shortcut: string) {
   mainWindow.webContents.send('shortcut', shortcut);
