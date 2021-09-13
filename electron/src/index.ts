@@ -18,6 +18,8 @@ import {
 
 let mainWindow: Electron.BrowserWindow;
 let request: Electron.ClientRequest;
+let openFiles: Array<Buffer>;
+let openMagnet: String;
 
 // Graceful handling of unhandled errors.
 unhandled();
@@ -48,21 +50,60 @@ if (electronIsDev) {
   setupReloadWatcher(myCapacitorApp);
 }
 
-// Run Application
-(async () => {
-  // Wait for electron app to be ready.
-  await app.whenReady();
-  // Security - Set Content-Security-Policy based on whether or not we are in dev mode.
-  setupContentSecurityPolicy(myCapacitorApp.getCustomURLScheme());
-  // Initialize our app, build windows, and load content.
-  await myCapacitorApp.init();
-  // Check for updates if we are in a packaged app.
-  autoUpdater.checkForUpdatesAndNotify();
+const gotTheLock = app.requestSingleInstanceLock();
 
-  setMainMenu();
+if (!gotTheLock) {
+  app.quit()
+} else {
+  openFiles = getTorrents(process.argv);
+  openMagnet = getMagnet(process.argv);
 
-  mainWindow = myCapacitorApp.getMainWindow();
-})();
+  // Run Application
+  (async () => {
+    // Wait for electron app to be ready.
+    await app.whenReady();
+    // Security - Set Content-Security-Policy based on whether or not we are in dev mode.
+    setupContentSecurityPolicy(myCapacitorApp.getCustomURLScheme());
+    // Initialize our app, build windows, and load content.
+    await myCapacitorApp.init();
+    // Check for updates if we are in a packaged app.
+    autoUpdater.checkForUpdatesAndNotify();
+
+    setMainMenu();
+
+    mainWindow = myCapacitorApp.getMainWindow();
+
+    if (mainWindow) {
+      mainWindow.webContents.on('did-finish-load', function() {
+        if(openFiles.length>0){
+          mainWindow.webContents.send('file-open', openFiles);
+        }
+        if(openMagnet!=null){
+          mainWindow.webContents.send('magnet-open', openMagnet);
+        } 
+      });
+    }
+  })();
+
+  app.on('second-instance', (event, commandLine) => {
+    openFiles = getTorrents(commandLine);
+    openMagnet = getMagnet(commandLine);
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (openFiles.length>0) mainWindow.webContents.send('file-open', openFiles)
+      if (openMagnet!=null) mainWindow.webContents.send('magnet-open', openMagnet)
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
+}
+
+app.on('open-file', (event, path) => {
+  // Support for Mac OS
+  openFiles=[fs.readFileSync(path, null)];
+  const mainWindow = myCapacitorApp.getMainWindow();
+  mainWindow.webContents.send('fileopen', openFiles)
+})
 
 app.on('web-contents-created', (createEvent, contents) => {
   contents.setWindowOpenHandler(({ url }) => {
