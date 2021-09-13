@@ -17,7 +17,13 @@
     "electron:start-live": "node ./live-runner.js",
     "electron:start": "npm run build && electron --inspect=5858 ./",
     "electron:pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.json",
-    "electron:make": "npm run build && electron-builder build -c ./electron-builder.config.json -p always"
+    "electron:make": "npm run build && electron-builder build -c ./electron-builder.config.json -p always",
+    "electron:build-windows": "npm run build && electron-builder build --windows -c ./electron-builder.config.json",
+    "electron:build-linux": "npm run build && electron-builder build --linux -c ./electron-builder.config.json",
+    "electron:build-mac": "npm run build && electron-builder build --mac -c ./electron-builder.config.json",
+    "electron:publish-windows": "npm run build && electron-builder build --windows -c ./electron-builder.config.json -p always",
+    "electron:publish-linux": "npm run build && electron-builder build --linux -c ./electron-builder.config.json -p always",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@capacitor-community/electron": "^4.0.3",
