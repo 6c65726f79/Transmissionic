@@ -485,13 +485,14 @@ export const Utils = {
   },
   registerMagnetLinkProtocol(): void {
     if(!isPlatform("electron") && !isPlatform("capacitor")){
+      const href = window.location.href.replace(window.location.hash,"");
       if(UserSettings.state.openMagnetLinks){
         if(navigator.registerProtocolHandler){
-          navigator.registerProtocolHandler("magnet", `${window.location.origin}/#%s`, "Transmissionic Magnet Handler" );
+          navigator.registerProtocolHandler("magnet", `${href}#%s`, "Transmissionic Magnet Handler" );
         }
       }
       else if(navigator.unregisterProtocolHandler){
-        navigator.unregisterProtocolHandler("magnet", `${window.location.origin}/#%s`);
+        navigator.unregisterProtocolHandler("magnet", `${href}#%s`);
       }
     }
   }
