@@ -1,9 +1,15 @@
 {
   "compileOnSave": true,
-  "include": ["./src/*"],
+  "include": ["./src/**/*", "./capacitor.config.ts", "./capacitor.config.js"],
   "compilerOptions": {
     "outDir": "./build",
-    "target": "ES5",
-    "esModuleInterop": true
+    "importHelpers": true,
+    "target": "ES2017",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types"],
+    "allowJs": true,
+    "rootDir": "."
   }
 }

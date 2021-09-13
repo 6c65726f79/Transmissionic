@@ -40,8 +40,8 @@
     "vue-router": "^4.0.11"
   },
   "devDependencies": {
-    "@capacitor-community/electron": "~1.4.2",
-    "@capacitor/cli": "^3.2.2",
+    "@capacitor-community/electron": "^4.0.3",
+    "@capacitor/cli": "^3.2.0",
     "@types/lodash": "^4.14.172",
     "@types/parse-torrent": "^5.8.4",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
