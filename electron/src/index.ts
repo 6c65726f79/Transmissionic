@@ -4,7 +4,6 @@ import {
   setupElectronDeepLinking,
 } from '@capacitor-community/electron';
 import { app, shell, Menu, ipcMain, net } from 'electron';
-//import { Menu } from '@electron/remote';
 import fs from "fs";
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
@@ -32,8 +31,6 @@ const capacitorFileConfig: CapacitorElectronConfig =
 // const myCapacitorApp = new ElectronCapacitorApp(capacitorFileConfig);
 const myCapacitorApp = new ElectronCapacitorApp(
   capacitorFileConfig
-  //trayMenuTemplate,
-  //appMenuBarMenuTemplate,
 );
 
 // If deeplinking is enabled then we will set it up here.

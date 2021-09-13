@@ -6,7 +6,6 @@ import { ipcRenderer, contextBridge, shell} from 'electron';
 import { Titlebar, Color } from 'custom-electron-titlebar';
 import path from 'path';
 let titleBar: Titlebar;
-//let request: Electron.ClientRequest;
 let shortcutsHandler: Function;
 
 contextBridge.exposeInMainWorld('Titlebar', {
