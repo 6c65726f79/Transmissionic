@@ -3,7 +3,7 @@ require('./rt/electron-rt');
 // User Defined Preload scripts below
 
 import { ipcRenderer, contextBridge, shell} from 'electron';
-import { app, net, Menu } from '@electron/remote';
+import { app, net } from '@electron/remote';
 import { Titlebar, Color } from 'custom-electron-titlebar';
 import path from 'path';
 let titleBar: Titlebar;
@@ -16,7 +16,6 @@ contextBridge.exposeInMainWorld('Titlebar', {
       backgroundColor: Color.fromHex('#fff'),
       unfocusEffect:false
     });
-    setMainMenu();
   },
   updateBackground: (color) => {
     titleBar.updateBackground(Color.fromHex(color))
@@ -81,166 +80,6 @@ contextBridge.exposeInMainWorld('net', {
   }
 })
 
-function setMainMenu() {
-  const template: Electron.MenuItemConstructorOptions[] = [
-    {
-      label: 'File',
-      submenu: [
-        {
-          label: 'Open torrent...',
-          accelerator: 'Alt+T',
-          click(): void {
-            shortcutsHandler('add-torrent');
-          }
-        },
-        {
-          label: 'Open magnet',
-          accelerator: 'Alt+M',
-          click(): void {
-            shortcutsHandler('add-magnet');
-          }
-        },
-        {
-          label: 'Open URL',
-          accelerator: 'Alt+U',
-          click(): void {
-            shortcutsHandler('add-url');
-          }
-        },
-        {
-          type:'separator'
-        },
-        {
-          label: 'Settings',
-          accelerator: 'Alt+S',
-          click(): void {
-            shortcutsHandler('settings');
-          }
-        },
-        {
-          type:'separator'
-        },
-        {
-          label: 'Exit',
-          accelerator: 'Alt+F4',
-          click(): void {
-            app.quit();
-          }
-        }
-      ]
-    },
-    {
-      label: 'Server',
-      submenu: [
-        {
-          label: 'New server',
-          accelerator: 'Alt+N',
-          click(): void {
-            shortcutsHandler('add-server');
-          }
-        },
-        {
-          label: 'Information',
-          accelerator: 'Alt+I',
-          click(): void {
-            shortcutsHandler('info-server');
-          }
-        },
-        {
-          label: 'Configuration',
-          accelerator: 'Alt+C',
-          click(): void {
-            shortcutsHandler('config-server');
-          }
-        },
-      ]
-    },
-    {
-      label: 'Navigation',
-      submenu: [
-        {
-          label: 'Back',
-          accelerator: 'Esc',
-          click(): void {
-            shortcutsHandler('back');
-          }
-        },
-        {
-          label: 'Search',
-          accelerator: 'CmdOrCtrl+Alt+S',
-          click(): void {
-            shortcutsHandler('toggle-search');
-          }
-        },
-        {
-          label: 'Toggle side menu',
-          accelerator: 'CmdOrCtrl+Alt+T',
-          click(): void {
-            shortcutsHandler('toggle-menu');
-          }
-        },
-        {
-          type:'separator'
-        },
-        {
-          label: 'Next tab',
-          accelerator: 'CmdOrCtrl+RightArrow',
-          click(): void {
-            shortcutsHandler('next-tab');
-          }
-        },
-        {
-          label: 'Previous tab',
-          accelerator: 'CmdOrCtrl+LeftArrow',
-          click(): void {
-            shortcutsHandler('previous-tab');
-          }
-        },
-      ]
-    },
-    {
-      label: 'Selection',
-      submenu: [
-        {
-          label: 'Select all',
-          accelerator: 'CmdOrCtrl+A',
-          click(): void {
-            shortcutsHandler('select-all');
-          }
-        },
-        {
-          label: 'Cancel selection',
-          accelerator: 'CmdOrCtrl+Alt+C',
-          click(): void {
-            shortcutsHandler('clear-selection');
-          }
-        },
-        {
-          type:'separator'
-        }
-      ]
-    },
-    {
-      label: 'Help',
-      submenu: [
-        {
-          label: 'Report issue',
-          click(): void {
-            shell.openExternal("https://github.com/6c65726f79/Transmissionic/issues/new/choose");
-          }
-        },
-        {
-          label: 'About',
-          accelerator: 'Alt+A',
-          click(): void {
-            shortcutsHandler('about');
-          }
-        }
-      ]
-    }
-  ]
-
-  const menu = Menu.buildFromTemplate(template)
-
-  titleBar.updateMenu(menu);
-}
+ipcRenderer.on("shortcut", (event, shortcut: string) => {
+  shortcutsHandler(shortcut);
+})

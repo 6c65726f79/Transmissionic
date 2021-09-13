@@ -3,7 +3,8 @@ import {
   getCapacitorElectronConfig,
   setupElectronDeepLinking,
 } from '@capacitor-community/electron';
-import { app, shell } from 'electron';
+import { app, shell, Menu, ipcMain } from 'electron';
+//import { Menu } from '@electron/remote';
 import fs from "fs";
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
@@ -14,6 +15,8 @@ import {
   setupContentSecurityPolicy,
   setupReloadWatcher,
 } from './setup';
+
+let mainWindow;
 
 // Graceful handling of unhandled errors.
 unhandled();
@@ -54,6 +57,10 @@ if (electronIsDev) {
   await myCapacitorApp.init();
   // Check for updates if we are in a packaged app.
   autoUpdater.checkForUpdatesAndNotify();
+
+  setMainMenu();
+
+  mainWindow = myCapacitorApp.getMainWindow();
 })();
 
 app.on('web-contents-created', (createEvent, contents) => {
@@ -100,4 +107,171 @@ function getMagnet(args: Array<any>): String {
     }
   })
   return result;
+}
+
+function shortcutsHandler(shortcut: string) {
+  mainWindow.webContents.send('shortcut', shortcut);
+}
+
+function setMainMenu() {
+  const template: Electron.MenuItemConstructorOptions[] = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Open torrent...',
+          accelerator: 'Alt+T',
+          click(): void {
+            shortcutsHandler('add-torrent');
+          }
+        },
+        {
+          label: 'Open magnet',
+          accelerator: 'Alt+M',
+          click(): void {
+            shortcutsHandler('add-magnet');
+          }
+        },
+        {
+          label: 'Open URL',
+          accelerator: 'Alt+U',
+          click(): void {
+            shortcutsHandler('add-url');
+          }
+        },
+        {
+          type:'separator'
+        },
+        {
+          label: 'Settings',
+          accelerator: 'Alt+S',
+          click(): void {
+            shortcutsHandler('settings');
+          }
+        },
+        {
+          type:'separator'
+        },
+        {
+          label: 'Exit',
+          accelerator: 'Alt+F4',
+          click(): void {
+            app.quit();
+          }
+        }
+      ]
+    },
+    {
+      label: 'Server',
+      submenu: [
+        {
+          label: 'New server',
+          accelerator: 'Alt+N',
+          click(): void {
+            shortcutsHandler('add-server');
+          }
+        },
+        {
+          label: 'Information',
+          accelerator: 'Alt+I',
+          click(): void {
+            shortcutsHandler('info-server');
+          }
+        },
+        {
+          label: 'Configuration',
+          accelerator: 'Alt+C',
+          click(): void {
+            shortcutsHandler('config-server');
+          }
+        },
+      ]
+    },
+    {
+      label: 'Navigation',
+      submenu: [
+        {
+          label: 'Back',
+          accelerator: 'Esc',
+          click(): void {
+            shortcutsHandler('back');
+          }
+        },
+        {
+          label: 'Search',
+          accelerator: 'CmdOrCtrl+Alt+S',
+          click(): void {
+            shortcutsHandler('toggle-search');
+          }
+        },
+        {
+          label: 'Toggle side menu',
+          accelerator: 'CmdOrCtrl+Alt+T',
+          click(): void {
+            shortcutsHandler('toggle-menu');
+          }
+        },
+        {
+          type:'separator'
+        },
+        {
+          label: 'Next tab',
+          accelerator: 'CmdOrCtrl+RightArrow',
+          click(): void {
+            shortcutsHandler('next-tab');
+          }
+        },
+        {
+          label: 'Previous tab',
+          accelerator: 'CmdOrCtrl+LeftArrow',
+          click(): void {
+            shortcutsHandler('previous-tab');
+          }
+        },
+      ]
+    },
+    {
+      label: 'Selection',
+      submenu: [
+        {
+          label: 'Select all',
+          accelerator: 'CmdOrCtrl+A',
+          click(): void {
+            shortcutsHandler('select-all');
+          }
+        },
+        {
+          label: 'Cancel selection',
+          accelerator: 'CmdOrCtrl+Alt+C',
+          click(): void {
+            shortcutsHandler('clear-selection');
+          }
+        },
+        {
+          type:'separator'
+        }
+      ]
+    },
+    {
+      label: 'Help',
+      submenu: [
+        {
+          label: 'Report issue',
+          click(): void {
+            shell.openExternal("https://github.com/6c65726f79/Transmissionic/issues/new/choose");
+          }
+        },
+        {
+          label: 'About',
+          accelerator: 'Alt+A',
+          click(): void {
+            shortcutsHandler('about');
+          }
+        }
+      ]
+    }
+  ]
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 }
