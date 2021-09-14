@@ -64,7 +64,9 @@ if (!gotTheLock) {
     // Initialize our app, build windows, and load content.
     await myCapacitorApp.init();
     // Check for updates if we are in a packaged app.
-    autoUpdater.checkForUpdatesAndNotify();
+    if(net.online){
+      autoUpdater.checkForUpdatesAndNotify();
+    }
 
     setMainMenu();
 
