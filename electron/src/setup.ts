@@ -213,9 +213,7 @@ export class ElectronCapacitorApp {
 
     // Security
     this.MainWindow.webContents.on('will-navigate', (event, _newURL) => {
-      if (!this.MainWindow.webContents.getURL().includes(this.customScheme)) {
-        event.preventDefault();
-      }
+      event.preventDefault();
     });
 
     // Link electron plugins into the system.
