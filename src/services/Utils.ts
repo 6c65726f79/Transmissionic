@@ -232,11 +232,16 @@ export const Utils = {
 
   localizeError(error: string): string{
     let result;
-    const str = error ? error.toLowerCase() : "";
+    let str = error ? error.toLowerCase() : "";
+    const electronError = str.match(/net::[a-z_]+/)
+    str = electronError ? electronError[0] : str;
     switch (str) {
       case "unable to reach host (timeout)":
       case "net::err_connection_timed_out":
         result = Locale.error.timeout;
+        break;
+      case "net::err_internet_disconnected":
+        result = "No internet connection";
         break;
       case "unable to reach host":
         result = Locale.error.hostUnreachable;
