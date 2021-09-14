@@ -30,7 +30,9 @@ const capacitorFileConfig: CapacitorElectronConfig =
 // Initialize our app. You can pass menu templates into the app here.
 // const myCapacitorApp = new ElectronCapacitorApp(capacitorFileConfig);
 const myCapacitorApp = new ElectronCapacitorApp(
-  capacitorFileConfig
+  capacitorFileConfig,
+  null,
+  getMainMenu()
 );
 
 // If deeplinking is enabled then we will set it up here.
@@ -67,8 +69,6 @@ if (!gotTheLock) {
     if(net.online){
       autoUpdater.checkForUpdatesAndNotify();
     }
-
-    setMainMenu();
 
     mainWindow = myCapacitorApp.getMainWindow();
 
@@ -192,8 +192,8 @@ function shortcutsHandler(shortcut: string) {
   mainWindow.webContents.send('shortcut', shortcut);
 }
 
-function setMainMenu() {
-  const template: Electron.MenuItemConstructorOptions[] = [
+function getMainMenu(): Electron.MenuItemConstructorOptions[] {
+  return [
     {
       label: 'File',
       submenu: [
@@ -350,7 +350,4 @@ function setMainMenu() {
       ]
     }
   ]
-
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
 }
