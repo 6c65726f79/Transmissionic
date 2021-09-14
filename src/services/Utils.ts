@@ -244,6 +244,7 @@ export const Utils = {
         result = "No internet connection";
         break;
       case "unable to reach host":
+      case "net::err_connection_refused":
         result = Locale.error.hostUnreachable;
         break;
       case "unable to reach transmission daemon":
