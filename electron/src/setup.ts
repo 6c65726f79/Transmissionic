@@ -134,7 +134,7 @@ export class ElectronCapacitorApp {
       titleBarStyle: "hidden",
       frame: false,
       webPreferences: {
-        nodeIntegration: true,
+        nodeIntegration: false,
         contextIsolation: true,
         enableRemoteModule: true,
         // Use preload to inject the electron varriant overrides for capacitor plugins.
