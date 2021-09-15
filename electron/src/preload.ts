@@ -3,25 +3,9 @@ require('./rt/electron-rt');
 // User Defined Preload scripts below
 
 import { ipcRenderer, contextBridge, shell} from 'electron';
-import { Titlebar, Color } from 'custom-electron-titlebar';
 import path from 'path';
-let titleBar: Titlebar;
 let shortcutsHandler: Function;
 
-contextBridge.exposeInMainWorld('Titlebar', {
-  new: () => {
-    titleBar = new Titlebar({
-      backgroundColor: Color.fromHex('#fff'),
-      unfocusEffect:false
-    });
-  },
-  updateBackground: (color) => {
-    titleBar.updateBackground(Color.fromHex(color))
-  },
-  shortcuts: (func) => {
-    shortcutsHandler = (shortcut) => func(shortcut);
-  }
-})
 contextBridge.exposeInMainWorld('fileOpen', {
   receive: (func) => {
     ipcRenderer.on("file-open", (event, ...args) => func(...args));
