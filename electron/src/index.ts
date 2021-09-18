@@ -3,11 +3,12 @@ import {
   getCapacitorElectronConfig,
   setupElectronDeepLinking,
 } from '@capacitor-community/electron';
-import { app, shell, Menu, ipcMain, net } from 'electron';
+import { app, shell, ipcMain, net } from 'electron';
 import fs from "fs";
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
 import { autoUpdater } from 'electron-updater';
+require('@electron/remote/main').initialize();
 
 import {
   ElectronCapacitorApp,
@@ -71,6 +72,8 @@ if (!gotTheLock) {
     }
 
     mainWindow = myCapacitorApp.getMainWindow();
+
+    require("@electron/remote/main").enable(mainWindow.webContents);
 
     if (mainWindow) {
       mainWindow.webContents.on('did-finish-load', function() {

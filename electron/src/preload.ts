@@ -4,7 +4,30 @@ require('./rt/electron-rt');
 
 import { ipcRenderer, contextBridge, shell} from 'electron';
 import path from 'path';
+import Titlebar from './titlebar';
+const { Menu, getCurrentWindow } = require('@electron/remote')
 let shortcutsHandler: Function;
+let titleBar: Titlebar;
+
+const currentWindow = getCurrentWindow();
+
+contextBridge.exposeInMainWorld('Titlebar', {
+  new: () => {
+    titleBar = new Titlebar({
+      menu:Menu.getApplicationMenu(),
+      onMinimize:() => currentWindow.minimize(),
+      onMaximize:() => currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize(),
+      onClose:() => currentWindow.close(),
+      isMaximized: () => currentWindow.isMaximized()
+    });
+  },
+  updateBackground: (color) => {
+    titleBar.updateBackground(color);
+  },
+  shortcuts: (func) => {
+    shortcutsHandler = (shortcut) => func(shortcut);
+  }
+})
 
 contextBridge.exposeInMainWorld('fileOpen', {
   receive: (func) => {
