@@ -344,6 +344,12 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
           }
         },
         {
+          label: 'Open dev tools',
+          click(): void {
+            mainWindow.webContents.openDevTools();
+          }
+        },
+        {
           label: 'About',
           accelerator: 'Alt+A',
           click(): void {
