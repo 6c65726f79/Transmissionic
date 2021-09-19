@@ -29,6 +29,7 @@
 * Manage multiple servers
 * Add torrent from local file or magnet link
 * Drag & drop torrent file
+* Magnet protocol support
 * Start/stop/reannonce/verify/delete one or more torrents
 * Modify torrent's options
 * Set the location of a torrent
@@ -83,7 +84,7 @@ Thanks to all contributors.
 ## Motivations
 
 * Provide a unified interface for all platforms
-* Improve myself on Vue.js 3 and Ionic 5
+* Improve myself on Vue.js and Ionic
 * Get familiar with GitHub
 
 ## Inspirations
@@ -171,6 +172,14 @@ Configuration file example:
 }
 ```
 
+### Magnet protocol
+
+You can handle magnet links directly with the Web UI, but this feature is only available in secure contexts (HTTPS) or from localhost.
+
+To use the Web UI in HTTPS, you must set up a reverse proxy: [[GUIDE] Transmission web in SSL (https) - using nginx as a reverse proxy](https://discourse.osmc.tv/t/guide-transmission-web-in-ssl-https-using-nginx-as-a-reverse-proxy/22549)
+
+List of supported browsers: [Browser compatibility](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/registerProtocolHandler#browser_compatibility)
+
 ### Bookmarklet
 
 When using the Web UI, you can import magnet and torrent links using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet). To set up the bookmarklet, open the Web UI settings and simply drag and drop the corresponding button into your bookmarks bar.
@@ -185,6 +194,12 @@ For mobile users:
 5. Tap on the address bar, search for "Download with Transmissionic" and select the bookmark. ([Screenshot](https://i.imgur.com/xcFA4Ez.png))
 
 ## Electron
+
+### Magnet protocol
+
+To handle magnet links in Windows, you need to set Transmissionic as the default program.
+
+To do so, go to "Choose default apps by protocol" in the settings, scroll down to "MAGNET" then select Transmissionic.
 
 ### Path mapping
 
@@ -312,5 +327,5 @@ If you want to contribute and pull your changes to this project, please work on 
 
 - [ ] Add iOS/macOS support
 - [x] Add server configurations modal
-- [ ] Add magnet url handling on Windows
+- [x] Add magnet url handling on Windows
 - [ ] ~~Use ion-virtual-scroll when availaible for Vue.js~~

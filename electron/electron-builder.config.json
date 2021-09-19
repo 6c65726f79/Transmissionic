@@ -1,0 +1,74 @@
+{
+  "appId": "com.sleroy.transmissionic",
+  "productName": "Transmissionic",
+  "artifactName": "Transmissionic-${os}-v${version}.${ext}",
+  "directories": {
+    "buildResources": "resources"
+  },
+  "files": [
+    "assets/**/*",
+    "build/**/*",
+    "capacitor.config.*",
+    "app/**/*"
+  ],
+  "publish": {
+    "provider": "github",
+    "vPrefixedTagName": true
+  },
+  "protocols": [
+    {
+      "name": "Transmissionic.Magnet",
+      "schemes": [
+        "magnet"
+      ],
+      "role": "Viewer"
+    }
+  ],
+  "fileAssociations": [
+    {
+      "name": "Transmissionic.Torrent",
+      "ext": "torrent",
+      "mimeType": "application/x-bittorrent",
+      "role": "Viewer"
+    }
+  ],
+  "linux": {
+    "category": "Network",
+    "artifactName": "Transmissionic-${os}-${arch}-v${version}.${ext}",
+    "desktop": {
+      "Encoding": "UTF-8",
+      "Terminal": false,
+      "Name": "Transmissionic",
+      "Comment": "Remote for Transmission Daemon",
+      "MimeType": "application/x-bittorrent;x-scheme-handler/magnet;"
+    },
+    "icon": "assets/appIcon.icns",
+    "target": [
+      {
+        "target": "AppImage"
+      }
+    ]
+  },
+  "mac": {
+    "category": "public.app-category.developer-tools",
+    "target": "dmg",
+    "icon": "assets/appIcon.png"
+  },
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
+    ],
+    "icon": "assets/appIcon.ico"
+  },
+  "nsis": {
+    "perMachine": false,
+    "include": "installer.nsh",
+    "createDesktopShortcut": false,
+    "deleteAppDataOnUninstall": true
+  }
+}
