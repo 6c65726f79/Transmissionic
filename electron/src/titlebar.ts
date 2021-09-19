@@ -79,32 +79,7 @@ export default class Titlebar {
 
         // Apply options
         if(TitleBarOptions){
-            if(TitleBarOptions.backgroundColor){
-                this.updateBackground(TitleBarOptions.backgroundColor);
-            }
-            if(TitleBarOptions.title){
-                this.updateTitle(TitleBarOptions.title);
-            }
-            if(TitleBarOptions.onMinimize){
-                minimizeWindow.onclick = TitleBarOptions.onMinimize;
-            }
-            if(TitleBarOptions.onMaximize){
-                maximizeWindow.onclick = TitleBarOptions.onMaximize;
-                restoreWindow.onclick = TitleBarOptions.onMaximize;
-            }
-            if(TitleBarOptions.onClose){
-                closeWindow.onclick = TitleBarOptions.onClose;
-            }
-            if(TitleBarOptions.isMaximized){
-                titlebar.classList.toggle("maximized", TitleBarOptions.isMaximized());
-            }
-            if(TitleBarOptions.condensed){
-                menuCondensed=TitleBarOptions.condensed;
-                forceCondensed=TitleBarOptions.condensed
-            }
-            if(TitleBarOptions.menu){
-                this.updateMenu(TitleBarOptions.menu);
-            }
+            this.updateOptions(TitleBarOptions);
         }
 
         // Event listeners
@@ -125,6 +100,35 @@ export default class Titlebar {
         window.addEventListener("click", () => {
             closeSubMenu();
         })
+    }
+
+    updateOptions(options: Record<string,any>): void {
+        if(options.backgroundColor){
+            this.updateBackground(options.backgroundColor);
+        }
+        if(options.title){
+            this.updateTitle(options.title);
+        }
+        if(options.onMinimize){
+            minimizeWindow.onclick = options.onMinimize;
+        }
+        if(options.onMaximize){
+            maximizeWindow.onclick = options.onMaximize;
+            restoreWindow.onclick = options.onMaximize;
+        }
+        if(options.onClose){
+            closeWindow.onclick = options.onClose;
+        }
+        if(options.isMaximized){
+            titlebar.classList.toggle("maximized", options.isMaximized());
+        }
+        if(options.condensed){
+            menuCondensed=options.condensed;
+            forceCondensed=options.condensed
+        }
+        if(options.menu){
+            this.updateMenu(options.menu);
+        }
     }
 
     updateBackground(color: string): void {
@@ -186,7 +190,7 @@ const buildMenu = (condensed: boolean=false): void => {
     }
 }
 
-const buildMenuItem = (menuItem: Record<string,any>, index: number, parent: HTMLDivElement, deep: number=0): HTMLDivElement => {
+const buildMenuItem = (menuItem: Record<string,any>, index: number, parent: HTMLDivElement, depth: number=0): HTMLDivElement => {
     const item = document.createElement("div");
     item.classList.add("button");
     if(menuItem.role=="mainMenu"){
@@ -212,7 +216,7 @@ const buildMenuItem = (menuItem: Record<string,any>, index: number, parent: HTML
                 menuItem.click();
             };
             item.onmouseenter = () => {
-                closeSubMenu(parent, deep);
+                closeSubMenu(parent, depth);
             }
             break;
         case "submenu":
@@ -220,66 +224,65 @@ const buildMenuItem = (menuItem: Record<string,any>, index: number, parent: HTML
 
             item.onclick = (e) => {
                 e.stopPropagation();
-                if(deep==0){
-                    if(subMenuOpened && activeMenu[deep]==index){
-                        closeSubMenu(parent, deep);
+                if(depth==0){
+                    if(subMenuOpened && activeMenu[depth]==index){
+                        closeSubMenu(parent, depth);
                     }
                     else {
-                        openSubMenu(menuItem.submenu, index, parent, deep);
+                        openSubMenu(menuItem.submenu, index, parent, depth);
                     }
                 }
             };
             item.onmouseenter = () => {
                 if(subMenuOpened){
-                    openSubMenu(menuItem.submenu, index, parent, deep);
+                    openSubMenu(menuItem.submenu, index, parent, depth);
                 }
             }
             item.onmouseleave = () => {
-                if(subMenuOpened && parent!=menubar){
-                    closeSubMenu(parent, deep)
+                if(subMenuOpened && depth>0){
+                    closeSubMenu(parent, depth)
                 }
             }
             break;
         case "separator":
             item.classList.add("separator");
-        default:
             break;
     }
     return item;
 }
 
-const openSubMenu = (submenu: Array<any>, index: number, parent: HTMLDivElement, deep: number): void => {
-    if(deep==0 && activeMenu[deep]==index) return
-    closeSubMenu(parent, deep);
-    activeMenu[deep] = index;
+const openSubMenu = (submenu: Array<any>, index: number, parent: HTMLDivElement, depth: number): void => {
+    if(depth==0 && activeMenu[depth]==index) return
+    closeSubMenu(parent, depth);
+    activeMenu[depth] = index;
     subMenuOpened = true;
     const menuItem = parent.children[index];
-    const subMenu = buildSubMenu(submenu, deep+1);
+    const subMenu = buildSubMenu(submenu, depth+1);
     menuItem.classList.add("active");
     menuItem.appendChild(subMenu);
 }
 
-const closeSubMenu = (parent?: HTMLDivElement, deep: number=0) => {
-    if(activeMenu[deep]>=0){
-        const menuItem = parent ? parent.children[activeMenu[deep]] : menubar.children[activeMenu[deep]];
+const closeSubMenu = (parent?: HTMLDivElement, depth: number=0) => {
+    if(activeMenu[depth]>=0){
+        const menuItem = parent ? parent.children[activeMenu[depth]] : menubar.children[activeMenu[depth]];
         if(menuItem){
             menuItem.classList.remove("active");
             menuItem.querySelector('.submenu')?.remove();
-            if(deep===0){
+            if(depth===0){
                 subMenuOpened=false;
             }
-            activeMenu = activeMenu.slice(0, deep)
-            activeMenu[deep]=-1;
+            activeMenu = activeMenu.slice(0, depth)
+            activeMenu[depth]=-1;
         }
     }
     
 }
 
-const buildSubMenu = (submenu: Record<string,any>, deep: number): HTMLDivElement => {
+const buildSubMenu = (submenu: Record<string,any>, depth: number): HTMLDivElement => {
     const subMenu = document.createElement("div");
     subMenu.classList.add("submenu");
     for (let i = 0; i < submenu.items.length; i++) {
-        const menuItem = buildMenuItem(submenu.items[i], i, subMenu, deep)
+        const menuItem = buildMenuItem(submenu.items[i], i, subMenu, depth)
         subMenu.append(menuItem);
     }
     return subMenu;
