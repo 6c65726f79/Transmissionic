@@ -328,9 +328,6 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
           click(): void {
             shortcutsHandler('clear-selection');
           }
-        },
-        {
-          type:'separator'
         }
       ]
     },

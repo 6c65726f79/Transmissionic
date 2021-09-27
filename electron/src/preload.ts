@@ -4,7 +4,7 @@ require('./rt/electron-rt');
 
 import { ipcRenderer, contextBridge, shell} from 'electron';
 import path from 'path';
-import Titlebar from './titlebar';
+import Titlebar from '@6c65726f79/custom-titlebar';
 const { Menu, getCurrentWindow } = require('@electron/remote')
 let shortcutsHandler: Function;
 let titleBar: Titlebar;
