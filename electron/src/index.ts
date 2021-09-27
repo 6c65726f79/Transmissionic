@@ -203,6 +203,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Open torrent...',
           accelerator: 'Alt+T',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-torrent');
           }
@@ -210,6 +211,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Open magnet',
           accelerator: 'Alt+M',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-magnet');
           }
@@ -217,6 +219,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Open URL',
           accelerator: 'Alt+U',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-url');
           }
@@ -227,6 +230,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Settings',
           accelerator: 'Alt+S',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('settings');
           }
@@ -237,6 +241,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Exit',
           accelerator: 'Alt+F4',
+          registerAccelerator: false,
           click(): void {
             app.quit();
           }
@@ -249,6 +254,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'New server',
           accelerator: 'Alt+N',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-server');
           }
@@ -256,6 +262,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Information',
           accelerator: 'Alt+I',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('info-server');
           }
@@ -263,6 +270,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Configuration',
           accelerator: 'Alt+C',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('config-server');
           }
@@ -275,6 +283,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Back',
           accelerator: 'Esc',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('back');
           }
@@ -282,6 +291,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Search',
           accelerator: 'CmdOrCtrl+Alt+S',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('toggle-search');
           }
@@ -289,6 +299,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Toggle side menu',
           accelerator: 'CmdOrCtrl+Alt+T',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('toggle-menu');
           }
@@ -299,6 +310,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Next tab',
           accelerator: 'CmdOrCtrl+RightArrow',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('next-tab');
           }
@@ -306,6 +318,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Previous tab',
           accelerator: 'CmdOrCtrl+LeftArrow',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('previous-tab');
           }
@@ -318,6 +331,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Select all',
           accelerator: 'CmdOrCtrl+A',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('select-all');
           }
@@ -325,6 +339,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Cancel selection',
           accelerator: 'CmdOrCtrl+Alt+C',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('clear-selection');
           }
@@ -336,12 +351,14 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
       submenu: [
         {
           label: 'Report issue',
+          accelerator: 'Alt+R',
           click(): void {
             shell.openExternal("https://github.com/6c65726f79/Transmissionic/issues/new/choose");
           }
         },
         {
           label: 'Open dev tools',
+          accelerator: 'CmdOrCtrl+Shift+I',
           click(): void {
             mainWindow.webContents.openDevTools();
           }
@@ -349,6 +366,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'About',
           accelerator: 'Alt+A',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('about');
           }
