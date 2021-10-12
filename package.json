@@ -23,7 +23,7 @@
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/http": "^5.36.0",
     "@ionic/pwa-elements": "^3.0.2",
-    "@ionic/vue": "^5.8.3",
+    "@ionic/vue": "^5.8.4",
     "@ionic/vue-router": "^5.8.4",
     "autolinker": "^3.14.3",
     "capacitor-secure-storage-plugin": "^0.6.2",
