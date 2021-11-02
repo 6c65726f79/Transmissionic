@@ -51,23 +51,23 @@
       v-on:retry="loadDetails()">
     </ConnectionStatus>
 
-    <ion-slides v-show="privateState.connectionStatus.connected" ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
-      <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
+    <swiper class="swiper" @swiper="setSwiperInstance" v-show="privateState.connectionStatus.connected" v-bind="tabController.slidesOptions" @transitionEnd="tabController.slideChanged()">
+      <swiper-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
         <Infos v-if="tabController.isVisible(0)"></Infos>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
+      </swiper-slide>
+      <swiper-slide role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <Options v-if="tabController.isVisible(1)"></Options>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
+      </swiper-slide>
+      <swiper-slide role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
         <Files v-if="tabController.isVisible(2)" v-on:changeDirectory="changeDirectory"></Files>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab4" :aria-hidden="tabController.state.selectedTab!=3">
+      </swiper-slide>
+      <swiper-slide role="tabpanel" aria-labelledby="tab4" :aria-hidden="tabController.state.selectedTab!=3">
         <Trackers v-if="tabController.isVisible(3)"></Trackers>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab5" :aria-hidden="tabController.state.selectedTab!=4">
+      </swiper-slide>
+      <swiper-slide role="tabpanel" aria-labelledby="tab5" :aria-hidden="tabController.state.selectedTab!=4">
         <Peers v-if="tabController.isVisible(4)"></Peers>
-      </ion-slide>
-    </ion-slides>
+      </swiper-slide>
+    </swiper>
 
 </template>
 
@@ -89,8 +89,7 @@ import {
   IonLabel,
   IonIcon,
   IonButton,
-  IonSlides,
-  IonSlide
+  IonicSwiper
 } from '@ionic/vue';
 import {
   playOutline,
@@ -102,6 +101,8 @@ import {
   ellipsisVerticalOutline,
   ellipsisVerticalSharp
 } from 'ionicons/icons';
+import SwiperCore from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Locale } from "../services/Locale";
 import { Utils } from "../services/Utils";
 import { UserSettings } from "../services/UserSettings";
@@ -121,6 +122,10 @@ import { mdEnterAnimation } from './animations/md.enter';
 import { mdLeaveAnimation } from './animations/md.leave';
 import { Emitter } from "../services/Emitter";
 import * as _ from 'lodash';
+
+import 'swiper/swiper-bundle.min.css';
+
+SwiperCore.use([IonicSwiper]);
 
 export default defineComponent({
   name: 'TorrentDetails',
@@ -142,8 +147,8 @@ export default defineComponent({
     IonLabel,
     IonIcon,
     IonButton,
-    IonSlides,
-    IonSlide
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
@@ -192,9 +197,14 @@ export default defineComponent({
 
     const tabController = new TabController();
 
+    const setSwiperInstance = (swiper: any) => {
+      tabController.setSwiper(swiper);
+    }
+
     return { 
       Locale,
       Utils,
+      setSwiperInstance,
       tabController,
       playOutline,
       pauseOutline,
@@ -223,7 +233,7 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.tabs, false, false);
     Utils.customScrollbar(this.$refs.content);
 
-    this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
+    this.tabController.setSegments(this.$refs.tabs);
 
   },
   methods: {

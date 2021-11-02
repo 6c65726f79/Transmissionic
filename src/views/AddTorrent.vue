@@ -31,9 +31,9 @@
       v-on:retry="retry()">
     </ConnectionStatus>
 
-    <ion-slides v-show="connectionStatus.connected" ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
+    <swiper class="swiper" @swiper="setSwiperInstance" v-show="connectionStatus.connected" ref="slider" v-bind="tabController.slidesOptions" @transitionEnd="tabController.slideChanged()">
       <!-- General tab --> 
-      <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
+      <swiper-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
 
         <ion-content class="ion-padding" ref="content">
 
@@ -165,13 +165,13 @@
           </ion-list>
         </ion-content>
 
-      </ion-slide>
+      </swiper-slide>
       <!-- Files tab -->
-      <ion-slide v-if="!multiple && data.files" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
+      <swiper-slide v-if="!multiple && data.files" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
-      </ion-slide>
+      </swiper-slide>
       <!-- Torrents tab -->
-      <ion-slide v-if="multiple" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
+      <swiper-slide v-if="multiple" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
         <VirtualScroll v-bind="$attrs" :items="files" :item-size="64" key-field="data.infoHash">
           <template v-slot:default="{item}">
             <div class="torrent">
@@ -194,8 +194,8 @@
             </div>
           </template>
         </VirtualScroll>
-      </ion-slide>
-    </ion-slides>
+      </swiper-slide>
+    </swiper>
     
 </template>
 
@@ -218,14 +218,13 @@ import {
   IonLabel,
   IonSegment,
   IonSegmentButton,
-  IonSlides,
-  IonSlide,
   IonToggle,
   IonSelect,
   IonSelectOption,
   IonIcon,
   IonCheckbox,
-  IonChip
+  IonChip,
+  IonicSwiper
 } from '@ionic/vue';
 import {
   checkmarkOutline,
@@ -237,6 +236,8 @@ import {
   addCircleOutline,
   addCircleSharp
 } from 'ionicons/icons';
+import SwiperCore from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
 import VirtualScroll from './components/VirtualScroll.vue';
@@ -249,6 +250,10 @@ import { Emitter } from "../services/Emitter";
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from '../services/UserSettings';
 import * as _ from 'lodash';
+
+import 'swiper/swiper-bundle.min.css';
+
+SwiperCore.use([IonicSwiper]);
 
 export default defineComponent({
   name: 'AddTorrent',
@@ -272,14 +277,14 @@ export default defineComponent({
     IonLabel,
     IonSegment,
     IonSegmentButton,
-    IonSlides,
-    IonSlide,
     IonToggle,
     IonSelect,
     IonSelectOption,
     IonIcon,
     IonCheckbox,
-    IonChip
+    IonChip,
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
@@ -324,10 +329,15 @@ export default defineComponent({
     Utils.pushState();
     
     const tabController = new TabController();
+    
+    const setSwiperInstance = (swiper: any) => {
+      tabController.setSwiper(swiper);
+    }
 
     return { 
       Locale,
       Utils,
+      setSwiperInstance,
       tabController,
       TransmissionRPC,
       checkmarkOutline,
@@ -355,7 +365,7 @@ export default defineComponent({
   mounted() {
     Utils.customScrollbar(this.$refs.content);
 
-    this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
+    this.tabController.setSegments(this.$refs.tabs);
   },
   methods: {
     modalClose() {

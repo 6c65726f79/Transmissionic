@@ -26,9 +26,9 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-slides pager='false' ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
+  <swiper class="swiper" @swiper="setSwiperInstance" v-bind="tabController.slidesOptions" @transitionEnd="tabController.slideChanged()">
     <!-- Download tab -->
-    <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
+    <swiper-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
       <ion-content class="ion-padding" ref="tab1">
         <ion-list>
           <ion-list-header>
@@ -106,10 +106,10 @@
 
       </ion-content>
 
-    </ion-slide>
+    </swiper-slide>
 
     <!-- Limits tab -->
-    <ion-slide role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
+    <swiper-slide role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
       <ion-content class="ion-padding" ref="tab2">
 
         <ion-list>
@@ -214,10 +214,10 @@
         </ion-list>
 
       </ion-content>
-    </ion-slide>
+    </swiper-slide>
 
     <!-- Network tab -->
-    <ion-slide role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
+    <swiper-slide role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
       <ion-content class="ion-padding" ref="tab3">
         <ion-list>
           <ion-list-header>
@@ -311,8 +311,8 @@
         </ion-list>
 
       </ion-content>
-    </ion-slide>
-  </ion-slides>
+    </swiper-slide>
+  </swiper>
 </template>
 
 <script lang="ts">
@@ -328,8 +328,6 @@ import {
   IonBackButton,
   IonSegment,
   IonSegmentButton,
-  IonSlides,
-  IonSlide,
   IonList,
   IonIcon,
   IonButton,
@@ -339,18 +337,25 @@ import {
   IonInput,
   IonToggle,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonicSwiper
 } from '@ionic/vue';
 import {
   saveOutline,
   saveSharp
 } from 'ionicons/icons';
+import SwiperCore from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import TabController from '../services/TabController';
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import * as _ from 'lodash';
+
+import 'swiper/swiper-bundle.min.css';
+
+SwiperCore.use([IonicSwiper]);
 
 export default defineComponent({
   name: 'Server configuration',
@@ -363,8 +368,6 @@ export default defineComponent({
     IonBackButton,
     IonSegment,
     IonSegmentButton,
-    IonSlides,
-    IonSlide,
     IonList,
     IonIcon,
     IonButton,
@@ -374,7 +377,9 @@ export default defineComponent({
     IonInput,
     IonToggle,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
@@ -386,9 +391,14 @@ export default defineComponent({
 
     const tabController = new TabController();
 
+    const setSwiperInstance = (swiper: any) => {
+      tabController.setSwiper(swiper);
+    }
+
     return { 
       Locale,
       Utils,
+      setSwiperInstance,
       tabController,
       saveOutline,
       saveSharp
@@ -408,7 +418,7 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.tab2)
     Utils.customScrollbar(this.$refs.tab3)
     
-    this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
+    this.tabController.setSegments(this.$refs.tabs);
   },
   computed: {
     speedUnit:() => {

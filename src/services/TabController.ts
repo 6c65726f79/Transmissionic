@@ -6,7 +6,7 @@ export default class TabController {
     state = reactive({
         selectedTab:0,
         visibleTab:0,
-        slider:{} as Record<string,any>,
+        swiper:{} as Record<string,any>,
         segments:{} as Record<string,any>
     })
 
@@ -15,9 +15,6 @@ export default class TabController {
         initialSlide:this.state.selectedTab,
         resistanceRatio:isPlatform("ios") ? 0.85 : 0,
         simulateTouch:false,
-        keyboard: {
-            enabled: true
-        }
     }
 
     constructor() {
@@ -25,16 +22,19 @@ export default class TabController {
         Emitter.on("previous-tab", () => { this.setTab(this.state.selectedTab-1) });
     }
 
-    setElements(slider: unknown, segments: unknown): void{
-        this.state.slider = slider as Record<string,any>;
+    setSegments(segments: unknown): void{
         this.state.segments = segments as Record<string,any>;
+    }
+
+    setSwiper(swiper: unknown): void {
+        this.state.swiper = swiper as Record<string,any>;
     }
 
     setTab(index: number, smooth=true): void {
         index = parseInt(index.toString());
         if(index >= 0 && index <= this.state.segments.$el.childNodes.length){
-            if(this.state.slider){
-                this.state.slider.$el.slideTo(index);
+            if(this.state.swiper){
+                this.state.swiper.slideTo(index);
             }
             else {
                 this.state.selectedTab=index;
@@ -52,10 +52,12 @@ export default class TabController {
     }
 
     async slideChanged(): Promise<void> {
-        const activeIndex = await this.state.slider.$el.getActiveIndex();
-        this.state.selectedTab=activeIndex;
-        this.state.visibleTab=activeIndex;
-        this.setTab(activeIndex, false);
+        const activeIndex = this.state.swiper.activeIndex;
+        if(activeIndex!=null){
+            this.state.selectedTab=activeIndex;
+            this.state.visibleTab=activeIndex;
+            this.setTab(activeIndex, false);
+        }
       }
 
     isVisible(id: number): boolean{
