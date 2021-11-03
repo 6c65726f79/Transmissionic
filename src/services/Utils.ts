@@ -241,7 +241,8 @@ export const Utils = {
         result = Locale.error.timeout;
         break;
       case "net::err_internet_disconnected":
-        result = "No internet connection";
+      case "net::err_network_changed":
+        result = Locale.error.noInternetConnection;
         break;
       case "unable to reach host":
       case "net::err_connection_refused":
@@ -258,6 +259,9 @@ export const Utils = {
         break;
       case "torrent not found":
         result = Locale.error.torrentNotFound;
+        break;
+      case "unregistered torrent":
+        result = Locale.error.unregisteredTorrent;
         break;
       case "invalid argument":
         result = Locale.error.invalidArgument;
