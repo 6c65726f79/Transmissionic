@@ -29,7 +29,9 @@
         "trackerResponseCode": "Tracker 回傳 HTTP 代碼：{0} ({1})",
         "notFound": "查無位址",
         "noResponse": "沒有回應",
-        "trackerDidNotRespond": "Tracker 沒有回應"
+        "trackerDidNotRespond": "Tracker 沒有回應",
+        "noInternetConnection": "No internet connection",
+        "unregisteredTorrent": "Unregistered torrent"
     },
     "retry": "重試",
     "default": "預設",
