@@ -29,7 +29,9 @@
         "trackerResponseCode": "Трекер выдал HTTP ответ с кодом {0} ({1})",
         "notFound": "Не найдено",
         "noResponse": "Нет ответа",
-        "trackerDidNotRespond": "Трекер не отвечает"
+        "trackerDidNotRespond": "Трекер не отвечает",
+        "noInternetConnection": "No internet connection",
+        "unregisteredTorrent": "Unregistered torrent"
     },
     "retry": "Повторить",
     "default": "По-умолчанию",
