@@ -249,12 +249,10 @@ If you want to build the APK, you need to install [Android Studio](https://devel
 
 ## Web UI
 
-Simply run the following commands:
+Simply run the following command:
 
 ```
-npm run prebuild:webui
-npm run build
-npm run postbuild:webui
+npm run build:webui
 ```
 
 This will build the Web UI inside the `dist` folder.
@@ -266,8 +264,7 @@ Only Windows and Linux are currently supported, but feel free to make some chang
 First, synchronize Electron content by running this in the root folder of the project:
 
 ```
-npx cap sync @capacitor-community/electron
-npm run postbuild:electron
+npm run sync:electron
 ```
 
 Then place your terminal in the `electron` folder and run this:
