@@ -16,7 +16,7 @@
     "@capacitor/clipboard": "^1.0.5",
     "@capacitor/core": "^3.2.5",
     "@capacitor/screen-reader": "^1.0.5",
-    "@capacitor/splash-screen": "^1.1.5",
+    "@capacitor/splash-screen": "^1.1.6",
     "@capacitor/status-bar": "^1.0.5",
     "@capacitor/storage": "^1.2.2",
     "@capacitor/toast": "^1.0.5",
