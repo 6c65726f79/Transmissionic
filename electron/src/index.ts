@@ -3,12 +3,11 @@ import {
   getCapacitorElectronConfig,
   setupElectronDeepLinking,
 } from '@capacitor-community/electron';
-import { app, shell, ipcMain, net } from 'electron';
+import { app, shell, ipcMain, net, Menu, BrowserWindow } from 'electron';
 import fs from "fs";
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
 import { autoUpdater } from 'electron-updater';
-require('@electron/remote/main').initialize();
 
 import {
   ElectronCapacitorApp,
@@ -72,8 +71,6 @@ if (!gotTheLock) {
     }
 
     mainWindow = myCapacitorApp.getMainWindow();
-
-    require("@electron/remote/main").enable(mainWindow.webContents);
 
     if (mainWindow) {
       mainWindow.webContents.on('did-finish-load', function() {
@@ -153,7 +150,85 @@ function getMagnet(args: Array<any>): String {
   return result;
 }
 
-ipcMain.handle('request', async (event, args) => {
+const sendApplicationMenu = (webContents: Electron.WebContents): void => {
+  let appMenu = Menu.getApplicationMenu();
+
+  setDefaultRoleAccelerators(appMenu);
+
+  // Strip functions, maps and circular references (for IPC)
+  const menu = JSON.parse(JSON.stringify(appMenu, getCircularReplacer()));
+
+  // Send menu structure to renderer
+  webContents.send('application-menu', menu);
+};
+
+const getCircularReplacer = (): any => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (key === 'commandsMap') return;
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
+const getMenuItemByCommandId = (commandId: number, menu = Menu.getApplicationMenu()) => {
+  for (let i = 0; i < menu.items.length; i++) {
+    const item = menu.items[i];
+    if (item.commandId === commandId) {
+      return item;
+    } else if (item.submenu) {
+      const result = getMenuItemByCommandId(commandId, item.submenu);
+      if (result) {
+        return result;
+      }
+    }
+  }
+};
+
+const setDefaultRoleAccelerators = (menu: any): void => {
+  for (let i = 0; i < menu.items.length; i++) {
+    const item = menu.items[i];
+    if (item.role && item.getDefaultRoleAccelerator) {
+      item.defaultRoleAccelerator = item.getDefaultRoleAccelerator();
+    }
+    if (item.submenu) {
+      setDefaultRoleAccelerators(item.submenu);
+    }
+    menu.items[i] = item;
+  }
+};
+
+ipcMain.on('request-application-menu', (event) => sendApplicationMenu(event.sender));
+
+ipcMain.on('menu-event', (event, commandId: number) => {
+  getMenuItemByCommandId(commandId)?.click(undefined, BrowserWindow.fromWebContents(event.sender), event.sender);
+});
+
+ipcMain.on('window-event', (event, arg: string) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  switch (arg) {
+    case 'minimize':
+      window.minimize();
+      break;
+    case 'maximize':
+      window.isMaximized() ? window.unmaximize() : window.maximize();
+      break;
+    case 'close':
+      window.close();
+      break;
+  }
+});
+
+ipcMain.on('window-state', (event) => {
+  event.returnValue = BrowserWindow.fromWebContents(event.sender).isMaximized();
+});
+
+ipcMain.handle('request', async (event, args: Record<string,any>) => {
   return new Promise(function (resolve, reject) {
     let result;
     request = net.request(args.options)
@@ -357,11 +432,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
           }
         },
         {
-          label: 'Open dev tools',
-          accelerator: 'CmdOrCtrl+Shift+I',
-          click(): void {
-            mainWindow.webContents.openDevTools();
-          }
+          role:'toggleDevTools'
         },
         {
           label: 'About',

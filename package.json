@@ -6,9 +6,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "build:webui": "npm run prebuild:webui && npm run build && npm run postbuild:webui",
     "prebuild:webui": "node scripts/prebuild-webui.js",
     "postbuild:webui": "node scripts/postbuild-webui.js",
-    "postbuild:electron": "node scripts/postbuild-electron.js"
+    "postbuild:electron": "node scripts/postbuild-electron.js",
+    "sync:electron": "npm run build && npx cap sync @capacitor-community/electron && npm run postbuild:electron"
   },
   "dependencies": {
     "@capacitor/android": "^3.3.0",
