@@ -2,6 +2,7 @@ import { IonicVue, isPlatform } from '@ionic/vue';
 import { createApp } from 'vue'
 import App from './views/App.vue'
 import router from './router';
+import VueVirtualScroller from 'vue-virtual-scroller'
 
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
@@ -42,6 +43,7 @@ const app = createApp(App)
     backButtonText: isPlatform('ios') ? Locale.actions.back : null
   })
   .use(router)
+  .use(VueVirtualScroller)
 
 // Temporary fix injected property warn
 app.config.unwrapInjectedRef = true;

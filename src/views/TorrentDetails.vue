@@ -51,23 +51,25 @@
       v-on:retry="loadDetails()">
     </ConnectionStatus>
 
-    <ion-slides v-show="privateState.connectionStatus.connected" ref="slider" :options="tabController.slidesOptions" v-on:ionSlideTransitionEnd="tabController.slideChanged()">
-      <ion-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
-        <Infos v-if="tabController.isVisible(0)"></Infos>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
-        <Options v-if="tabController.isVisible(1)"></Options>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
-        <Files v-if="tabController.isVisible(2)" v-on:changeDirectory="changeDirectory"></Files>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab4" :aria-hidden="tabController.state.selectedTab!=3">
-        <Trackers v-if="tabController.isVisible(3)"></Trackers>
-      </ion-slide>
-      <ion-slide role="tabpanel" aria-labelledby="tab5" :aria-hidden="tabController.state.selectedTab!=4">
-        <Peers v-if="tabController.isVisible(4)"></Peers>
-      </ion-slide>
-    </ion-slides>
+    <div class="swiper" ref="swiper" v-show="privateState.connectionStatus.connected">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
+          <Infos v-if="tabController.isVisible(0)"></Infos>
+        </div>
+        <div class="swiper-slide" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
+          <Options v-if="tabController.isVisible(1)"></Options>
+        </div>
+        <div class="swiper-slide" role="tabpanel" aria-labelledby="tab3" :aria-hidden="tabController.state.selectedTab!=2">
+          <Files v-if="tabController.isVisible(2)" v-on:changeDirectory="changeDirectory"></Files>
+        </div>
+        <div class="swiper-slide" role="tabpanel" aria-labelledby="tab4" :aria-hidden="tabController.state.selectedTab!=3">
+          <Trackers v-if="tabController.isVisible(3)"></Trackers>
+        </div>
+        <div class="swiper-slide" role="tabpanel" aria-labelledby="tab5" :aria-hidden="tabController.state.selectedTab!=4">
+          <Peers v-if="tabController.isVisible(4)"></Peers>
+        </div>
+      </div>
+    </div>
 
 </template>
 
@@ -88,9 +90,7 @@ import {
   IonSegmentButton,
   IonLabel,
   IonIcon,
-  IonButton,
-  IonSlides,
-  IonSlide
+  IonButton
 } from '@ionic/vue';
 import {
   playOutline,
@@ -142,8 +142,6 @@ export default defineComponent({
     IonLabel,
     IonIcon,
     IonButton,
-    IonSlides,
-    IonSlide
   },
   data() {
     return {
@@ -223,8 +221,7 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.tabs, false, false);
     Utils.customScrollbar(this.$refs.content);
 
-    this.tabController.setElements(this.$refs.slider,this.$refs.tabs);
-
+    this.tabController.init(this.$refs.swiper, this.$refs.tabs);
   },
   methods: {
     async loadDetails(refresh=false) {

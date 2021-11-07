@@ -238,3 +238,8 @@ span.selectable {
   -ms-user-select: text;
   user-select: text;
 }
+
+.swiper {
+  width:100%;
+  height:100%;
+}

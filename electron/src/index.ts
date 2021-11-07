@@ -3,12 +3,11 @@ import {
   getCapacitorElectronConfig,
   setupElectronDeepLinking,
 } from '@capacitor-community/electron';
-import { app, shell, ipcMain, net } from 'electron';
+import { app, shell, ipcMain, net, Menu, BrowserWindow } from 'electron';
 import fs from "fs";
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
 import { autoUpdater } from 'electron-updater';
-require('@electron/remote/main').initialize();
 
 import {
   ElectronCapacitorApp,
@@ -72,8 +71,6 @@ if (!gotTheLock) {
     }
 
     mainWindow = myCapacitorApp.getMainWindow();
-
-    require("@electron/remote/main").enable(mainWindow.webContents);
 
     if (mainWindow) {
       mainWindow.webContents.on('did-finish-load', function() {
@@ -153,7 +150,85 @@ function getMagnet(args: Array<any>): String {
   return result;
 }
 
-ipcMain.handle('request', async (event, args) => {
+const sendApplicationMenu = (webContents: Electron.WebContents): void => {
+  let appMenu = Menu.getApplicationMenu();
+
+  setDefaultRoleAccelerators(appMenu);
+
+  // Strip functions, maps and circular references (for IPC)
+  const menu = JSON.parse(JSON.stringify(appMenu, getCircularReplacer()));
+
+  // Send menu structure to renderer
+  webContents.send('application-menu', menu);
+};
+
+const getCircularReplacer = (): any => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (key === 'commandsMap') return;
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
+const getMenuItemByCommandId = (commandId: number, menu = Menu.getApplicationMenu()) => {
+  for (let i = 0; i < menu.items.length; i++) {
+    const item = menu.items[i];
+    if (item.commandId === commandId) {
+      return item;
+    } else if (item.submenu) {
+      const result = getMenuItemByCommandId(commandId, item.submenu);
+      if (result) {
+        return result;
+      }
+    }
+  }
+};
+
+const setDefaultRoleAccelerators = (menu: any): void => {
+  for (let i = 0; i < menu.items.length; i++) {
+    const item = menu.items[i];
+    if (item.role && item.getDefaultRoleAccelerator) {
+      item.defaultRoleAccelerator = item.getDefaultRoleAccelerator();
+    }
+    if (item.submenu) {
+      setDefaultRoleAccelerators(item.submenu);
+    }
+    menu.items[i] = item;
+  }
+};
+
+ipcMain.on('request-application-menu', (event) => sendApplicationMenu(event.sender));
+
+ipcMain.on('menu-event', (event, commandId: number) => {
+  getMenuItemByCommandId(commandId)?.click(undefined, BrowserWindow.fromWebContents(event.sender), event.sender);
+});
+
+ipcMain.on('window-event', (event, arg: string) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  switch (arg) {
+    case 'minimize':
+      window.minimize();
+      break;
+    case 'maximize':
+      window.isMaximized() ? window.unmaximize() : window.maximize();
+      break;
+    case 'close':
+      window.close();
+      break;
+  }
+});
+
+ipcMain.on('window-state', (event) => {
+  event.returnValue = BrowserWindow.fromWebContents(event.sender).isMaximized();
+});
+
+ipcMain.handle('request', async (event, args: Record<string,any>) => {
   return new Promise(function (resolve, reject) {
     let result;
     request = net.request(args.options)
@@ -203,6 +278,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Open torrent...',
           accelerator: 'Alt+T',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-torrent');
           }
@@ -210,6 +286,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Open magnet',
           accelerator: 'Alt+M',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-magnet');
           }
@@ -217,6 +294,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Open URL',
           accelerator: 'Alt+U',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-url');
           }
@@ -227,6 +305,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Settings',
           accelerator: 'Alt+S',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('settings');
           }
@@ -237,6 +316,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Exit',
           accelerator: 'Alt+F4',
+          registerAccelerator: false,
           click(): void {
             app.quit();
           }
@@ -249,6 +329,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'New server',
           accelerator: 'Alt+N',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('add-server');
           }
@@ -256,6 +337,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Information',
           accelerator: 'Alt+I',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('info-server');
           }
@@ -263,6 +345,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Configuration',
           accelerator: 'Alt+C',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('config-server');
           }
@@ -275,6 +358,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Back',
           accelerator: 'Esc',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('back');
           }
@@ -282,6 +366,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Search',
           accelerator: 'CmdOrCtrl+Alt+S',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('toggle-search');
           }
@@ -289,6 +374,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Toggle side menu',
           accelerator: 'CmdOrCtrl+Alt+T',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('toggle-menu');
           }
@@ -299,6 +385,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Next tab',
           accelerator: 'CmdOrCtrl+RightArrow',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('next-tab');
           }
@@ -306,6 +393,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Previous tab',
           accelerator: 'CmdOrCtrl+LeftArrow',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('previous-tab');
           }
@@ -318,6 +406,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Select all',
           accelerator: 'CmdOrCtrl+A',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('select-all');
           }
@@ -325,6 +414,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         {
           label: 'Cancel selection',
           accelerator: 'CmdOrCtrl+Alt+C',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('clear-selection');
           }
@@ -336,19 +426,18 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
       submenu: [
         {
           label: 'Report issue',
+          accelerator: 'Alt+R',
           click(): void {
             shell.openExternal("https://github.com/6c65726f79/Transmissionic/issues/new/choose");
           }
         },
         {
-          label: 'Open dev tools',
-          click(): void {
-            mainWindow.webContents.openDevTools();
-          }
+          role:'toggleDevTools'
         },
         {
           label: 'About',
           accelerator: 'Alt+A',
+          registerAccelerator: false,
           click(): void {
             shortcutsHandler('about');
           }

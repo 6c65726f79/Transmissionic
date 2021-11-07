@@ -29,7 +29,9 @@
         "trackerResponseCode": "Tracker respondió con código HTTP {0} ({1})",
         "notFound": "No encontrado",
         "noResponse": "Sin respuesta",
-        "trackerDidNotRespond": "Tracker no respondió"
+        "trackerDidNotRespond": "Tracker no respondió",
+        "noInternetConnection": "No internet connection",
+        "unregisteredTorrent": "Unregistered torrent"
     },
     "retry": "Re intentar",
     "default": "Por defecto",
