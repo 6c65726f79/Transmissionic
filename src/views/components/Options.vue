@@ -11,7 +11,9 @@
           </ion-label>
           <ion-input v-model.number="details.downloadLimit" type="number" :disabled="!details.downloadLimited"></ion-input>
         </div>
-        <ion-toggle v-model="details.downloadLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
+        <span class="swiper-no-swiping" slot="end">
+          <ion-toggle v-model="details.downloadLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
+        </span>
       </ion-item>
       <ion-item>
         <div class="left">
@@ -20,7 +22,9 @@
           </ion-label>
           <ion-input v-model.number="details.uploadLimit" type="number" :disabled="!details.uploadLimited"></ion-input>
         </div>
-        <ion-toggle v-model="details.uploadLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
+        <span class="swiper-no-swiping" slot="end">
+          <ion-toggle v-model="details.uploadLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
+        </span>
       </ion-item>
       <ion-item>
         <ion-label position="floating">

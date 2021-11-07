@@ -50,7 +50,9 @@
 
             <ion-item>
               <ion-label>{{ Locale.startAddedTorrents }}</ion-label>
-              <ion-toggle v-model="config['start-added-torrents']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping">
+                <ion-toggle v-model="config['start-added-torrents']" slot="end" ></ion-toggle>
+              </span>
             </ion-item>
           </ion-list>
 
@@ -63,7 +65,9 @@
 
             <ion-item>
               <ion-label>{{ Locale.enabled }}</ion-label>
-              <ion-toggle v-model="config['download-queue-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping">
+                <ion-toggle v-model="config['download-queue-enabled']" slot="end"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item :disabled="!config['download-queue-enabled']">
@@ -78,7 +82,10 @@
                 </ion-label>
                 <ion-input v-model.number="config['queue-stalled-minutes']" type="number" :disabled="!config['queue-stalled-enabled']"></ion-input>
               </div>
-              <ion-toggle v-model="config['queue-stalled-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['queue-stalled-enabled']"></ion-toggle>
+              </span>
             </ion-item>
           </ion-list>
 
@@ -91,12 +98,18 @@
 
             <ion-item>
               <ion-label>{{ Locale.addPartExt }}</ion-label>
-              <ion-toggle v-model="config['rename-partial-files']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['rename-partial-files']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item>
               <ion-label>{{ Locale.useTempDir }}</ion-label>
-              <ion-toggle v-model="config['incomplete-dir-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['incomplete-dir-enabled']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item :disabled="!config['incomplete-dir-enabled']">
@@ -127,7 +140,9 @@
                 </ion-label>
                 <ion-input v-model.number="config['speed-limit-down']" type="number" :disabled="!config['speed-limit-down-enabled']"></ion-input>
               </div>
-              <ion-toggle v-model="config['speed-limit-down-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['speed-limit-down-enabled']"></ion-toggle>
+              </span>
             </ion-item>
             
             <ion-item>
@@ -137,7 +152,9 @@
                 </ion-label>
                 <ion-input v-model.number="config['speed-limit-up']" type="number" :disabled="!config['speed-limit-up-enabled']"></ion-input>
               </div>
-              <ion-toggle v-model="config['speed-limit-up-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['speed-limit-up-enabled']"></ion-toggle>
+              </span>
             </ion-item>
           </ion-list>
 
@@ -150,7 +167,9 @@
 
             <ion-item>
               <ion-label>{{ Locale.enabled }}</ion-label>
-              <ion-toggle v-model="config['alt-speed-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['alt-speed-enabled']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item>
@@ -178,7 +197,9 @@
                 </ion-label>
                 <ion-input v-model.number="config.seedRatioLimit" type="number" :disabled="!config.seedRatioLimited"></ion-input>
               </div>
-              <ion-toggle v-model="config.seedRatioLimited" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config.seedRatioLimited"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item>
@@ -188,7 +209,9 @@
                 </ion-label>
                 <ion-input v-model.number="config['idle-seeding-limit']" type="number" :disabled="!config['idle-seeding-limit-enabled']"></ion-input>
               </div>
-              <ion-toggle v-model="config['idle-seeding-limit-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['idle-seeding-limit-enabled']"></ion-toggle>
+              </span>
             </ion-item>
           </ion-list>
 
@@ -251,12 +274,16 @@
 
             <ion-item>
               <ion-label>{{ Locale.randomPortOnStart }}</ion-label>
-              <ion-toggle v-model="config['peer-port-random-on-start']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['peer-port-random-on-start']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item>
               <ion-label>{{ Locale.portForwarding }}</ion-label>
-              <ion-toggle v-model="config['port-forwarding-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['port-forwarding-enabled']"></ion-toggle>
+              </span>
             </ion-item>
           </ion-list>
 
@@ -269,22 +296,30 @@
 
             <ion-item>
               <ion-label>{{ Locale.DHT }} (DHT)</ion-label>
-              <ion-toggle v-model="config['dht-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['dht-enabled']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item>
               <ion-label>{{ Locale.LPD }} (LPD)</ion-label>
-              <ion-toggle v-model="config['ldp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['ldp-enabled']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item>
               <ion-label>{{ Locale.PEX }} (PEX)</ion-label>
-              <ion-toggle v-model="config['pex-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['pex-enabled']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item>
               <ion-label>{{ Locale.UTP }} (µTP)</ion-label>
-              <ion-toggle v-model="config['utp-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['utp-enabled']"></ion-toggle>
+              </span>
             </ion-item>
           </ion-list>
 
@@ -297,7 +332,9 @@
 
             <ion-item>
               <ion-label>{{ Locale.enabled }}</ion-label>
-              <ion-toggle v-model="config['blocklist-enabled']" slot="end" class="swiper-no-swiping"></ion-toggle>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['blocklist-enabled']"></ion-toggle>
+              </span>
             </ion-item>
 
             <ion-item :disabled="!config['blocklist-enabled']">
