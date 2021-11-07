@@ -3,10 +3,9 @@
 -->
 
 <template>
-    <ion-toggle 
-        v-model="checked"
-        class="swiper-no-swiping">
-    </ion-toggle>
+    <span class="swiper-no-swiping">
+        <ion-toggle v-model="checked"></ion-toggle>
+    </span>
 </template>
 
 <script lang="ts">

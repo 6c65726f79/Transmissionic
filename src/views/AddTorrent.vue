@@ -78,7 +78,9 @@
 
               <ion-item>
                 <ion-label>{{ Locale.actions.start }}</ion-label>
-                <ion-toggle v-model="settings.start" class="swiper-no-swiping"></ion-toggle>
+                <span class="swiper-no-swiping" slot="end">
+                  <ion-toggle v-model="settings.start"></ion-toggle>
+                </span>
               </ion-item>
 
               <ion-item>

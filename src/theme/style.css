@@ -16,11 +16,6 @@ ion-app {
   background: var(--ion-background-color, #fff);
 }
 
-ion-slides {
-  height: 100%;
-  width: 100%;
-}
-
 .placeholder {
   position: absolute;
   width:100%;
@@ -242,4 +237,13 @@ span.selectable {
 .swiper {
   width:100%;
   height:100%;
+}
+
+ion-item .swiper-no-swiping {
+  align-items: center;
+  display: flex;
+}
+
+ion-item .swiper-no-swiping ion-toggle {
+  padding-inline: 16px 0px;
 }
