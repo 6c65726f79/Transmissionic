@@ -31,171 +31,173 @@
       v-on:retry="retry()">
     </ConnectionStatus>
 
-    <swiper class="swiper" @swiper="setSwiperInstance" v-show="connectionStatus.connected" ref="slider" v-bind="tabController.slidesOptions" @transitionEnd="tabController.slideChanged()">
-      <!-- General tab --> 
-      <swiper-slide role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
+    <div class="swiper" ref="swiper" v-show="connectionStatus.connected">
+      <div class="swiper-wrapper">
+        <!-- General tab --> 
+        <div class="swiper-slide" role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
 
-        <ion-content class="ion-padding" ref="content">
+          <ion-content class="ion-padding" ref="content">
 
-          <ion-list>
-            <ion-list-header>
-              <ion-label>
-                {{ Locale.preset }}
-              </ion-label>
-            </ion-list-header>
-
-            <div id="presets" class="swiper-no-swiping">
-
-              <ion-chip @click="addPreset()">
-                <ion-label>{{ Locale.add }}</ion-label>
-                <ion-icon :ios="addCircleOutline" :md="addCircleSharp"></ion-icon>
-              </ion-chip>
-
-              <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : null">
-                <ion-label>{{name}}</ion-label>
-                <ion-icon :ios="closeCircleOutline" :md="closeCircleSharp" @click="removePreset(name,$event)"></ion-icon>
-              </ion-chip>
-            </div>
-          </ion-list>
-
-          <ion-list>
-            <ion-list-header>
-              <ion-label>
-                {{ Locale.options }}
-              </ion-label>
-            </ion-list-header>
-
-            <ion-item class="autocomplete" v-if="connectionStatus.connected">
-              <ion-label position="floating">{{ Locale.downloadDir }}</ion-label>
-              <autocomplete 
-                :value="settings.downloadDir"
-                :items="TransmissionRPC.persistentData.downloadDir"
-                :placeholder="defaultDownloadDir"
-                v-on:update="setDownloadDir">
-              </autocomplete>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>{{ Locale.actions.start }}</ion-label>
-              <ion-toggle v-model="settings.start" class="swiper-no-swiping"></ion-toggle>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>
-                {{ Locale.priority.priority }}
-              </ion-label>
-              <ion-select placeholder="Select One" v-model="settings.bandwidthPriority" :okText="Locale.ok" :cancelText="Locale.actions.cancel">
-                <ion-select-option :value="1">{{ Locale.priority.high }}</ion-select-option>
-                <ion-select-option :value="0">{{ Locale.priority.normal }}</ion-select-option>
-                <ion-select-option :value="-1">{{ Locale.priority.low }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-
-            <p>
+            <ion-list>
               <ion-list-header>
                 <ion-label>
-                  {{ Locale.informations }}
+                  {{ Locale.preset }}
                 </ion-label>
               </ion-list-header>
 
-              <ion-item v-if="multiple">
-                <ion-label class="label no-wrap">
-                  <div class="text-transform">{{ Locale.torrent.other }}</div>
-                  <span class="selectable">{{files.length}}</span>
-                </ion-label>
-              </ion-item>
+              <div id="presets" class="swiper-no-swiping">
 
-              <ion-item v-if="type=='url'">
-                <ion-label class="label no-wrap">
-                  <div>URL</div>
-                  <span class="selectable">{{files[0].torrent}}</span>
-                </ion-label>
-              </ion-item>
+                <ion-chip @click="addPreset()">
+                  <ion-label>{{ Locale.add }}</ion-label>
+                  <ion-icon :ios="addCircleOutline" :md="addCircleSharp"></ion-icon>
+                </ion-chip>
 
-              <ion-item v-if="data.name">
-                <ion-label class="label no-wrap">
-                  <div>{{ Locale.name }}</div>
-                  <span class="selectable">{{data.name}}</span>
-                </ion-label>
-              </ion-item>
-
-              <ion-item v-if="totalSize">
-                <ion-label class="label">
-                  <div>{{ Locale.totalSize }}</div>
-                  <span class="selectable">{{Utils.formatBytes(totalSize)}}</span>
-                </ion-label>
-              </ion-item>
-
-              <ion-item v-if="data.files">
-                <ion-label class="label">
-                  <div>{{ Locale.files }}</div>
-                  <span class="selectable">{{ data.files.length }}</span>
-                </ion-label>
-              </ion-item>
-
-              <ion-item v-if="data.length && data.pieceLength">
-                <ion-label class="label">
-                  <div>{{ Locale.pieces }}</div>
-                  <span class="selectable">{{ Math.ceil(data.length/data.pieceLength) }} x {{ Utils.formatBytes(data.pieceLength) }}</span>
-                </ion-label>
-              </ion-item>
-              
-              <ion-item v-if="data.comment">
-                <ion-label class="label no-wrap">
-                  <div>{{ Locale.comment }}</div>
-                  <span class="selectable" v-html="Utils.autoLink(data.comment)"></span>
-                </ion-label>
-              </ion-item>
-
-              <ion-item v-if="data.infoHash">
-                <ion-label class="label no-wrap">
-                  <div>{{ Locale.hash }}</div>
-                  <span class="selectable">{{data.infoHash}}</span>
-                </ion-label>
-              </ion-item>
-
-              <ion-item v-if="data.announce && data.announce.length>0">
-                <ion-label class="label no-wrap">
-                  <div>{{ Locale.tracker.one }}</div>
-                  <span class="selectable">{{ Utils.trackerDomain(data.announce[0]).domain }}</span>
-                </ion-label>
-              </ion-item>
-            </p>
-
-          </ion-list>
-        </ion-content>
-
-      </swiper-slide>
-      <!-- Files tab -->
-      <swiper-slide v-if="!multiple && data.files" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
-        <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
-      </swiper-slide>
-      <!-- Torrents tab -->
-      <swiper-slide v-if="multiple" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
-        <VirtualScroll v-bind="$attrs" :items="files" :item-size="64" key-field="data.infoHash">
-          <template v-slot:default="{item}">
-            <div class="torrent">
-              <div class="side">
-                <ion-checkbox
-                  v-bind="checkedAttributes(item.data.infoHash)"
-                  v-on:ionChange="checboxUpdate($event,item.data.infoHash)">
-                </ion-checkbox>
+                <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : null">
+                  <ion-label>{{name}}</ion-label>
+                  <ion-icon :ios="closeCircleOutline" :md="closeCircleSharp" @click="removePreset(name,$event)"></ion-icon>
+                </ion-chip>
               </div>
-              <div class="middle" @click="fileTitle(item.data.name)" @contextmenu="fileTitle(item.data.name, $event)">
-                <div class="name">
-                  {{item.data.name}}
-                </div>
-                <div class="details">
-                  <ion-icon color="medium" :ios="documentOutline" :md="documentSharp"></ion-icon>
+            </ion-list>
 
-                  {{ Utils.formatBytes(item.data.length) }}
+            <ion-list>
+              <ion-list-header>
+                <ion-label>
+                  {{ Locale.options }}
+                </ion-label>
+              </ion-list-header>
+
+              <ion-item class="autocomplete" v-if="connectionStatus.connected">
+                <ion-label position="floating">{{ Locale.downloadDir }}</ion-label>
+                <autocomplete 
+                  :value="settings.downloadDir"
+                  :items="TransmissionRPC.persistentData.downloadDir"
+                  :placeholder="defaultDownloadDir"
+                  v-on:update="setDownloadDir">
+                </autocomplete>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>{{ Locale.actions.start }}</ion-label>
+                <ion-toggle v-model="settings.start" class="swiper-no-swiping"></ion-toggle>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>
+                  {{ Locale.priority.priority }}
+                </ion-label>
+                <ion-select placeholder="Select One" v-model="settings.bandwidthPriority" :okText="Locale.ok" :cancelText="Locale.actions.cancel">
+                  <ion-select-option :value="1">{{ Locale.priority.high }}</ion-select-option>
+                  <ion-select-option :value="0">{{ Locale.priority.normal }}</ion-select-option>
+                  <ion-select-option :value="-1">{{ Locale.priority.low }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <p>
+                <ion-list-header>
+                  <ion-label>
+                    {{ Locale.informations }}
+                  </ion-label>
+                </ion-list-header>
+
+                <ion-item v-if="multiple">
+                  <ion-label class="label no-wrap">
+                    <div class="text-transform">{{ Locale.torrent.other }}</div>
+                    <span class="selectable">{{files.length}}</span>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item v-if="type=='url'">
+                  <ion-label class="label no-wrap">
+                    <div>URL</div>
+                    <span class="selectable">{{files[0].torrent}}</span>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item v-if="data.name">
+                  <ion-label class="label no-wrap">
+                    <div>{{ Locale.name }}</div>
+                    <span class="selectable">{{data.name}}</span>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item v-if="totalSize">
+                  <ion-label class="label">
+                    <div>{{ Locale.totalSize }}</div>
+                    <span class="selectable">{{Utils.formatBytes(totalSize)}}</span>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item v-if="data.files">
+                  <ion-label class="label">
+                    <div>{{ Locale.files }}</div>
+                    <span class="selectable">{{ data.files.length }}</span>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item v-if="data.length && data.pieceLength">
+                  <ion-label class="label">
+                    <div>{{ Locale.pieces }}</div>
+                    <span class="selectable">{{ Math.ceil(data.length/data.pieceLength) }} x {{ Utils.formatBytes(data.pieceLength) }}</span>
+                  </ion-label>
+                </ion-item>
+                
+                <ion-item v-if="data.comment">
+                  <ion-label class="label no-wrap">
+                    <div>{{ Locale.comment }}</div>
+                    <span class="selectable" v-html="Utils.autoLink(data.comment)"></span>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item v-if="data.infoHash">
+                  <ion-label class="label no-wrap">
+                    <div>{{ Locale.hash }}</div>
+                    <span class="selectable">{{data.infoHash}}</span>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item v-if="data.announce && data.announce.length>0">
+                  <ion-label class="label no-wrap">
+                    <div>{{ Locale.tracker.one }}</div>
+                    <span class="selectable">{{ Utils.trackerDomain(data.announce[0]).domain }}</span>
+                  </ion-label>
+                </ion-item>
+              </p>
+
+            </ion-list>
+          </ion-content>
+
+        </div>
+        <!-- Files tab -->
+        <div class="swiper-slide" v-if="!multiple && data.files" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
+          <Files :actions="false" v-on:changeDirectory="changeDirectory"></Files>
+        </div>
+        <!-- Torrents tab -->
+        <div class="swiper-slide" v-if="multiple" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
+          <VirtualScroll v-bind="$attrs" :items="files" :item-size="64" key-field="data.infoHash">
+            <template v-slot:default="{item}">
+              <div class="torrent">
+                <div class="side">
+                  <ion-checkbox
+                    v-bind="checkedAttributes(item.data.infoHash)"
+                    v-on:ionChange="checboxUpdate($event,item.data.infoHash)">
+                  </ion-checkbox>
+                </div>
+                <div class="middle" @click="fileTitle(item.data.name)" @contextmenu="fileTitle(item.data.name, $event)">
+                  <div class="name">
+                    {{item.data.name}}
+                  </div>
+                  <div class="details">
+                    <ion-icon color="medium" :ios="documentOutline" :md="documentSharp"></ion-icon>
+
+                    {{ Utils.formatBytes(item.data.length) }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
-        </VirtualScroll>
-      </swiper-slide>
-    </swiper>
+            </template>
+          </VirtualScroll>
+        </div>
+      </div>
+    </div>
     
 </template>
 
@@ -223,8 +225,7 @@ import {
   IonSelectOption,
   IonIcon,
   IonCheckbox,
-  IonChip,
-  IonicSwiper
+  IonChip
 } from '@ionic/vue';
 import {
   checkmarkOutline,
@@ -236,8 +237,6 @@ import {
   addCircleOutline,
   addCircleSharp
 } from 'ionicons/icons';
-import SwiperCore from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
 import VirtualScroll from './components/VirtualScroll.vue';
@@ -250,10 +249,6 @@ import { Emitter } from "../services/Emitter";
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from '../services/UserSettings';
 import * as _ from 'lodash';
-
-import 'swiper/swiper-bundle.min.css';
-
-SwiperCore.use([IonicSwiper]);
 
 export default defineComponent({
   name: 'AddTorrent',
@@ -283,8 +278,6 @@ export default defineComponent({
     IonIcon,
     IonCheckbox,
     IonChip,
-    Swiper,
-    SwiperSlide
   },
   data() {
     return {
@@ -329,15 +322,10 @@ export default defineComponent({
     Utils.pushState();
     
     const tabController = new TabController();
-    
-    const setSwiperInstance = (swiper: any) => {
-      tabController.setSwiper(swiper);
-    }
 
     return { 
       Locale,
       Utils,
-      setSwiperInstance,
       tabController,
       TransmissionRPC,
       checkmarkOutline,
@@ -365,7 +353,7 @@ export default defineComponent({
   mounted() {
     Utils.customScrollbar(this.$refs.content);
 
-    this.tabController.setSegments(this.$refs.tabs);
+    this.tabController.init(this.$refs.swiper, this.$refs.tabs);
   },
   methods: {
     modalClose() {
