@@ -30,8 +30,8 @@
         "notFound": "查無位址",
         "noResponse": "沒有回應",
         "trackerDidNotRespond": "Tracker 沒有回應",
-        "noInternetConnection": "No internet connection",
-        "unregisteredTorrent": "Unregistered torrent"
+        "noInternetConnection": "無網路連線",
+        "unregisteredTorrent": "未登錄的種子檔"
     },
     "retry": "重試",
     "default": "預設",
