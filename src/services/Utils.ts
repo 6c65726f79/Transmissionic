@@ -242,6 +242,7 @@ export const Utils = {
         break;
       case "net::err_internet_disconnected":
       case "net::err_network_changed":
+      case "net::err_address_unreachable":
         result = Locale.error.noInternetConnection;
         break;
       case "unable to reach host":
