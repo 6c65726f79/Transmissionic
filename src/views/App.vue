@@ -28,7 +28,7 @@
             <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
 
             <ion-menu-toggle auto-hide="false">
-              <ion-item @click="openTrackerList($event)" id="tracker-dropdown" lines="none" button>
+              <ion-item @click="openTrackerList($event)" id="tracker-dropdown" lines="none" detail="false" button>
                 <ion-label>{{ privateState.selectedTracker ? Utils.trackerDomain(privateState.selectedTracker).protocol+"://"+Utils.trackerDomain(privateState.selectedTracker).domain : Locale.filters.all }}</ion-label>
                 <div slot="end">
                   <ion-icon :ios="caretDownOutline" :md="caretDownSharp"></ion-icon>
