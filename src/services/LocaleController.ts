@@ -5,7 +5,8 @@ import en from "../../public/locales/en.json";
 
 const languages: Record<string,any> = {en};
 const fileNames: Record<string,any> = {
-    es:'es-cr'
+    es:'es-cr',
+    zh:'zh-cn',
 }
 
 export const LocaleController = {
