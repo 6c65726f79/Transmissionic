@@ -41,6 +41,7 @@ export default defineComponent({
   data() {
     return {
       scrollIndex:0,
+      lastScrollTop:0
     }
   },
   components: {
@@ -56,17 +57,14 @@ export default defineComponent({
 
     Utils.customScrollbar(scroller, true, false);
 
-    scroller.$el.onwheel = this.handleScroll;
+    scroller.$el.addEventListener("scroll", () => this.handleScroll(scroller), false);
   },
   methods: {
-    handleScroll (e: any) {
+    handleScroll (element: Record<string,any>) {
       const container = this.$refs.virtualscroll as Record<string,any>;
-      if(e.deltaY>0){
-        container.$el.classList.add("no-fab");
-      }
-      else {
-        container.$el.classList.remove("no-fab");
-      }
+      const st = element.$el.scrollTop;
+      container.$el.classList.toggle("no-fab", (st > this.lastScrollTop));
+      this.lastScrollTop = st <= 0 ? 0 : st;
     }
   }
 })
