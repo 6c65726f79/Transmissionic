@@ -209,8 +209,8 @@ export default defineComponent({
   name: 'list',
   data() {
     return {
-      torrentList:[] as any,
-      filter:"",
+      torrentList:[] as Array<any>,
+      filter:0,
       filterIds:[] as number[],
       connectionStatus: {} as Record<string,any>,
       sharedState: UserSettings.state,
@@ -247,8 +247,9 @@ export default defineComponent({
   },
   computed: {
     torrentSelectedList: function(): Array<any> {
-      let result: Array<any>;
       let list = this.torrentList;
+      const filter = this.filter;
+      const removed = this.privateState.removed;
       const selection = this.privateState.selection;
 
       if(this.filterIds.length>0){
@@ -256,61 +257,20 @@ export default defineComponent({
           return this.filterIds.includes(o.id)
         });
       }
-      
-      switch (this.filter) {
-        case "downloading":
-          result = _.filter(list, function(o) {
-            return o.status == 4
-          });
-          break;
-        case "seeding":
-          result = _.filter(list, function(o) {
-            return o.status == 6
-          });
-          break;
-        case "active":
-          result = _.filter(list, function(o) {
-            return o.activityDate*1000 > Date.now()-60000;
-          });
-          break;
-        case "completed":
-          result = _.filter(list, function(o) {
-            return o.percentDone == 1;
-          });
-          break;
-        case "stopped":
-          result = _.filter(list, function(o) {
-            return o.status == 0;
-          });
-          break;
-        case "error":
-          result = _.filter(list, function(o) {
-            return o.errorString != "";
-          });
-          break;
-        case "queued":
-          result = _.filter(list, function(o) {
-            return o.status == 3;
-          });
-          break;
-        case "selected":
-          result = _.filter(list, function(o) {
-            return selection.includes(o.id);
-          });
-          break;
-        default:
-          result = list;
-          break;
-      }
+
+      list = _.filter(list, function(o) {
+        if(removed.includes(o.id)) return false;
+        return filter==8 ? selection.includes(o.id) : Utils.getTorrentFilters(o).includes(filter)
+      });
 
       if(this.privateState.search!=""){
         const search=this.privateState.search.toLowerCase();
-        result = _.filter(result, function(o) {
+        list = _.filter(list, function(o) {
           return o.name.toLowerCase().indexOf(search) >= 0;
         });
       }
 
-      return result
+      return list
     },
     torrentOrderedList: function (): Array<any> {
       const orders = [this.sharedState.reverse ? 'desc' : 'asc'] as Array<any>;
@@ -363,7 +323,7 @@ export default defineComponent({
   },
   async created() {
     this.torrentList = inject('torrentList') as any;
-    this.filter = inject('filter') as string;
+    this.filter = inject('filter') as number;
     this.filterIds = inject('filterIds') as Array<number>;
     this.connectionStatus = inject('connectionStatus') as Record<string,any>;
   },

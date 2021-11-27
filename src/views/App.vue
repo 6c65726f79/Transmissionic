@@ -44,6 +44,9 @@
               <ion-item @click="privateState.selectedFilter = index" lines="none" :class="{ selected: privateState.selectedFilter === index }" button>
                 <ion-icon slot="start" :ios="f.iosIcon" :md="f.mdIcon"></ion-icon>
                 <ion-label class="text-transform">{{ f.label() }}</ion-label>
+                <div slot="end">
+                  <ion-badge>{{ privateState.torrentFilters[f.id] }}</ion-badge>
+                </div>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
@@ -193,9 +196,10 @@ export default defineComponent({
         selectedServer:0,
         selectedFilter:0,
         selectedTracker:"",
-        selectedIds:[],
+        selectedIds:[] as Array<number>,
         refresh:null as any,
         torrentList:[] as Array<any>,
+        torrentFilters: [] as Array<any>,
         serverList: [] as Array<Record<string,unknown>>,
         trackerList: [] as Array<any>,
         swipeEnabled:true,
@@ -208,54 +212,63 @@ export default defineComponent({
         },
         filters: [
           {
+            id:0,
             value:"all",
             label:() => Locale.filters.all,
             iosIcon: layersOutline,
             mdIcon: layersSharp
           },
           {
+            id:1,
             value:"active",
             label:() => Locale.filters.active,
             iosIcon: flashOutline,
             mdIcon: flashSharp
           },
           {
+            id:2,
             value:"downloading",
             label:() => Locale.filters.downloading,
             iosIcon: cloudDownloadOutline,
             mdIcon: cloudDownloadSharp
           },
           {
+            id:3,
             value:"seeding",
             label:() => Locale.filters.seeding,
             iosIcon: cloudUploadOutline,
             mdIcon: cloudUploadSharp
           },
           {
+            id:4,
             value:"completed",
             label:() => Locale.filters.completed,
             iosIcon: cloudDoneOutline,
             mdIcon: cloudDoneSharp
           },
           {
+            id:5,
             value:"stopped",
             label:() => Locale.filters.stopped,
             iosIcon: cloudOfflineOutline,
             mdIcon: cloudOfflineSharp
           },
           {
+            id:6,
             value:"error",
             label:() => Locale.error.error,
             iosIcon: warningOutline,
             mdIcon: warningSharp
           },
           {
+            id:7,
             value:"queued",
             label:() => Locale.filters.queued,
             iosIcon: hourglassOutline,
             mdIcon: hourglassSharp
           },
           {
+            id:8,
             value:"selected",
             label:() => LocaleController.getPlural("selected",1),
             iosIcon: checkmarkCircleOutline,
@@ -270,7 +283,7 @@ export default defineComponent({
       connectionStatus: this.privateState.connectionStatus,
       serverCount: computed(() => this.privateState.serverList.length),
       torrentList: computed(() => this.privateState.torrentList),
-      filter: computed(() => this.privateState.filters[this.privateState.selectedFilter].value),
+      filter: computed(() => this.privateState.filters[this.privateState.selectedFilter].id),
       filterIds: computed(() => this.privateState.selectedIds)
     } 
   },
@@ -299,6 +312,7 @@ export default defineComponent({
     language() {
       LocaleController.setLanguage(UserSettings.getLanguage());
     },
+    "privateState.torrentList": function() { this.getTorrentFilters() },
     "privateState.serverList.length": async function() {
       if(this.privateState.selectedServer>=this.privateState.serverList.length){
         this.privateState.selectedServer=this.privateState.serverList.length-1;
@@ -406,6 +420,18 @@ export default defineComponent({
       }
     },
 
+    getTorrentFilters() {
+      this.privateState.torrentFilters = [];
+      this.privateState.torrentList.map((torrent: Record<string,any>) => {
+        if(this.privateState.selectedIds.includes(torrent.id) || this.privateState.selectedIds.length==0) {
+          Utils.getTorrentFilters(torrent).forEach((filter) => {
+            this.privateState.torrentFilters[filter] = this.privateState.torrentFilters[filter] ? this.privateState.torrentFilters[filter]+1 : 1;
+          })
+        }
+        
+      });
+    },
+
     selectTracker(tracker?: Record<string,any>){
       if(tracker){
         this.privateState.selectedTracker=tracker.announce
@@ -416,6 +442,7 @@ export default defineComponent({
         this.privateState.selectedIds=[];
       }
       this.closeTrackerList();
+      this.getTorrentFilters();
     },
 
     getTrackerList() {
