@@ -21,7 +21,7 @@ export const UserSettings = {
   state: reactive({...defaultSettings}) as Record<string,any>,
 
   getLanguage(): string {
-    return this.state.language=="default" ? navigator.language.substr(0,2) : this.state.language
+    return this.state.language=="default" ? navigator.language : this.state.language
   },
 
   setValue(key: string, val: string|number|boolean|unknown, save=false): void {
