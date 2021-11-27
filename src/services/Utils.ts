@@ -189,6 +189,32 @@ export const Utils = {
     }
   },
 
+  getTorrentFilters(torrent: Record<string,any>): Array<number> {
+    const filters = [0];
+    if(torrent.activityDate*1000 > Date.now()-60000) { // active
+      filters.push(1);
+    }
+    if(torrent.status == 4){ // downloading
+      filters.push(2);
+    }
+    if(torrent.status == 6) { // seeding
+      filters.push(3);
+    }
+    if(torrent.percentDone == 1) { // completed
+      filters.push(4);
+    }
+    if(torrent.status == 0) { // stopped
+      filters.push(5);
+    }
+    if(torrent.errorString != "") { // error
+      filters.push(6);
+    }
+    if(torrent.status == 3) { // queued
+      filters.push(7);
+    }
+    return filters;
+  },
+
   setTheme(theme: string): void {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches || window.navigator.userAgent.includes('AndroidDarkMode');
     let dark: boolean;
@@ -242,6 +268,7 @@ export const Utils = {
         break;
       case "net::err_internet_disconnected":
       case "net::err_network_changed":
+      case "net::err_address_unreachable":
         result = Locale.error.noInternetConnection;
         break;
       case "unable to reach host":

@@ -37,10 +37,10 @@
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
           <ion-segment-button :value="3" id="tab4">
-            <ion-label>{{ Locale.tracker.other }}</ion-label>
+            <ion-label>{{ LocaleController.getForm("tracker","other") }}</ion-label>
           </ion-segment-button>
           <ion-segment-button :value="4" id="tab5">
-            <ion-label>{{ Locale.peer.other }}</ion-label>
+            <ion-label>{{ LocaleController.getForm("peer","other") }}</ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
@@ -71,6 +71,14 @@
       </div>
     </div>
 
+    <div :class="{'no-fab':tabController.state.selectedTab!=3}">
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" @click="addTracker()">
+        <ion-fab-button>
+          <ion-icon :icon="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+
 </template>
 
 <script lang="ts">
@@ -90,7 +98,9 @@ import {
   IonSegmentButton,
   IonLabel,
   IonIcon,
-  IonButton
+  IonButton,
+  IonFab, 
+  IonFabButton,
 } from '@ionic/vue';
 import {
   playOutline,
@@ -100,9 +110,11 @@ import {
   saveOutline,
   saveSharp,
   ellipsisVerticalOutline,
-  ellipsisVerticalSharp
+  ellipsisVerticalSharp,
+  add
 } from 'ionicons/icons';
 import { Locale } from "../services/Locale";
+import { LocaleController } from "../services/LocaleController";
 import { Utils } from "../services/Utils";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from '../services/FileHandler';
@@ -142,6 +154,8 @@ export default defineComponent({
     IonLabel,
     IonIcon,
     IonButton,
+    IonFab, 
+    IonFabButton,
   },
   data() {
     return {
@@ -192,6 +206,7 @@ export default defineComponent({
 
     return { 
       Locale,
+      LocaleController,
       Utils,
       tabController,
       playOutline,
@@ -201,7 +216,8 @@ export default defineComponent({
       saveOutline,
       saveSharp,
       ellipsisVerticalOutline,
-      ellipsisVerticalSharp
+      ellipsisVerticalSharp,
+      add
     }
   },
   created() {
@@ -224,6 +240,9 @@ export default defineComponent({
     this.tabController.init(this.$refs.swiper, this.$refs.tabs);
   },
   methods: {
+    addTracker() {
+      Emitter.emit("add-tracker");
+    },
     async loadDetails(refresh=false) {
       if(!refresh){
         this.privateState.connectionStatus.error="";

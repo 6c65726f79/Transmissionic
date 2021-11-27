@@ -14,8 +14,8 @@
     "empty": "Vaciar",
     "error": {
         "error": "Error",
-        "timeout": "Unable to reach host (Timeout)",
-        "hostUnreachable": "Unable to reach host",
+        "timeout": "No se puede contactar el sistema remoto (Tiempo de espera agotado)",
+        "hostUnreachable": "No se puede contactar el sistema remoto",
         "daemonUnreachable": "No se puede conectar al servidor Transmission",
         "invalidToken": "Token inválido",
         "authenticationError": "Error de autenticación",
@@ -24,14 +24,14 @@
         "requestAborted": "Solicitud abortada",
         "connectionFailed": "Conexión fallida",
         "trackerConnectionError": "No se puede conectar al tracker",
-        "noDataFound": "No data found! Ensure your drives are connected or use \"Set Location\". To re-download, remove the torrent and re-add it.",
+        "noDataFound": "¡No se encontraron datos! Asegurese que sus discos están conectados o use \"Set Location\". Para re-descargar, elimine y re-agregue el torrent.",
         "pathNotAbsolute": "Ruta del destino no es absoluta",
         "trackerResponseCode": "Tracker respondió con código HTTP {0} ({1})",
         "notFound": "No encontrado",
         "noResponse": "Sin respuesta",
         "trackerDidNotRespond": "Tracker no respondió",
-        "noInternetConnection": "No internet connection",
-        "unregisteredTorrent": "Unregistered torrent"
+        "noInternetConnection": "Sin conexión a Internet",
+        "unregisteredTorrent": "Torrent no registrado"
     },
     "retry": "Re intentar",
     "default": "Por defecto",
@@ -80,7 +80,7 @@
     "filters": {
         "filters": "Filtros",
         "all": "Todos",
-        "downloading": "Descargado",
+        "downloading": "Descargando",
         "active": "Activos",
         "completed": "Completos",
         "stopped": "Detenidos",
@@ -99,7 +99,7 @@
         "remove": "Desea quitar {0}?",
         "deleteData": "Borrar datos",
         "delete": "Desea borrar el {0}?",
-        "reset": "Confirm settings reset?"
+        "reset": "¿Confirma cambio de ajustes?"
     },
     "units": {
         "perSecond": "/s",
@@ -118,7 +118,7 @@
     "files": "Archivos",
     "tracker": {
         "one": "Rastrear",
-        "other": "Rastreador"
+        "other": "Rastreadores"
     },
     "peer": {
         "one": "Par",
@@ -188,7 +188,7 @@
     "updateAvailable": "Actualización disponible: {0}",
     "download": "Descargar",
     "magnetLink": "Link magnético o hash",
-    "expandSideMenu": "Expandir menú lateral en pantallas grandes",
+    "expandSideMenu": "Expandir el menú lateral en una pantalla grande",
     "serverConfig": "Configuración del servidor",
     "limits": "Límites",
     "network": "Red",
@@ -221,9 +221,9 @@
     "blocklist": "Lista negra",
     "blocklistUrl": "URL de la lista negra",
     "useIpApi": "Usa ip-api.com",
-    "reset": "Reset",
-    "resetSettings": "Reset settings",
-    "pathMapping": "Remote to local path mapping",
+    "reset": "Re-establecer",
+    "resetSettings": "Cambiar ajustes",
+    "pathMapping": "Ruta remota a local",
     "example": "Ejemplo",
     "checkUpdates": "Buscar actualizaciones",
     "bookmarklet": "Bookmarklet",
@@ -231,12 +231,12 @@
     "updateBlocklist": "Actualizar lista negra",
     "blocklistSize": "Tamaño lista negra: {0}",
     "queuePosition": "Posición en cola",
-    "torrentFileLink": "Torrent file link",
+    "torrentFileLink": "Enlace a archivo torrent",
     "statistics": "Estadísticas",
-    "current": "Current",
+    "current": "Actual",
     "total": "Total",
     "duration": "Duración",
     "addTorrents": "Añadir torrents múltiples",
-    "preset": "Preset",
-    "openMagnetLinks": "Open magnet links with Transmissionic"
+    "preset": "Por defecto",
+    "openMagnetLinks": "Abrir enlaces magnéticos con Transmissionic"
 }

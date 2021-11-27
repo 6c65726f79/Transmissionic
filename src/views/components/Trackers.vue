@@ -97,11 +97,7 @@
       </ion-infinite-scroll-content>
     </ion-infinite-scroll>
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" @click="addTracker()">
-      <ion-fab-button>
-        <ion-icon :icon="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+    
   </ion-content>
 </template>
 
@@ -121,8 +117,6 @@ import {
   IonBadge,
   IonInfiniteScroll, 
   IonInfiniteScrollContent,
-  IonFab, 
-  IonFabButton,
   IonListHeader
 } from '@ionic/vue';
 import {
@@ -138,6 +132,7 @@ import { LocaleController } from "../../services/LocaleController";
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 import { TransmissionRPC } from '../../services/TransmissionRPC';
+import { Emitter } from '../../services/Emitter';
 
 export default defineComponent({
   components: {
@@ -152,8 +147,6 @@ export default defineComponent({
     IonBadge,
     IonInfiniteScroll, 
     IonInfiniteScrollContent,
-    IonFab, 
-    IonFabButton,
     IonListHeader
   },
   data() {
@@ -187,7 +180,12 @@ export default defineComponent({
     this.displayMore();
   },
   mounted() {
-    Utils.customScrollbar(this.$refs.content)
+    Utils.customScrollbar(this.$refs.content);
+
+    Emitter.on('add-tracker', this.addTracker);
+  },
+  beforeUnmount() {
+    Emitter.off('add-tracker', this.addTracker);
   },
   computed: {
     displayedTrackerList: function(): Array<any> {

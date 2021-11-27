@@ -46,22 +46,26 @@
 
 ## Translation
 
+![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hans?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/it?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
-- Chinese (Steven F.)
-- Dutch (John)
-- English
-- French
-- Italian (Emanuele Ruzza)
-- Russian (Alek Depler)
-- Spanish (Zenón Monge)
+- **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
+- **Chinese (traditional)** (Steven F)
+- **Dutch** (John)
+- **English**
+- **French**
+- **German** (Tobias W)
+- **Italian** (Emanuele Ruzza)
+- **Russian** (Alek Depler)
+- **Spanish** (Zenón Monge)
 
 You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to add it.
 
