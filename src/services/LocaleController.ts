@@ -56,8 +56,14 @@ export const LocaleController = {
         }
     },
     getPlural(key: string, count: number): string {
-        const lang = Locale.getLanguage();
+        let lang = Locale.getLanguage();
+        if(!Object(Plurals)[lang]){
+            lang = lang.substr(0,2);
+        }
         const form = Object(Plurals)[lang] ? Object(Plurals)[lang](count) : "other";
-        return Object(Locale)[key][form];
+        return this.getForm(key, form);
+    },
+    getForm(key: string, form: string): string {
+        return (Object(Locale)[key][form]) ? Object(Locale)[key][form] : Object(Locale)[key]["one"];
     }
 }

@@ -454,7 +454,7 @@ export default defineComponent({
     },
     async removeTorrents(torrentIds: Array<number>){
       const selectedTorrents=this.getTorrentsByIds(torrentIds);
-      const name=torrentIds.length==1 ? `"${selectedTorrents[0].name}"` : `${torrentIds.length} ${Locale.torrent.other}`;
+      const name=torrentIds.length==1 ? `"${selectedTorrents[0].name}"` : `${torrentIds.length} ${LocaleController.getForm("torrent","other")}`;
 
       const alert = await alertController
         .create({

@@ -25,7 +25,7 @@
           </ion-list>
 
           <ion-list id="trackers-list">
-            <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
+            <ion-list-header>{{ LocaleController.getForm("tracker","other") }}</ion-list-header>
 
             <ion-menu-toggle auto-hide="false">
               <ion-item @click="openTrackerList($event)" id="tracker-dropdown" lines="none" detail="false" button>
@@ -55,7 +55,7 @@
         <!-- Tracker list -->
         <ion-content v-show="privateState.trackerListOpened" id="trackers" ref="trackers">
           <ion-list>
-            <ion-list-header>{{ Locale.tracker.other }}</ion-list-header>
+            <ion-list-header>{{ LocaleController.getForm("tracker","other") }}</ion-list-header>
             <ion-menu-toggle auto-hide="false">
               <ion-item @click="selectTracker()" lines="none" :class="{selected:privateState.selectedTracker==''}" button>
                 <ion-label>{{ Locale.filters.all }}</ion-label>
@@ -290,6 +290,7 @@ export default defineComponent({
   setup() {
     return { 
       Locale,
+      LocaleController,
       Utils,
       serverOutline,
       serverSharp,

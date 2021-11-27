@@ -37,10 +37,10 @@
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
           <ion-segment-button :value="3" id="tab4">
-            <ion-label>{{ Locale.tracker.other }}</ion-label>
+            <ion-label>{{ LocaleController.getForm("tracker","other") }}</ion-label>
           </ion-segment-button>
           <ion-segment-button :value="4" id="tab5">
-            <ion-label>{{ Locale.peer.other }}</ion-label>
+            <ion-label>{{ LocaleController.getForm("peer","other") }}</ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
@@ -103,6 +103,7 @@ import {
   ellipsisVerticalSharp
 } from 'ionicons/icons';
 import { Locale } from "../services/Locale";
+import { LocaleController } from "../services/LocaleController";
 import { Utils } from "../services/Utils";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from '../services/FileHandler';
@@ -192,6 +193,7 @@ export default defineComponent({
 
     return { 
       Locale,
+      LocaleController,
       Utils,
       tabController,
       playOutline,

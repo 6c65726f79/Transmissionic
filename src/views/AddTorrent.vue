@@ -20,7 +20,7 @@
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
           <ion-segment-button :value="1" v-else id="tab2">
-            <ion-label class="text-transform">{{ Locale.torrent.other }}</ion-label>
+            <ion-label class="text-transform">{{ LocaleController.getForm("torrent","other") }}</ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
@@ -103,7 +103,7 @@
 
                 <ion-item v-if="multiple">
                   <ion-label class="label no-wrap">
-                    <div class="text-transform">{{ Locale.torrent.other }}</div>
+                    <div class="text-transform">{{ LocaleController.getForm("torrent","other") }}</div>
                     <span class="selectable">{{files.length}}</span>
                   </ion-label>
                 </ion-item>
@@ -247,6 +247,7 @@ import Preset from './Preset.vue';
 import TabController from '../services/TabController';
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
+import { LocaleController } from "../services/LocaleController";
 import { Emitter } from "../services/Emitter";
 import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from '../services/UserSettings';
@@ -327,6 +328,7 @@ export default defineComponent({
 
     return { 
       Locale,
+      LocaleController,
       Utils,
       tabController,
       TransmissionRPC,

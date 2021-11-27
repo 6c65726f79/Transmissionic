@@ -218,7 +218,7 @@
           <ion-list>
             <ion-list-header>
               <ion-label>
-                {{ Locale.peer.other }}
+                {{ LocaleController.getForm("peer","other") }}
               </ion-label>
             </ion-list-header>
 
@@ -387,6 +387,7 @@ import { TransmissionRPC } from "../services/TransmissionRPC";
 import { UserSettings } from "../services/UserSettings";
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
+import { LocaleController } from "../services/LocaleController";
 import * as _ from 'lodash';
 
 export default defineComponent({
@@ -423,6 +424,7 @@ export default defineComponent({
 
     return { 
       Locale,
+      LocaleController,
       Utils,
       tabController,
       saveOutline,
