@@ -71,6 +71,14 @@
       </div>
     </div>
 
+    <div :class="{'no-fab':tabController.state.selectedTab!=3}">
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" @click="addTracker()">
+        <ion-fab-button>
+          <ion-icon :icon="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+
 </template>
 
 <script lang="ts">
@@ -90,7 +98,9 @@ import {
   IonSegmentButton,
   IonLabel,
   IonIcon,
-  IonButton
+  IonButton,
+  IonFab, 
+  IonFabButton,
 } from '@ionic/vue';
 import {
   playOutline,
@@ -100,7 +110,8 @@ import {
   saveOutline,
   saveSharp,
   ellipsisVerticalOutline,
-  ellipsisVerticalSharp
+  ellipsisVerticalSharp,
+  add
 } from 'ionicons/icons';
 import { Locale } from "../services/Locale";
 import { LocaleController } from "../services/LocaleController";
@@ -143,6 +154,8 @@ export default defineComponent({
     IonLabel,
     IonIcon,
     IonButton,
+    IonFab, 
+    IonFabButton,
   },
   data() {
     return {
@@ -203,7 +216,8 @@ export default defineComponent({
       saveOutline,
       saveSharp,
       ellipsisVerticalOutline,
-      ellipsisVerticalSharp
+      ellipsisVerticalSharp,
+      add
     }
   },
   created() {
@@ -226,6 +240,9 @@ export default defineComponent({
     this.tabController.init(this.$refs.swiper, this.$refs.tabs);
   },
   methods: {
+    addTracker() {
+      Emitter.emit("add-tracker");
+    },
     async loadDetails(refresh=false) {
       if(!refresh){
         this.privateState.connectionStatus.error="";

@@ -681,14 +681,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-ion-fab {
-  transition: transform .2s ease;
-}
-
-.no-fab ion-fab {
-  transform: scale(0);
-}
-
 #logo span {
   color:var(--ion-color-primary);
 }

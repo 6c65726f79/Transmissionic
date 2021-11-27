@@ -247,3 +247,11 @@ ion-item .swiper-no-swiping {
 ion-item .swiper-no-swiping ion-toggle {
   padding-inline: 16px 0px;
 }
+
+ion-fab {
+  transition: transform .2s ease;
+}
+
+.no-fab ion-fab {
+  transform: scale(0);
+}
