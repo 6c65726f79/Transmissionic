@@ -227,7 +227,7 @@
     "example": "Ejemplo",
     "checkUpdates": "Buscar actualizaciones",
     "bookmarklet": "Bookmarklet",
-    "bookmarkletDetail": "Drag and drop this button inside your bookmarks bar to import magnet and torrent links from other websites in one click.",
+    "bookmarkletDetail": "Arrastra y suelta este botón a la barra de favoritos para importar enlaces magnéticos y torrent de otros sitios con un click.",
     "updateBlocklist": "Actualizar lista negra",
     "blocklistSize": "Tamaño lista negra: {0}",
     "queuePosition": "Posición en cola",
