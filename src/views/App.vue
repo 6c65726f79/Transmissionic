@@ -169,6 +169,7 @@ import { LocaleController } from "../services/LocaleController";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
 import { SplashScreen } from '@capacitor/splash-screen';
+import * as _ from 'lodash';
 
 export default defineComponent({
   name: 'App',
@@ -313,7 +314,6 @@ export default defineComponent({
     language() {
       LocaleController.setLanguage(UserSettings.getLanguage());
     },
-    "privateState.torrentList": function() { this.getTorrentFilters() },
     "privateState.serverList.length": async function() {
       if(this.privateState.selectedServer>=this.privateState.serverList.length){
         this.privateState.selectedServer=this.privateState.serverList.length-1;
@@ -386,14 +386,14 @@ export default defineComponent({
       clearInterval(this.privateState.refresh);
       this.privateState.refresh = setInterval(() => {
         if(!this.privateState.connectionStatus.loading && this.privateState.connectionStatus.error=="") { 
-          this.getTorrents()
+          this.getTorrents(false, true)
         }
       },this.sharedState.refreshInterval*1000);
     },
 
     refresh(clean=false) {
       this.setRefreshInterval();
-      this.getTorrents(clean);
+      this.getTorrents(clean, false);
     },
 
     openTrackerList(e: Event) {
@@ -456,6 +456,10 @@ export default defineComponent({
           component: Settings,
           cssClass: 'settings'
         })
+      modal.onDidDismiss()
+        .then(() => {
+          this.refresh(false)
+        })
       return modal.present();
     },
 
@@ -463,6 +467,10 @@ export default defineComponent({
       const modal = await modalController
         .create({
           component: About
+        })
+      modal.onDidDismiss()
+        .then(() => {
+          this.refresh(false)
         })
       return modal.present();
     },
@@ -480,6 +488,10 @@ export default defineComponent({
             serverId:serverId,
             add:add
           }
+        })
+      modal.onDidDismiss()
+        .then(() => {
+          this.refresh(false)
         })
       return modal.present();
     },
@@ -509,7 +521,7 @@ export default defineComponent({
         })
     },
 
-    async getTorrents(clean=false) {
+    async getTorrents(clean=false, refresh=false) {
       const isModalOpened = await modalController.getTop();
       if(!isModalOpened || clean){
         this.privateState.connectionStatus.loading=true;
@@ -518,11 +530,11 @@ export default defineComponent({
           this.privateState.connectionStatus.error="";
           this.privateState.torrentList=[];
         }
-        TransmissionRPC.getTorrents()
-          .then((response) => {
+        TransmissionRPC.getTorrents((refresh && !clean))
+          .then((response: Record<string,Array<any>>) => {
             this.privateState.connectionStatus.error="";
             this.privateState.connectionStatus.connected=true;
-            this.privateState.torrentList=response;
+            this.parseTorrentListResponse(response, clean, refresh);
           })
           .catch((error) => {
             if(error.message){
@@ -534,6 +546,24 @@ export default defineComponent({
           .then(() => {
             this.privateState.connectionStatus.loading=false;
           })
+      }
+    },
+
+    parseTorrentListResponse(response: Record<string,Array<any>>, clean: boolean, refresh: boolean) {
+      if(refresh){
+        this.privateState.torrentList = _.unionBy(response.torrents, this.privateState.torrentList, 'id');
+        if(response.removed.length>0){
+          this.privateState.torrentList = this.privateState.torrentList.filter(function(torrent) {
+            return !response.removed.includes(torrent.id);
+          });
+        }
+        if(response.torrents.length>0 || response.removed.length>0){
+          this.getTorrentFilters();
+        }
+      }
+      else {
+        this.privateState.torrentList = response.torrents;
+        this.getTorrentFilters();
       }
     }
   }

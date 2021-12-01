@@ -213,10 +213,10 @@ class TRPC {
     return token;
   }
 
-  async getTorrents() {
-    let result: Array<any>=[];
+  async getTorrents(refresh=false) {
+    let result: Record<string,Array<any>>={};
     let loadPersistent=false;
-    const args = {
+    const args: Record<string,any> = {
       fields: [
         'id',
         'name',
@@ -237,6 +237,9 @@ class TRPC {
         'queuePosition'
       ]
     }
+    if(refresh) {
+      args.ids = "recently-active";
+    }
 
     if(!this.persistentDataValid){
       loadPersistent=true;
@@ -246,7 +249,7 @@ class TRPC {
     const response = await this.rpcCall("torrent-get", args, true, true);
 
     if(response.arguments){
-      result=response.arguments.torrents
+      result=response.arguments
 
       if(loadPersistent){
         this.readPersitentData(result);
@@ -255,12 +258,12 @@ class TRPC {
     return result
   }
 
-  readPersitentData(details: Array<any>) {
+  readPersitentData(details: Record<string,Array<any>>) {
     let trackers: Array<Record<string,any>> = [];
     const downloadDirList: Array<string> = [];
     trackerId=0;
 
-    for (const torrent of details) {
+    for (const torrent of details.torrents) {
 
       const dir = this.readDownloadDir(torrent.downloadDir)
 

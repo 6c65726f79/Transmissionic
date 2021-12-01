@@ -5,7 +5,7 @@
 
 <p align="center">
   Transmissionic is a free multi-platform remote for Transmission Daemon built with <a href="https://ionicframework.com/">Ionic</a> and <a href="https://vuejs.org/">Vue.js</a>.<br>
-  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program. (More platforms could be added such as macOS and iOS)
+  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program.
 </p>
 <p align="center">
   
@@ -203,7 +203,7 @@ For mobile users:
 
 To handle magnet links in Windows, you need to set Transmissionic as the default program.
 
-To do so, go to "Choose default apps by protocol" in the settings, scroll down to "MAGNET" then select Transmissionic.
+To do so, go to "Choose default apps by protocol" in the Windows settings, scroll down to "MAGNET" then select Transmissionic.
 
 ### Path mapping
 
