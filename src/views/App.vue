@@ -531,17 +531,22 @@ export default defineComponent({
           this.privateState.torrentList=[];
         }
         TransmissionRPC.getTorrents((refresh && !clean))
-          .then((response) => {
+          .then((response: Record<string,Array<any>>) => {
             this.privateState.connectionStatus.error="";
             this.privateState.connectionStatus.connected=true;
             if(refresh){
-              this.privateState.torrentList = _.unionBy(response, this.privateState.torrentList, 'id');
-              if(response.length>0){
+              this.privateState.torrentList = _.unionBy(response.torrents, this.privateState.torrentList, 'id');
+              if(response.removed.length>0){
+                this.privateState.torrentList = this.privateState.torrentList.filter(function(torrent) {
+                  return !response.removed.includes(torrent.id);
+                });
+              }
+              if(response.torrents.length>0 || response.removed.length>0){
                 this.getTorrentFilters();
               }
             }
             else {
-              this.privateState.torrentList = response;
+              this.privateState.torrentList = response.torrents;
               this.getTorrentFilters();
             }
           })
