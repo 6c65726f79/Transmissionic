@@ -213,10 +213,10 @@ class TRPC {
     return token;
   }
 
-  async getTorrents() {
+  async getTorrents(refresh=false) {
     let result: Array<any>=[];
     let loadPersistent=false;
-    const args = {
+    const args: Record<string,any> = {
       fields: [
         'id',
         'name',
@@ -236,6 +236,9 @@ class TRPC {
         'recheckProgress',
         'queuePosition'
       ]
+    }
+    if(refresh) {
+      args.ids = "recently-active";
     }
 
     if(!this.persistentDataValid){
