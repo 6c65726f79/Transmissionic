@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^3.3.3",
-    "@capacitor/app": "^1.0.6",
+    "@capacitor/app": "^1.0.7",
     "@capacitor/clipboard": "^1.0.6",
     "@capacitor/core": "^3.3.3",
     "@capacitor/screen-reader": "^1.0.6",
