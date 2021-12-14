@@ -24,7 +24,7 @@
     "@capacitor/toast": "^1.0.6",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/http": "^5.36.0",
-    "@ionic/pwa-elements": "^3.1.0",
+    "@ionic/pwa-elements": "^3.1.1",
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
