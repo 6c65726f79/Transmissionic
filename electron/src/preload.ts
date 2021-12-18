@@ -21,7 +21,7 @@ contextBridge.exposeInMainWorld('Titlebar', {
     ipcRenderer.send('request-application-menu');
   },
   updateBackground: (color) => {
-    titleBar.updateBackground(color);
+    titleBar.updateOptions({backgroundColor:color});
   },
   shortcuts: (func) => {
     shortcutsHandler = (shortcut) => func(shortcut);
