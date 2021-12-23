@@ -39,7 +39,7 @@
     "mitt": "^3.0.0",
     "moment": "^2.29.1",
     "parse-torrent": "^9.1.4",
-    "swiper": "^7.3.3",
+    "swiper": "^7.3.4",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12",
     "vue-virtual-scroller": "^2.0.0-alpha.1"
