@@ -16,7 +16,8 @@ contextBridge.exposeInMainWorld('Titlebar', {
       onMaximize: () => ipcRenderer.send('window-event', 'maximize'),
       onClose: () => ipcRenderer.send('window-event', 'close'),
       isMaximized: () => ipcRenderer.sendSync('window-state'),
-      menuItemClickHandler: (commandId) => ipcRenderer.send('menu-event', commandId)
+      menuItemClickHandler: (commandId) => ipcRenderer.send('menu-event', commandId),
+      backgroundUnfocusEffect: false
     });
     ipcRenderer.send('request-application-menu');
   },
