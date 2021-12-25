@@ -29,48 +29,46 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/custom_url_scheme" />
-            </intent-filter>
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="*" android:mimeType="application/x-bittorrent" android:scheme="file" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="*" android:pathPattern=".*\\.torrent" android:scheme="file" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="*" android:mimeType="application/x-bittorrent" android:scheme="content" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="*" android:pathPattern=".*\\.torrent" android:scheme="content" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
                 <data android:scheme="magnet"/>
+                <data android:host="*" />
+
+                <data android:scheme="@string/custom_url_scheme" />
+                <data android:mimeType="application/x-bittorrent" />
+            </intent-filter>
+
+            <!-- HACK to support torrent files on Chrome OS, inspired by
+                https://github.com/LibreOffice/online/blob/d0edfeabbdc969a9a66cf90976a63c2f4403a6d3/android/app/src/main/AndroidManifest.xml#L119-L129 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+
+                <data android:pathPattern=".*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
             </intent-filter>
 
         </activity>
     </application>
 
-    <!-- Permissions -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
