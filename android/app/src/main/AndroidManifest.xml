@@ -24,6 +24,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                
+                <data android:scheme="@string/custom_url_scheme" />
+            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -32,11 +40,17 @@
 
                 <data android:scheme="file" />
                 <data android:scheme="content" />
-                <data android:scheme="magnet"/>
                 <data android:host="*" />
 
-                <data android:scheme="@string/custom_url_scheme" />
                 <data android:mimeType="application/x-bittorrent" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="magnet"/>
             </intent-filter>
 
             <!-- HACK to support torrent files on Chrome OS, inspired by
