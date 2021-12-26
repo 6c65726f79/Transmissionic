@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.5.3-dev",
+  "version": "1.5.3",
   "description": "Remote for Transmission Daemon",
   "author": {
     "name": "Samuel Leroy",
