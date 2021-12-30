@@ -127,10 +127,11 @@ import Trackers from './components/Trackers.vue';
 import Peers from './components/Peers.vue';
 import TabController from '../services/TabController';
 import { TransmissionRPC } from '../services/TransmissionRPC';
-import { iosEnterAnimation } from './animations/ios.enter';
-import { iosLeaveAnimation } from './animations/ios.leave';
-import { mdEnterAnimation } from './animations/md.enter';
-import { mdLeaveAnimation } from './animations/md.leave';
+import { iosEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.enter';
+import { iosLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.leave';
+import { mdEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.enter';
+import { mdLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.leave';
+
 import { Emitter } from "../services/Emitter";
 import * as _ from 'lodash';
 
@@ -238,6 +239,10 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.content);
 
     this.tabController.init(this.$refs.swiper, this.$refs.tabs);
+
+    Emitter.on("clear-refresh-interval", () => {
+      clearInterval(this.privateState.refreshInterval);
+    } )
   },
   methods: {
     addTracker() {
@@ -510,9 +515,6 @@ export default defineComponent({
       Emitter.emit('switch', this.id)
       this.privateState.details.status = this.privateState.details.status==0 ? 6 : 0
     }
-  },
-  beforeUnmount() {
-    clearInterval(this.privateState.refreshInterval);
   }
 });
 </script>
