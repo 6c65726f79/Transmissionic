@@ -81,7 +81,7 @@ export default defineComponent({
 <style>
 .md .location-alert {
   --background: var(--ion-overlay-background-color, var(--ion-background-color, #fff));
-  --backdrop-opacity: var(--ion-backdrop-opacity, 0.32);
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.32) !important;
   --width: 350px;
   --min-height:250px;
   --height: auto;
@@ -90,13 +90,15 @@ export default defineComponent({
   font-size: 14px;
   font-family: var(--ion-font-family, inherit);
 }
-.md .location-alert div[role="dialog"] {
+
+.md .location-alert::part(content) {
+  overflow: visible;
   border-radius: 4px;
   -webkit-box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
-  overflow: visible;
 }
-.md .location-alert div[role="dialog"] .ion-page {
+
+.md .location-alert .ion-page {
   overflow: visible;
 }
 
@@ -252,7 +254,7 @@ export default defineComponent({
 
 .ios .location-alert {
   --background: var(--ion-overlay-background-color, var(--ion-background-color, #fff));
-  --backdrop-opacity: var(--ion-backdrop-opacity, 0.3);
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.3) !important;
   --width: 350px;
   --min-height:206px;
   --height: auto;
@@ -260,6 +262,15 @@ export default defineComponent({
   --max-width: 90%;
   font-size: 14px;
   font-family: var(--ion-font-family, inherit);
+}
+
+.ios .location-alert::part(content) {
+  overflow: visible;
+  border-radius: 13px;
+}
+
+.ios .location-alert .ion-page {
+  overflow: visible;
 }
 
 .ios .location-alert .alert-head {

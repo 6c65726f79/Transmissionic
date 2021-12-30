@@ -127,10 +127,11 @@ import Trackers from './components/Trackers.vue';
 import Peers from './components/Peers.vue';
 import TabController from '../services/TabController';
 import { TransmissionRPC } from '../services/TransmissionRPC';
-import { iosEnterAnimation } from './animations/ios.enter';
-import { iosLeaveAnimation } from './animations/ios.leave';
-import { mdEnterAnimation } from './animations/md.enter';
-import { mdLeaveAnimation } from './animations/md.leave';
+import { iosEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.enter';
+import { iosLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.leave';
+import { mdEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.enter';
+import { mdLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.leave';
+
 import { Emitter } from "../services/Emitter";
 import * as _ from 'lodash';
 
