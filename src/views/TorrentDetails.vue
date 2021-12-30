@@ -239,6 +239,10 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.content);
 
     this.tabController.init(this.$refs.swiper, this.$refs.tabs);
+
+    Emitter.on("clear-refresh-interval", () => {
+      clearInterval(this.privateState.refreshInterval);
+    } )
   },
   methods: {
     addTracker() {
@@ -511,9 +515,6 @@ export default defineComponent({
       Emitter.emit('switch', this.id)
       this.privateState.details.status = this.privateState.details.status==0 ? 6 : 0
     }
-  },
-  beforeUnmount() {
-    clearInterval(this.privateState.refreshInterval);
   }
 });
 </script>

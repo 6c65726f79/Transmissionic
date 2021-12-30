@@ -397,6 +397,7 @@ export default defineComponent({
         modal.onDidDismiss()
           .then(() => {
             Emitter.emit("refresh", false);
+            Emitter.emit("clear-refresh-interval");
           })
         return modal.present();
       }
