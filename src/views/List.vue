@@ -107,7 +107,7 @@
           <ion-button fill="clear" id="alt-speed" @click="switchAltSpeed()" aria-label="Alternative speed" :aria-checked="altSpeedEnabled()">
             <ion-icon 
               slot="icon-only"
-              :color="altSpeedEnabled() ? 'primary' : null"
+              :color="altSpeedEnabled() ? 'primary' : undefined"
               :ios="altSpeedEnabled() ? speedometer : speedometerOutline"
               :md="speedometerSharp">
             </ion-icon>
@@ -411,7 +411,9 @@ export default defineComponent({
       }
     },
     altSpeedEnabled(): boolean {
-      this.privateState.altSpeedEnabled = TransmissionRPC.sessionArguments['alt-speed-enabled']
+      if(TransmissionRPC.sessionArguments){
+        this.privateState.altSpeedEnabled = TransmissionRPC.sessionArguments['alt-speed-enabled'];
+      }
       return this.privateState.altSpeedEnabled;
     },
     switchAltSpeed(){
