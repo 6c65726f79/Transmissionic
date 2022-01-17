@@ -212,6 +212,9 @@ export const Utils = {
     if(torrent.status == 3) { // queued
       filters.push(7);
     }
+    if(torrent.status == 1 || torrent.status == 2) { // verifying
+      filters.push(8);
+    }
     return filters;
   },
 

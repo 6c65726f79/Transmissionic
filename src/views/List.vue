@@ -258,11 +258,13 @@ export default defineComponent({
         });
       }
 
+      // Filter list by selected filter
       list = _.filter(list, function(o) {
-        if(removed.includes(o.id)) return false;
-        return filter==8 ? selection.includes(o.id) : Utils.getTorrentFilters(o).includes(filter)
+        if(removed.includes(o.id)) return false; // Don't list removed torrents
+        return filter==9 ? selection.includes(o.id) : Utils.getTorrentFilters(o).includes(filter)
       });
 
+      // Filter list by search value
       if(this.privateState.search!=""){
         const search=this.privateState.search.toLowerCase();
         list = _.filter(list, function(o) {
