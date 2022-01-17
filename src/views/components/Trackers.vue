@@ -183,9 +183,9 @@ export default defineComponent({
     Utils.customScrollbar(this.$refs.content);
 
     Emitter.on('add-tracker', this.addTracker);
-  },
-  beforeUnmount() {
-    Emitter.off('add-tracker', this.addTracker);
+    Emitter.on("unmount-torrent-details", () => {
+      Emitter.off('add-tracker', this.addTracker);
+    })
   },
   computed: {
     displayedTrackerList: function(): Array<any> {

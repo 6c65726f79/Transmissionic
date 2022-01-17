@@ -397,7 +397,7 @@ export default defineComponent({
         modal.onDidDismiss()
           .then(() => {
             Emitter.emit("refresh", false);
-            Emitter.emit("clear-refresh-interval");
+            Emitter.emit("unmount-torrent-details");
           })
         return modal.present();
       }

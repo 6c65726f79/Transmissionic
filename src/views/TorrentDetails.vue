@@ -240,9 +240,9 @@ export default defineComponent({
 
     this.tabController.init(this.$refs.swiper, this.$refs.tabs);
 
-    Emitter.on("clear-refresh-interval", () => {
+    Emitter.on("unmount-torrent-details", () => {
       clearInterval(this.privateState.refreshInterval);
-    } )
+    })
   },
   methods: {
     addTracker() {
