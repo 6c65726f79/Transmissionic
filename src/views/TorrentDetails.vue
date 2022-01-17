@@ -51,7 +51,7 @@
       v-on:retry="loadDetails()">
     </ConnectionStatus>
 
-    <div class="swiper" ref="swiper" v-show="privateState.connectionStatus.connected">
+    <div class="swiper" ref="swiper" v-show="!privateState.connectionStatus.loading && privateState.connectionStatus.error==''">
       <div class="swiper-wrapper">
         <div class="swiper-slide" role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
           <Infos v-if="tabController.isVisible(0)"></Infos>
