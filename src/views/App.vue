@@ -156,7 +156,9 @@ import {
   hourglassOutline,
   hourglassSharp,
   checkmarkCircleOutline,
-  checkmarkCircleSharp
+  checkmarkCircleSharp,
+  reloadOutline,
+  reloadSharp
 } from 'ionicons/icons';
 import Settings from './Settings.vue'
 import ServerDetails from './ServerDetails.vue'
@@ -270,6 +272,13 @@ export default defineComponent({
           },
           {
             id:8,
+            value:"verifying",
+            label:() => Locale.filters.verifying,
+            iosIcon: reloadOutline,
+            mdIcon: reloadSharp
+          },
+          {
+            id:9,
             value:"selected",
             label:() => LocaleController.getPlural("selected",1),
             iosIcon: checkmarkCircleOutline,

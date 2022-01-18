@@ -29,7 +29,7 @@ export default defineComponent({
                 if(this.value!==this.true && this.value!==this.false){
                     value=this.value;
                 }
-                this.$emit('change', {checked,value});
+                this.$emit('update', {checked,value});
             }
         }
     }

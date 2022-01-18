@@ -65,7 +65,7 @@ input[type=number] {
   -moz-appearance: textfield !important;
 }
 
-.stats-popover .popover-content {
+.stats-popover::part(content) {
   width:300px;
 }
 
@@ -250,6 +250,7 @@ ion-item .swiper-no-swiping ion-toggle {
 
 ion-fab {
   transition: transform .2s ease;
+  transform: scale(1);
 }
 
 .no-fab ion-fab {

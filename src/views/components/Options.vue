@@ -56,7 +56,7 @@
         <TriToggle
           :value="details.seedRatioMode"
           :true="0"
-          v-on:change="details.seedRatioMode=$event.checked ? 0 : 2"
+          v-on:update="details.seedRatioMode=$event.checked ? 0 : 2"
           slot="end"
         ></TriToggle>
         
@@ -73,7 +73,7 @@
           :value="details.seedRatioMode"
           :true="1"
           :false="2"
-          v-on:change="details.seedRatioMode=$event.checked ? 1 : $event.value"
+          v-on:update="details.seedRatioMode=$event.checked ? 1 : $event.value"
           slot="end"
         ></TriToggle>
       </ion-item>
@@ -91,7 +91,7 @@
         <TriToggle
           :value="details.seedIdleMode"
           :true="0"
-          v-on:change="details.seedIdleMode=$event.checked ? 0 : 2"
+          v-on:update="details.seedIdleMode=$event.checked ? 0 : 2"
           slot="end"
         ></TriToggle>
       </ion-item>
@@ -106,7 +106,7 @@
           :value="details.seedIdleMode"
           :true="1"
           :false="2"
-          v-on:change="details.seedIdleMode=$event.checked ? 1 : $event.value"
+          v-on:update="details.seedIdleMode=$event.checked ? 1 : $event.value"
           slot="end"
         ></TriToggle>
         

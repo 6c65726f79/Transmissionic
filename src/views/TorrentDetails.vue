@@ -51,7 +51,7 @@
       v-on:retry="loadDetails()">
     </ConnectionStatus>
 
-    <div class="swiper" ref="swiper" v-show="privateState.connectionStatus.connected">
+    <div class="swiper" ref="swiper" v-show="!privateState.connectionStatus.loading && privateState.connectionStatus.error==''">
       <div class="swiper-wrapper">
         <div class="swiper-slide" role="tabpanel" aria-labelledby="tab1" :aria-hidden="tabController.state.selectedTab!=0">
           <Infos v-if="tabController.isVisible(0)"></Infos>
@@ -240,9 +240,9 @@ export default defineComponent({
 
     this.tabController.init(this.$refs.swiper, this.$refs.tabs);
 
-    Emitter.on("clear-refresh-interval", () => {
+    Emitter.on("unmount-torrent-details", () => {
       clearInterval(this.privateState.refreshInterval);
-    } )
+    })
   },
   methods: {
     addTracker() {
