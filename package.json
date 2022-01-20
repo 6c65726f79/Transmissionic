@@ -13,7 +13,7 @@
     "sync:electron": "npm run build && npx cap sync @capacitor-community/electron && npm run postbuild:electron"
   },
   "dependencies": {
-    "@capacitor/android": "^3.3.4",
+    "@capacitor/android": "^3.4.0",
     "@capacitor/app": "^1.1.0",
     "@capacitor/clipboard": "^1.0.6",
     "@capacitor/core": "^3.4.0",
