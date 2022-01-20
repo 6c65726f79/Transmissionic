@@ -20,7 +20,7 @@
     "@capacitor/screen-reader": "^1.0.6",
     "@capacitor/splash-screen": "^1.2.0",
     "@capacitor/status-bar": "^1.0.6",
-    "@capacitor/storage": "^1.2.3",
+    "@capacitor/storage": "^1.2.4",
     "@capacitor/toast": "^1.0.6",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/http": "^5.36.0",
