@@ -19,7 +19,7 @@
     "@capacitor/core": "^3.4.0",
     "@capacitor/screen-reader": "^1.0.7",
     "@capacitor/splash-screen": "^1.2.1",
-    "@capacitor/status-bar": "^1.0.6",
+    "@capacitor/status-bar": "^1.0.7",
     "@capacitor/storage": "^1.2.4",
     "@capacitor/toast": "^1.0.6",
     "@ionic-native/core": "^5.36.0",
