@@ -18,7 +18,7 @@ import {
 let mainWindow: Electron.BrowserWindow;
 let request: Electron.ClientRequest;
 let openFiles: Array<Buffer>;
-let openMagnet: String;
+let openMagnet: string;
 
 // Graceful handling of unhandled errors.
 unhandled();
@@ -54,8 +54,10 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit()
 } else {
-  openFiles = getTorrents(process.argv);
-  openMagnet = getMagnet(process.argv);
+  if(process.argv.length>0){
+    openFiles = getTorrents(process.argv);
+    openMagnet = getMagnet(process.argv);
+  }
 
   // Run Application
   (async () => {
@@ -73,14 +75,7 @@ if (!gotTheLock) {
     mainWindow = myCapacitorApp.getMainWindow();
 
     if (mainWindow) {
-      mainWindow.webContents.on('did-finish-load', function() {
-        if(openFiles.length>0){
-          mainWindow.webContents.send('file-open', openFiles);
-        }
-        if(openMagnet!=null){
-          mainWindow.webContents.send('magnet-open', openMagnet);
-        } 
-      });
+      mainWindow.webContents.on('did-finish-load', sendFileOrMagnet);
     }
   })();
 
@@ -89,19 +84,23 @@ if (!gotTheLock) {
     openMagnet = getMagnet(commandLine);
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
-      if (openFiles.length>0) mainWindow.webContents.send('file-open', openFiles)
-      if (openMagnet!=null) mainWindow.webContents.send('magnet-open', openMagnet)
+      sendFileOrMagnet();
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
     }
   })
 }
 
-app.on('open-file', (event, path) => {
-  // Support for Mac OS
-  openFiles=[fs.readFileSync(path, null)];
-  const mainWindow = myCapacitorApp.getMainWindow();
-  mainWindow.webContents.send('fileopen', openFiles)
+app.on('open-file', async (event, path) => {
+  // Handle file opening on macOS
+  openFiles.push(fs.readFileSync(path, null));
+  if(mainWindow) sendFileOrMagnet();
+})
+
+app.on('open-url', async (event, url) => {
+  // Handle magnet opening on macOS
+  openMagnet=url;
+  if(mainWindow) sendFileOrMagnet();
 })
 
 app.on('web-contents-created', (createEvent, contents) => {
@@ -121,15 +120,27 @@ app.on('window-all-closed', function () {
 });
 
 // When the dock icon is clicked.
-app.on('activate', async function () {
+app.on('activate', activate);
+
+
+// Place all ipc or other electron api calls and custom functionality under this line
+async function sendFileOrMagnet() {
+  await activate();
+  if(openFiles.length>0) mainWindow.webContents.send('file-open', openFiles);
+  if(openMagnet!=null) mainWindow.webContents.send('magnet-open', openMagnet);
+  openFiles=[];
+  openMagnet=null;
+}
+
+async function activate() {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (myCapacitorApp.getMainWindow().isDestroyed()) {
     await myCapacitorApp.init();
+    mainWindow = myCapacitorApp.getMainWindow();
   }
-});
+}
 
-// Place all ipc or other electron api calls and custom functionality under this line
 function getTorrents(args: Array<any>): Array<Buffer> {
   const result=[];
   args.forEach((arg: string) => {
@@ -140,7 +151,7 @@ function getTorrents(args: Array<any>): Array<Buffer> {
   return result;
 }
 
-function getMagnet(args: Array<any>): String {
+function getMagnet(args: Array<any>): string {
   let result=null;
   args.forEach((arg: string) => {
     if(arg && arg.toLowerCase().startsWith("magnet:") && result==null){

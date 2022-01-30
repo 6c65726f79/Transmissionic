@@ -22,7 +22,7 @@
     "electron:build-linux": "npm run build && electron-builder build --linux -c ./electron-builder.config.json",
     "electron:build-mac": "npm run build && electron-builder build --mac -c ./electron-builder.config.json",
     "electron:publish-windows": "npm run build && electron-builder build --windows -c ./electron-builder.config.json -p always",
-    "electron:publish-linux": "npm run build && electron-builder build --linux -c ./electron-builder.config.json -p always",
+    "electron:publish-linux": "npm run build && electron-builder build --mac -c ./electron-builder.config.json -p always",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
@@ -36,6 +36,7 @@
     "electron-window-state": "~5.0.3"
   },
   "devDependencies": {
+    "crc": "^4.1.0",
     "electron": "^16.0.8",
     "electron-builder": "~22.14.5",
     "electron-rebuild": "~3.2.7",

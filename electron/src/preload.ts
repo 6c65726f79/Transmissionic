@@ -5,6 +5,7 @@ require('./rt/electron-rt');
 import { ipcRenderer, contextBridge, shell} from 'electron';
 import path from 'path';
 import Titlebar from '@6c65726f79/custom-titlebar';
+import { platform } from 'process';
 
 let shortcutsHandler: Function;
 let titleBar: Titlebar;
@@ -12,6 +13,7 @@ let titleBar: Titlebar;
 contextBridge.exposeInMainWorld('Titlebar', {
   new: () => {
     titleBar = new Titlebar({
+      platform,
       onMinimize: () => ipcRenderer.send('window-event', 'minimize'),
       onMaximize: () => ipcRenderer.send('window-event', 'maximize'),
       onClose: () => ipcRenderer.send('window-event', 'close'),
