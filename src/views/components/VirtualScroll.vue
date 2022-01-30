@@ -7,7 +7,7 @@
       ref="scroller"
       :items="items"
       :item-size="itemSize"
-      :key-field="keyField"
+      :key-field="keyField ? keyField : null"
     >
       <template v-slot:before>
         <slot name="start"></slot>

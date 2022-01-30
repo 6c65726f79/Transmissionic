@@ -175,7 +175,7 @@
         </div>
         <!-- Torrents tab -->
         <div class="swiper-slide" v-if="multiple" role="tabpanel" aria-labelledby="tab2" :aria-hidden="tabController.state.selectedTab!=1">
-          <VirtualScroll v-bind="$attrs" :items="files" :item-size="64" key-field="data.infoHash">
+          <VirtualScroll v-bind="$attrs" :items="files" :item-size="64">
             <template v-slot:default="{item}">
               <div class="torrent">
                 <div class="side">
