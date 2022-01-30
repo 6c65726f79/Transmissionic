@@ -1,6 +1,6 @@
 {
   "name": "transmissionic",
-  "version": "1.5.5",
+  "version": "1.6.0-dev",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -13,20 +13,20 @@
     "sync:electron": "npm run build && npx cap sync @capacitor-community/electron && npm run postbuild:electron"
   },
   "dependencies": {
-    "@capacitor/android": "^3.3.4",
-    "@capacitor/app": "^1.0.7",
-    "@capacitor/clipboard": "^1.0.6",
-    "@capacitor/core": "^3.3.4",
-    "@capacitor/screen-reader": "^1.0.6",
-    "@capacitor/splash-screen": "^1.2.0",
-    "@capacitor/status-bar": "^1.0.6",
-    "@capacitor/storage": "^1.2.3",
-    "@capacitor/toast": "^1.0.6",
+    "@capacitor/android": "^3.4.0",
+    "@capacitor/app": "^1.1.0",
+    "@capacitor/clipboard": "^1.0.7",
+    "@capacitor/core": "^3.4.0",
+    "@capacitor/screen-reader": "^1.0.7",
+    "@capacitor/splash-screen": "^1.2.1",
+    "@capacitor/status-bar": "^1.0.7",
+    "@capacitor/storage": "^1.2.4",
+    "@capacitor/toast": "^1.0.7",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/http": "^5.36.0",
     "@ionic/pwa-elements": "^3.1.1",
-    "@ionic/vue": "^6.0.2",
-    "@ionic/vue-router": "^6.0.2",
+    "@ionic/vue": "^6.0.4",
+    "@ionic/vue-router": "^6.0.4",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
     "autolinker": "^3.14.3",
     "capacitor-secure-storage-plugin": "^0.6.2",
@@ -40,13 +40,13 @@
     "moment": "^2.29.1",
     "parse-torrent": "^9.1.4",
     "swiper": "^7.4.1",
-    "vue": "^3.2.27",
+    "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vue-virtual-scroller": "^2.0.0-alpha.1"
   },
   "devDependencies": {
-    "@capacitor-community/electron": "^4.0.3",
-    "@capacitor/cli": "^3.3.4",
+    "@capacitor-community/electron": "^4.1.0",
+    "@capacitor/cli": "^3.4.0",
     "@types/lodash": "^4.14.178",
     "@types/parse-torrent": "^5.8.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -56,11 +56,11 @@
     "@vue/cli-plugin-router": "~4.5.15",
     "@vue/cli-plugin-typescript": "~4.5.15",
     "@vue/cli-service": "^4.5.15",
-    "@vue/compiler-sfc": "^3.2.27",
+    "@vue/compiler-sfc": "^3.2.29",
     "@vue/eslint-config-typescript": "^7.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^7.20.0",
-    "typescript": "~4.5.4"
+    "typescript": "~4.5.5"
   },
   "description": "Remote for Transmission Daemon"
 }
