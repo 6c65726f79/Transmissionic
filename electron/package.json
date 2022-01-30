@@ -22,7 +22,8 @@
     "electron:build-linux": "npm run build && electron-builder build --linux -c ./electron-builder.config.json",
     "electron:build-mac": "npm run build && electron-builder build --mac -c ./electron-builder.config.json",
     "electron:publish-windows": "npm run build && electron-builder build --windows -c ./electron-builder.config.json -p always",
-    "electron:publish-linux": "npm run build && electron-builder build --mac -c ./electron-builder.config.json -p always",
+    "electron:publish-linux": "npm run build && electron-builder build --linux -c ./electron-builder.config.json -p always",
+    "electron:publish-mac": "npm run build && electron-builder build --mac -c ./electron-builder.config.json -p always",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
