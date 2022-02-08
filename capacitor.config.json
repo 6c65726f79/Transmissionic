@@ -10,5 +10,8 @@
       "launchAutoHide": false
     }
   },
-  "cordova": {}
+  "cordova": {},
+  "ios": {
+    "contentInset": "always"
+  }
 }
