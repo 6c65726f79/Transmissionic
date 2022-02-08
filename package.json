@@ -18,6 +18,7 @@
     "@capacitor/clipboard": "^1.0.7",
     "@capacitor/core": "^3.4.0",
     "@capacitor/ios": "^3.4.0",
+    "@capacitor/keyboard": "^1.2.1",
     "@capacitor/screen-reader": "^1.0.7",
     "@capacitor/splash-screen": "^1.2.1",
     "@capacitor/status-bar": "^1.0.7",

@@ -8,6 +8,9 @@
     "SplashScreen": {
       "androidScaleType": "CENTER_CROP",
       "launchAutoHide": false
+    },
+    "Keyboard": {
+      "resize": "ionic"
     }
   },
   "cordova": {},
