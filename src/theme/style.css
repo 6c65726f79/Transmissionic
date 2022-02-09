@@ -5,6 +5,7 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  background: var(--ion-toolbar-background, var(--ion-color-light)) !important;
   scrollbar-color: rgba(127,127,127,.5) transparent; /* Scrollbar style for Firefox */
 }
 
@@ -14,6 +15,10 @@ body:not(.dark) ion-toolbar {
 
 ion-app {
   background: var(--ion-background-color, #fff);
+}
+
+.ios {
+  --ion-safe-area-bottom: 0 !important;
 }
 
 .placeholder {
