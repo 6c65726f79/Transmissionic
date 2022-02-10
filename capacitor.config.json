@@ -10,11 +10,8 @@
       "launchAutoHide": false
     },
     "Keyboard": {
-      "resize": "ionic"
+      "resize": "native"
     }
   },
-  "cordova": {},
-  "ios": {
-    "contentInset": "always"
-  }
+  "cordova": {}
 }

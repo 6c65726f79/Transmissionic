@@ -5,7 +5,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background: var(--ion-toolbar-background, var(--ion-color-light)) !important;
   scrollbar-color: rgba(127,127,127,.5) transparent; /* Scrollbar style for Firefox */
 }
 
@@ -17,8 +16,10 @@ ion-app {
   background: var(--ion-background-color, #fff);
 }
 
-.ios {
-  --ion-safe-area-bottom: 0 !important;
+ion-menu::part(container) {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .placeholder {
@@ -154,10 +155,6 @@ ion-menu.md ion-item ion-label {
   font-weight: 500;
 }
 
-ion-menu.ios ion-content {
-  --padding-bottom: 20px;
-}
-
 ion-menu.ios ion-list {
   padding: 20px 0 0 0;
 }
@@ -190,11 +187,6 @@ ion-menu.ios ion-list-header,
 ion-menu.ios ion-note {
   padding-left: 16px;
   padding-right: 16px;
-}
-
-.ios ion-header ion-toolbar {
-  padding-top: 7px !important;
-  padding-bottom: 7px;
 }
 
 .ios ion-header ion-searchbar {
