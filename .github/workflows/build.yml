@@ -277,7 +277,9 @@ jobs:
 
       - name: Build and sync web assets
         run: |
+          npm run build --prod
           npx cap sync ios
+          npx cap copy ios
 
       - name: Build IPA
         working-directory: ./ios/App
