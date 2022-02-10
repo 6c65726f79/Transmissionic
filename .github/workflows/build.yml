@@ -252,3 +252,47 @@ jobs:
           asset_path: ${{steps.sign_app.outputs.signedReleaseFile}}
           asset_name: Transmissionic-android-${{ needs.dependencies.outputs.version }}.apk
           asset_content_type: application/zip
+
+  build-ios:
+    name: Build iOS
+    needs: dependencies
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - uses: c-hive/gha-npm-cache@v1
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Build and sync web assets
+        run: |
+          npx cap sync ios
+
+      - name: Build IPA
+        working-directory: ./ios/App
+        run: |
+          xcodebuild -sdk iphoneos -workspace App.xcworkspace/ -scheme App -configuration Release
+          mkdir -p Payload
+          mv Build/Products/Release-iphoneos/App.app Payload
+          zip -r app.ipa Payload
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.dependencies.outputs.upload_url }}
+          asset_path: ./ios/App/app.ipa
+          asset_name: Transmissionic-ios-${{ needs.dependencies.outputs.version }}.ipa
+          asset_content_type: application/zip
