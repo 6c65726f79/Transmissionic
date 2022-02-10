@@ -284,7 +284,7 @@ jobs:
       - name: Build IPA
         working-directory: ./ios/App
         run: |
-          xcodebuild -sdk iphoneos -workspace App.xcworkspace/ -scheme App -configuration Release
+          xcodebuild -sdk iphoneos -workspace App.xcworkspace/ -scheme App -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED="NO" CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO"
           mkdir -p Payload
           mv Build/Products/Release-iphoneos/App.app Payload
           zip -r app.ipa Payload
