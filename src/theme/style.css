@@ -16,6 +16,12 @@ ion-app {
   background: var(--ion-background-color, #fff);
 }
 
+ion-menu::part(container) {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 .placeholder {
   position: absolute;
   width:100%;
@@ -149,10 +155,6 @@ ion-menu.md ion-item ion-label {
   font-weight: 500;
 }
 
-ion-menu.ios ion-content {
-  --padding-bottom: 20px;
-}
-
 ion-menu.ios ion-list {
   padding: 20px 0 0 0;
 }
@@ -185,11 +187,6 @@ ion-menu.ios ion-list-header,
 ion-menu.ios ion-note {
   padding-left: 16px;
   padding-right: 16px;
-}
-
-.ios ion-header ion-toolbar {
-  padding-top: 7px !important;
-  padding-bottom: 7px;
 }
 
 .ios ion-header ion-searchbar {

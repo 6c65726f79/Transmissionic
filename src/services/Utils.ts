@@ -12,6 +12,7 @@ import { Clipboard } from '@capacitor/clipboard';
 import { Toast } from '@capacitor/toast';
 import { ScreenReader } from '@capacitor/screen-reader';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { Keyboard, KeyboardStyle } from '@capacitor/keyboard';
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
 import Autolinker from 'autolinker';
@@ -233,6 +234,7 @@ export const Utils = {
         break;
     }
     document.body.classList.toggle('dark', dark);
+    Keyboard.setStyle({ style: dark ? KeyboardStyle.Dark : KeyboardStyle.Light});
     this.setStatusBarColor(dark);
   },
 
