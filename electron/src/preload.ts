@@ -14,12 +14,15 @@ contextBridge.exposeInMainWorld('Titlebar', {
   new: () => {
     titleBar = new Titlebar({
       platform,
+      icon: '/assets/icon/favicon.png',
+      height: platform == 'darwin' ? 22 : 30,
+      hideControlsOnDarwin: true,
+      backgroundUnfocusEffect: false,
       onMinimize: () => ipcRenderer.send('window-event', 'minimize'),
       onMaximize: () => ipcRenderer.send('window-event', 'maximize'),
       onClose: () => ipcRenderer.send('window-event', 'close'),
       isMaximized: () => ipcRenderer.sendSync('window-state'),
-      menuItemClickHandler: (commandId) => ipcRenderer.send('menu-event', commandId),
-      backgroundUnfocusEffect: false
+      menuItemClickHandler: (commandId) => ipcRenderer.send('menu-event', commandId)
     });
     ipcRenderer.send('request-application-menu');
   },

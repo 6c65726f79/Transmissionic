@@ -308,7 +308,10 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
           accelerator: 'Alt+T',
           registerAccelerator: false,
           click(): void {
-            shortcutsHandler('add-torrent');
+            dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'], filters:[{name:'Torrent',extensions:['torrent']}] }).then(result=> {
+              openFiles = result.filePaths;
+              sendFiles();
+            });
           }
         },
         {
@@ -342,12 +345,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
           type:'separator'
         },
         {
-          label: 'Exit',
-          accelerator: 'Alt+F4',
-          registerAccelerator: false,
-          click(): void {
-            app.quit();
-          }
+          role:'quit'
         }
       ]
     },
