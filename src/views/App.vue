@@ -401,8 +401,10 @@ export default defineComponent({
     },
 
     refresh(clean=false) {
-      this.setRefreshInterval();
-      this.getTorrents(clean, false);
+      if(this.privateState.connectionStatus.connected) {
+        this.setRefreshInterval();
+        this.getTorrents(clean, false);
+      }
     },
 
     openTrackerList(e: Event) {
@@ -532,7 +534,7 @@ export default defineComponent({
 
     async getTorrents(clean=false, refresh=false) {
       const isModalOpened = await modalController.getTop();
-      if((!isModalOpened || clean) && this.privateState.connectionStatus.connected){
+      if(!isModalOpened || clean){
         this.privateState.connectionStatus.loading=true;
         if(clean){
           this.setRefreshInterval();
