@@ -352,7 +352,11 @@ export default defineComponent({
     }
 
     this.presets = await UserSettings.loadPresets();
-    this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir')
+    this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir');
+
+    if(UserSettings.state.rememberSelectedPreset){
+      this.selectPreset(UserSettings.state.selectedPreset);
+    }
   },
   mounted() {
     Utils.customScrollbar(this.$refs.content);
@@ -467,6 +471,7 @@ export default defineComponent({
     },
     selectPreset(name: string){
       this.selectedPreset = this.selectedPreset==name ? "" : name;
+      UserSettings.setValue("selectedPreset", this.selectedPreset, true);
       if(this.selectedPreset!=""){
         this.settings = {...this.presets[name]};
       }

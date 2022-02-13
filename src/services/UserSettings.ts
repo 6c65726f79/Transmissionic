@@ -16,7 +16,9 @@ const defaultSettings: Record<string,any> = {
   ipFlags:false,
   openMagnetLinks:false,
   searchByName:true,
-  searchByDirectory:true
+  searchByDirectory:true,
+  selectedPreset:"",
+  rememberSelectedPreset:false
 }
 
 export const UserSettings = {

@@ -108,6 +108,11 @@
           </ion-label>
         </ion-list-header>
         
+        <ion-item>
+          <ion-label>{{ Locale.rememberSelectedPreset }}</ion-label>
+          <ion-toggle v-model="sharedState.rememberSelectedPreset"></ion-toggle>
+        </ion-item>
+        
         <div class="ion-padding small">
           <ion-button size="default" id="exportPresets" download="preset.json">{{ Locale.export }}</ion-button>
           <ion-button size="default" @click="inputPreset">{{ Locale.import }}</ion-button>
