@@ -135,6 +135,18 @@ Download the [AppImage](https://appimage.org/) from the [latest release](https:/
 
 It's recommended to use [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) to take advantage of the torrent file assosiation and magnet link handling.
 
+## macOS
+
+Download the DMG from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
+
+When you try to install it, you will get an error. After getting the error, go to `System Preferences > Security & Privacy` and click on `Open Anyway`.
+
+## iOS
+
+Download the IPA from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
+
+Use a tool like [AltStore](https://altstore.io/) to sideload the app on your device.
+
 ## Other
 
 Simply download the installer for the desired platform from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page and install it.
