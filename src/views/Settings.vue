@@ -83,6 +83,20 @@
         </ion-item>
       </ion-list>
 
+      <ion-list>
+        <ion-list-header>
+          <ion-label>
+              {{ Locale.preset }}
+          </ion-label>
+        </ion-list-header>
+        
+        <div class="ion-padding small">
+          <ion-button size="default" id="exportPresets" download="preset.json">{{ Locale.export }}</ion-button>
+          <ion-button size="default" @click="inputPreset">{{ Locale.import }}</ion-button>
+          <input type="file" id="importPreset" accept=".json" @change="importPreset"/>
+        </div>
+      </ion-list>
+
       <ion-list v-if="protocolHandlerAvailable">
         <ion-list-header>
           <ion-label>
@@ -161,6 +175,7 @@ import {
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { UserSettings } from "../services/UserSettings";
+import { FileHandler } from '../services/FileHandler';
 
 declare global {
   interface Window {
@@ -235,6 +250,11 @@ export default defineComponent({
     const href = window.location.href.replace(window.location.hash,"");
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${href}");`;
 
+    UserSettings.loadPresets().then(presets => {
+      const button = document.getElementById("exportPresets") as any;
+      button.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(presets));
+    })
+
     return { 
       Locale,
       bookmarkletScript,
@@ -275,6 +295,38 @@ export default defineComponent({
           ],
         });
       return alert.present();
+    },
+    inputPreset() {
+      document.getElementById('importPreset')?.click();
+    },
+    async importPreset(e: Event) {
+      const files = (e.target as HTMLInputElement).files;
+      if(files){
+        let json: Record<string,any> = {};
+        const content = Buffer.from(await FileHandler.readFile(files[0])).toString();
+        try {
+          json = JSON.parse(content);
+        } catch (e) {json={}}
+
+        if(this.validatePreset(json)){
+          UserSettings.savePresets(json);
+          Utils.responseToast("success");
+        }
+        else {
+          Utils.responseToast("Invalid preset file");
+        }
+      }
+    },
+    validatePreset(preset: Record<string,any>) {
+      let valid=false;
+      const keys = Object.keys(preset)
+      if(keys.length>0){
+        const properties = Object.keys(preset[keys[0]]);
+        if(properties.includes('start') && properties.includes('downloadDir') && properties.includes('bandwidthPriority') && properties.includes('other')){
+          valid=true;
+        }
+      }
+      return valid;
     }
   },
 });
@@ -294,5 +346,9 @@ export default defineComponent({
 }
 .annotation ion-icon {
   vertical-align: middle;
+}
+
+#importPreset {
+  display:none;
 }
 </style>
