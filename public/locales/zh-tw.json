@@ -234,5 +234,12 @@
     "duration": "使用時間",
     "addTorrents": "批次加入種子檔",
     "preset": "預設集",
-    "openMagnetLinks": "以 Transmissionic 來開啟磁鏈"
+    "openMagnetLinks": "以 Transmissionic 來開啟磁鏈",
+    "condensedMode": "Condensed mode",
+    "enableNotifications": "Enable notifications",
+    "searchBy": "Search by",
+    "rememberSelectedPreset": "Remember selected preset",
+    "export": "Export",
+    "import": "Import",
+    "downloadFinished": "Download finished"
 }
