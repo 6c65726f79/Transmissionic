@@ -14,7 +14,9 @@ const defaultSettings: Record<string,any> = {
   useBits:true,
   expandMenu:true,
   ipFlags:false,
-  openMagnetLinks:false
+  openMagnetLinks:false,
+  searchByName:true,
+  searchByDirectory:true
 }
 
 export const UserSettings = {

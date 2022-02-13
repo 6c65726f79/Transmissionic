@@ -86,6 +86,24 @@
       <ion-list>
         <ion-list-header>
           <ion-label>
+              {{ Locale.searchBy }}
+          </ion-label>
+        </ion-list-header>
+        
+        <ion-item>
+          <ion-label>{{ Locale.name }}</ion-label>
+          <ion-checkbox slot="start" v-model.boolean="sharedState.searchByName"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ Locale.downloadDir }}</ion-label>
+          <ion-checkbox slot="start" v-model.boolean="sharedState.searchByDirectory"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>
               {{ Locale.preset }}
           </ion-label>
         </ion-list-header>
@@ -164,7 +182,8 @@ import {
   IonInput,
   IonBackButton,
   IonToggle,
-  isPlatform
+  isPlatform,
+  IonCheckbox
 } from '@ionic/vue';
 import {
   saveOutline,
@@ -235,7 +254,8 @@ export default defineComponent({
     IonPage,
     IonInput,
     IonBackButton,
-    IonToggle
+    IonToggle,
+    IonCheckbox
   },
   computed: {
     bookmarkletEnabled(): boolean {
