@@ -1,6 +1,6 @@
 <template>
-  <IonApp>
-    <IonSplitPane contentId="main-content" :disabled="!sharedState.expandMenu">
+  <ion-app>
+    <ion-split-pane contentId="main-content" :disabled="!sharedState.expandMenu">
       <ion-menu contentId="main-content" type="overlay" menu-id="left" :swipeGesture="privateState.swipeEnabled" v-on:ionDidClose="closeTrackerList()" v-on:ionDidOpen="Utils.pushState()">
 
         <!-- Main menu -->
@@ -102,8 +102,8 @@
       
       <!-- Torrent list -->
       <List id="main-content"></List>
-    </IonSplitPane>
-  </IonApp>
+    </ion-split-pane>
+  </ion-app>
 </template>
 
 <script lang="ts">
@@ -532,7 +532,7 @@ export default defineComponent({
 
     async getTorrents(clean=false, refresh=false) {
       const isModalOpened = await modalController.getTop();
-      if(!isModalOpened || clean){
+      if((!isModalOpened || clean) && this.privateState.connectionStatus.connected){
         this.privateState.connectionStatus.loading=true;
         if(clean){
           this.setRefreshInterval();
