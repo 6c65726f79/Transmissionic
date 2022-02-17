@@ -163,18 +163,30 @@ The settings are stored on the client side, but you can overwrite the default se
 
 The file can contain the following key/value pairs:
 
-| Key             | Type          | Description                       |
-| --------------- | ------------- | --------------------------------- |
-| colorScheme     | `string`      | Possible values: `light` or `dark`|
-| language        | `string`      | An ISO 639-1 language code, example: `en` |
-| orderBy         | `string`      | Examples: `name`, `addedDate`, `uploadRatio`, `activityDate` |
-| reverse         | `boolean`     | Reversed ordering                 |
-| useBits         | `boolean`     | Display speed in bit/s            |
-| expandMenu      | `boolean`     | Expand side menu on large screen  |
-| ipFlags         | `boolean`     | Display peer flag                 |
-| openMagnetLinks | `boolean`     | Open magnet links with Transmissionic |
-| refreshInterval | `number`      | Refresh interval in seconds       |
-| timeout         | `number`      | Connection timeout in seconds     |
+| Key                    | Type          | Description                           |
+| ---------------------- | ------------- | ------------------------------------- |
+| colorScheme            | `string`      | Possible values: `light` or `dark`    |
+| language               | `string`      | An ISO 639-1 language code, example: `en` |
+| orderBy                | `string`      | Examples: `name`, `addedDate`, `uploadRatio`, `activityDate` |
+| reverse                | `boolean`     | Reversed ordering                     |
+| useBits                | `boolean`     | Display speed in bit/s                |
+| expandMenu             | `boolean`     | Expand side menu on large screen      |
+| ipFlags                | `boolean`     | Display peer flag                     |
+| openMagnetLinks        | `boolean`     | Open magnet links with Transmissionic |
+| searchByName           | `boolean`     | Search torrents by name               |
+| searchByDirectory      | `boolean`     | Search torrents by download directory |
+| rememberSelectedPreset | `boolean`     | Remember selected preset when adding torrents |
+| condensedMode          | `boolean`     | Condensed torrent list                |
+| refreshInterval        | `number`      | Refresh interval in seconds           |
+| timeout                | `number`      | Connection timeout in seconds         |
+
+
+
+  :true,
+  :true,
+  selectedPreset:"",
+  rememberSelectedPreset:false,
+  condensedMode: false
 
 Configuration file example:
 
