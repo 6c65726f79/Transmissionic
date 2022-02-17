@@ -206,6 +206,13 @@ img.icon {
   font-size: 20px;
 }
 
+.torrent.condensed .order {
+  width: 16px;
+  height: 32px;
+  margin: 0px 15px;
+  font-size: 16px;
+}
+
 .torrent .order ion-icon {
   cursor:pointer;
 }

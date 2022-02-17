@@ -13,7 +13,7 @@ function updateJS(filename) {
     }
 
     // Force Vue.js/webpack to load scripts from the same directory (to use the WebUI from /transmission/web/)
-    const result = data.replace(/= jsonpScriptSrc\(chunkId\)/g, "= '.'+jsonpScriptSrc(chunkId)");
+    const result = data.replace(/\${RuntimeGlobals.publicPath} \+ /g, "");
 
     fs.writeFile(`${filename}`, result, 'utf8', function(error) {
       if (error) return console.log(error);
@@ -21,4 +21,4 @@ function updateJS(filename) {
   });
 }
 
-updateJS('./node_modules/webpack/lib/web/JsonpMainTemplatePlugin.js')
+updateJS('./node_modules/webpack/lib/web/JsonpChunkLoadingRuntimeModule.js')

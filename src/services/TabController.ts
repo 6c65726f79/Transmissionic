@@ -3,7 +3,7 @@ import { isPlatform } from "@ionic/vue";
 import { Emitter } from './Emitter';
 import Swiper from 'swiper';
 
-import 'swiper/swiper-bundle.min.css'
+import 'swiper/css/bundle'
 
 export default class TabController {
   state = reactive({

@@ -401,7 +401,7 @@ export default defineComponent({
     },
 
     refresh(clean=false) {
-      if(this.privateState.connectionStatus.connected) {
+      if(this.privateState.serverList.length>0) {
         this.setRefreshInterval();
         this.getTorrents(clean, false);
       }
