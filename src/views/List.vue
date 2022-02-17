@@ -27,7 +27,7 @@
       v-on:retry="retry()">
     </ConnectionStatus>
 
-    <VirtualScroll v-else id="torrentList" :fullscreen="true" :items="torrentOrderedList" :item-size="72" key-field="id">
+    <VirtualScroll v-else id="torrentList" :fullscreen="true" :items="torrentOrderedList" :item-size="itemSize" key-field="id">
       <template v-slot:start>
         <ion-list-header id="top">
           <ion-label>
@@ -295,6 +295,9 @@ export default defineComponent({
     },
     downloadSpeed: function (): any {
       return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.downloadSpeed: 0;
+    },
+    itemSize() {
+      return UserSettings.state.condensedMode ? 46 : 72;
     }
   },
   setup() {
