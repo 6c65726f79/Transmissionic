@@ -235,11 +235,11 @@
     "addTorrents": "批次加入種子檔",
     "preset": "預設集",
     "openMagnetLinks": "以 Transmissionic 來開啟磁鏈",
-    "condensedMode": "Condensed mode",
-    "enableNotifications": "Enable notifications",
-    "searchBy": "Search by",
-    "rememberSelectedPreset": "Remember selected preset",
-    "export": "Export",
-    "import": "Import",
-    "downloadFinished": "Download finished"
+    "condensedMode": "簡易模式",
+    "enableNotifications": "啟用桌面通知",
+    "searchBy": "搜尋方式",
+    "rememberSelectedPreset": "記住最後選擇的預設集",
+    "export": "匯出",
+    "import": "匯入",
+    "downloadFinished": "下載完成"
 }
