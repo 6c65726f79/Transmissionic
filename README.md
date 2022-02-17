@@ -5,7 +5,7 @@
 
 <p align="center">
   Transmissionic is a free multi-platform remote for Transmission Daemon built with <a href="https://ionicframework.com/">Ionic</a> and <a href="https://vuejs.org/">Vue.js</a>.<br>
-  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android app and Windows/Linux program.
+  It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android/iOS app and Windows/Linux/macOS program.
 </p>
 <p align="center">
   
@@ -53,6 +53,7 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/it?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/pl?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
 
@@ -64,6 +65,7 @@ Available languages:
 - **French**
 - **German** (Tobias W)
 - **Italian** (Emanuele Ruzza)
+- **Polish** (Maciej Siwko)
 - **Russian** (Alek Depler)
 - **Spanish** (Zenón Monge)
 
@@ -83,7 +85,7 @@ Thanks to all contributors.
 
 | OS              | Windows   | Linux     | macOS     | Android   | iOS       |
 | --------------- | --------- | --------- | --------- | --------- | --------- |
-| Version         | ≥7 ✔      | ✔         | ❌         | ≥5.0 ✔     | ❌         |
+| Version         | ≥7 ✔      | ✔        | ≥10.11 ✔  | ≥5.0 ✔    | ≥12 ✔     |
 
 ## Motivations
 
@@ -132,6 +134,18 @@ Then access the Web UI as described [here](https://github.com/transmission/trans
 Download the [AppImage](https://appimage.org/) from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
 
 It's recommended to use [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) to take advantage of the torrent file assosiation and magnet link handling.
+
+## macOS
+
+Download the DMG from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
+
+When you try to install it, you will get an error. After getting the error, go to `System Preferences > Security & Privacy` and click on `Open Anyway`.
+
+## iOS
+
+Download the IPA from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
+
+Use a tool like [AltStore](https://altstore.io/) to sideload the app on your device.
 
 ## Other
 
@@ -326,7 +340,7 @@ If you want to contribute and pull your changes to this project, please work on 
 
 # TODO
 
-- [ ] Add iOS/macOS support
+- [x] Add iOS/macOS support
 - [x] Add server configurations modal
 - [x] Add magnet url handling on Windows
 - [ ] ~~Use ion-virtual-scroll when availaible for Vue.js~~

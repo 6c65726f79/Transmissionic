@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue';
 import { 
   IonInput,
@@ -76,13 +76,13 @@ export default defineComponent({
   data() {
     return {
       isOpen: false,
-      results: [],
+      results: [] as Array<any>,
       search: '',
       arrowCounter: 0,
     };
   },
   methods: {
-    onChange(e) {
+    onChange(e: any) {
       // Let's warn the parent that a change was made
       this.search = e.target.value;
       this.$emit('update', this.search);
@@ -94,11 +94,11 @@ export default defineComponent({
 
     filterResults() {
       // first uncapitalize all the things
-      this.results = this.items.filter((item) => {
+      this.results = (this.items as Array<string>).filter(item => {
         return item.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
       }).slice(0,20);
     },
-    setResult(result) {
+    setResult(result: string) {
       this.search = result;
       this.isOpen = false;
       this.$emit('update', this.search);
@@ -118,7 +118,7 @@ export default defineComponent({
       this.isOpen = false;
       this.arrowCounter = -1;
     },
-    handleClickOutside(evt) {
+    handleClickOutside(evt: MouseEvent) {
       if (!this.$el.contains(evt.target)) {
         this.isOpen = false;
         this.arrowCounter = -1;

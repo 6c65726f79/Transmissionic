@@ -238,5 +238,12 @@
     "duration": "Duración",
     "addTorrents": "Añadir torrents múltiples",
     "preset": "Por defecto",
-    "openMagnetLinks": "Abrir enlaces magnéticos con Transmissionic"
+    "openMagnetLinks": "Abrir enlaces magnéticos con Transmissionic",
+    "condensedMode": "Condensed mode",
+    "enableNotifications": "Enable notifications",
+    "searchBy": "Search by",
+    "rememberSelectedPreset": "Remember selected preset",
+    "export": "Export",
+    "import": "Import",
+    "downloadFinished": "Download finished"
 }

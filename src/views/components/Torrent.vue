@@ -1,5 +1,5 @@
 <template>
-  <div class="torrent" tabindex="0">
+  <div :class="{ torrent:true, condensed }" tabindex="0">
     <div v-if="orderByPosition" class="order">
       <ion-icon :md="caretUpSharp" :ios="caretUpOutline" color="medium" @click="changeTorrentPosition($event,true)"></ion-icon>
       <ion-icon :md="caretDownSharp" :ios="caretDownOutline" color="medium" @click="changeTorrentPosition($event,false)"></ion-icon>
@@ -11,7 +11,7 @@
         {{ torrent.name }}
       </div>
 
-      <div class="details">
+      <div :class="{details:true,error:torrent.errorString!=''}">
         <div class="line">
           <!-- Download -->
           <span class="bloc fit">
@@ -134,6 +134,9 @@ export default defineComponent({
   computed: {
     orderByPosition() {
       return UserSettings.state.orderBy=="queuePosition";
+    },
+    condensed() {
+      return UserSettings.state.condensedMode
     }
   },
   methods: {
@@ -165,6 +168,10 @@ img.icon {
   display: flex;
 }
 
+.torrent.condensed {
+  height:46px;
+}
+
 .torrent > div {
   display: inline-block;
   vertical-align: top;
@@ -178,6 +185,14 @@ img.icon {
   background:url(../../../public/assets/activity.png) no-repeat left center;
   background-size:64px;
   cursor:pointer;
+}
+
+.torrent.condensed .control {
+  width: 24px;
+  height: 24px;
+  margin: 7px;
+  margin-right: 15px;
+  background-size: 48px;
 }
 
 .torrent .control.paused {
@@ -221,6 +236,10 @@ img.icon {
   position:absolute;
   bottom:0;
   line-height: 18px;
+}
+
+.torrent.condensed .details {
+  bottom: -7px;
 }
 
 .torrent .details > * {
@@ -278,6 +297,15 @@ img.icon {
   width:100%;
 }
 
+.torrent.condensed ion-progress-bar {
+  bottom: -4px;
+  left: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 8px);
+  z-index: -1;
+  opacity: .2;
+}
+
 .torrent .details ion-icon {
   vertical-align:-2px;
 }
@@ -290,24 +318,37 @@ img.icon {
   color: var(--ion-color-primary)
 }
 
+.torrent.condensed .title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (max-width: 800px) {
   .torrent .title {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .torrent .details {
+  .torrent:not(.condensed) .details {
     height: 40px;
     flex-direction: column;
   }
 
-  .torrent .details .line {
+  .torrent:not(.condensed) .details .line {
     width: 100%;
+  }
+
+  .torrent.condensed .details.error .bloc {
+    display:none;
+  }
+
+  .torrent.condensed .details.error .error {
+    display:block;
   }
 }
 
 @media (min-width: 800px) {
-  .torrent .title {
+  .torrent:not(.condensed) .title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;

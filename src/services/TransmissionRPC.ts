@@ -234,7 +234,8 @@ class TRPC {
         'sizeWhenDone',
         'eta',
         'recheckProgress',
-        'queuePosition'
+        'queuePosition',
+        'downloadDir'
       ]
     }
     if(refresh) {

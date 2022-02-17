@@ -3,7 +3,7 @@ import {
   getCapacitorElectronConfig,
   setupElectronDeepLinking,
 } from '@capacitor-community/electron';
-import { app, shell, ipcMain, net, Menu, BrowserWindow } from 'electron';
+import { app, shell, ipcMain, net, Menu, BrowserWindow, dialog } from 'electron';
 import fs from "fs";
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
@@ -17,7 +17,7 @@ import {
 
 let mainWindow: Electron.BrowserWindow;
 let request: Electron.ClientRequest;
-let openFiles: Array<Buffer>;
+let openFiles: Array<string>;
 let openMagnet: string;
 
 // Graceful handling of unhandled errors.
@@ -74,17 +74,15 @@ if (!gotTheLock) {
 
     mainWindow = myCapacitorApp.getMainWindow();
 
-    if (mainWindow) {
-      mainWindow.webContents.on('did-finish-load', sendFileOrMagnet);
-    }
+    sendFilesOrMagnet();
   })();
 
   app.on('second-instance', (event, commandLine) => {
-    openFiles = getTorrents(commandLine);
+    openFiles = openFiles.concat(getTorrents(commandLine));
     openMagnet = getMagnet(commandLine);
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
-      sendFileOrMagnet();
+      sendFilesOrMagnet();
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
     }
@@ -93,14 +91,14 @@ if (!gotTheLock) {
 
 app.on('open-file', async (event, path) => {
   // Handle file opening on macOS
-  openFiles.push(fs.readFileSync(path, null));
-  if(mainWindow) sendFileOrMagnet();
+  openFiles.push(path);
+  if(mainWindow) sendFilesOrMagnet();
 })
 
 app.on('open-url', async (event, url) => {
   // Handle magnet opening on macOS
   openMagnet=url;
-  if(mainWindow) sendFileOrMagnet();
+  if(mainWindow) sendFilesOrMagnet();
 })
 
 app.on('web-contents-created', (createEvent, contents) => {
@@ -124,12 +122,29 @@ app.on('activate', activate);
 
 
 // Place all ipc or other electron api calls and custom functionality under this line
-async function sendFileOrMagnet() {
-  await activate();
-  if(openFiles.length>0) mainWindow.webContents.send('file-open', openFiles);
-  if(openMagnet!=null) mainWindow.webContents.send('magnet-open', openMagnet);
+async function sendFilesOrMagnet() {
+  if(!myCapacitorApp.getMainWindow().isDestroyed()){
+    if(openFiles.length>0) mainWindow.webContents.isLoading() ? mainWindow.webContents.on('did-finish-load',sendFiles) : sendFiles();
+    if(openMagnet!=null) mainWindow.webContents.send('magnet-open', openMagnet);
+    openMagnet=null;
+  }
+  else {
+    activate();
+  }
+}
+
+const sendFiles = debounce(() => {
+  const torrentFiles = loadTorrents()
+  mainWindow.webContents.send('file-open', torrentFiles);
   openFiles=[];
-  openMagnet=null;
+});
+
+function debounce(func: Function, timeout=500){
+  let timer: NodeJS.Timeout;
+  return (...args: Array<any>) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
 }
 
 async function activate() {
@@ -141,12 +156,14 @@ async function activate() {
   }
 }
 
-function getTorrents(args: Array<any>): Array<Buffer> {
-  const result=[];
-  args.forEach((arg: string) => {
-    if(arg && arg.toLowerCase().endsWith(".torrent")){
-      result.push(fs.readFileSync(arg, null));
-    }
+function getTorrents(args: Array<string>): Array<string> {
+  return args.filter(arg => arg && arg.toLowerCase().endsWith(".torrent"));
+}
+
+function loadTorrents() {
+  const result: Array<Buffer> = [];
+  openFiles.forEach(file => {
+    result.push(fs.readFileSync(file))
   });
   return result;
 }
@@ -291,7 +308,10 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
           accelerator: 'Alt+T',
           registerAccelerator: false,
           click(): void {
-            shortcutsHandler('add-torrent');
+            dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'], filters:[{name:'Torrent',extensions:['torrent']}] }).then(result=> {
+              openFiles = result.filePaths;
+              sendFiles();
+            });
           }
         },
         {
@@ -325,12 +345,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
           type:'separator'
         },
         {
-          label: 'Exit',
-          accelerator: 'Alt+F4',
-          registerAccelerator: false,
-          click(): void {
-            app.quit();
-          }
+          role:'quit'
         }
       ]
     },

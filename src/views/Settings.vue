@@ -31,6 +31,7 @@
             <ion-select-option value="fr">Français</ion-select-option>
             <ion-select-option value="it">Italiano</ion-select-option>
             <ion-select-option value="nl">Nederlands</ion-select-option>
+            <ion-select-option value="pl">Polskie</ion-select-option>
             <ion-select-option value="ru">Pусский</ion-select-option>
             <ion-select-option value="zh-cn">简体中文</ion-select-option>
             <ion-select-option value="zh-tw">繁體中文</ion-select-option>
@@ -49,6 +50,11 @@
         <ion-item>
           <ion-label>{{ Locale.speedUnit }}</ion-label>
           <ion-toggle v-model="sharedState.useBits"></ion-toggle>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>{{ Locale.condensedMode }}</ion-label>
+          <ion-toggle v-model="sharedState.condensedMode"></ion-toggle>
         </ion-item>
 
         <ion-item>
@@ -80,6 +86,43 @@
           <ion-label position="floating">{{ Locale.connectionTimeout }}</ion-label>
           <ion-input type="number" v-model.number="sharedState.timeout" ></ion-input>
         </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>
+              {{ Locale.searchBy }}
+          </ion-label>
+        </ion-list-header>
+        
+        <ion-item>
+          <ion-label>{{ Locale.name }}</ion-label>
+          <ion-checkbox slot="start" v-model.boolean="sharedState.searchByName"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ Locale.downloadDir }}</ion-label>
+          <ion-checkbox slot="start" v-model.boolean="sharedState.searchByDirectory"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>
+              {{ Locale.preset }}
+          </ion-label>
+        </ion-list-header>
+        
+        <ion-item>
+          <ion-label>{{ Locale.rememberSelectedPreset }}</ion-label>
+          <ion-toggle v-model="sharedState.rememberSelectedPreset"></ion-toggle>
+        </ion-item>
+        
+        <div class="ion-padding small">
+          <ion-button size="default" id="exportPresets" download="preset.json">{{ Locale.export }}</ion-button>
+          <ion-button size="default" @click="inputPreset">{{ Locale.import }}</ion-button>
+          <input type="file" id="importPreset" accept=".json" @change="importPreset"/>
+        </div>
       </ion-list>
 
       <ion-list v-if="protocolHandlerAvailable">
@@ -149,7 +192,8 @@ import {
   IonInput,
   IonBackButton,
   IonToggle,
-  isPlatform
+  isPlatform,
+  IonCheckbox
 } from '@ionic/vue';
 import {
   saveOutline,
@@ -160,6 +204,7 @@ import {
 import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { UserSettings } from "../services/UserSettings";
+import { FileHandler } from '../services/FileHandler';
 
 declare global {
   interface Window {
@@ -219,7 +264,8 @@ export default defineComponent({
     IonPage,
     IonInput,
     IonBackButton,
-    IonToggle
+    IonToggle,
+    IonCheckbox
   },
   computed: {
     bookmarkletEnabled(): boolean {
@@ -233,6 +279,11 @@ export default defineComponent({
     Utils.pushState();
     const href = window.location.href.replace(window.location.hash,"");
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${href}");`;
+
+    UserSettings.loadPresets().then(presets => {
+      const button = document.getElementById("exportPresets") as any;
+      button.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(presets));
+    })
 
     return { 
       Locale,
@@ -274,6 +325,38 @@ export default defineComponent({
           ],
         });
       return alert.present();
+    },
+    inputPreset() {
+      document.getElementById('importPreset')?.click();
+    },
+    async importPreset(e: Event) {
+      const files = (e.target as HTMLInputElement).files;
+      if(files){
+        let json: Record<string,any> = {};
+        const content = Buffer.from(await FileHandler.readFile(files[0])).toString();
+        try {
+          json = JSON.parse(content);
+        } catch (e) {json={}}
+
+        if(this.validatePreset(json)){
+          UserSettings.savePresets(json);
+          Utils.responseToast("success");
+        }
+        else {
+          Utils.responseToast("Invalid preset file");
+        }
+      }
+    },
+    validatePreset(preset: Record<string,any>) {
+      let valid=false;
+      const keys = Object.keys(preset)
+      if(keys.length>0){
+        const properties = Object.keys(preset[keys[0]]);
+        if(properties.includes('start') && properties.includes('downloadDir') && properties.includes('bandwidthPriority') && properties.includes('other')){
+          valid=true;
+        }
+      }
+      return valid;
     }
   },
 });
@@ -293,5 +376,9 @@ export default defineComponent({
 }
 .annotation ion-icon {
   vertical-align: middle;
+}
+
+#importPreset {
+  display:none;
 }
 </style>

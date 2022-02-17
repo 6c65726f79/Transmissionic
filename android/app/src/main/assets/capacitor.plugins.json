@@ -8,6 +8,14 @@
 		"classpath": "com.capacitorjs.plugins.clipboard.ClipboardPlugin"
 	},
 	{
+		"pkg": "@capacitor/keyboard",
+		"classpath": "com.capacitorjs.plugins.keyboard.KeyboardPlugin"
+	},
+	{
+		"pkg": "@capacitor/screen-reader",
+		"classpath": "com.capacitorjs.plugins.screenreader.ScreenReaderPlugin"
+	},
+	{
 		"pkg": "@capacitor/splash-screen",
 		"classpath": "com.capacitorjs.plugins.splashscreen.SplashScreenPlugin"
 	},

@@ -27,7 +27,7 @@
       v-on:retry="retry()">
     </ConnectionStatus>
 
-    <VirtualScroll v-else id="torrentList" :fullscreen="true" :items="torrentOrderedList" :item-size="72" key-field="id">
+    <VirtualScroll v-else id="torrentList" :fullscreen="true" :items="torrentOrderedList" :item-size="itemSize" key-field="id">
       <template v-slot:start>
         <ion-list-header id="top">
           <ion-label>
@@ -266,9 +266,16 @@ export default defineComponent({
 
       // Filter list by search value
       if(this.privateState.search!=""){
-        const search=this.privateState.search.toLowerCase();
+        const search=this.privateState.search.toLowerCase().replace('.',' ');
         list = _.filter(list, function(o) {
-          return o.name.toLowerCase().indexOf(search) >= 0;
+          let include=false;
+          if(UserSettings.state.searchByName){
+            include=o.name.toLowerCase().replace('.',' ').indexOf(search) >= 0;
+          }
+          if(UserSettings.state.searchByDirectory && !include){
+            include=o.downloadDir.toLowerCase().indexOf(search) >= 0;
+          }
+          return include;
         });
       }
 
@@ -288,6 +295,9 @@ export default defineComponent({
     },
     downloadSpeed: function (): any {
       return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.downloadSpeed: 0;
+    },
+    itemSize() {
+      return UserSettings.state.condensedMode ? 46 : 72;
     }
   },
   setup() {

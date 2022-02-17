@@ -234,7 +234,9 @@ export const Utils = {
         break;
     }
     document.body.classList.toggle('dark', dark);
-    Keyboard.setStyle({ style: dark ? KeyboardStyle.Dark : KeyboardStyle.Light});
+    if(isPlatform("ios")){
+      Keyboard.setStyle({ style: dark ? KeyboardStyle.Dark : KeyboardStyle.Light});
+    }
     this.setStatusBarColor(dark);
   },
 

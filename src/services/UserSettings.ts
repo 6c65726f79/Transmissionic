@@ -14,7 +14,12 @@ const defaultSettings: Record<string,any> = {
   useBits:true,
   expandMenu:true,
   ipFlags:false,
-  openMagnetLinks:false
+  openMagnetLinks:false,
+  searchByName:true,
+  searchByDirectory:true,
+  selectedPreset:"",
+  rememberSelectedPreset:false,
+  condensedMode: false
 }
 
 export const UserSettings = {
@@ -97,12 +102,13 @@ export const UserSettings = {
     let result: Array<Record<string,unknown>> = [];
 
     if(!isPlatform("capacitor") && !isPlatform("electron")){
+      const https = (window.location.protocol==="https:");
       result = [
         {
           name:"Default",
           host:window.location.hostname,
-          port:window.location.port,
-          https:(window.location.protocol==="https:")
+          port:window.location.port || https ? 443 : 80,
+          https
         }
       ]
     }

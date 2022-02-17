@@ -246,5 +246,12 @@
     "duration": "Длительность",
     "addTorrents": "Добавить несколько торрентов",
     "preset": "Шаблон",
-    "openMagnetLinks": "Открывать magnet-ссылки с помощью Transmissionic"
+    "openMagnetLinks": "Открывать magnet-ссылки с помощью Transmissionic",
+    "condensedMode": "Condensed mode",
+    "enableNotifications": "Enable notifications",
+    "searchBy": "Search by",
+    "rememberSelectedPreset": "Remember selected preset",
+    "export": "Export",
+    "import": "Import",
+    "downloadFinished": "Download finished"
 }
