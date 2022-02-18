@@ -119,7 +119,7 @@
         </ion-item>
         
         <div class="ion-padding small">
-          <ion-button size="default" id="exportPresets" download="preset.json">{{ Locale.export }}</ion-button>
+          <ion-button size="default" @click="exportPreset">{{ Locale.export }}</ion-button>
           <ion-button size="default" @click="inputPreset">{{ Locale.import }}</ion-button>
           <input type="file" id="importPreset" accept=".json" @change="importPreset"/>
         </div>
@@ -280,11 +280,6 @@ export default defineComponent({
     const href = window.location.href.replace(window.location.hash,"");
     const bookmarkletScript = `javascript:(${bookmarkletFunction})("${href}");`;
 
-    UserSettings.loadPresets().then(presets => {
-      const button = document.getElementById("exportPresets") as any;
-      button.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(presets));
-    })
-
     return { 
       Locale,
       bookmarkletScript,
@@ -325,6 +320,12 @@ export default defineComponent({
           ],
         });
       return alert.present();
+    },
+    exportPreset() {
+      UserSettings.loadPresets()
+        .then(presets => {
+          Utils.downloadFile(JSON.stringify(presets), 'preset.json', 'application/json');
+        });
     },
     inputPreset() {
       document.getElementById('importPreset')?.click();
