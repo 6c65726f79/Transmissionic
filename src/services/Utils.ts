@@ -12,6 +12,7 @@ import { Clipboard } from '@capacitor/clipboard';
 import { Toast } from '@capacitor/toast';
 import { ScreenReader } from '@capacitor/screen-reader';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { FileSharer } from '@byteowls/capacitor-filesharer';
 import { Keyboard, KeyboardStyle } from '@capacitor/keyboard';
 import { UserSettings } from "./UserSettings";
 import { Locale } from "./Locale";
@@ -538,6 +539,30 @@ export const Utils = {
       else if(navigator.unregisterProtocolHandler){
         navigator.unregisterProtocolHandler("magnet", `${href}#%s`);
       }
+    }
+  },
+  downloadFile(content: string, filename: string, type: string) {
+    const base64 = `data:${type};base64,${Buffer.from(content, 'utf-8').toString('base64')}`;
+    if(isPlatform("capacitor")){
+      FileSharer.share({
+        filename: filename,
+        base64Data:base64,
+        contentType: type,
+      });
+    }
+    else {
+      fetch(base64)
+        .then(res => res.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        })
     }
   }
 }
