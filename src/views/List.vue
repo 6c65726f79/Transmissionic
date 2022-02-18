@@ -33,6 +33,7 @@
           <ion-label>
             {{ torrentSelectedList.length }}
             {{ LocaleController.getPlural("torrent",torrentSelectedList.length) }} ·
+            {{ Utils.formatBytes(totalSize) }} ·
             <span @click="openOrderPopover" tabindex="0" :aria-label="Locale.order">
               <ion-icon :ios="filterOutline" :md="filterSharp"></ion-icon>
               {{ Locale.order }}
@@ -266,11 +267,11 @@ export default defineComponent({
 
       // Filter list by search value
       if(this.privateState.search!=""){
-        const search=this.privateState.search.toLowerCase().replace('.',' ');
+        const search=this.privateState.search.toLowerCase().replace(/\./g,' ');
         list = _.filter(list, function(o) {
           let include=false;
           if(UserSettings.state.searchByName){
-            include=o.name.toLowerCase().replace('.',' ').indexOf(search) >= 0;
+            include=o.name.toLowerCase().replace(/\./g,' ').indexOf(search) >= 0;
           }
           if(UserSettings.state.searchByDirectory && !include){
             include=o.downloadDir.toLowerCase().indexOf(search) >= 0;
@@ -298,6 +299,11 @@ export default defineComponent({
     },
     itemSize() {
       return UserSettings.state.condensedMode ? 46 : 72;
+    },
+    totalSize: function (): any {
+      return this.torrentSelectedList.reduce(function(sum, current) {
+        return sum + (current.percentDone * current.sizeWhenDone);
+      }, 0);
     }
   },
   setup() {
