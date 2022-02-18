@@ -267,11 +267,11 @@ export default defineComponent({
 
       // Filter list by search value
       if(this.privateState.search!=""){
-        const search=this.privateState.search.toLowerCase().replace(/\./g,' ');
+        const search=this.privateState.search.toLowerCase();
         list = _.filter(list, function(o) {
           let include=false;
           if(UserSettings.state.searchByName){
-            include=o.name.toLowerCase().replace(/\./g,' ').indexOf(search) >= 0;
+            include=o.name.toLowerCase().replace(/\./g,' ').indexOf(search.replace(/\./g,' ')) >= 0;
           }
           if(UserSettings.state.searchByDirectory && !include){
             include=o.downloadDir.toLowerCase().indexOf(search) >= 0;
