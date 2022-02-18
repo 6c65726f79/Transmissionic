@@ -42,7 +42,7 @@
     "moment": "^2.29.1",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "parse-torrent": "^9.1.4",
-    "rxjs": "^6.6.7",
+    "rxjs": "^7.5.4",
     "swiper": "^8.0.6",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12",
