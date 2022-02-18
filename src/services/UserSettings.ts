@@ -102,12 +102,13 @@ export const UserSettings = {
     let result: Array<Record<string,unknown>> = [];
 
     if(!isPlatform("capacitor") && !isPlatform("electron")){
+      const https = (window.location.protocol==="https:");
       result = [
         {
           name:"Default",
           host:window.location.hostname,
-          port:window.location.port ? window.location.port : window.location.protocol==="https:" ? 443 : 80,
-          https:window.location.protocol==="https:"
+          port:window.location.port || https ? 443 : 80,
+          https
         }
       ]
     }
