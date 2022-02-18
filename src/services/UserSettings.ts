@@ -107,7 +107,7 @@ export const UserSettings = {
         {
           name:"Default",
           host:window.location.hostname,
-          port:window.location.port || https ? 443 : 80,
+          port:window.location.port || (https ? 443 : 80),
           https
         }
       ]
