@@ -542,16 +542,16 @@ export const Utils = {
     }
   },
   downloadFile(content: string, filename: string, type: string) {
-    const base64 = `data:${type};base64,${Buffer.from(content, 'utf-8').toString('base64')}`;
+    const base64 = Buffer.from(content, 'utf-8').toString('base64');
     if(isPlatform("capacitor")){
       FileSharer.share({
         filename: filename,
-        base64Data:base64,
+        base64Data: base64,
         contentType: type,
       });
     }
     else {
-      fetch(base64)
+      fetch(`data:${type};base64,${base64}`)
         .then(res => res.blob())
         .then(blob => {
           const url = window.URL.createObjectURL(blob);

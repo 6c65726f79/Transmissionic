@@ -10,7 +10,8 @@
     "prebuild:webui": "node scripts/prebuild-webui.js",
     "postbuild:webui": "node scripts/postbuild-webui.js",
     "postbuild:electron": "node scripts/postbuild-electron.js",
-    "sync:electron": "npm run build && npx cap sync @capacitor-community/electron && npm run postbuild:electron"
+    "sync:electron": "npm run build && npx cap sync @capacitor-community/electron && npm run postbuild:electron",
+    "build:iphonesimulator": "npm run build && npx cap sync ios && xcodebuild -sdk iphonesimulator -workspace ios/App/App.xcworkspace/ -scheme App -configuration Debug"
   },
   "dependencies": {
     "@byteowls/capacitor-filesharer": "^3.0.0",
