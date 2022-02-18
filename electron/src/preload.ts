@@ -44,7 +44,7 @@ contextBridge.exposeInMainWorld('fileOpen', {
     if(dir.startsWith('smb://')){
       fullpath = fullpath.replace('smb:/','smb://'); // Fix on macOS
     }
-    if(platform === 'darwin'){
+    if(platform === 'darwin' && fullpath.indexOf('"')<0){ // Prevent command injection
       exec(isFile ? `open -a Finder "${fullpath}"` : `open "${fullpath}"`)
     }
     else {
