@@ -256,14 +256,15 @@ In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` m
 | Alt+N           | New server           |
 | Alt+I           | Server information   |
 | Alt+C           | Server configuration |
+| Alt+A           | About                |
 | Alt+[1-9]       | Select filter        |
 | Ctrl+Alt+S      | Search               |
 | Ctrl+Alt+T      | Toggle side menu     |
 | Ctrl+RightArrow | Next tab             |
 | Ctrl+LeftArrow  | Previous tab         |
+| Shift+Click     | Select torrent       |
 | Ctrl+A          | Select all           |
-| Ctrl+Alt+C      | Cancel selection     |
-| Alt+A           | About                |
+| Esc             | Cancel selection     |
 
 # Build
 

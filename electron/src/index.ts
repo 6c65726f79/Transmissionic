@@ -439,7 +439,7 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         },
         {
           label: 'Cancel selection',
-          accelerator: 'CmdOrCtrl+Alt+C',
+          accelerator: 'Escape',
           registerAccelerator: false,
           click(): void {
             shortcutsHandler('clear-selection');

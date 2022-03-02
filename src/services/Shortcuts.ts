@@ -64,7 +64,7 @@ export const Shortcuts = {
             case "ctrl,a":
                 this.call("select-all");
                 break;
-            case "ctrl,alt,c":
+            case "Escape":
                 this.call("clear-selection");
                 break;
             case "alt,a":
