@@ -13,7 +13,7 @@ export const Shortcuts = {
             isKeyPressed = {"ctrl":false,"alt":false};
         }
         if(event.key!="Control" && event.key!="Alt"){
-            isKeyPressed["ctrl"] = event.ctrlKey;
+            isKeyPressed["ctrl"] = event.ctrlKey || event.metaKey;
             isKeyPressed["alt"] = event.altKey;
             isKeyPressed[event.key] = pressed;
             if(pressed){
