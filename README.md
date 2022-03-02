@@ -257,7 +257,7 @@ In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` m
 | `Alt` `I`               | Server information   |
 | `Alt` `C`               | Server configuration |
 | `Alt` `A`               | About                |
-| `Alt` `1`-`9`             | Select filter        |
+| `Alt` `1`-`9`           | Select filter        |
 | `Cmd/Ctrl` `Alt` `S`    | Search               |
 | `Cmd/Ctrl` `Alt` `T`    | Toggle side menu     |
 | `Cmd/Ctrl` `RightArrow` | Next tab             |
@@ -276,7 +276,9 @@ You must have [Node.js](https://nodejs.org/) installed, then you can clone this 
 npm install
 ```
 
-If you want to build the APK, you need to install [Android Studio](https://developer.android.com/studio) or [JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
+If you want to build the APK, you must install [Android Studio](https://developer.android.com/studio) or [JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
+
+If you want to build the IPA, you must install [Xcode](https://apps.apple.com/app/xcode/id497799835).
 
 ## Web UI
 
@@ -305,7 +307,9 @@ Then place your terminal in the `electron` folder and run this:
 npm install
 # Build Windows installer
 npm run electron:build-windows
-# Build Linux installer
+# Build macOS installer
+npm run electron:build-mac
+# Build Linux AppImage
 npm run electron:build-linux
 ```
 
@@ -316,7 +320,7 @@ The installer will be located in the `electron/dist` folder.
 Start by running this in the root folder of the project:
 
 ```
-npx cap sync android
+npm run sync:android
 ```
 
 ### With Android Studio
@@ -338,6 +342,20 @@ Place your terminal in the `android` folder and run this:
 ```
 
 The APK will be located in the `android/app/build/outputs/apk` folder.
+
+## iOS
+
+Start by running this in the root folder of the project:
+
+```
+npm run sync:ios
+```
+
+Then open Xcode by running:
+
+```
+npx cap open ios
+```
 
 # Development
 
