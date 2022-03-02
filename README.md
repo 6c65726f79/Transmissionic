@@ -292,8 +292,6 @@ This will build the Web UI inside the `dist` folder.
 
 ## Electron
 
-Only Windows and Linux are currently supported, but feel free to make some changes to support other platforms.
-
 First, synchronize Electron content by running this in the root folder of the project:
 
 ```
@@ -303,14 +301,25 @@ npm run sync:electron
 Then place your terminal in the `electron` folder and run this:
 
 ```
-# Install dependencies
 npm install
-# Build Windows installer
+```
+
+### Windows
+
+```
 npm run electron:build-windows
-# Build macOS installer
-npm run electron:build-mac
-# Build Linux AppImage
+```
+
+### Linux
+
+```
 npm run electron:build-linux
+```
+
+### macOS
+
+```
+npm run electron:build-mac
 ```
 
 The installer will be located in the `electron/dist` folder.
