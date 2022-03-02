@@ -376,7 +376,7 @@ export default defineComponent({
         },
         {
           text: Locale.actions.openInExplorer,
-          handler: () => this.openExplorer()
+          handler: () => FileHandler.openExplorer(this.privateState.details)
         },
         {
           text: Locale.actions.copyMagnet,
@@ -466,18 +466,6 @@ export default defineComponent({
           ],
         });
       return alert.present();
-    },
-    openExplorer() {
-      let isFile = false;
-      let path = this.privateState.details.name;
-      const directory = this.privateState.details.downloadDir;
-
-      if(this.privateState.details.files.length===1){
-        path = this.privateState.details.files[0].name
-        isFile = true;
-      }
-
-      FileHandler.openExplorer(directory,path,isFile)
     },
     async setLocation() {
       const modal = await modalController
