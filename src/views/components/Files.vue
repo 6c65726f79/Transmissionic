@@ -24,7 +24,7 @@
       <template v-slot:default="{item}">
         <div :class="{file:true,actions:actions}">
           <div class="side">
-            <ion-checkbox v-bind="checkedAttributes(item.ids)" v-on:ionChange="checboxUpdate($event,item.ids)"></ion-checkbox>
+            <ion-checkbox v-bind="checkedAttributes(item.ids)" @ionChange="checboxUpdate($event,item.ids)"></ion-checkbox>
           </div>
           <div :class="{ middle: true, click: item.folder }" @click="fileAction(item)" @contextmenu="fileTitle(item.name, $event)">
             <div class="name">
@@ -108,6 +108,7 @@ export default defineComponent({
       details:{} as Record<string,any>,
       fileStats:{} as Record<string,any>,
       currentDirectory:"",
+      navigation: false
     }
   },
   setup() {
@@ -216,11 +217,18 @@ export default defineComponent({
       if(end>0){
         dir+="/";
       }
-      this.$emit("change-directory",dir);
+      this.changeDirectory(dir);
+    },
+    changeDirectory(directory: string) {
+      this.navigation=true; // Prevent triggering ionChange in recycler view when navigating between folders
+      this.$emit("change-directory",directory);
+      setTimeout(() => {
+        this.navigation=false;
+      },10);
     },
     fileAction(file: Record<string, any>){
       if(file.folder){
-        this.$emit("change-directory",this.currentDirectory+file.name+"/");
+        this.changeDirectory(this.currentDirectory+file.name+"/");
       }
       else {
         this.fileTitle(file.name);
@@ -352,10 +360,11 @@ export default defineComponent({
       }
     },
     checboxUpdate(e: any, ids: Array<number>) {
-      ids.forEach((id) => {
-        this.fileStats[id].wanted=e.detail.checked;
-      });
-
+      if(!this.navigation){
+        ids.forEach((id) => {
+          this.fileStats[id].wanted=e.detail.checked;
+        });
+      }
     },
     priorityUpdate(priority: number, ids: Array<number>) {
       ids.forEach((id) => {
