@@ -496,7 +496,7 @@ export default defineComponent({
             },
             {
               text: Locale.prompt.confirm,
-              handler: (data) => {
+              handler: (data: Array<string>) => {
                 TransmissionRPC.torrentAction("remove",torrentIds,{'delete-local-data':data.includes("deleteData")})
                   .then((response) => {
                     Utils.responseToast(response.result);
@@ -677,7 +677,7 @@ export default defineComponent({
             },
             {
               text: Locale.ok,
-              handler: (data) => {
+              handler: (data: Record<string,any>) => {
                 FileHandler.readHashOrMagnet(data.link);
               },
             },
@@ -702,7 +702,7 @@ export default defineComponent({
             },
             {
               text: Locale.ok,
-              handler: (data) => {
+              handler: (data: Record<string,any>) => {
                 FileHandler.readURL(data.url);
               },
             },
