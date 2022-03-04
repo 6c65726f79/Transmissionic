@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@byteowls/capacitor-filesharer": "^3.0.0",
-    "@capacitor/android": "^3.4.1",
+    "@capacitor/android": "^3.4.3",
     "@capacitor/app": "^1.1.0",
     "@capacitor/clipboard": "^1.0.8",
     "@capacitor/core": "^3.4.3",
