@@ -21,7 +21,7 @@
     "@capacitor/app": "^1.1.0",
     "@capacitor/clipboard": "^1.0.8",
     "@capacitor/core": "^3.4.3",
-    "@capacitor/ios": "^3.4.1",
+    "@capacitor/ios": "^3.4.3",
     "@capacitor/keyboard": "^1.2.2",
     "@capacitor/screen-reader": "^1.0.8",
     "@capacitor/splash-screen": "^1.2.2",
