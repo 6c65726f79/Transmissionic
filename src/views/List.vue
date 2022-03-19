@@ -544,7 +544,7 @@ export default defineComponent({
           handler: () => this.torrentAction("stop",selection)
         },
         {
-          text: Locale.actions.reannonce,
+          text: Locale.actions.reannounce,
           handler: () => this.torrentAction("reannounce",selection)
         },
         {

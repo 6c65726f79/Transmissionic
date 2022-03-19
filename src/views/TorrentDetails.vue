@@ -383,7 +383,7 @@ export default defineComponent({
           handler: () => this.copyMagnet()
         },
         {
-          text: Locale.actions.reannonce,
+          text: Locale.actions.reannounce,
           handler: () => this.torrentAction("reannounce",this.id)
         },
         {
