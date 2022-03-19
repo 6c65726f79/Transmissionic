@@ -64,7 +64,7 @@
         "start": "Démarrer",
         "startNow": "$ref{actions.start} maintenant",
         "stop": "Arrêter",
-        "reannonce": "Réannoncer",
+        "reannounce": "Réannoncer",
         "verify": "Vérifier",
         "cancel": "Annuler",
         "delete": "Supprimer",
