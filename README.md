@@ -182,14 +182,6 @@ The file can contain the following key/value pairs:
 | refreshInterval        | `number`      | Refresh interval in seconds           |
 | timeout                | `number`      | Connection timeout in seconds         |
 
-
-
-  :true,
-  :true,
-  selectedPreset:"",
-  rememberSelectedPreset:false,
-  condensedMode: false
-
 Configuration file example:
 
 ```
