@@ -30,7 +30,7 @@
 * Add torrent from local file or magnet link
 * Drag & drop torrent file
 * Magnet protocol support
-* Start/stop/reannonce/verify/delete one or more torrents
+* Start/stop/reannounce/verify/delete one or more torrents
 * Modify torrent's options
 * Set the location of a torrent
 * Select and rename torrent's files
@@ -52,6 +52,7 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/hu?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/it?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/pl?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
@@ -64,6 +65,7 @@ Available languages:
 - **English**
 - **French**
 - **German** (Tobias W)
+- **Hungarian** (Daniel)
 - **Italian** (Emanuele Ruzza)
 - **Polish** (Maciej Siwko)
 - **Russian** (Alek Depler)
