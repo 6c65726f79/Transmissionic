@@ -191,7 +191,7 @@
     "startByAddingServer": "Начать {0}с добавлением сервера{1}",
     "moveData": "Переместить данные",
     "ok": "OK",
-    "informations": "Информация",
+    "information": "Информация",
     "torrentFile": "Файл торрента",
     "updateAvailable": "Доступно обновление: {0}",
     "download": "Загрузка",
@@ -247,11 +247,11 @@
     "addTorrents": "Добавить несколько торрентов",
     "preset": "Шаблон",
     "openMagnetLinks": "Открывать magnet-ссылки с помощью Transmissionic",
-    "condensedMode": "Condensed mode",
-    "enableNotifications": "Enable notifications",
-    "searchBy": "Search by",
-    "rememberSelectedPreset": "Remember selected preset",
-    "export": "Export",
-    "import": "Import",
-    "downloadFinished": "Download finished"
+    "condensedMode": "Компактный режим",
+    "enableNotifications": "Включить уведомления",
+    "searchBy": "Поиск по",
+    "rememberSelectedPreset": "Запомнить выбранный шаблон",
+    "export": "Экспорт",
+    "import": "Импорт",
+    "downloadFinished": "Загрузка завершена"
 }
