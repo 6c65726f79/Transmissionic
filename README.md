@@ -46,12 +46,13 @@
 
 ## Translation
 
+![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hans?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/de?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/hu?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/it?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/pl?token=c2a5935a2b069e687490b29b02f3964c)
@@ -61,12 +62,13 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
+- **Austrian German** (Tobias W)
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
 - **Chinese (traditional)** (Steven F)
 - **Dutch** (John)
 - **English**
 - **French**
-- **German** (Tobias W)
+- **German** (Alain Nussbaumer)
 - **Hungarian** (Daniel)
 - **Italian** (Emanuele Ruzza)
 - **Polish** (Maciej Siwko)

@@ -6,6 +6,7 @@ import en from "../../public/locales/en.json";
 const languages: Record<string,any> = {en};
 
 const list: Array<string> = [
+    "de",
     "de-at",
     "en",
     "es-cr",
@@ -22,7 +23,6 @@ const list: Array<string> = [
 ];
 
 const aliases: Record<string,any> = {
-    de:'de-at',
     es:'es-cr',
     zh:'zh-cn',
 };
