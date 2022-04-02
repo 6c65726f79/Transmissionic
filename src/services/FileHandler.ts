@@ -221,7 +221,7 @@ export const FileHandler = {
     let result = path
     for(const map in list){
       if(path.startsWith(map)){
-        result = list[map] + path.substr(map.length)
+        result = list[map] + path.substring(map.length)
       }
     }
     return result;
