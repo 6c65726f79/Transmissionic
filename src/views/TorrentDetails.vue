@@ -376,7 +376,12 @@ export default defineComponent({
         },
         {
           text: Locale.actions.openInExplorer,
-          handler: () => FileHandler.openExplorer(this.privateState.details)
+          handler: () => {
+            const success = FileHandler.openExplorer(this.privateState.details)
+            if(!success){
+              Utils.responseToast(Locale.error.notFound);
+            }
+          }
         },
         {
           text: Locale.actions.copyMagnet,

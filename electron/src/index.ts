@@ -134,8 +134,10 @@ async function sendFilesOrMagnet() {
 }
 
 const sendFiles = debounce(() => {
-  const torrentFiles = loadTorrents()
-  mainWindow.webContents.send('file-open', torrentFiles);
+  const torrentFiles = loadTorrents();
+  if(torrentFiles.length>0){
+    mainWindow.webContents.send('file-open', torrentFiles);
+  }
   openFiles=[];
 });
 
