@@ -58,6 +58,7 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/fr-ch?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
@@ -72,6 +73,7 @@ Available languages:
 - **Russian** (Alek Depler)
 - **Spanish** (Zenón Monge)
 - **Swiss French** (Alain Nussbaumer)
+- **Ukrainian** (Oleksandr Popov)
 
 You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to add it.
 
