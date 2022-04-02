@@ -554,7 +554,12 @@ export default defineComponent({
         {
           text: Locale.actions.openInExplorer,
           handler: () => {
-            TransmissionRPC.getTorrentDetails(torrent.id).then(details => FileHandler.openExplorer(details));
+            TransmissionRPC.getTorrentDetails(torrent.id).then((details) => {
+              const success = FileHandler.openExplorer(details);
+              if(!success){
+                Utils.responseToast(Locale.error.notFound);
+              }
+            });
           }
         },
         {

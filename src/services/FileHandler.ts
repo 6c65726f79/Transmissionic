@@ -202,7 +202,7 @@ export const FileHandler = {
       return modal.present();
     });
   },
-  openExplorer(details: Record<string, any>): void{
+  openExplorer(details: Record<string, any>): boolean{
     let isFile = false;
     let path = details.name;
     const dir = details.downloadDir;
@@ -213,8 +213,9 @@ export const FileHandler = {
     }
     
     if(window.fileOpen){
-      window.fileOpen.open(this.pathMapping(dir),path,isFile);
+      return window.fileOpen.open(this.pathMapping(dir),path,isFile);
     }
+    return false;
   },
   pathMapping(path: string): string{
     const list = TransmissionRPC.pathMapping;

@@ -7,6 +7,7 @@ import path from 'path';
 import Titlebar from '@6c65726f79/custom-titlebar';
 import { platform } from 'process';
 import { exec } from 'child_process';
+import { existsSync } from 'fs';
 
 let shortcutsHandler: (shortcut: string) => void;
 let titleBar: Titlebar;
@@ -39,10 +40,13 @@ contextBridge.exposeInMainWorld('fileOpen', {
   receive: (func: (...args: any[]) => void) => {
     ipcRenderer.on("file-open", (event, ...args) => func(...args));
   },
-  open: (dir: string,location: string,isFile: boolean) => {
+  open: (dir: string,location: string,isFile: boolean): boolean => {
     let fullpath = path.join(dir,location);
     if(dir.startsWith('smb://')){
       fullpath = fullpath.replace('smb:/','smb://'); // Fix on macOS
+    }
+    if(!existsSync(fullpath)){
+      return false;
     }
     if(platform === 'darwin' && fullpath.indexOf('"')<0){ // Prevent command injection
       exec(isFile ? `open -a Finder "${fullpath}"` : `open "${fullpath}"`)
@@ -50,6 +54,7 @@ contextBridge.exposeInMainWorld('fileOpen', {
     else {
       isFile ? shell.showItemInFolder(fullpath) : shell.openPath(fullpath);
     }
+    return true;
   }
 })
 
