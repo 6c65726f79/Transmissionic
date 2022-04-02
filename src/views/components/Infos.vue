@@ -2,7 +2,7 @@
   <ion-content class="ion-padding" ref="content" v-if="details">
     <ion-list>
       <ion-list-header>
-        {{ Locale.informations }}
+        {{ Locale.information }}
       </ion-list-header>
       <ion-item>
         <ion-label class="label no-wrap">

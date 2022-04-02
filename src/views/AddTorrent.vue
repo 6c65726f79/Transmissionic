@@ -97,7 +97,7 @@
               <p>
                 <ion-list-header>
                   <ion-label>
-                    {{ Locale.informations }}
+                    {{ Locale.information }}
                   </ion-label>
                 </ion-list-header>
 
