@@ -496,7 +496,7 @@ export default defineComponent({
             },
             {
               text: Locale.prompt.confirm,
-              handler: (data) => {
+              handler: (data: Array<string>) => {
                 TransmissionRPC.torrentAction("remove",torrentIds,{'delete-local-data':data.includes("deleteData")})
                   .then((response) => {
                     Utils.responseToast(response.result);
@@ -518,54 +518,67 @@ export default defineComponent({
       Utils.pushState();
       const torrent = this.getTorrentsByIds([id])[0];
       const selection = this.privateState.selection.length>0 ? this.privateState.selection : [torrent.id];
+
+      let buttons = [
+        {
+          text: (this.privateState.selection.length==0) ? Locale.actions.select : Locale.actions.selectAll,
+          handler: () => {
+            if(this.privateState.selection.length==0){
+              this.selectTorrent(torrent.id);
+            }
+            else {
+              this.selectAll();
+            }
+          },
+        },
+        {
+          text: Locale.actions.start,
+          handler: () => this.torrentAction("start",selection)
+        },
+        {
+          text: Locale.formatString(Locale.actions.startNow).toString(),
+          handler: () => this.torrentAction("start-now",selection)
+        },
+        {
+          text: Locale.actions.stop,
+          handler: () => this.torrentAction("stop",selection)
+        },
+        {
+          text: Locale.actions.reannounce,
+          handler: () => this.torrentAction("reannounce",selection)
+        },
+        {
+          text: Locale.actions.verify,
+          handler: () => this.torrentAction("verify",selection)
+        },
+        {
+          text: Locale.actions.openInExplorer,
+          handler: () => {
+            TransmissionRPC.getTorrentDetails(torrent.id).then(FileHandler.openExplorer);
+          }
+        },
+        {
+          text: Locale.actions.remove,
+          role: 'destructive',
+          handler: async ()  => {
+            actionSheetController.dismiss();
+            this.removeTorrents(selection)
+          },
+        },
+        {
+          text: Locale.actions.cancel,
+          role: 'cancel'
+        },
+      ];
+
+      if(!isPlatform("electron") || selection.length>1){
+        buttons.splice(6, 1);
+      }
+
       const actionSheet = await actionSheetController
         .create({
           header: (this.privateState.selection.length==0) ? torrent.name : Locale.selection,
-          buttons: [
-            {
-              text: (this.privateState.selection.length==0) ? Locale.actions.select : Locale.actions.selectAll,
-              handler: () => {
-                if(this.privateState.selection.length==0){
-                  this.selectTorrent(torrent.id);
-                }
-                else {
-                  this.selectAll();
-                }
-              },
-            },
-            {
-              text: Locale.actions.start,
-              handler: () => this.torrentAction("start",selection)
-            },
-            {
-              text: Locale.formatString(Locale.actions.startNow).toString(),
-              handler: () => this.torrentAction("start-now",selection)
-            },
-            {
-              text: Locale.actions.stop,
-              handler: () => this.torrentAction("stop",selection)
-            },
-            {
-              text: Locale.actions.reannonce,
-              handler: () => this.torrentAction("reannounce",selection)
-            },
-            {
-              text: Locale.actions.verify,
-              handler: () => this.torrentAction("verify",selection)
-            },
-            {
-              text: Locale.actions.remove,
-              role: 'destructive',
-              handler: async()  => {
-                actionSheetController.dismiss();
-                this.removeTorrents(selection)
-              },
-            },
-            {
-              text: Locale.actions.cancel,
-              role: 'cancel'
-            },
-          ],
+          buttons
         });
       return actionSheet.present();
     },
@@ -664,7 +677,7 @@ export default defineComponent({
             },
             {
               text: Locale.ok,
-              handler: (data) => {
+              handler: (data: Record<string,any>) => {
                 FileHandler.readHashOrMagnet(data.link);
               },
             },
@@ -689,7 +702,7 @@ export default defineComponent({
             },
             {
               text: Locale.ok,
-              handler: (data) => {
+              handler: (data: Record<string,any>) => {
                 FileHandler.readURL(data.url);
               },
             },

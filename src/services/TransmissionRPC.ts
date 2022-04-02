@@ -474,7 +474,7 @@ class TRPC {
     }
 
     // Don't return result if tags doesn't match or server has been changed
-    if((ret.data && ret.data.tag!=requestId) || (ret.url && ret.url!=this.getRequestUrl())){
+    if((ret.data && ret.data.tag!=requestId) || requestUrl!=this.getRequestUrl()){
       throw Error();
     }
 

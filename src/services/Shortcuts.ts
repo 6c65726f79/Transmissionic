@@ -13,7 +13,7 @@ export const Shortcuts = {
             isKeyPressed = {"ctrl":false,"alt":false};
         }
         if(event.key!="Control" && event.key!="Alt"){
-            isKeyPressed["ctrl"] = event.ctrlKey;
+            isKeyPressed["ctrl"] = event.ctrlKey || event.metaKey;
             isKeyPressed["alt"] = event.altKey;
             isKeyPressed[event.key] = pressed;
             if(pressed){
@@ -64,7 +64,7 @@ export const Shortcuts = {
             case "ctrl,a":
                 this.call("select-all");
                 break;
-            case "ctrl,alt,c":
+            case "Escape":
                 this.call("clear-selection");
                 break;
             case "alt,a":

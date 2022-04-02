@@ -30,7 +30,7 @@
 * Add torrent from local file or magnet link
 * Drag & drop torrent file
 * Magnet protocol support
-* Start/stop/reannonce/verify/delete one or more torrents
+* Start/stop/reannounce/verify/delete one or more torrents
 * Modify torrent's options
 * Set the location of a torrent
 * Select and rename torrent's files
@@ -46,28 +46,36 @@
 
 ## Translation
 
+![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hans?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/de?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/hu?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/it?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/pl?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/fr-ch?token=c2a5935a2b069e687490b29b02f3964c)
+![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
+- **Austrian German** (Tobias W)
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
 - **Chinese (traditional)** (Steven F)
 - **Dutch** (John)
 - **English**
 - **French**
-- **German** (Tobias W)
+- **German** (Alain Nussbaumer)
+- **Hungarian** (Daniel)
 - **Italian** (Emanuele Ruzza)
 - **Polish** (Maciej Siwko)
 - **Russian** (Alek Depler)
 - **Spanish** (Zenón Monge)
+- **Swiss French** (Alain Nussbaumer)
+- **Ukrainian** (Oleksandr Popov)
 
 You can help with the translation by joining the project on [POEditor](https://poeditor.com/join/project?hash=sbVnI9eo3d). If your language is not availaible, feel free to add it.
 
@@ -180,14 +188,6 @@ The file can contain the following key/value pairs:
 | refreshInterval        | `number`      | Refresh interval in seconds           |
 | timeout                | `number`      | Connection timeout in seconds         |
 
-
-
-  :true,
-  :true,
-  selectedPreset:"",
-  rememberSelectedPreset:false,
-  condensedMode: false
-
 Configuration file example:
 
 ```
@@ -247,23 +247,24 @@ In this case, the remote server IP is `192.168.1.1`, and the folder `/mnt/ssd` m
 
 # Keyboard shortcuts
 
-| Keys            | Action               |
-| --------------- | -------------------- |
-| Alt+T           | Open torrent         |
-| Alt+M           | Open magnet          |
-| Alt+U           | Open URL             |
-| Alt+S           | Settings             |
-| Alt+N           | New server           |
-| Alt+I           | Server information   |
-| Alt+C           | Server configuration |
-| Alt+[1-9]       | Select filter        |
-| Ctrl+Alt+S      | Search               |
-| Ctrl+Alt+T      | Toggle side menu     |
-| Ctrl+RightArrow | Next tab             |
-| Ctrl+LeftArrow  | Previous tab         |
-| Ctrl+A          | Select all           |
-| Ctrl+Alt+C      | Cancel selection     |
-| Alt+A           | About                |
+| Keys                    | Action               |
+| ----------------------- | -------------------- |
+| `Alt` `T`               | Open torrent         |
+| `Alt` `M`               | Open magnet          |
+| `Alt` `U`               | Open URL             |
+| `Alt` `S`               | Settings             |
+| `Alt` `N`               | New server           |
+| `Alt` `I`               | Server information   |
+| `Alt` `C`               | Server configuration |
+| `Alt` `A`               | About                |
+| `Alt` `1`-`9`           | Select filter        |
+| `Cmd/Ctrl` `Alt` `S`    | Search               |
+| `Cmd/Ctrl` `Alt` `T`    | Toggle side menu     |
+| `Cmd/Ctrl` `RightArrow` | Next tab             |
+| `Cmd/Ctrl` `LeftArrow`  | Previous tab         |
+| `Shift` `Click`         | Select torrent       |
+| `Ctrl` `A`              | Select all           |
+| `Esc`                   | Cancel selection     |
 
 # Build
 
@@ -275,7 +276,9 @@ You must have [Node.js](https://nodejs.org/) installed, then you can clone this 
 npm install
 ```
 
-If you want to build the APK, you need to install [Android Studio](https://developer.android.com/studio) or [JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
+If you want to build the APK, you must install [Android Studio](https://developer.android.com/studio) or [JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
+
+If you want to build the IPA, you must install [Xcode](https://apps.apple.com/app/xcode/id497799835).
 
 ## Web UI
 
@@ -289,8 +292,6 @@ This will build the Web UI inside the `dist` folder.
 
 ## Electron
 
-Only Windows and Linux are currently supported, but feel free to make some changes to support other platforms.
-
 First, synchronize Electron content by running this in the root folder of the project:
 
 ```
@@ -300,12 +301,25 @@ npm run sync:electron
 Then place your terminal in the `electron` folder and run this:
 
 ```
-# Install dependencies
 npm install
-# Build Windows installer
+```
+
+### Windows
+
+```
 npm run electron:build-windows
-# Build Linux installer
+```
+
+### Linux
+
+```
 npm run electron:build-linux
+```
+
+### macOS
+
+```
+npm run electron:build-mac
 ```
 
 The installer will be located in the `electron/dist` folder.
@@ -315,7 +329,7 @@ The installer will be located in the `electron/dist` folder.
 Start by running this in the root folder of the project:
 
 ```
-npx cap sync android
+npm run sync:android
 ```
 
 ### With Android Studio
@@ -337,6 +351,20 @@ Place your terminal in the `android` folder and run this:
 ```
 
 The APK will be located in the `android/app/build/outputs/apk` folder.
+
+## iOS
+
+Start by running this in the root folder of the project:
+
+```
+npm run sync:ios
+```
+
+Then open Xcode by running:
+
+```
+npx cap open ios
+```
 
 # Development
 
