@@ -10,6 +10,7 @@ const list: Array<string> = [
     "en",
     "es-cr",
     "fr",
+    "fr-ch",
     "hu",
     "it",
     "nl",
