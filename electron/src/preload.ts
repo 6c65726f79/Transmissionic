@@ -8,7 +8,7 @@ import Titlebar from '@6c65726f79/custom-titlebar';
 import { platform } from 'process';
 import { exec } from 'child_process';
 
-let shortcutsHandler: Function;
+let shortcutsHandler: (shortcut: string) => void;
 let titleBar: Titlebar;
 
 contextBridge.exposeInMainWorld('Titlebar', {
@@ -27,16 +27,16 @@ contextBridge.exposeInMainWorld('Titlebar', {
     });
     ipcRenderer.send('request-application-menu');
   },
-  updateBackground: (color) => {
+  updateBackground: (color: string) => {
     titleBar.updateOptions({backgroundColor:color});
   },
-  shortcuts: (func) => {
-    shortcutsHandler = (shortcut) => func(shortcut);
+  shortcuts: (func: (shortcut: string) => void) => {
+    shortcutsHandler = (shortcut: string) => func(shortcut);
   }
 })
 
 contextBridge.exposeInMainWorld('fileOpen', {
-  receive: (func) => {
+  receive: (func: (...args: any[]) => void) => {
     ipcRenderer.on("file-open", (event, ...args) => func(...args));
   },
   open: (dir: string,location: string,isFile: boolean) => {
@@ -54,13 +54,13 @@ contextBridge.exposeInMainWorld('fileOpen', {
 })
 
 contextBridge.exposeInMainWorld('magnetOpen', {
-  receive: (func) => {
+  receive: (func: (...args: any[]) => void) => {
     ipcRenderer.on("magnet-open", (event, ...args) => func(...args));
   }
 })
 
 contextBridge.exposeInMainWorld('net', {
-  request: async (options,data) => {
+  request: async (options: Record<string,any>,data: Record<string,any>) => {
     return ipcRenderer.invoke('request', {options,data});
   }
 })
