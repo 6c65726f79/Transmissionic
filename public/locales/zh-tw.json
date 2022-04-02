@@ -179,7 +179,7 @@
     "startByAddingServer": "從 {0}新增一個伺服器{1} 開始吧",
     "moveData": "移動已下載資料",
     "ok": "好",
-    "informations": "種子資訊",
+    "information": "種子資訊",
     "torrentFile": "種子檔",
     "updateAvailable": "有新的更新: {0}",
     "download": "下載",
