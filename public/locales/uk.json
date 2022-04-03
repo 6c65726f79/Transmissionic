@@ -247,7 +247,7 @@
     "addTorrents": "Додати кілька торентів",
     "preset": "Шаблон",
     "openMagnetLinks": "Відкривати magnet-посилання за допомогою Transmissionic",
-    "condensedMode": "Стислий режим",
+    "compactMode": "Стислий режим",
     "enableNotifications": "Дозволити сповіщення",
     "searchBy": "Пошук за",
     "rememberSelectedPreset": "Запам'ятати обраний шаблон",

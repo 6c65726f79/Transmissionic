@@ -57,8 +57,8 @@
         </ion-item>
         
         <ion-item>
-          <ion-label>{{ Locale.condensedMode }}</ion-label>
-          <ion-toggle v-model="sharedState.condensedMode"></ion-toggle>
+          <ion-label>{{ Locale.compactMode }}</ion-label>
+          <ion-toggle v-model="sharedState.compactMode"></ion-toggle>
         </ion-item>
 
         <ion-item>
