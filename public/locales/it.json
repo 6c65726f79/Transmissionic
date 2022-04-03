@@ -239,7 +239,7 @@
     "addTorrents": "Aggiungi più torrent",
     "preset": "Preset",
     "openMagnetLinks": "Apri magnet link con Transmissionic",
-    "condensedMode": "Modalità compatta",
+    "compactMode": "Modalità compatta",
     "enableNotifications": "Abilita notifiche",
     "searchBy": "Cerca per",
     "rememberSelectedPreset": "Ricorda il preset selezionato",
