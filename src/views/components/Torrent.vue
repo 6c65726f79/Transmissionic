@@ -136,7 +136,7 @@ export default defineComponent({
       return UserSettings.state.orderBy=="queuePosition";
     },
     condensed() {
-      return UserSettings.state.condensedMode
+      return UserSettings.state.compactMode
     }
   },
   methods: {

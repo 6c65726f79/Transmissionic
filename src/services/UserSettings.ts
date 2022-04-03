@@ -19,7 +19,7 @@ const defaultSettings: Record<string,any> = {
   searchByDirectory:true,
   selectedPreset:"",
   rememberSelectedPreset:false,
-  condensedMode: false
+  compactMode: false
 }
 
 export const UserSettings = {

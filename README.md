@@ -62,7 +62,7 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
-- **Austrian German** (Tobias W)
+- **Austrian German** (Alain Nussbaumer, Tobias W)
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
 - **Chinese (traditional)** (Steven F)
 - **Dutch** (John)
@@ -184,7 +184,7 @@ The file can contain the following key/value pairs:
 | searchByName           | `boolean`     | Search torrents by name               |
 | searchByDirectory      | `boolean`     | Search torrents by download directory |
 | rememberSelectedPreset | `boolean`     | Remember selected preset when adding torrents |
-| condensedMode          | `boolean`     | Condensed torrent list                |
+| compactMode            | `boolean`     | Compact torrent list                  |
 | refreshInterval        | `number`      | Refresh interval in seconds           |
 | timeout                | `number`      | Connection timeout in seconds         |
 
