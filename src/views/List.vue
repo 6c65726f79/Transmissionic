@@ -298,7 +298,7 @@ export default defineComponent({
       return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.downloadSpeed: 0;
     },
     itemSize() {
-      return UserSettings.state.condensedMode ? 46 : 72;
+      return UserSettings.state.compactMode ? 46 : 72;
     },
     totalSize: function (): any {
       return this.torrentSelectedList.reduce(function(sum, current) {
