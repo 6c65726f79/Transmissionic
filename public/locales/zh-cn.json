@@ -235,7 +235,7 @@
     "addTorrents": "添加多个种子",
     "preset": "预设",
     "openMagnetLinks": "使用 Transmissionic 打开磁力链接",
-    "condensedMode": "Condensed mode",
+    "compactMode": "Compact mode",
     "enableNotifications": "Enable notifications",
     "searchBy": "Search by",
     "rememberSelectedPreset": "Remember selected preset",
