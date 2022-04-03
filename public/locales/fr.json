@@ -239,7 +239,7 @@
     "addTorrents": "Ajouter plusieurs torrents",
     "preset": "Préréglage",
     "openMagnetLinks": "Ouvrir les liens magnet avec Transmissionic",
-    "condensedMode": "Mode condensé",
+    "compactMode": "Mode condensé",
     "enableNotifications": "Activer les notifications",
     "searchBy": "Rechercher par",
     "rememberSelectedPreset": "Retenir le préréglage sélectionné",
