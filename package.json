@@ -39,7 +39,7 @@
     "chart.js": "^3.7.1",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-file": "^7.0.0",
-    "core-js": "^3.21.1",
+    "core-js": "^3.22.1",
     "localized-strings": "^0.2.4",
     "make-plural": "^7.1.0",
     "mitt": "^3.0.0",
@@ -48,7 +48,7 @@
     "parse-torrent": "^9.1.5",
     "rxjs": "^7.5.5",
     "swiper": "^8.1.0",
-    "vue": "^3.2.31",
+    "vue": "^3.2.33",
     "vue-router": "^4.0.14",
     "vue-virtual-scroller": "^2.0.0-alpha.1"
   },
