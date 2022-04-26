@@ -187,10 +187,22 @@ The file can contain the following key/value pairs:
 | compactMode            | `boolean`     | Compact torrent list                  |
 | refreshInterval        | `number`      | Refresh interval in seconds           |
 | timeout                | `number`      | Connection timeout in seconds         |
+| servers                | `array`       | Default servers                       |
+
+Server object:
+
+| Key      | Type          | Description                                |
+| -------- | ------------- | ------------------------------------------ |
+| name     | `string`      | Name to display                            |
+| host     | `string`      | Hostname or IP address of Transmission RPC |
+| path     | `string`      | Path of Transmission RPC                   |
+| port     | `number`      | Port of Transmission RPC                   |
+| https    | `boolean`     | Use HTTPS                                  |
+
 
 Configuration file example:
 
-```
+```json
 {
   "colorScheme":"dark",
   "language":"en",
@@ -198,7 +210,15 @@ Configuration file example:
   "reverse":false,
   "ipFlags":true,
   "refreshInterval":10,
-  "timeout":20
+  "timeout":20,
+  "servers":[
+    {
+      "name":"My server",
+      "host":"transmission.myserver.com",
+      "path":"/my/transmission/rpc",
+      "https":true
+    }
+  ]
 }
 ```
 
