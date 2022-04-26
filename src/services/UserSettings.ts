@@ -79,7 +79,7 @@ export const UserSettings = {
           if(setting=="servers"){
             defaultServers.length = 0;
             defaultJson[setting].forEach((server: Record<string,any>) => {
-              defaultServers.push(Object.assign(defaultServer, server));
+              defaultServers.push(Object.assign({}, defaultServer, server));
             });
           }
           else {
