@@ -20,7 +20,7 @@
     "@capacitor/android": "^3.5.1",
     "@capacitor/app": "^1.1.1",
     "@capacitor/clipboard": "^1.0.8",
-    "@capacitor/core": "^3.5.0",
+    "@capacitor/core": "^3.5.1",
     "@capacitor/ios": "^3.5.0",
     "@capacitor/keyboard": "^1.2.2",
     "@capacitor/screen-reader": "^1.0.8",
