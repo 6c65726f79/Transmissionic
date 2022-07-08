@@ -43,7 +43,7 @@
     "localized-strings": "^0.2.4",
     "make-plural": "^7.1.0",
     "mitt": "^3.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "parse-torrent": "^9.1.5",
     "rxjs": "^7.5.5",
