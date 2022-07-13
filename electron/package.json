@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@6c65726f79/custom-titlebar": "^0.9.1",
-    "@capacitor-community/electron": "^4.1.0",
+    "@capacitor-community/electron": "^4.1.2",
     "chokidar": "~3.5.3",
     "electron-is-dev": "~2.0.0",
     "electron-serve": "~1.1.0",
