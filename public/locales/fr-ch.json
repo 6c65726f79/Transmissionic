@@ -249,5 +249,9 @@
     "rememberSelectedPreset": "Retenir le préréglage sélectionné",
     "export": "Exporter",
     "import": "Importer",
-    "downloadFinished": "Téléchargement terminé"
+    "downloadFinished": "Téléchargement terminé",
+    "altSpeedScheduler": "Alternative speed scheduler",
+    "altSpeedBegin": "Begin time",
+    "altSpeedEnd": "End time",
+    "altSpeedDays": "Days"
 }
