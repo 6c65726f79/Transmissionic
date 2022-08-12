@@ -253,5 +253,9 @@
     "rememberSelectedPreset": "Запам'ятати обраний шаблон",
     "export": "Експорт",
     "import": "Імпорт",
-    "downloadFinished": "Завантаження завершено"
+    "downloadFinished": "Завантаження завершено",
+    "altSpeedScheduler": "Alternative speed scheduler",
+    "altSpeedBegin": "Begin time",
+    "altSpeedEnd": "End time",
+    "altSpeedDays": "Days"
 }
