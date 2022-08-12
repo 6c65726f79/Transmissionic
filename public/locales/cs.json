@@ -249,5 +249,9 @@
     "rememberSelectedPreset": "Remember selected preset",
     "export": "Export",
     "import": "Import",
-    "downloadFinished": "Download finished"
+    "downloadFinished": "Download finished",
+    "altSpeedScheduler": "Alternative speed scheduler",
+    "altSpeedBegin": "Begin time",
+    "altSpeedEnd": "End time",
+    "altSpeedDays": "Days"
 }
