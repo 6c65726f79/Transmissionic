@@ -241,5 +241,9 @@
     "rememberSelectedPreset": "记住选择",
     "export": "导出",
     "import": "导入",
-    "downloadFinished": "下载完成"
+    "downloadFinished": "下载完成",
+    "altSpeedScheduler": "Alternative speed scheduler",
+    "altSpeedBegin": "Begin time",
+    "altSpeedEnd": "End time",
+    "altSpeedDays": "Days"
 }
