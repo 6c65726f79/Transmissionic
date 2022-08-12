@@ -239,11 +239,15 @@
     "addTorrents": "Ajouter plusieurs torrents",
     "preset": "Préréglage",
     "openMagnetLinks": "Ouvrir les liens magnet avec Transmissionic",
-    "compactMode": "Mode condensé",
+    "compactMode": "Mode compact",
     "enableNotifications": "Activer les notifications",
     "searchBy": "Rechercher par",
     "rememberSelectedPreset": "Retenir le préréglage sélectionné",
     "export": "Exporter",
     "import": "Importer",
-    "downloadFinished": "Téléchargement terminé"
+    "downloadFinished": "Téléchargement terminé",
+    "altSpeedScheduler": "Planificateur de vitesse alternative",
+    "altSpeedBegin": "Heure de début",
+    "altSpeedEnd": "Heure de fin",
+    "altSpeedDays": "Jours"
 }

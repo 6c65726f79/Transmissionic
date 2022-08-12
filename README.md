@@ -46,6 +46,7 @@
 
 ## Translation
 
+![POEditor](https://img.shields.io/poeditor/progress/389563/cs?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hans?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
@@ -62,6 +63,7 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
+- **Czech** (Ti)
 - **Austrian German** (Alain Nussbaumer, Tobias W)
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
 - **Chinese (traditional)** (Steven F)
@@ -187,10 +189,22 @@ The file can contain the following key/value pairs:
 | compactMode            | `boolean`     | Compact torrent list                  |
 | refreshInterval        | `number`      | Refresh interval in seconds           |
 | timeout                | `number`      | Connection timeout in seconds         |
+| servers                | `array`       | Default servers                       |
+
+Server object:
+
+| Key      | Type          | Description                                |
+| -------- | ------------- | ------------------------------------------ |
+| name     | `string`      | Name to display                            |
+| host     | `string`      | Hostname or IP address of Transmission RPC |
+| path     | `string`      | Path of Transmission RPC                   |
+| port     | `number`      | Port of Transmission RPC                   |
+| https    | `boolean`     | Use HTTPS                                  |
+
 
 Configuration file example:
 
-```
+```json
 {
   "colorScheme":"dark",
   "language":"en",
@@ -198,7 +212,15 @@ Configuration file example:
   "reverse":false,
   "ipFlags":true,
   "refreshInterval":10,
-  "timeout":20
+  "timeout":20,
+  "servers":[
+    {
+      "name":"My server",
+      "host":"transmission.myserver.com",
+      "path":"/my/transmission/rpc",
+      "https":true
+    }
+  ]
 }
 ```
 

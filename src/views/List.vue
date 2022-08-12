@@ -191,6 +191,7 @@ import {
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import TorrentDetails from './TorrentDetails.vue'
+import LocationAlert from './components/LocationAlert.vue';
 import ServerConfig from './ServerConfig.vue'
 import VirtualScroll from './components/VirtualScroll.vue'
 import Torrent from './components/Torrent.vue'
@@ -204,6 +205,11 @@ import { Shortcuts } from '../services/Shortcuts';
 import { Locale } from "../services/Locale";
 import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
+import { iosEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.enter';
+import { iosLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.leave';
+import { mdEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.enter';
+import { mdLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.leave';
+
 import * as _ from 'lodash';
 
 export default defineComponent({
@@ -298,7 +304,7 @@ export default defineComponent({
       return () => TransmissionRPC.sessionStats ? TransmissionRPC.sessionStats.downloadSpeed: 0;
     },
     itemSize() {
-      return UserSettings.state.condensedMode ? 46 : 72;
+      return UserSettings.state.compactMode ? 46 : 72;
     },
     totalSize: function (): any {
       return this.torrentSelectedList.reduce(function(sum, current) {
@@ -552,6 +558,10 @@ export default defineComponent({
           handler: () => this.torrentAction("verify",selection)
         },
         {
+          text: Locale.actions.setLocation,
+          handler: () => this.setLocation(selection)
+        },
+        {
           text: Locale.actions.openInExplorer,
           handler: () => {
             TransmissionRPC.getTorrentDetails(torrent.id).then((details) => {
@@ -577,7 +587,7 @@ export default defineComponent({
       ];
 
       if(!isPlatform("electron") || selection.length>1){
-        buttons.splice(6, 1);
+        buttons.splice(7, 1);
       }
 
       const actionSheet = await actionSheetController
@@ -586,6 +596,34 @@ export default defineComponent({
           buttons
         });
       return actionSheet.present();
+    },
+    async setLocation(torrentIds: Array<number>) {
+      const list = this.getTorrentsByIds(torrentIds);
+      let downloadDir = list.every((val, i, arr) => val.downloadDir === arr[0].downloadDir) ? list[0].downloadDir : '';
+      const modal = await modalController
+        .create({
+          component: LocationAlert,
+          cssClass:"location-alert",
+          enterAnimation:isPlatform("ios") ? iosEnterAnimation : mdEnterAnimation,
+          leaveAnimation:isPlatform("ios") ? iosLeaveAnimation : mdLeaveAnimation,
+          componentProps: {
+            value:downloadDir,
+          }
+        })
+      modal.onDidDismiss()
+        .then((result) => {
+          if(result.data){
+            TransmissionRPC.torrentAction("set-location",torrentIds,result.data)
+              .then(async (response) => {
+                Utils.responseToast(response.result);
+                list.forEach(t => t.downloadDir=result.data.location)
+              })
+              .catch((error) => {
+                Utils.responseToast(error.message);
+              })
+          }
+        })
+      return modal.present();
     },
     changeTorrentPosition(id: number,up: boolean) {
       let pos = -1;

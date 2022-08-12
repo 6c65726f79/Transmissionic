@@ -22,6 +22,15 @@ const defaultSettings: Record<string,any> = {
   compactMode: false
 }
 
+const defaultServer: Record<string, any> = {
+  name:"Default",
+  host:window.location.hostname,
+  port:window.location.port || ((window.location.protocol==="https:") ? 443 : 80),
+  https:(window.location.protocol==="https:")
+}
+
+const defaultServers: Array<Record<string,any>> = [defaultServer];
+
 export const UserSettings = {
   state: reactive({...defaultSettings}) as Record<string,any>,
 
@@ -67,8 +76,16 @@ export const UserSettings = {
         .catch(()=> {return})
       if(defaultJson){
         for (const setting in defaultJson) {
-          this.setValue(setting,defaultJson[setting])
-          defaultSettings[setting]=defaultJson[setting];
+          if(setting=="servers"){
+            defaultServers.length = 0;
+            defaultJson[setting].forEach((server: Record<string,any>) => {
+              defaultServers.push(Object.assign({}, defaultServer, server));
+            });
+          }
+          else {
+            this.setValue(setting,defaultJson[setting]);
+            defaultSettings[setting]=defaultJson[setting];
+          }
         }
       }
     }
@@ -102,15 +119,7 @@ export const UserSettings = {
     let result: Array<Record<string,unknown>> = [];
 
     if(!isPlatform("capacitor") && !isPlatform("electron")){
-      const https = (window.location.protocol==="https:");
-      result = [
-        {
-          name:"Default",
-          host:window.location.hostname,
-          port:window.location.port || (https ? 443 : 80),
-          https
-        }
-      ]
+      result = [...defaultServers];
     }
 
     await SecureStoragePlugin.get({ key: "servers" })

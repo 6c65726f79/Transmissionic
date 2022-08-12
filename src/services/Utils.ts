@@ -131,7 +131,7 @@ export const Utils = {
       ipToCountryLimit--;
       ipToCountryList[ip]="loading";
       ipToCountryWaitUntil=undefined;
-      ipToCountryList[ip] = await fetch('http://ip-api.com/json/'+ip+'?fields=16387&lang='+UserSettings.getLanguage())
+      ipToCountryList[ip] = await fetch(`${document.location.protocol=='https:'?'https':'http'}://ip-api.com/json/${ip}?fields=16386`)
         .then(this.readIpApi)
 
       if(ipToCountryList[ip]==null){

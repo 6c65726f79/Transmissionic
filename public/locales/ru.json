@@ -253,5 +253,9 @@
     "rememberSelectedPreset": "Запомнить выбранный шаблон",
     "export": "Экспорт",
     "import": "Импорт",
-    "downloadFinished": "Загрузка завершена"
+    "downloadFinished": "Загрузка завершена",
+    "altSpeedScheduler": "Alternative speed scheduler",
+    "altSpeedBegin": "Begin time",
+    "altSpeedEnd": "End time",
+    "altSpeedDays": "Days"
 }

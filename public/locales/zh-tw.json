@@ -241,5 +241,9 @@
     "rememberSelectedPreset": "記住最後選擇的預設集",
     "export": "匯出",
     "import": "匯入",
-    "downloadFinished": "下載完成"
+    "downloadFinished": "下載完成",
+    "altSpeedScheduler": "Alternative speed scheduler",
+    "altSpeedBegin": "Begin time",
+    "altSpeedEnd": "End time",
+    "altSpeedDays": "Days"
 }

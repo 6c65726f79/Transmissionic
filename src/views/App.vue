@@ -376,6 +376,7 @@ export default defineComponent({
     Emitter.on('select-filter', (index: any) => {
       this.privateState.selectedFilter=index-1;
     })
+    Emitter.on('select-server', (i: any) => { this.selectServer(i) })
   },
   computed: {
     colorScheme: function(): string {

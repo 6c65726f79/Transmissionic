@@ -6,6 +6,9 @@
         </ion-buttons>
         <ion-title>{{ multiple ? Locale.addTorrents : Locale.addTorrent }}</ion-title>
         <ion-buttons slot="end">
+          <ion-button @click="serverList()" fill="clear" :aria-label="Locale.servers">
+            <ion-icon slot="icon-only" :ios="serverOutline" :md="serverSharp"></ion-icon>
+          </ion-button>
           <ion-button @click="add()" fill="clear" :disabled="!connectionStatus.connected" :aria-label="Locale.add">
             <ion-icon slot="icon-only" :ios="checkmarkOutline" :md="checkmarkSharp"></ion-icon>
           </ion-button>
@@ -209,6 +212,7 @@ import {
   modalController,
   alertController,
   loadingController,
+  actionSheetController,
   IonContent, 
   IonHeader, 
   IonTitle, 
@@ -237,7 +241,9 @@ import {
   closeCircleOutline,
   closeCircleSharp,
   addCircleOutline,
-  addCircleSharp
+  addCircleSharp,
+  serverOutline,
+  serverSharp
 } from 'ionicons/icons';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import Autocomplete from './components/Autocomplete.vue';
@@ -339,7 +345,9 @@ export default defineComponent({
       closeCircleOutline,
       closeCircleSharp,
       addCircleOutline,
-      addCircleSharp
+      addCircleSharp,
+      serverOutline,
+      serverSharp
     }
   },
   async created() {
@@ -527,6 +535,31 @@ export default defineComponent({
           ],
         });
       return alert.present();
+    },
+    async serverList() {
+      const list = await UserSettings.loadServerList();
+      const selected = UserSettings.state.selectedServer;
+
+      const buttons: Array<Record<string,any>> = list.map((l,i) => {
+        return {
+          text: l.name,
+          role: i==selected ? 'selected' : null,
+          handler: () => {
+            Emitter.emit("select-server", i);
+          }
+        }
+      })
+      buttons.push({
+        text: Locale.actions.cancel,
+        role: 'cancel'
+      })
+
+      const actionSheet = await actionSheetController
+        .create({
+          header: Locale.servers,
+          buttons
+        });
+      return actionSheet.present();
     }
   },
 });

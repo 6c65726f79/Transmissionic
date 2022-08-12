@@ -186,6 +186,38 @@
           <ion-list>
             <ion-list-header>
               <ion-label>
+                {{ Locale.altSpeedScheduler }}
+              </ion-label>
+            </ion-list-header>
+
+            <ion-item>
+              <ion-label>{{ Locale.enabled }}</ion-label>
+              <span class="swiper-no-swiping" slot="end">
+                <ion-toggle v-model="config['alt-speed-time-enabled']"></ion-toggle>
+              </span>
+            </ion-item>
+
+            <ion-item :disabled="!config['alt-speed-time-enabled']">
+              <ion-label position="floating">{{ Locale.altSpeedBegin }}</ion-label>
+              <ion-input type="time" v-model="altSpeedTimeBegin"/>
+            </ion-item>
+
+            <ion-item :disabled="!config['alt-speed-time-enabled']">
+              <ion-label position="floating">{{ Locale.altSpeedEnd }}</ion-label>
+              <ion-input type="time" v-model="altSpeedTimeEnd"/>
+            </ion-item>
+
+            <ion-item :disabled="!config['alt-speed-time-enabled']">
+              <ion-label position="floating">{{ Locale.altSpeedDays }}</ion-label>
+              <ion-select :placeholder="Locale.never" :multiple="true" v-model="altSpeedTimeDay">
+                <ion-select-option v-for="(day,id) in getWeekDays" :value="id" :key="id">{{day}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+
+          <ion-list>
+            <ion-list-header>
+              <ion-label>
                 {{ Locale.seed }}
               </ion-label>
             </ion-list-header>
@@ -410,7 +442,7 @@ export default defineComponent({
     IonInput,
     IonToggle,
     IonSelect,
-    IonSelectOption,
+    IonSelectOption
   },
   data() {
     return {
@@ -450,11 +482,73 @@ export default defineComponent({
   computed: {
     speedUnit:() => {
       return 'K' + (UserSettings.state.useBits ? Locale.units.bit : Locale.units.byte) + Locale.units.perSecond
+    },
+    altSpeedTimeBegin: {
+      get(): string {
+        return this.minutesToHhmm(this.config['alt-speed-time-begin']);
+      },
+      set (value: string) {
+        this.config['alt-speed-time-begin'] = this.HhmmToMinutes(value);
+      }
+    },
+    altSpeedTimeEnd: {
+      get(): string {
+        return this.minutesToHhmm(this.config['alt-speed-time-end']);
+      },
+      set (value: string) {
+        this.config['alt-speed-time-end'] = this.HhmmToMinutes(value);
+      }
+    },
+    altSpeedTimeDay: {
+      get(): Array<number> {
+        const binary = (this.config['alt-speed-time-day'] >>> 0).toString(2).padStart(7,'0');
+        const numbers=[];
+        for (let i = 1; i < 7; i++) {
+          if(binary[i]=='1'){
+            numbers.push(i-1);
+          }
+        }
+        if(binary[0]=='1'){
+          numbers.push(6);
+        }
+        return numbers;
+      },
+      set (value: Array<number>) {
+        let binary=value.includes(6) ? '1' : '0';
+        for (let i = 0; i < 6; i++) {
+          binary+=value.includes(i) ? '1' : '0';
+        }
+        this.config['alt-speed-time-day'] = parseInt(binary, 2);
+      }
+    },
+    getWeekDays(){
+      const locale = UserSettings.getLanguage();
+      const baseDate = new Date(Date.UTC(2017, 0, 2));
+      const weekDays = [];
+      for(let i = 0; i < 7; i++)
+      {
+        const day = baseDate.toLocaleDateString(locale, { weekday: 'long' })
+          .split(' ')
+          .map(w => w.substring(0,1).toUpperCase()+w.substring(1))
+          .join(' ')
+        weekDays.push(day);
+        baseDate.setDate(baseDate.getDate() + 1);       
+      }
+      return weekDays;
     }
   },
   methods: {
     modalClose () {
       modalController.dismiss();
+    },
+    minutesToHhmm(minutes: number) {
+      const hours = Math.floor(minutes/60);
+      const min = minutes%60;
+      return `${hours.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`;
+    },
+    HhmmToMinutes(hhmm: string) {
+      const parts = hhmm.split(':');
+      return parseInt(parts[0])*60 + parseInt(parts[1]);
     },
     async updateBlocklist() {
       const loading = await loadingController.create({});
