@@ -44,7 +44,7 @@
     "make-plural": "^7.1.0",
     "mitt": "^3.0.0",
     "moment": "^2.29.4",
-    "node-polyfill-webpack-plugin": "^1.1.4",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "parse-torrent": "^9.1.5",
     "rxjs": "^7.5.5",
     "swiper": "^8.3.2",
