@@ -4,39 +4,7 @@
 		"classpath": "com.byteowls.capacitor.filesharer.FileSharerPlugin"
 	},
 	{
-		"pkg": "@capacitor/app",
-		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
-	},
-	{
-		"pkg": "@capacitor/clipboard",
-		"classpath": "com.capacitorjs.plugins.clipboard.ClipboardPlugin"
-	},
-	{
-		"pkg": "@capacitor/keyboard",
-		"classpath": "com.capacitorjs.plugins.keyboard.KeyboardPlugin"
-	},
-	{
-		"pkg": "@capacitor/screen-reader",
-		"classpath": "com.capacitorjs.plugins.screenreader.ScreenReaderPlugin"
-	},
-	{
-		"pkg": "@capacitor/splash-screen",
-		"classpath": "com.capacitorjs.plugins.splashscreen.SplashScreenPlugin"
-	},
-	{
-		"pkg": "@capacitor/status-bar",
-		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
-	},
-	{
-		"pkg": "@capacitor/storage",
-		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
-	},
-	{
-		"pkg": "@capacitor/toast",
-		"classpath": "com.capacitorjs.plugins.toast.ToastPlugin"
-	},
-	{
 		"pkg": "capacitor-secure-storage-plugin",
-		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
+		"classpath": "com.whitestein.securestorage.SecureStoragePluginPlugin"
 	}
 ]

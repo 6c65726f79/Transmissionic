@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { isPlatform } from '@ionic/vue';
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 
 const defaultSettings: Record<string,any> = {
@@ -52,7 +52,7 @@ export const UserSettings = {
     await this.loadDefaultSettings();
 
     for (const setting in this.state) {
-      await Storage.get({ key: setting })
+      await Preferences.get({ key: setting })
         .then((val: Record<string,any>) => {
           if(val.value){
             if(typeof Object(this.state)[setting]=="boolean"){
@@ -105,13 +105,13 @@ export const UserSettings = {
 
   saveKey(key: string): void {
     if(this.state[key] != defaultSettings[key] || key=="selectedServer"){
-      Storage.set({
+      Preferences.set({
         key: key,
         value: Object(this.state)[key].toString()
       });
     }
     else {
-      Storage.remove({key})
+      Preferences.remove({key})
     }
   },
 
@@ -141,7 +141,7 @@ export const UserSettings = {
   async loadPresets(): Promise<Record<string,any>> {
     let result: Record<string,any> = {};
 
-    await Storage.get({ key: "presets" })
+    await Preferences.get({ key: "presets" })
       .then((val: Record<string,any>) => {
         if(val.value){
           result=JSON.parse(val.value);
@@ -152,7 +152,7 @@ export const UserSettings = {
   },
 
   savePresets(presets: Record<string,any>): void {
-    Storage.set({
+    Preferences.set({
       key: "presets",
       value: JSON.stringify(presets)
     });
