@@ -57,6 +57,10 @@ export default defineComponent({
             label:Locale.ratio
           },
           {
+            value:"uploadedEver",
+            label:Locale.uploaded
+          },
+          {
             value:"rateUpload",
             label:Locale.uploadSpeed
           },
