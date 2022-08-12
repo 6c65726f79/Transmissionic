@@ -164,7 +164,7 @@ export const Utils = {
   trackerDomain(host: string): Record<string,any>{
     let result={};
     //eslint-disable-next-line
-    const regex = /^([\w]+):\/\/([\w\d\.-]+):?(\d+)?/;
+    const regex = /^(\w+):\/\/([\w\d\.-]+):?(\d+)?/;
     const matchs = host.match(regex);
     if(matchs){
       result = {
