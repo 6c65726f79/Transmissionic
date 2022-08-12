@@ -22,7 +22,7 @@
     "@capacitor/clipboard": "^1.0.8",
     "@capacitor/core": "^3.5.1",
     "@capacitor/ios": "^3.5.1",
-    "@capacitor/keyboard": "^1.2.2",
+    "@capacitor/keyboard": "^1.2.3",
     "@capacitor/screen-reader": "^1.0.8",
     "@capacitor/splash-screen": "^1.2.2",
     "@capacitor/status-bar": "^1.0.8",
@@ -47,7 +47,7 @@
     "node-polyfill-webpack-plugin": "^1.1.4",
     "parse-torrent": "^9.1.5",
     "rxjs": "^7.5.5",
-    "swiper": "^8.2.2",
+    "swiper": "^8.3.2",
     "vue": "^3.2.37",
     "vue-router": "^4.0.15",
     "vue-virtual-scroller": "^2.0.0-alpha.1"
