@@ -186,7 +186,7 @@
           <ion-list>
             <ion-list-header>
               <ion-label>
-                alt-speed-time
+                {{ Locale.altSpeedScheduler }}
               </ion-label>
             </ion-list-header>
 
@@ -197,19 +197,19 @@
               </span>
             </ion-item>
 
-            <ion-item>
-              <ion-label position="floating">alt-speed-time-begin</ion-label>
-              <ion-input id="appt-time" type="time" name="appt-time" v-model="altSpeedTimeBegin"/>
+            <ion-item :disabled="!config['alt-speed-time-enabled']">
+              <ion-label position="floating">{{ Locale.altSpeedBegin }}</ion-label>
+              <ion-input type="time" v-model="altSpeedTimeBegin"/>
             </ion-item>
 
-            <ion-item>
-              <ion-label position="floating">alt-speed-time-end</ion-label>
-              <ion-input id="appt-time" type="time" name="appt-time" v-model="altSpeedTimeEnd"/>
+            <ion-item :disabled="!config['alt-speed-time-enabled']">
+              <ion-label position="floating">{{ Locale.altSpeedEnd }}</ion-label>
+              <ion-input type="time" v-model="altSpeedTimeEnd"/>
             </ion-item>
 
-            <ion-item>
-              <ion-label position="floating">alt-speed-time-day</ion-label>
-              <ion-select placeholder="Days" :multiple="true" v-model="altSpeedTimeDay">
+            <ion-item :disabled="!config['alt-speed-time-enabled']">
+              <ion-label position="floating">{{ Locale.altSpeedDays }}</ion-label>
+              <ion-select :placeholder="Locale.never" :multiple="true" v-model="altSpeedTimeDay">
                 <ion-select-option v-for="(day,id) in getWeekDays" :value="id" :key="id">{{day}}</ion-select-option>
               </ion-select>
             </ion-item>
