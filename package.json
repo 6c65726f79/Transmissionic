@@ -28,6 +28,7 @@
     "@capacitor/status-bar": "^1.0.8",
     "@capacitor/storage": "^1.2.5",
     "@capacitor/toast": "^1.0.8",
+    "@formatjs/intl-displaynames": "^6.0.3",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/http": "^5.36.0",
     "@ionic/pwa-elements": "^3.1.1",

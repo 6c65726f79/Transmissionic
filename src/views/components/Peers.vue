@@ -59,6 +59,18 @@ import { LocaleController } from "../../services/LocaleController";
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 
+import {shouldPolyfill} from '@formatjs/intl-displaynames/should-polyfill'
+async function polyfill(locale: string) {
+  const unsupportedLocale = shouldPolyfill(locale)
+  // This locale is supported
+  if (!unsupportedLocale) {
+    return
+  }
+  // Load the polyfill 1st BEFORE loading data
+  await import('@formatjs/intl-displaynames/polyfill-force')
+  await import(`@formatjs/intl-displaynames/locale-data/${unsupportedLocale}`)
+}
+
 export default defineComponent({
   components: {
     VirtualScroll,
@@ -101,17 +113,18 @@ export default defineComponent({
       }
     },
     async countryName(adress: string) {
-      Utils.responseToast(this.flags[adress].title)
+      Utils.responseToast(this.flags[adress].name)
     },
     async loadFlag(adress: string){
       const ipDetails = await Utils.ipToCountry(adress);
       if(ipDetails){
+        await polyfill(UserSettings.getLanguage());
         const regionNames = new Intl.DisplayNames(
           [UserSettings.getLanguage()], {type: 'region'}
         );
         this.flags[adress] = {
           src:`./assets/flags/${ipDetails.countryCode}.png`,
-          title:regionNames.of(ipDetails.countryCode)
+          name:regionNames.of(ipDetails.countryCode)
         }
       }
     }
