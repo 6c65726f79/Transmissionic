@@ -6,6 +6,7 @@ import en from "../../public/locales/en.json";
 const languages: Record<string,any> = {en};
 
 const list: Array<string> = [
+    "cs",
     "de",
     "de-at",
     "en",
