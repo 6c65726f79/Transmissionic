@@ -63,7 +63,7 @@
         "start": "开始",
         "startNow": "立即开始",
         "stop": "停止",
-        "reannounce": "Reannounce",
+        "reannounce": "重新宣告",
         "verify": "校验",
         "cancel": "取消",
         "delete": "删除",
@@ -235,11 +235,11 @@
     "addTorrents": "添加多个种子",
     "preset": "预设",
     "openMagnetLinks": "使用 Transmissionic 打开磁力链接",
-    "compactMode": "Compact mode",
-    "enableNotifications": "Enable notifications",
-    "searchBy": "Search by",
-    "rememberSelectedPreset": "Remember selected preset",
-    "export": "Export",
-    "import": "Import",
-    "downloadFinished": "Download finished"
+    "compactMode": "紧凑模式",
+    "enableNotifications": "开启通知",
+    "searchBy": "搜索方式",
+    "rememberSelectedPreset": "记住选择",
+    "export": "导出",
+    "import": "导入",
+    "downloadFinished": "下载完成"
 }
