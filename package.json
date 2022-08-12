@@ -53,7 +53,7 @@
     "vue-virtual-scroller": "^2.0.0-alpha.1"
   },
   "devDependencies": {
-    "@capacitor-community/electron": "^4.1.0",
+    "@capacitor-community/electron": "^4.1.2",
     "@capacitor/cli": "^4.0.1",
     "@types/lodash": "^4.14.182",
     "@types/parse-torrent": "^5.8.4",
