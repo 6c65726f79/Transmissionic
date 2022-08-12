@@ -106,9 +106,12 @@ export default defineComponent({
     async loadFlag(adress: string){
       const ipDetails = await Utils.ipToCountry(adress);
       if(ipDetails){
+        const regionNames = new Intl.DisplayNames(
+          [UserSettings.getLanguage()], {type: 'region'}
+        );
         this.flags[adress] = {
           src:`./assets/flags/${ipDetails.countryCode}.png`,
-          title:ipDetails.country
+          title:regionNames.of(ipDetails.countryCode)
         }
       }
     }
