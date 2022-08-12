@@ -46,6 +46,7 @@
 
 ## Translation
 
+![POEditor](https://img.shields.io/poeditor/progress/389563/cs?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hans?token=c2a5935a2b069e687490b29b02f3964c)
 ![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
@@ -62,6 +63,7 @@
 ![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
 
 Available languages:
+- **Czech** (Ti)
 - **Austrian German** (Alain Nussbaumer, Tobias W)
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
 - **Chinese (traditional)** (Steven F)
