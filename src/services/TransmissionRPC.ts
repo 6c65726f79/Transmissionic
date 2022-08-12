@@ -3,7 +3,7 @@
 */
 
 import { isPlatform  } from '@ionic/vue';
-import { HTTP } from '@ionic-native/http';
+import { HTTP } from '@awesome-cordova-plugins/http';
 import * as _ from 'lodash';
 
 declare const Buffer: any
