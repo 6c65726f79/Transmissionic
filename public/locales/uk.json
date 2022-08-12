@@ -106,9 +106,9 @@
         "reset": "Дійсно скинути налаштування?"
     },
     "units": {
-        "perSecond": "/s",
-        "bit": "b",
-        "byte": "B"
+        "perSecond": "/с",
+        "bit": "б",
+        "byte": "Б"
     },
     "rpcPath": "Шлях RPC",
     "preferences": "Налаштування",
@@ -191,7 +191,7 @@
     "startByAddingServer": "Розпочати {0}з доданням сервера{1}",
     "moveData": "Перемістити дані",
     "ok": "OK",
-    "information": "Informations",
+    "information": "Інформація",
     "torrentFile": "Торент-файл",
     "updateAvailable": "Доступне оновлення: {0}",
     "download": "Завантаження",
