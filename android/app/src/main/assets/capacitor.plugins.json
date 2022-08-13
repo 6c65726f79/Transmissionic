@@ -1,9 +1,5 @@
 [
 	{
-		"pkg": "@aparajita/capacitor-secure-storage",
-		"classpath": "com.aparajita.capacitor.securestorage.WSSecureStorage"
-	},
-	{
 		"pkg": "@byteowls/capacitor-filesharer",
 		"classpath": "com.byteowls.capacitor.filesharer.FileSharerPlugin"
 	},
@@ -38,5 +34,9 @@
 	{
 		"pkg": "@capacitor/toast",
 		"classpath": "com.capacitorjs.plugins.toast.ToastPlugin"
+	},
+	{
+		"pkg": "capacitor-secure-storage-plugin",
+		"classpath": "com.whitestein.securestorage.SecureStoragePluginPlugin"
 	}
 ]
