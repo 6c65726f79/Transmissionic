@@ -1,8 +1,7 @@
 import { reactive } from 'vue'
 import { isPlatform } from '@ionic/vue';
 import { Preferences } from '@capacitor/preferences';
-import { WSSecureStorage } from '@aparajita/capacitor-secure-storage';
-
+import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 
 const defaultSettings: Record<string,any> = {
   colorScheme:"default",
@@ -123,9 +122,9 @@ export const UserSettings = {
       result = [...defaultServers];
     }
 
-    await WSSecureStorage.get("servers")
+    await SecureStoragePlugin.get({ key: "servers" })
       .then((val: any) => {
-        result = (val && val!="[]") ? JSON.parse(val.value) : result
+        result = (val.value && val.value!="[]") ? JSON.parse(val.value) : result
       })
       .catch(()=>{return})
     
@@ -133,7 +132,10 @@ export const UserSettings = {
   },
 
   saveServerList(serverList: Record<string, any>): void {
-    WSSecureStorage.set("servers", JSON.stringify(serverList));
+    SecureStoragePlugin.set({
+      key: "servers",
+      value: JSON.stringify(serverList)
+    });
   },
 
   async loadPresets(): Promise<Record<string,any>> {
