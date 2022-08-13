@@ -3,7 +3,6 @@ import { isPlatform } from '@ionic/vue';
 import { Preferences } from '@capacitor/preferences';
 import { WSSecureStorage } from '@aparajita/capacitor-secure-storage';
 
-const k = [87, 82, 109, 52, 71, 48, 71, 72, 73, 113, 109, 98, 113, 69, 56, 85, 102, 51, 74, 119];
 
 const defaultSettings: Record<string,any> = {
   colorScheme:"default",
@@ -117,37 +116,18 @@ export const UserSettings = {
     }
   },
 
-  async getEncryptionKey(): Promise<string> {
-    let key = await Preferences.get({ key: "key" }).then(val => val.value);
-
-    if(!key){
-      key=getRandom(20);
-      Preferences.set({ key: "key", value: key });
-    }
-
-    return String.fromCharCode(...k)+key;
-  },
-
   async loadServerList(): Promise<Array<Record<string,unknown>>> {
     let result: Array<Record<string,unknown>> = [];
 
     if(!isPlatform("capacitor") && !isPlatform("electron")){
       result = [...defaultServers];
-      WSSecureStorage.setEncryptionKey(await this.getEncryptionKey());
     }
 
-    try {
-      /* Migrate data */
-      const old = localStorage.getItem('cap_sec_servers');
-      if(old){
-        result = JSON.parse(decodeURIComponent(escape(window.atob( old ))));
-      }
-
-      await WSSecureStorage.get("servers")
-        .then((val: any) => {
-          result = (val && val!="[]") ? JSON.parse(val) : result
-        })
-    } catch (e) { null }
+    await WSSecureStorage.get("servers")
+      .then((val: any) => {
+        result = (val && val!="[]") ? JSON.parse(val.value) : result
+      })
+      .catch(()=>{return})
     
     return result;
   },
@@ -176,8 +156,3 @@ export const UserSettings = {
     });
   }
 }
-
-const getRandom = (length: number): string => {
-  const s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  return [...Array(length)].map(function() { return s.charAt(Math.floor(Math.random() * s.length)); }).join('');
-} 
