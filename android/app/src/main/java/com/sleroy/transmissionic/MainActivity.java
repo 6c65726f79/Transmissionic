@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 
 import com.getcapacitor.BridgeActivity;
-import com.whitestein.securestorage.SecureStoragePlugin;
+import com.whitestein.securestorage.SecureStoragePluginPlugin;
 
 public class MainActivity extends BridgeActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		registerPlugin(SecureStoragePlugin.class);
+		registerPlugin(SecureStoragePluginPlugin.class);
 	}
 
 	@Override

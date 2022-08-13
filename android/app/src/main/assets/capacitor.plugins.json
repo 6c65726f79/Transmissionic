@@ -37,6 +37,6 @@
 	},
 	{
 		"pkg": "capacitor-secure-storage-plugin",
-		"classpath": "com.whitestein.securestorage.SecureStoragePluginPlugin"
+		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
 	}
 ]
