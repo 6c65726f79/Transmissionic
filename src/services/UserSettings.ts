@@ -140,14 +140,14 @@ export const UserSettings = {
       /* Migrate data */
       const old = localStorage.getItem('cap_sec_servers');
       if(old){
-        result = JSON.parse(decodeURIComponent(window.atob( old )));
+        result = JSON.parse(decodeURIComponent(escape(window.atob( old ))));
       }
 
       await WSSecureStorage.get("servers")
         .then((val: any) => {
           result = (val && val!="[]") ? JSON.parse(val) : result
         })
-    } catch (e) { console.error(e) }
+    } catch (e) { null }
     
     return result;
   },
