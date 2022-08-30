@@ -58,7 +58,7 @@
     "@capacitor/cli": "^4.0.0",
     "@types/lodash": "^4.14.182",
     "@types/parse-torrent": "^5.8.4",
-    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.0",
     "@typescript-eslint/parser": "^5.33.0",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
