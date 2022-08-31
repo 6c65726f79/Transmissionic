@@ -30,7 +30,7 @@
     "@capacitor/splash-screen": "^4.0.0",
     "@capacitor/status-bar": "^4.0.0",
     "@capacitor/toast": "^4.0.0",
-    "@formatjs/intl-displaynames": "^6.0.3",
+    "@formatjs/intl-displaynames": "^6.1.2",
     "@ionic/pwa-elements": "^3.1.1",
     "@ionic/vue": "^6.2.2",
     "@ionic/vue-router": "^6.2.2",
