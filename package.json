@@ -19,7 +19,7 @@
     "@awesome-cordova-plugins/core": "^5.44.0",
     "@awesome-cordova-plugins/http": "^5.44.0",
     "@byteowls/capacitor-filesharer": "github:ProteanSoftware/capacitor-filesharer#master",
-    "@capacitor/android": "^4.0.0",
+    "@capacitor/android": "^4.1.0",
     "@capacitor/app": "^4.0.0",
     "@capacitor/clipboard": "^4.0.0",
     "@capacitor/core": "^4.1.0",
