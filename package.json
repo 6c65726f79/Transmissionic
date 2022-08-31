@@ -23,7 +23,7 @@
     "@capacitor/app": "^4.0.0",
     "@capacitor/clipboard": "^4.0.0",
     "@capacitor/core": "^4.1.0",
-    "@capacitor/ios": "^4.0.0",
+    "@capacitor/ios": "^4.1.0",
     "@capacitor/keyboard": "^4.0.0",
     "@capacitor/preferences": "^4.0.1",
     "@capacitor/screen-reader": "^4.0.0",
@@ -35,12 +35,12 @@
     "@ionic/vue": "^6.2.2",
     "@ionic/vue-router": "^6.2.2",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
-    "autolinker": "^3.15.0",
+    "autolinker": "^3.16.0",
     "capacitor-secure-storage-plugin": "github:6c65726f79/capacitor-secure-storage-plugin",
     "chart.js": "^3.9.1",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-file": "^7.0.0",
-    "core-js": "^3.24.1",
+    "core-js": "^3.25.0",
     "localized-strings": "^0.2.4",
     "make-plural": "^7.1.0",
     "mitt": "^3.0.0",
@@ -50,12 +50,12 @@
     "rxjs": "^7.5.6",
     "swiper": "^8.3.2",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.3",
+    "vue-router": "^4.1.5",
     "vue-virtual-scroller": "^2.0.0-alpha.1"
   },
   "devDependencies": {
     "@capacitor-community/electron": "^4.1.2",
-    "@capacitor/cli": "^4.0.0",
+    "@capacitor/cli": "^4.1.0",
     "@types/lodash": "^4.14.184",
     "@types/parse-torrent": "^5.8.4",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
@@ -70,7 +70,7 @@
     "eslint": "^8.23.0",
     "eslint-plugin-vue": "^8.7.1",
     "eslint-webpack-plugin": "^3.2.0",
-    "typescript": "~4.7.4"
+    "typescript": "~4.8.2"
   },
   "description": "Remote for Transmission Daemon"
 }
