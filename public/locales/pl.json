@@ -247,7 +247,7 @@
     "addTorrents": "Dodaj wiele torrentów",
     "preset": "Preset",
     "openMagnetLinks": "Otwieraj linki magnet używając Transmissionic",
-    "compactMode": "Compact mode",
+    "compactMode": "Tryb kompaktowy",
     "enableNotifications": "Włącz powiadomienia",
     "searchBy": "Szukaj po",
     "rememberSelectedPreset": "Remember selected preset",
@@ -255,7 +255,7 @@
     "import": "Import",
     "downloadFinished": "Pobieranie zakończone",
     "altSpeedScheduler": "Alternative speed scheduler",
-    "altSpeedBegin": "Begin time",
-    "altSpeedEnd": "End time",
-    "altSpeedDays": "Days"
+    "altSpeedBegin": "Czas rozpoczęcia",
+    "altSpeedEnd": "Czas zakończenia",
+    "altSpeedDays": "Dni"
 }
