@@ -59,7 +59,8 @@ import { LocaleController } from "../../services/LocaleController";
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 
-import {shouldPolyfill} from '@formatjs/intl-displaynames/should-polyfill'
+import { DisplayNames } from '@formatjs/intl-displaynames'
+import { shouldPolyfill } from '@formatjs/intl-displaynames/should-polyfill'
 async function polyfill(locale: string) {
   const unsupportedLocale = shouldPolyfill(locale)
   // This locale is supported
@@ -119,7 +120,7 @@ export default defineComponent({
       const ipDetails = await Utils.ipToCountry(adress);
       if(ipDetails){
         await polyfill(UserSettings.getLanguage());
-        const regionNames = new Intl.DisplayNames(
+        const regionNames = new DisplayNames(
           [UserSettings.getLanguage()], {type: 'region'}
         );
         this.flags[adress] = {
