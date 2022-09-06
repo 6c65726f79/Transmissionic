@@ -247,7 +247,7 @@
     "import": "Import",
     "downloadFinished": "Download finished",
     "altSpeedScheduler": "Alternative speed scheduler",
-    "altSpeedBegin": "Begin time",
+    "altSpeedBegin": "Start time",
     "altSpeedEnd": "End time",
     "altSpeedDays": "Days"
 }
