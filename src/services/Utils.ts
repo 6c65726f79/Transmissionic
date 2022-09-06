@@ -34,8 +34,6 @@ declare global {
 }
 
 const ipToCountryList: Record<string,any> = {};
-let ipToCountryLimit = 45;
-let ipToCountryWaitUntil: any;
 
 export const Utils = {
   formatBytes(bytes: number, decimals = 2, speed = false): string|void{
@@ -121,44 +119,18 @@ export const Utils = {
   },
 
   async ipToCountry(ip: string): Promise<any>{
-    const wait = (ipToCountryWaitUntil && Date.now() < ipToCountryWaitUntil)||false;
     const found = (ipToCountryList[ip]!=null);
-    const limited = (ipToCountryLimit<=0);
     if(found && ipToCountryList[ip]!="loading"){
       return ipToCountryList[ip];
     }
-    else if(!found && (!limited || !wait)) {
-      ipToCountryLimit--;
-      ipToCountryList[ip]="loading";
-      ipToCountryWaitUntil=undefined;
-      ipToCountryList[ip] = await fetch(`${document.location.protocol=='https:'?'https':'http'}://ip-api.com/json/${ip}?fields=16386`)
-        .then(this.readIpApi)
+    else if(!found) {
+      ipToCountryList[ip] = "loading";
+      ipToCountryList[ip] = await fetch(`https://api.country.is/${ip}`)
+        .then(res => res.json())
 
-      if(ipToCountryList[ip]==null){
-        ipToCountryWaitUntil = Date.now() + 60000;
-      }
-      else {
-        return ipToCountryList[ip];
-      }
+      return ipToCountryList[ip];
     }
     
-  },
-
-  async readIpApi(response: Record<string,any>): Promise<any> {
-    // Read the number of requests remaining in the current rate limit window
-    const limit = response.headers.get('X-Rl');
-    ipToCountryLimit = limit ? parseInt(limit) : ipToCountryLimit;
-    if(ipToCountryLimit==0){
-      const wait = response.headers.get('X-Ttl');
-      ipToCountryWaitUntil = wait ? Date.now() + parseInt(wait)*1000 : Date.now() + 60000
-    }
-
-    if(response.ok){
-      const details = await response.json();
-      if(details.status=="success"){
-        return details;
-      }
-    }
   },
 
   trackerDomain(host: string): Record<string,any>{

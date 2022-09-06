@@ -124,8 +124,8 @@ export default defineComponent({
           [UserSettings.getLanguage()], {type: 'region'}
         );
         this.flags[adress] = {
-          src:`./assets/flags/${ipDetails.countryCode}.png`,
-          name:regionNames.of(ipDetails.countryCode)
+          src:`./assets/flags/${ipDetails.country}.png`,
+          name:regionNames.of(ipDetails.country)
         }
       }
     }
