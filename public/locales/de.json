@@ -41,7 +41,7 @@
     "theme": "Design",
     "light": "Hell",
     "dark": "Dunkel",
-    "order": "Reihenfolge",
+    "order": "Sortieren",
     "name": "Name",
     "addedDate": "Datum hinzugefügt",
     "size": "Größe",
@@ -246,8 +246,8 @@
     "export": "Exportieren",
     "import": "Importieren",
     "downloadFinished": "Download beendet",
-    "altSpeedScheduler": "Alternative speed scheduler",
-    "altSpeedBegin": "Begin time",
-    "altSpeedEnd": "End time",
-    "altSpeedDays": "Days"
+    "altSpeedScheduler": "Alternativer Geschwindigkeitsplaner",
+    "altSpeedBegin": "Startzeit",
+    "altSpeedEnd": "Endzeit",
+    "altSpeedDays": "Tage"
 }

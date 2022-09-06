@@ -41,7 +41,7 @@
     "theme": "Theme",
     "light": "Light",
     "dark": "Dark",
-    "order": "Order",
+    "order": "Sort",
     "name": "Name",
     "addedDate": "Added date",
     "size": "Size",
@@ -62,7 +62,7 @@
     "actions": {
         "select": "Select",
         "start": "Start",
-        "startNow": "Start now",
+        "startNow": "$ref{actions.start} now",
         "stop": "Stop",
         "reannounce": "Reannounce",
         "verify": "Verify",
@@ -247,7 +247,7 @@
     "import": "Import",
     "downloadFinished": "Download finished",
     "altSpeedScheduler": "Alternative speed scheduler",
-    "altSpeedBegin": "Begin time",
+    "altSpeedBegin": "Start time",
     "altSpeedEnd": "End time",
     "altSpeedDays": "Days"
 }

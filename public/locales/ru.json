@@ -254,8 +254,8 @@
     "export": "Экспорт",
     "import": "Импорт",
     "downloadFinished": "Загрузка завершена",
-    "altSpeedScheduler": "Alternative speed scheduler",
-    "altSpeedBegin": "Begin time",
-    "altSpeedEnd": "End time",
-    "altSpeedDays": "Days"
+    "altSpeedScheduler": "Альтернативный планировщик скорости",
+    "altSpeedBegin": "Время начала",
+    "altSpeedEnd": "Время конца",
+    "altSpeedDays": "Дни"
 }

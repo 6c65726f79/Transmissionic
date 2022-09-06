@@ -24,7 +24,7 @@
         "requestAborted": "中止請求",
         "connectionFailed": "連線失敗",
         "trackerConnectionError": "無法連線到此 Tracker",
-        "noDataFound": "找不到檔案! 請確認您的相關磁碟有無連接，或使用 \"設定下載位置\". 如要重新下載，請先移除任務後，再重新加入.",
+        "noDataFound": "找不到檔案！ 請確認您的相關磁碟有無連接，或使用 \"設定下載位置\". 如要重新下載，請先移除任務後，再重新加入.",
         "pathNotAbsolute": "請將下載路徑調整成絕對路徑",
         "trackerResponseCode": "Tracker 回傳 HTTP 代碼：{0} ({1})",
         "notFound": "查無位址",
@@ -242,8 +242,8 @@
     "export": "匯出",
     "import": "匯入",
     "downloadFinished": "下載完成",
-    "altSpeedScheduler": "Alternative speed scheduler",
-    "altSpeedBegin": "Begin time",
-    "altSpeedEnd": "End time",
-    "altSpeedDays": "Days"
+    "altSpeedScheduler": "變速模式排程",
+    "altSpeedBegin": "開始時間",
+    "altSpeedEnd": "結束時間",
+    "altSpeedDays": "天數"
 }

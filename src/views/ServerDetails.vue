@@ -61,12 +61,12 @@
 
         <ion-item>
           <ion-label position="floating">{{ Locale.username }}</ion-label>
-          <ion-input :disabled="!authEnabled" v-model="newConf.auth.username"></ion-input>
+          <ion-input v-model="newConf.auth.username"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">{{ Locale.password }}</ion-label>
-          <ion-input :disabled="!authEnabled" v-model="newConf.auth.password" type="password"></ion-input>
+          <ion-input v-model="newConf.auth.password" type="password"></ion-input>
         </ion-item>
       </ion-list>
 
@@ -191,9 +191,6 @@ export default defineComponent({
         conf = {auth:{}}
       }
       return conf;
-    },
-    authEnabled: function () {
-      return isPlatform("electron") || isPlatform("capacitor") || process.env.NODE_ENV==="development"
     },
     pathMappingEnabled: function () {
       return isPlatform("electron");
