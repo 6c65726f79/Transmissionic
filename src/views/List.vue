@@ -34,9 +34,9 @@
             {{ torrentSelectedList.length }}
             {{ LocaleController.getPlural("torrent",torrentSelectedList.length) }} ·
             {{ Utils.formatBytes(totalSize) }} ·
-            <span @click="openOrderPopover" tabindex="0" :aria-label="Locale.order">
+            <span @click="openOrderPopover" tabindex="0" :aria-label="Locale.sort">
               <ion-icon :ios="filterOutline" :md="filterSharp"></ion-icon>
-              {{ Locale.order }}
+              {{ Locale.sort }}
             </span>
           </ion-label>
         </ion-list-header>
