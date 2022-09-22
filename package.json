@@ -35,7 +35,7 @@
     "@ionic/vue": "^6.2.5",
     "@ionic/vue-router": "^6.2.8",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
-    "autolinker": "^3.16.0",
+    "autolinker": "^4.0.0",
     "capacitor-secure-storage-plugin": "^0.8.0",
     "chart.js": "^3.9.1",
     "cordova-plugin-advanced-http": "^3.3.1",
