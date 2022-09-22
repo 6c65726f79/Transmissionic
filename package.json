@@ -19,7 +19,7 @@
     "@awesome-cordova-plugins/core": "^5.45.0",
     "@awesome-cordova-plugins/http": "^5.45.0",
     "@byteowls/capacitor-filesharer": "github:6c65726f79/capacitor-filesharer#v4",
-    "@capacitor/android": "^4.1.0",
+    "@capacitor/android": "^4.3.0",
     "@capacitor/app": "^4.0.0",
     "@capacitor/clipboard": "^4.0.0",
     "@capacitor/core": "^4.1.0",
@@ -40,7 +40,7 @@
     "chart.js": "^3.9.1",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-file": "^7.0.0",
-    "core-js": "^3.25.0",
+    "core-js": "^3.25.2",
     "localized-strings": "^0.2.4",
     "make-plural": "^7.1.0",
     "mitt": "^3.0.0",
@@ -56,7 +56,7 @@
   "devDependencies": {
     "@capacitor-community/electron": "^4.1.2",
     "@capacitor/cli": "^4.1.0",
-    "@types/lodash": "^4.14.184",
+    "@types/lodash": "^4.14.185",
     "@types/parse-torrent": "^5.8.4",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
@@ -70,7 +70,7 @@
     "eslint": "^8.23.0",
     "eslint-plugin-vue": "^8.7.1",
     "eslint-webpack-plugin": "^3.2.0",
-    "typescript": "~4.8.2"
+    "typescript": "~4.8.3"
   },
   "description": "Remote for Transmission Daemon"
 }
