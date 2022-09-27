@@ -336,7 +336,7 @@
             <ion-item>
               <ion-label>{{ Locale.LPD }} (LPD)</ion-label>
               <span class="swiper-no-swiping" slot="end">
-                <ion-toggle v-model="config['ldp-enabled']"></ion-toggle>
+                <ion-toggle v-model="config['lpd-enabled']"></ion-toggle>
               </span>
             </ion-item>
 
