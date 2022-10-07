@@ -48,7 +48,7 @@
     "node-polyfill-webpack-plugin": "^2.0.1",
     "parse-torrent": "^9.1.5",
     "rxjs": "^7.5.7",
-    "swiper": "^8.4.2",
+    "swiper": "^8.4.3",
     "vue": "^3.2.40",
     "vue-router": "^4.1.5",
     "vue-virtual-scroller": "^2.0.0-alpha.1"
