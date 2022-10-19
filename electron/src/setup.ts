@@ -133,7 +133,7 @@ export class ElectronCapacitorApp {
       autoHideMenuBar: true,
       titleBarStyle: 'hidden',
       webPreferences: {
-        nodeIntegration: false,
+        nodeIntegration: true,
         contextIsolation: true,
         // Use preload to inject the electron varriant overrides for capacitor plugins.
         // preload: join(app.getAppPath(), "node_modules", "@capacitor-community", "electron", "dist", "runtime", "electron-rt.js"),
