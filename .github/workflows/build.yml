@@ -235,27 +235,25 @@ jobs:
           chmod +x gradlew
           ./gradlew bundleRelease
 
-      - uses: r0adkll/sign-android-release@v1
+      - uses: ilharp/sign-android-release@v1
         name: Sign APK
         id: sign_apk
         with:
-          releaseDirectory: ./android/app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
+          releaseDir: ./android/app/build/outputs/apk/release
+          signingKey: ${{ secrets.SIGNING_KEY }}
+          keyAlias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "30.0.2"
+          buildToolsVersion: 33.0.0
 
-      - uses: r0adkll/sign-android-release@v1
+      - uses: ilharp/sign-android-release@v1
         name: Sign Bundle
         id: sign_bundle
         with:
-          releaseDirectory: ./android/app/build/outputs/bundle/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
+          releaseDir: ./android/app/build/outputs/bundle/release
+          signingKey: ${{ secrets.SIGNING_KEY }}
+          keyAlias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "30.0.2"
+          buildToolsVersion: 33.0.0
           
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -268,7 +266,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload Release Bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Transmissionic-android-${{ needs.dependencies.outputs.version }}.aab
           path: ${{steps.sign_bundle.outputs.signedReleaseFile}}
