@@ -28,6 +28,7 @@
             <ion-select-option value="cs">Čeština</ion-select-option>
             <ion-select-option value="de">Deutsch</ion-select-option>
             <ion-select-option value="de-at">Österreichisches Deutsch</ion-select-option>
+            <ion-select-option value="el">ελληνικά</ion-select-option>
             <ion-select-option value="en">English</ion-select-option>
             <ion-select-option value="es">Español</ion-select-option>
             <ion-select-option value="fr">Français</ion-select-option>
