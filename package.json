@@ -50,7 +50,7 @@
     "rxjs": "^7.5.7",
     "swiper": "^8.4.4",
     "vue": "^3.2.41",
-    "vue-router": "^4.1.5",
+    "vue-router": "^4.1.6",
     "vue-virtual-scroller": "^2.0.0-beta.3"
   },
   "devDependencies": {
