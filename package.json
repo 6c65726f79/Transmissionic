@@ -32,7 +32,7 @@
     "@capacitor/toast": "^4.0.0",
     "@formatjs/intl-displaynames": "^6.1.4",
     "@ionic/pwa-elements": "^3.1.1",
-    "@ionic/vue": "^6.3.0",
+    "@ionic/vue": "^6.3.6",
     "@ionic/vue-router": "^6.3.2",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
     "autolinker": "^4.0.0",
