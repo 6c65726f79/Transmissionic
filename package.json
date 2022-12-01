@@ -56,7 +56,7 @@
   "devDependencies": {
     "@capacitor-community/electron": "^4.1.2",
     "@capacitor/cli": "^4.4.0",
-    "@types/lodash": "^4.14.186",
+    "@types/lodash": "^4.14.191",
     "@types/parse-torrent": "^5.8.4",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.42.1",
