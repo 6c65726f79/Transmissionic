@@ -33,7 +33,7 @@
     "@formatjs/intl-displaynames": "^6.1.4",
     "@ionic/pwa-elements": "^3.1.1",
     "@ionic/vue": "^6.3.0",
-    "@ionic/vue-router": "^6.3.2",
+    "@ionic/vue-router": "^6.5.2",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
     "autolinker": "^4.0.0",
     "capacitor-secure-storage-plugin": "^0.8.0",
