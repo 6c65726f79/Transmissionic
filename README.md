@@ -16,7 +16,7 @@
 ![Version](https://img.shields.io/github/v/release/6c65726f79/Transmissionic?label=Release)
 ![Dev](https://img.shields.io/github/package-json/v/6c65726f79/Transmissionic/dev?color=orange&label=Dev)
 ![GitHub all releases](https://img.shields.io/github/downloads/6c65726f79/Transmissionic/total?label=Downloads)
-![Build](https://img.shields.io/github/workflow/status/6c65726f79/Transmissionic/Build?label=Build)
+![Build](https://img.shields.io/github/actions/workflow/status/6c65726f79/Transmissionic/build.yml?label=Build&branch=main)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/6c65726f79_Transmissionic?label=Quality%20gate&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/dashboard?id=6c65726f79_Transmissionic)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=6c65726f79_Transmissionic&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=6c65726f79_Transmissionic)
 
