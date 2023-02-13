@@ -113,35 +113,46 @@ Interface and features inspired by [Transmission Remote](https://github.com/y-po
 
 # Installation
 
-You must first enable remote access in Transmission settings.
+You must first [enable remote access](https://github.com/transmission/transmission/blob/main/docs/Web-Interface.md#enabling-the-web-interface) in Transmission settings.
 
 ## Web UI
 
-Download `Transmissionic-webui-[version].zip` from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page.
+Download `Transmissionic-webui-[version].zip` from the [latest release](https://github.com/6c65726f79/Transmissionic/releases/latest) page and unzip it.
 
-Unzip it and replace the `web` folder of Transmission, whose location varies depending on your operating system:
+### Method 1
+
+Set an [environment variable](https://github.com/transmission/transmission/blob/main/docs/Environment-Variables.md) named `TRANSMISSION_WEB_HOME` with the path of the extracted folder as value.
+
+Example:
+```bash
+export TRANSMISSION_WEB_HOME=/path/to/transmissionic/folder
+```
+
+### Method 2
+
+> Note: On older versions of Transmission, the `public_html` folder is named `web`
+
+Copy the content of the extracted folder to the `public_html` folder of Transmission, whose location varies depending on your operating system:
 
 Windows
 
 ```
-C:\Program Files\Transmission\web
+C:\Program Files\Transmission\public_html
 ```
 
 Linux
 
 ```
-/usr/share/transmission/web
+/usr/share/transmission/public_html
 ```
 
 macOS
 
 ```
-/Applications/Transmission.app/Contents/Resources/web
+/Applications/Transmission.app/Contents/Resources/public_html
 ```
 
-Don't forget to save your current `web` folder if you want to switch back.
-
-Then access the Web UI as described [here](https://github.com/transmission/transmission/wiki/Web-Interface).
+Don't forget to save your current `public_html` folder if you want to switch back.
 
 ## Linux
 
