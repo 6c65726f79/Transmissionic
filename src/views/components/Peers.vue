@@ -72,6 +72,8 @@ async function polyfill(locale: string) {
   await import(`@formatjs/intl-displaynames/locale-data/${unsupportedLocale}.js`)
 }
 
+let regionNames: DisplayNames;
+
 export default defineComponent({
   components: {
     VirtualScroll,
@@ -103,6 +105,12 @@ export default defineComponent({
   },
   created() {
     this.details = inject('details') as Record<string,any>;
+    
+    polyfill(UserSettings.getLanguage()).then(() => {
+      regionNames = new DisplayNames(
+        [UserSettings.getLanguage()], {type: 'region'}
+      );
+    }).catch(() => { console.error('DisplayNames not supported') });
   },
   methods: {
     flagAttributes(adress: string) {
@@ -119,13 +127,13 @@ export default defineComponent({
     async loadFlag(adress: string){
       const ipDetails = await Utils.ipToCountry(adress);
       if(ipDetails){
-        await polyfill(UserSettings.getLanguage());
-        const regionNames = new DisplayNames(
-          [UserSettings.getLanguage()], {type: 'region'}
-        );
+        let name=ipDetails.country;
+        if(regionNames){
+          name=regionNames.of(ipDetails.country);
+        }
         this.flags[adress] = {
           src:`./assets/flags/${ipDetails.country}.png`,
-          name:regionNames.of(ipDetails.country)
+          name
         }
       }
     }
