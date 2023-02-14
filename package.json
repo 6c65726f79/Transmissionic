@@ -16,7 +16,7 @@
     "build:iphonesimulator": "npm run build && npx cap sync ios && xcodebuild -sdk iphonesimulator -workspace ios/App/App.xcworkspace/ -scheme App -configuration Debug"
   },
   "dependencies": {
-    "@awesome-cordova-plugins/core": "^5.46.0",
+    "@awesome-cordova-plugins/core": "^6.0.1",
     "@awesome-cordova-plugins/http": "^6.0.0",
     "@byteowls/capacitor-filesharer": "github:6c65726f79/capacitor-filesharer#v4",
     "@capacitor/android": "^4.4.0",
