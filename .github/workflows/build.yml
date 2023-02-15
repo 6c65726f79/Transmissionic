@@ -261,7 +261,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.dependencies.outputs.upload_url }}
-          asset_path: ${{steps.sign_apk.outputs.signedReleaseFile}}
+          asset_path: ${{steps.sign_apk.outputs.signedFile}}
           asset_name: Transmissionic-android-${{ needs.dependencies.outputs.version }}.apk
           asset_content_type: application/zip
 
@@ -269,7 +269,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Transmissionic-android-${{ needs.dependencies.outputs.version }}.aab
-          path: ${{steps.sign_bundle.outputs.signedReleaseFile}}
+          path: ${{steps.sign_bundle.outputs.signedFile}}
           retention-days: 30
 
   build-ios:
