@@ -56,7 +56,7 @@ export const LocaleController = {
             return aliases[code];
         }
         else if(!short) {
-            return this.getLanguageCode(code.substr(0,2), true)
+            return this.getLanguageCode(code.substring(0,2), true)
         }
         else {
             return "en";
@@ -65,7 +65,7 @@ export const LocaleController = {
     getPlural(key: string, count: number): string {
         let lang = Locale.getLanguage();
         if(!Object(Plurals)[lang]){
-            lang = lang.substr(0,2);
+            lang = lang.substring(0,2);
         }
         const form = Object(Plurals)[lang] ? Object(Plurals)[lang](count) : "other";
         return this.getForm(key, form);

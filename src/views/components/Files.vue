@@ -162,7 +162,7 @@ export default defineComponent({
       for(const id in files){
         if(files[id].name && files[id].name.startsWith(this.currentDirectory)){
           // File is contained in current directory or sub directory
-          const currentName = files[id].name.substr(this.currentDirectory.length);
+          const currentName = files[id].name.substring(this.currentDirectory.length);
           const slashCount = (currentName.match(/\//g) || []).length;
           if(slashCount==0){
             // File is contained in current directory
@@ -177,7 +177,7 @@ export default defineComponent({
           }
           else {
             //  File is contained in sub directory
-            const dirName: string=currentName.substr(0,currentName.indexOf("/"));
+            const dirName: string=currentName.substring(0,currentName.indexOf("/"));
             if(!Object.keys(folders).includes(dirName)){
               // Create folder details
               const resultFile = {

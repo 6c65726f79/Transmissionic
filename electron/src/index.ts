@@ -351,6 +351,14 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         }
       ]
     },
+    process.platform == 'darwin' ? {
+      label: "Edit",
+      submenu: [
+        { role: "cut" },
+        { role: "copy" },
+        { role: "paste" }
+      ]
+    } : null,
     {
       label: 'Server',
       submenu: [
