@@ -358,7 +358,9 @@ function getMainMenu(): Electron.MenuItemConstructorOptions[] {
         { role: "copy" },
         { role: "paste" }
       ]
-    } : null,
+    } : {
+      type:'separator'
+    },
     {
       label: 'Server',
       submenu: [
