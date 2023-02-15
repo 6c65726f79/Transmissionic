@@ -99,7 +99,7 @@ Thanks to all contributors.
 
 | OS              | Windows   | Linux     | macOS     | Android   | iOS       |
 | --------------- | --------- | --------- | --------- | --------- | --------- |
-| Version         | ≥7 ✔      | ✔        | ≥10.11 ✔  | ≥5.0 ✔    | ≥12 ✔     |
+| Version         | ≥10 ✔     | ✔        | ≥10.11 ✔  | ≥5.0 ✔    | ≥12 ✔     |
 
 ## Motivations
 
