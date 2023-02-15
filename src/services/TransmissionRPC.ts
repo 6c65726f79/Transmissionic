@@ -76,7 +76,7 @@ class TRPC {
       for(const key in paths){
         if(paths[key]){
           if(paths[key].startsWith(' ')){
-            paths[key]=paths[key].substr(1);
+            paths[key]=paths[key].substring(1);
           }
           if(paths[key].endsWith(' ')){
             paths[key]=paths[key].slice(0, -1);
