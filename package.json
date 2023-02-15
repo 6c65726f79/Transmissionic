@@ -37,7 +37,7 @@
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
     "autolinker": "^4.0.0",
     "capacitor-secure-storage-plugin": "^0.8.0",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.2.1",
     "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-file": "^7.0.0",
     "core-js": "^3.26.0",
