@@ -253,5 +253,6 @@
     "altSpeedScheduler": "Programmateur de vitesse alternative",
     "altSpeedBegin": "Date de début",
     "altSpeedEnd": "Date de fin",
-    "altSpeedDays": "Jours"
+    "altSpeedDays": "Jours",
+    "showTrackerList": "Always show tracker list"
 }
