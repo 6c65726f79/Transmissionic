@@ -18,7 +18,7 @@
   "dependencies": {
     "@awesome-cordova-plugins/core": "^6.0.1",
     "@awesome-cordova-plugins/http": "^6.0.0",
-    "@byteowls/capacitor-filesharer": "github:6c65726f79/capacitor-filesharer#v4",
+    "@byteowls/capacitor-filesharer": "^4.0.0",
     "@capacitor/android": "^4.4.0",
     "@capacitor/app": "^4.1.0",
     "@capacitor/clipboard": "^4.0.0",
