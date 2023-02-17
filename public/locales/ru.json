@@ -257,5 +257,6 @@
     "altSpeedScheduler": "Альтернативный планировщик скорости",
     "altSpeedBegin": "Время начала",
     "altSpeedEnd": "Время конца",
-    "altSpeedDays": "Дни"
+    "altSpeedDays": "Дни",
+    "showTrackerList": "Always show tracker list"
 }
