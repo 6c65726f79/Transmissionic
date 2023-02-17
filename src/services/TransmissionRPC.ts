@@ -217,6 +217,7 @@ class TRPC {
     let result: Record<string,Array<any>>={};
     let loadPersistent=false;
     const args: Record<string,any> = {
+      format: 'table',
       fields: [
         'id',
         'name',
@@ -250,7 +251,16 @@ class TRPC {
     const response = await this.rpcCall("torrent-get", args, true, true);
 
     if(response.arguments){
-      result=response.arguments
+      result=response.arguments;
+      
+      // Parse table mode
+      if(result.torrents.length>0 && Array.isArray(result.torrents[0])){
+        const header = result.torrents[0];
+        result.torrents.shift();
+        result.torrents = result.torrents.map(t => {
+          return header.reduce((a, v, i) => ({...a, [v]:t[i]}), {});
+        })
+      }
 
       if(loadPersistent){
         this.readPersitentData(result);
