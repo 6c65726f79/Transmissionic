@@ -2,6 +2,8 @@
  * Transmission RPC Client for Ionic/Capacitor, inspired by kkito-transmission-rpc
 */
 
+import { CapacitorHttp } from '@capacitor/core';
+import { isPlatform  } from '@ionic/vue';
 import * as _ from 'lodash';
 
 declare const Buffer: any
@@ -23,6 +25,7 @@ class TRPC {
   sessionArguments: any;
   options: any;
   lastRequestId: number;
+  useNativePlugin: boolean;
   persistentData: any;
   persistentDataValid=false;
   sessionStats: any;
@@ -30,6 +33,7 @@ class TRPC {
   pathMapping: Record<string,string>;
 
   constructor() {
+    this.useNativePlugin = (isPlatform("capacitor") && (isPlatform("android") || isPlatform("ios")))
     this.lastRequestId = 0;
     this.pathMapping = {};
   }
@@ -455,7 +459,10 @@ class TRPC {
       body:null as string|null
     }
 
-    if(window.net){
+    if(this.useNativePlugin){
+      ret = await this.nativePluginRequest(requestUrl,options,datas);
+    }
+    else if(window.net){
       ret = await this.electronRequest(options,datas);
     }
     else {
@@ -473,6 +480,31 @@ class TRPC {
     }
 
     return ret;
+  }
+
+   async nativePluginRequest(requestUrl: string, options: any, datas: Record<string, any>) {
+    // HTTP request using CapacitorHttp (allow CORS)
+    let result: Record<string, any>={};
+    options.data = datas
+    
+    await CapacitorHttp.post({
+      url: requestUrl,
+      headers: options.headers,
+      data: datas,
+      connectTimeout: options.timeout,
+      responseType: 'json'
+    }).then((response) => {
+      result=response.data as Record<string, any>;
+    }).catch((error) => {
+      if(error.status){
+        result=error as Record<string, any>;
+      }
+      else {
+        result.errorMessage=error;
+      }
+    });
+
+    return result;
   }
 
   async electronRequest(options: any, datas: Record<string, any>) {
@@ -503,7 +535,7 @@ class TRPC {
   }
 
   async browserRequest(requestUrl: string, options: any, datas: Record<string, any>) {
-    // HTTP request using fetch or CapacitorHttp
+    // HTTP request using fetch (no CORS)
     let result: Record<string, any>={};
     options.body = JSON.stringify(datas);
 
