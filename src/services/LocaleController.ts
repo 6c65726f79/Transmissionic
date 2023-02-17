@@ -22,6 +22,7 @@ const list: Array<string> = [
     "pt",
     "pt-br",
     "ru",
+    "sk",
     "uk",
     "zh-cn",
     "zh-tw",

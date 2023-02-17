@@ -41,6 +41,7 @@
             <ion-select-option value="pt">Português</ion-select-option>
             <ion-select-option value="pt-br">Português Brasileiro</ion-select-option>
             <ion-select-option value="ru">Pусский</ion-select-option>
+            <ion-select-option value="sk">Slovenčina</ion-select-option>
             <ion-select-option value="uk">Українська</ion-select-option>
             <ion-select-option value="zh-cn">简体中文</ion-select-option>
             <ion-select-option value="zh-tw">繁體中文</ion-select-option>
