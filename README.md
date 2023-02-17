@@ -46,37 +46,16 @@
 
 ## Translation
 
-![POEditor](https://img.shields.io/poeditor/progress/389563/cs?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/de?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/el?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/es-cl?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/fr-ch?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/hu?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/it?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/pl?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/pt?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/pt-br?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/sk?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hans?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
-
 Available languages:
 - **Czech** (Cyril Veverka, Ti)
-- **Austrian German** (Alain Nussbaumer, Tobias W)
 - **German** (Alain Nussbaumer)
+- **Austrian German** (Alain Nussbaumer, Tobias W)
 - **Greek** (Dtheofilopoulos)
 - **English**
 - **Chilean Spanish** (Sebastian)
 - **Costa Rican Spanish** (Zenón Monge)
-- **Swiss French** (Alain Nussbaumer, ZertyCraft)
 - **French**
+- **Swiss French** (Alain Nussbaumer, ZertyCraft)
 - **Hungarian** (Daniel)
 - **Italian** (Emanuele Ruzza)
 - **Dutch** (John)
