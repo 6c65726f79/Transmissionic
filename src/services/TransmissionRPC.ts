@@ -491,10 +491,10 @@ class TRPC {
       url: requestUrl,
       headers: options.headers,
       data: datas,
-      connectTimeout: options.timeout,
+      connectTimeout: options.timeout*1000,
       responseType: 'json'
     }).then((response) => {
-      result=response.data as Record<string, any>;
+      result=response as Record<string, any>;
     }).catch((error) => {
       if(error.status){
         result=error as Record<string, any>;
