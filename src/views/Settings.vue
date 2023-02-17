@@ -38,6 +38,7 @@
             <ion-select-option value="it">Italiano</ion-select-option>
             <ion-select-option value="nl">Nederlands</ion-select-option>
             <ion-select-option value="pl">Polskie</ion-select-option>
+            <ion-select-option value="pt">Português</ion-select-option>
             <ion-select-option value="ru">Pусский</ion-select-option>
             <ion-select-option value="uk">Українська</ion-select-option>
             <ion-select-option value="zh-cn">简体中文</ion-select-option>

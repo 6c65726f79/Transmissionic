@@ -19,6 +19,7 @@ const list: Array<string> = [
     "it",
     "nl",
     "pl",
+    "pt",
     "ru",
     "uk",
     "zh-cn",
