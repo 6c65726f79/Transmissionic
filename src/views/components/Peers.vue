@@ -59,20 +59,7 @@ import { LocaleController } from "../../services/LocaleController";
 import { Locale } from "../../services/Locale";
 import { Utils } from "../../services/Utils";
 
-import { DisplayNames } from '@formatjs/intl-displaynames'
-import { shouldPolyfill } from '@formatjs/intl-displaynames/should-polyfill'
-async function polyfill(locale: string) {
-  const unsupportedLocale = shouldPolyfill(locale)
-  // This locale is supported
-  if (!unsupportedLocale) {
-    return
-  }
-  // Load the polyfill 1st BEFORE loading data
-  await import('@formatjs/intl-displaynames/polyfill-force')
-  await import(`@formatjs/intl-displaynames/locale-data/${unsupportedLocale}.js`)
-}
-
-let regionNames: DisplayNames;
+let regionNames: Intl.DisplayNames;
 
 export default defineComponent({
   components: {
@@ -105,12 +92,12 @@ export default defineComponent({
   },
   created() {
     this.details = inject('details') as Record<string,any>;
-    
-    polyfill(UserSettings.getLanguage()).then(() => {
-      regionNames = new DisplayNames(
+
+    try {
+      regionNames = new Intl.DisplayNames(
         [UserSettings.getLanguage()], {type: 'region'}
       );
-    }).catch(() => { console.error('DisplayNames not supported') });
+    } catch (e) { console.error('Intl.DisplayNames not supported') }
   },
   methods: {
     flagAttributes(adress: string) {
