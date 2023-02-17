@@ -2,8 +2,6 @@
  * Transmission RPC Client for Ionic/Capacitor, inspired by kkito-transmission-rpc
 */
 
-import { isPlatform  } from '@ionic/vue';
-import { HTTP } from '@awesome-cordova-plugins/http';
 import * as _ from 'lodash';
 
 declare const Buffer: any
@@ -25,7 +23,6 @@ class TRPC {
   sessionArguments: any;
   options: any;
   lastRequestId: number;
-  useNativePlugin: boolean;
   persistentData: any;
   persistentDataValid=false;
   sessionStats: any;
@@ -33,7 +30,6 @@ class TRPC {
   pathMapping: Record<string,string>;
 
   constructor() {
-    this.useNativePlugin = (isPlatform("capacitor") && (isPlatform("android") || isPlatform("ios")))
     this.lastRequestId = 0;
     this.pathMapping = {};
   }
@@ -58,7 +54,6 @@ class TRPC {
       this.pathMapping = this.readPathMapping(this.options.pathMapping)
     }
 
-    this.setAuthHeader();
     this.invalidatePersitentData();
     
     this.sessionArguments = await this.getSession();
@@ -88,19 +83,6 @@ class TRPC {
       }
     });
     return result;
-  }
-
-  setAuthHeader(): void {
-    if(this.useNativePlugin){
-      HTTP.setRequestTimeout(this.options.timeout);
-      if(this.options.auth){
-        HTTP.useBasicAuth(this.options.auth.username,this.options.auth.password);
-      }
-      else {
-        // Reset auth header from previous connection
-        HTTP.useBasicAuth("","");
-      }
-    }
   }
 
   setFreeSpaceRefreshInterval(): void {
@@ -473,10 +455,7 @@ class TRPC {
       body:null as string|null
     }
 
-    if(this.useNativePlugin){
-      ret = await this.nativePluginRequest(requestUrl,options,datas);
-    }
-    else if(window.net){
+    if(window.net){
       ret = await this.electronRequest(options,datas);
     }
     else {
@@ -494,31 +473,6 @@ class TRPC {
     }
 
     return ret;
-  }
-
-  async nativePluginRequest(requestUrl: string, options: any, datas: Record<string, any>) {
-    // HTTP request using @ionic-native/http (allow CORS)
-    let result: Record<string, any>={};
-    options.data = datas
-
-    await this.timeout(this.options.timeout*1000, HTTP.sendRequest(requestUrl,options))
-      .then((response) => {
-        result=response as Record<string, any>;
-      })
-      .catch((error) => {
-        if(error.status){
-          result=error as Record<string, any>;
-        }
-        else {
-          result.errorMessage=error;
-        }
-      });
-
-    if(result.data){
-      result.data = JSON.parse(result.data)
-    }
-
-    return result;
   }
 
   async electronRequest(options: any, datas: Record<string, any>) {
@@ -549,7 +503,7 @@ class TRPC {
   }
 
   async browserRequest(requestUrl: string, options: any, datas: Record<string, any>) {
-    // HTTP request using fetch (no CORS)
+    // HTTP request using fetch or CapacitorHttp
     let result: Record<string, any>={};
     options.body = JSON.stringify(datas);
 
