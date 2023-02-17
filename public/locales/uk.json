@@ -116,7 +116,7 @@
     "and": "та",
     "ago": "{0} тому",
     "lastActivity": "Остання активність",
-    "success": "Це перемога!",
+    "success": "Успіх",
     "speedUnit": "Швидкість у bit/s",
     "options": "Опції",
     "files": "Файли",
@@ -254,8 +254,9 @@
     "export": "Експорт",
     "import": "Імпорт",
     "downloadFinished": "Завантаження завершено",
-    "altSpeedScheduler": "Alternative speed scheduler",
-    "altSpeedBegin": "Start time",
-    "altSpeedEnd": "End time",
-    "altSpeedDays": "Days"
+    "altSpeedScheduler": "Розклад альтернативної швидкості",
+    "altSpeedBegin": "Час початку",
+    "altSpeedEnd": "Час закінчення",
+    "altSpeedDays": "Дні",
+    "showTrackerList": "Always show tracker list"
 }
