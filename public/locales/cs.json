@@ -81,7 +81,7 @@
     "filters": {
         "filters": "Filtry",
         "all": "Vše",
-        "downloading": "Stažené",
+        "downloading": "Stahování",
         "active": "Aktivní",
         "completed": "Hotové",
         "stopped": "Zastavené",
@@ -110,7 +110,7 @@
     },
     "rpcPath": "RPC stezka",
     "preferences": "Nastavení",
-    "uploadSpeed": "Rýchlost",
+    "uploadSpeed": "Rychlost nahrávání",
     "and": "a",
     "ago": "před {0}",
     "lastActivity": "Poslední aktivita",
@@ -253,5 +253,6 @@
     "altSpeedScheduler": "Alternativní rychlost",
     "altSpeedBegin": "Start",
     "altSpeedEnd": "Konec",
-    "altSpeedDays": "Dny"
+    "altSpeedDays": "Dny",
+    "showTrackerList": "Always show tracker list"
 }
