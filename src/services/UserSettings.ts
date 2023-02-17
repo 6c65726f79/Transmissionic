@@ -19,7 +19,8 @@ const defaultSettings: Record<string,any> = {
   searchByDirectory:true,
   selectedPreset:"",
   rememberSelectedPreset:false,
-  compactMode: false
+  compactMode: false,
+  showTrackerList: false
 }
 
 const defaultServer: Record<string, any> = {

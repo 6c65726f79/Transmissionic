@@ -68,6 +68,11 @@
           <ion-label>{{ Locale.expandSideMenu }}</ion-label>
           <ion-toggle v-model="sharedState.expandMenu"></ion-toggle>
         </ion-item>
+
+        <ion-item>
+          <ion-label>{{ Locale.showTrackerList }}</ion-label>
+          <ion-toggle v-model="sharedState.showTrackerList"></ion-toggle>
+        </ion-item>
         
         <ion-item>
           <ion-label>{{ Locale.displayFlag }}*</ion-label>

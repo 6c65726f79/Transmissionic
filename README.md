@@ -202,6 +202,7 @@ The file can contain the following key/value pairs:
 | openMagnetLinks        | `boolean`     | Open magnet links with Transmissionic | `false` |
 | rememberSelectedPreset | `boolean`     | Remember selected preset when adding torrents | `false` |
 | compactMode            | `boolean`     | Compact torrent list                  | `false` |
+| showTrackerList        | `boolean`     | Always show the list of trackers in the side menu | `false` |
 | refreshInterval        | `number`      | Refresh interval in seconds           | `5` |
 | timeout                | `number`      | Connection timeout in seconds         | `10` |
 | servers                | `array`       | Default servers                       | `[]` |
