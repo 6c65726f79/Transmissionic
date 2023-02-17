@@ -257,5 +257,6 @@
     "altSpeedScheduler": "Alternative speed scheduler",
     "altSpeedBegin": "Czas rozpoczęcia",
     "altSpeedEnd": "Czas zakończenia",
-    "altSpeedDays": "Dni"
+    "altSpeedDays": "Dni",
+    "showTrackerList": "Always show tracker list"
 }
