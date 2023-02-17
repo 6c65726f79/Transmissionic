@@ -4,7 +4,7 @@
       <ion-menu contentId="main-content" type="overlay" menu-id="left" :swipeGesture="privateState.swipeEnabled" v-on:ionDidClose="closeTrackerList()" v-on:ionDidOpen="Utils.pushState()">
 
         <!-- Main menu -->
-        <ion-content v-show="!privateState.trackerListOpened" id="navigation" ref="navigation" scrollbar>
+        <ion-content v-show="!privateState.trackerListOpened || sharedState.showTrackerList" id="navigation" ref="navigation" scrollbar :class="{separator: sharedState.showTrackerList}">
           <ion-list id="servers-list">
             <ion-list-header>{{ Locale.servers }}</ion-list-header>
   
@@ -24,7 +24,7 @@
             </ion-menu-toggle>
           </ion-list>
 
-          <ion-list id="trackers-list">
+          <ion-list id="trackers-list" v-show="!sharedState.showTrackerList">
             <ion-list-header>{{ LocaleController.getForm("tracker","other") }}</ion-list-header>
 
             <ion-menu-toggle auto-hide="false">
@@ -53,7 +53,7 @@
         </ion-content>
 
         <!-- Tracker list -->
-        <ion-content v-show="privateState.trackerListOpened" id="trackers" ref="trackers">
+        <ion-content v-show="privateState.trackerListOpened || sharedState.showTrackerList" id="trackers" ref="trackers">
           <ion-list>
             <ion-list-header>{{ LocaleController.getForm("tracker","other") }}</ion-list-header>
             <ion-menu-toggle auto-hide="false">
@@ -61,7 +61,7 @@
                 <ion-label>{{ Locale.filters.all }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
-            <ion-menu-toggle auto-hide="false" v-for="tracker in privateState.trackerList" :key="tracker.id">
+            <ion-menu-toggle auto-hide="false" v-for="tracker in tkList" :key="tracker.id">
               <ion-item @click="selectTracker(tracker)" lines="none" :class="{selected:privateState.selectedTracker==tracker.announce}" button>
                 <ion-label :title="tracker.announce">{{tracker.announce}}</ion-label>
                 <div slot="end">
@@ -72,6 +72,7 @@
             <ion-infinite-scroll
               @ionInfinite="displayTrackers($event)" 
               threshold="100px" 
+              v-if="!sharedState.showTrackerList"
             >
               <ion-infinite-scroll-content
                 loading-spinner="circular">
@@ -385,6 +386,9 @@ export default defineComponent({
     language: function(): string {
       return this.sharedState.language
     },
+    tkList: function(): Array<Record<string,any>> {
+      return this.sharedState.showTrackerList ? TransmissionRPC.persistentData.trackers : this.privateState.trackerList
+    }
   },
   methods: {
 
@@ -585,6 +589,10 @@ export default defineComponent({
 <style scoped>
 #logo span {
   color:var(--ion-color-primary);
+}
+
+.separator {
+  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
 }
 
 ion-menu.menu-pane-visible {

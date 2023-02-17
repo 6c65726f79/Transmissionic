@@ -245,5 +245,6 @@
     "altSpeedScheduler": "變速模式排程",
     "altSpeedBegin": "開始時間",
     "altSpeedEnd": "結束時間",
-    "altSpeedDays": "天數"
+    "altSpeedDays": "天數",
+    "showTrackerList": "Always show tracker list"
 }

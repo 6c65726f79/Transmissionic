@@ -249,5 +249,6 @@
     "altSpeedScheduler": "Alternative speed scheduler",
     "altSpeedBegin": "Start time",
     "altSpeedEnd": "End time",
-    "altSpeedDays": "Ημέρες"
+    "altSpeedDays": "Ημέρες",
+    "showTrackerList": "Always show tracker list"
 }

@@ -293,8 +293,11 @@ export default defineComponent({
                   .then((response) => {
                     Utils.responseToast(response.result)
                     for(const item of this.details.files){
-                      if(item.name.startsWith(currentName)){
+                      if(file.folder && item.name.startsWith(currentName)){
                         item.name = item.name.replace(currentName,this.currentDirectory+data.name);
+                      }
+                      else if(!file.folder && item.name==currentName){
+                        item.name = this.currentDirectory+data.name;
                       }
                     }
                   })
@@ -305,7 +308,16 @@ export default defineComponent({
             },
           ],
         });
-      return alert.present();
+      return alert.present().then(() => {
+        const el = document.querySelector('ion-alert input') as any;
+        const length = file.folder ? file.name.length : file.name.lastIndexOf('.');
+        el.setSelectionRange(0,length);
+        el.focus();
+        setTimeout(() => {
+          el.setSelectionRange(0,length);
+          el.focus();
+        }, 500);
+      });
     },
     async filePriority(file: Record<string, any>){
       const priority = this.getPriority(file.ids);

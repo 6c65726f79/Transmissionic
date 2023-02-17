@@ -371,7 +371,7 @@ export default defineComponent({
         setTimeout(() => {
           const search = document.querySelector("#search") as Record<string,any>;
           search?.setFocus();
-        },10);
+        },100);
       }
       else {
         this.privateState.search="";

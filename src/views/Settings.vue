@@ -38,7 +38,10 @@
             <ion-select-option value="it">Italiano</ion-select-option>
             <ion-select-option value="nl">Nederlands</ion-select-option>
             <ion-select-option value="pl">Polskie</ion-select-option>
+            <ion-select-option value="pt">Português</ion-select-option>
+            <ion-select-option value="pt-br">Português Brasileiro</ion-select-option>
             <ion-select-option value="ru">Pусский</ion-select-option>
+            <ion-select-option value="sk">Slovenčina</ion-select-option>
             <ion-select-option value="uk">Українська</ion-select-option>
             <ion-select-option value="zh-cn">简体中文</ion-select-option>
             <ion-select-option value="zh-tw">繁體中文</ion-select-option>
@@ -67,6 +70,11 @@
         <ion-item>
           <ion-label>{{ Locale.expandSideMenu }}</ion-label>
           <ion-toggle v-model="sharedState.expandMenu"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ Locale.showTrackerList }}</ion-label>
+          <ion-toggle v-model="sharedState.showTrackerList"></ion-toggle>
         </ion-item>
         
         <ion-item>

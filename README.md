@@ -46,40 +46,25 @@
 
 ## Translation
 
-![POEditor](https://img.shields.io/poeditor/progress/389563/cs?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/de-at?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/de?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/el?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/en?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/es-cl?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/es-cr?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/fr-ch?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/fr?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/hu?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/it?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/nl?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/pl?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/ru?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/uk?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hans?token=c2a5935a2b069e687490b29b02f3964c)
-![POEditor](https://img.shields.io/poeditor/progress/389563/zh-Hant?token=c2a5935a2b069e687490b29b02f3964c)
-
 Available languages:
 - **Czech** (Cyril Veverka, Ti)
-- **Austrian German** (Alain Nussbaumer, Tobias W)
 - **German** (Alain Nussbaumer)
+- **Austrian German** (Alain Nussbaumer, Tobias W)
 - **Greek** (Dtheofilopoulos)
 - **English**
 - **Chilean Spanish** (Sebastian)
 - **Costa Rican Spanish** (Zenón Monge)
-- **Swiss French** (Alain Nussbaumer, ZertyCraft)
 - **French**
+- **Swiss French** (Alain Nussbaumer, ZertyCraft)
 - **Hungarian** (Daniel)
 - **Italian** (Emanuele Ruzza)
 - **Dutch** (John)
 - **Polish** (Matthew)
+- **Portuguese** (Humberto Faria)
+- **Brazilian Portuguese** (JFSilvaBr)
 - **Russian** (Alek Depler)
-- **Ukrainian** (Oleksandr Popov)
+- **Slovak** (Tomas)
+- **Ukrainian** (Oleksandr Popov, stanol)
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
 - **Chinese (traditional)** (Steven F)
 
@@ -99,7 +84,7 @@ Thanks to all contributors.
 
 | OS              | Windows   | Linux     | macOS     | Android   | iOS       |
 | --------------- | --------- | --------- | --------- | --------- | --------- |
-| Version         | ≥7 ✔      | ✔        | ≥10.11 ✔  | ≥5.0 ✔    | ≥12 ✔     |
+| Version         | ≥10 ✔     | ✔        | ≥10.11 ✔  | ≥5.0 ✔    | ≥12 ✔     |
 
 ## Motivations
 
@@ -202,6 +187,7 @@ The file can contain the following key/value pairs:
 | openMagnetLinks        | `boolean`     | Open magnet links with Transmissionic | `false` |
 | rememberSelectedPreset | `boolean`     | Remember selected preset when adding torrents | `false` |
 | compactMode            | `boolean`     | Compact torrent list                  | `false` |
+| showTrackerList        | `boolean`     | Always show the list of trackers in the side menu | `false` |
 | refreshInterval        | `number`      | Refresh interval in seconds           | `5` |
 | timeout                | `number`      | Connection timeout in seconds         | `10` |
 | servers                | `array`       | Default servers                       | `[]` |

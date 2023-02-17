@@ -16,9 +16,9 @@
     "build:iphonesimulator": "npm run build && npx cap sync ios && xcodebuild -sdk iphonesimulator -workspace ios/App/App.xcworkspace/ -scheme App -configuration Debug"
   },
   "dependencies": {
-    "@awesome-cordova-plugins/core": "^6.0.1",
-    "@awesome-cordova-plugins/http": "^6.0.0",
-    "@byteowls/capacitor-filesharer": "github:6c65726f79/capacitor-filesharer#v4",
+    "@awesome-cordova-plugins/core": "^6.3.0",
+    "@awesome-cordova-plugins/http": "^6.3.0",
+    "@byteowls/capacitor-filesharer": "^4.0.0",
     "@capacitor/android": "^4.4.0",
     "@capacitor/app": "^4.1.0",
     "@capacitor/clipboard": "^4.0.0",
@@ -30,10 +30,9 @@
     "@capacitor/splash-screen": "^4.1.1",
     "@capacitor/status-bar": "^4.0.0",
     "@capacitor/toast": "^4.0.0",
-    "@formatjs/intl-displaynames": "^6.1.4",
     "@ionic/pwa-elements": "^3.1.1",
-    "@ionic/vue": "^6.3.0",
-    "@ionic/vue-router": "^6.3.2",
+    "@ionic/vue": "^6.5.4",
+    "@ionic/vue-router": "^6.5.4",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
     "autolinker": "^4.0.0",
     "capacitor-secure-storage-plugin": "^0.8.0",
@@ -51,7 +50,7 @@
     "swiper": "^9.0.5",
     "vue": "^3.2.41",
     "vue-router": "^4.1.5",
-    "vue-virtual-scroller": "^2.0.0-beta.3"
+    "vue-virtual-scroller": "^2.0.0-beta.8"
   },
   "devDependencies": {
     "@capacitor-community/electron": "^4.1.2",

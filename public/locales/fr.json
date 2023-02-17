@@ -249,5 +249,6 @@
     "altSpeedScheduler": "Planificateur de vitesse alternative",
     "altSpeedBegin": "Heure de début",
     "altSpeedEnd": "Heure de fin",
-    "altSpeedDays": "Jours"
+    "altSpeedDays": "Jours",
+    "showTrackerList": "Toujours afficher la liste des trackers"
 }
