@@ -193,6 +193,9 @@ class TRPC {
     if(rep.headers && typeof rep.headers['x-transmission-session-id'] !== "undefined"){
       token = rep.headers['x-transmission-session-id'];
     }
+    else if(rep.headers && typeof rep.headers['X-Transmission-Session-Id'] !== "undefined"){
+      token = rep.headers['X-Transmission-Session-Id'];
+    }
     else if(rep.headers && rep.headers.get && rep.headers.get('x-transmission-session-id')!=null){
       token = rep.headers.get('x-transmission-session-id');
     }
