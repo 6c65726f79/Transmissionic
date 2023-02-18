@@ -1,8 +1,7 @@
 <template>
-    <VirtualScroll v-bind="$attrs" ref="content" :items="currentDirectoryContent" :item-size="64" key-field="name">
+    <VirtualScroll v-bind="$attrs" ref="content" :items="currentDirectoryContent" :item-size="64" key-field="name" :bottom="true">
       
       <template v-slot:start >
-            
         <div class="breadcrumb swiper-no-swiping" ref="breadcrumb">
             <div :class="{ active: breadcrumb.length==0 }">
               <a @click="selectDirectory(0)"><ion-icon class="home" :ios="homeOutline" :md="homeSharp"></ion-icon></a>
@@ -55,6 +54,15 @@
         </div>
       </template>
 
+      <template v-slot:end>
+        <div class="chips swiper-no-swiping">
+          <ion-chip v-for="(wanted, ext) in extList" :key="ext" :color="wanted ? 'primary' : null" @click="selectExt(ext, !wanted)">
+            <ion-icon :color="wanted ? 'primary' : null" :ios="documentOutline" :md="documentSharp"></ion-icon>
+            <ion-label>{{ext}}</ion-label>
+          </ion-chip>
+        </div>
+      </template>
+
     </VirtualScroll>
 </template>
 
@@ -65,6 +73,8 @@ import {
   actionSheetController,
   IonCheckbox,
   IonIcon,
+  IonChip,
+  IonLabel
 } from '@ionic/vue';
 import {
   homeOutline,
@@ -101,6 +111,8 @@ export default defineComponent({
     VirtualScroll,
     IonCheckbox,
     IonIcon,
+    IonChip,
+    IonLabel
   },
   data() {
     return {
@@ -153,6 +165,19 @@ export default defineComponent({
     breadcrumb: function(): Array<string>{
       const directories: Array<string>=this.currentDirectory.split('/')
       return directories.slice(0,directories.length-1);
+    },
+    extList: function(): Record<string,any> {
+      const list = {} as Record<string,any>;
+      this.details.files.forEach((f: any, i: number) => {
+        const ext = f.name.split('.').pop().toLowerCase();
+        if(list[ext]){
+          list[ext] = list[ext] && this.fileStats[i].wanted;
+        }
+        else {
+          list[ext] = this.fileStats[i].wanted;
+        }
+      })
+      return list;
     },
     // Return a list of directory/file contained in current directory from file list
     currentDirectoryContent: function (): Array<any> {
@@ -378,6 +403,16 @@ export default defineComponent({
         });
       }
     },
+    selectExt(ext: string, wanted: boolean): void {
+      this.navigation=true;
+      this.details.files.forEach((f: any, i: number) => {
+        const fileExt = f.name.split('.').pop().toLowerCase();
+        if(fileExt == ext) this.fileStats[i].wanted = wanted;
+      });
+      setTimeout(() => {
+        this.navigation=false;
+      },10);
+    },
     priorityUpdate(priority: number, ids: Array<number>) {
       ids.forEach((id) => {
         this.fileStats[id].priority = priority;
@@ -481,6 +516,13 @@ export default defineComponent({
 
 .details ion-icon {
   vertical-align: -2px;
+}
+
+.chips {
+  height: 50px;
+  padding-top:4px;
+  overflow-y: auto;
+  white-space: nowrap;
 }
 
 /* Breadcrumb */

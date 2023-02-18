@@ -3,7 +3,7 @@
     <slot name="fab"></slot>
 
     <RecycleScroller
-      class="scroller"
+      :class="{ scroller:true, bottom }"
       ref="scroller"
       :items="items"
       :item-size="itemSize"
@@ -23,6 +23,8 @@
       </template>
     </RecycleScroller>
     
+    <slot name="end"></slot>
+    
   </ion-content>
 </template>
 
@@ -37,7 +39,7 @@ import { Utils } from "../../services/Utils";
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 export default defineComponent({
-  props: ['items','itemSize',"keyField","fullscreen"],
+  props: ['items','itemSize',"keyField","fullscreen","bottom"],
   data() {
     return {
       scrollIndex:0,
@@ -73,6 +75,9 @@ export default defineComponent({
 <style scoped>
 .scroller {
   height:100%;
+}
+.scroller.bottom {
+  height:calc(100% - 50px);
 }
 
 .placeholder {
