@@ -250,5 +250,6 @@
     "altSpeedBegin": "Heure de début",
     "altSpeedEnd": "Heure de fin",
     "altSpeedDays": "Jours",
-    "showTrackerList": "Toujours afficher la liste des trackers"
+    "showTrackerList": "Toujours afficher la liste des trackers",
+    "testPort": "Tester l'ouverture du port"
 }
