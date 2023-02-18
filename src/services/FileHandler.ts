@@ -29,13 +29,13 @@ export const FileHandler = {
         this.filesLoaded();
       });
       window.magnetOpen.receive((magnet: string) => {
-        this.readMagnet(magnet);
+        this.readMagnets([magnet]);
       });
     }
     else if(isPlatform("capacitor")){
       App.addListener('appUrlOpen', async (data: Record<string,any>) => {
         if(data.url.startsWith("magnet:")){
-          this.readMagnet(data.url);
+          this.readMagnets([data.url]);
         }
         else {
           const src = Capacitor.convertFileSrc(data.url)
@@ -121,47 +121,64 @@ export const FileHandler = {
     }
     this.filesLoaded();
   },
-  loadFile(path: string): Promise<ArrayBuffer> {
+  async loadFile(path: string): Promise<ArrayBuffer> {
     return fetch(path)
       .then((r) => r.arrayBuffer())
   },
-  filesLoaded(): void {
+  async filesLoaded(): Promise<void> {
     const files: Array<any> = [];
-    torrentFiles.forEach((torrentFile) => {
+    for(const torrentFile of torrentFiles){
       const buffer = Buffer.from(torrentFile);
-      const data = this.parseBuffer(buffer);
+      const data = await this.parseBuffer(buffer);
       const torrent = this.arrayBufferToBase64(torrentFile);
       files.push({
         data,
         torrent
       });
-    });
+    }
     torrentFiles = [];
     this.newTorrentModal(files,"file");
   },
-  parseBuffer(buffer: ArrayBuffer): Record<string,any>|void {
+  async parseBuffer(buffer: ArrayBuffer): Promise<Record<string,any>|void> {
     try {
-      return parseTorrent(buffer)
+      return parseTorrent(buffer);
     } catch (error: any) {
       Utils.responseToast(error.message);
     }
   },
   readHashOrMagnet(text: string): void {
-    let hash = text;
-    if(hash.match(/^\b[0-9a-fA-F]{40}\b$/)){
-      hash = `magnet:?xt=urn:btih:${hash}`;
+    let match;
+    const list = [];
+    let magnets = text;
+
+    // Convert hash to magnet
+    if(text.match(/^\b[0-9a-fA-F]{40}\b$/)){
+      magnets = `magnet:?xt=urn:btih:${text}`;
     }
-    if(hash.match(/^magnet:\?xt=urn:btih:[0-9a-zA-Z]{32,}(&.+)?$/)){
-      this.readMagnet(hash);
+    
+    // Find all magnet links
+    const re = /magnet:\?xt=urn:btih:[0-9a-zA-Z]{32,}(?:&\S*)?/g;
+    // eslint-disable-next-line
+    while (match = re.exec(magnets)) {
+      list.push(match[0]);
     }
+
+    this.readMagnets(list);
   },
-  readMagnet(magnet: string): void {
-    try {
-      const data=parseTorrent(magnet);
-      this.newTorrentModal([{data,torrent:magnet}],"magnet");
-    } catch (error: any) {
-      Utils.responseToast(error.message);
+  async readMagnets(list: string[]): Promise<void> {
+    const magnets: Array<any> = [];
+    for(const magnet of list){
+      try {
+        const data = await parseTorrent(magnet);
+        magnets.push({
+          data,
+          torrent:magnet
+        });
+      } catch (error: any) {
+        Utils.responseToast(error.message);
+      }
     }
+    if(magnets.length>0) this.newTorrentModal(magnets,"magnet");
   },
   readURL(url: string): void {
     if(this.isValidUrl(url)){

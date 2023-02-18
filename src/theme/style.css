@@ -56,7 +56,7 @@ ion-menu::part(container) {
 
 /* Fix scroll issue on iOS */
 .ios .backdrop-no-scroll #torrentList {
-    --overflow: hidden;
+  --overflow: hidden;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -69,6 +69,7 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield !important;
+  appearance: textfield !important;
 }
 
 .stats-popover::part(content) {

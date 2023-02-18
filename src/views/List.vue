@@ -709,6 +709,7 @@ export default defineComponent({
           message: "BitTorrent info hash (BTIH)",
           inputs: [
             {
+              type: 'textarea',
               name: 'link',
               placeholder: Locale.magnetLink
             }

@@ -280,6 +280,22 @@ class TRPC {
     this.persistentDataValid = true;
   }
 
+  async getPersistentData(key: string): Promise<any> {
+    return new Promise((resolve) => {
+      const res = (result: any) => {
+        clearInterval(interval);
+        resolve(result);
+      }
+
+      const check = () => {
+        if(this.persistentData && this.persistentData[key]) res(this.persistentData[key]);
+      }
+
+       const interval = setInterval(check,100);
+      check();
+    })
+  }
+
   readDownloadDir(downloadDir: string): string {
     let result = downloadDir
     //eslint-disable-next-line
@@ -459,18 +475,15 @@ class TRPC {
       body:null as string|null
     }
 
-    if(this.useNativePlugin){
-      ret = await this.nativePluginRequest(requestUrl,options,datas);
-    }
-    else if(window.net){
+    if(window.net){
       ret = await this.electronRequest(options,datas);
     }
     else {
-      ret = await this.browserRequest(requestUrl,options,datas);
+      ret = await this.nativePluginRequest(requestUrl,options,datas);
     }
 
     // Don't return result if tags doesn't match or server has been changed
-    if((ret.data && ret.data.tag!=requestId) || requestUrl!=this.getRequestUrl()){
+    if((ret.data && ret.data.tag && ret.data.tag!=requestId) || requestUrl!=this.getRequestUrl()){
       throw Error();
     }
 
@@ -487,13 +500,13 @@ class TRPC {
     let result: Record<string, any>={};
     options.data = datas
     
-    await CapacitorHttp.post({
+    await this.timeout(this.options.timeout*1000, CapacitorHttp.post({
       url: requestUrl,
       headers: options.headers,
       data: datas,
       connectTimeout: options.timeout*1000,
       responseType: 'json'
-    }).then((response) => {
+    })).then((response) => {
       result=response as Record<string, any>;
     }).catch((error) => {
       if(error.status){

@@ -258,5 +258,6 @@
     "altSpeedBegin": "Час початку",
     "altSpeedEnd": "Час закінчення",
     "altSpeedDays": "Дні",
-    "showTrackerList": "Always show tracker list"
+    "showTrackerList": "Always show tracker list",
+    "testPort": "Test if the port is open"
 }

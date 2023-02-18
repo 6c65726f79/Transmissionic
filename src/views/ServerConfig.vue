@@ -317,6 +317,10 @@
                 <ion-toggle v-model="config['port-forwarding-enabled']"></ion-toggle>
               </span>
             </ion-item>
+
+            <div class="ion-padding small">
+              <ion-button size="default" @click="testPort()">{{ Locale.testPort }}</ion-button>
+            </div>
           </ion-list>
 
           <ion-list>
@@ -557,6 +561,18 @@ export default defineComponent({
         .then((response) => {
           const size = response.arguments['blocklist-size'].toLocaleString(UserSettings.getLanguage());
           Utils.responseToast(Locale.formatString(Locale.blocklistSize,size).toString());
+        })
+        .catch((error) => {
+          Utils.responseToast(error.message);
+        })
+      loading.dismiss();
+    },
+    async testPort() {
+      const loading = await loadingController.create({});
+      await loading.present();
+      await TransmissionRPC.rpcCall("port-test")
+        .then((response) => {
+          Utils.responseToast(response.arguments['port-is-open'] ? Locale.success : Locale.error.error);
         })
         .catch((error) => {
           Utils.responseToast(error.message);

@@ -254,5 +254,6 @@
     "altSpeedBegin": "Date de début",
     "altSpeedEnd": "Date de fin",
     "altSpeedDays": "Jours",
-    "showTrackerList": "Always show tracker list"
+    "showTrackerList": "Always show tracker list",
+    "testPort": "Test if the port is open"
 }
