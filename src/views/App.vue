@@ -205,6 +205,7 @@ export default defineComponent({
         torrentList:[] as Array<any>,
         torrentFilters: [] as Array<any>,
         serverList: [] as Array<Record<string,unknown>>,
+        fullTrackerList: [] as Record<string, any>[],
         trackerList: [] as Array<any>,
         swipeEnabled:true,
         trackerListOpened:false,
@@ -353,6 +354,8 @@ export default defineComponent({
   created() {
     Utils.setTheme(this.sharedState.colorScheme);
 
+    TransmissionRPC.getPersistentData('trackers').then(trackers => this.privateState.fullTrackerList=trackers);
+
     // Detect light/dark mode change from OS
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e: any) => {
         if (e.origin && e.origin !== window.location.origin)
@@ -386,8 +389,8 @@ export default defineComponent({
     language: function(): string {
       return this.sharedState.language
     },
-    tkList: function(): Array<Record<string,any>> {
-      return this.sharedState.showTrackerList ? TransmissionRPC.persistentData.trackers : this.privateState.trackerList
+    tkList: function(): Record<string, any>[] {
+      return this.sharedState.showTrackerList ? this.privateState.fullTrackerList : this.privateState.trackerList
     }
   },
   methods: {

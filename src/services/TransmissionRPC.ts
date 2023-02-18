@@ -280,6 +280,22 @@ class TRPC {
     this.persistentDataValid = true;
   }
 
+  async getPersistentData(key: string): Promise<any> {
+    return new Promise((resolve) => {
+      const res = (result: any) => {
+        clearInterval(interval);
+        resolve(result);
+      }
+
+      const check = () => {
+        if(this.persistentData && this.persistentData[key]) res(this.persistentData[key]);
+      }
+
+       const interval = setInterval(check,100);
+      check();
+    })
+  }
+
   readDownloadDir(downloadDir: string): string {
     let result = downloadDir
     //eslint-disable-next-line
