@@ -61,7 +61,7 @@
                 <ion-label>{{ Locale.filters.all }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
-            <ion-menu-toggle auto-hide="false" v-for="tracker in tkList" :key="tracker.id">
+            <ion-menu-toggle auto-hide="false" v-for="tracker in trackerList" :key="tracker.id">
               <ion-item @click="selectTracker(tracker)" lines="none" :class="{selected:privateState.selectedTracker==tracker.announce}" button>
                 <ion-label :title="tracker.announce">{{tracker.announce}}</ion-label>
                 <div slot="end">
@@ -205,8 +205,8 @@ export default defineComponent({
         torrentList:[] as Array<any>,
         torrentFilters: [] as Array<any>,
         serverList: [] as Array<Record<string,unknown>>,
+        displayTrackerCount: 0,
         fullTrackerList: [] as Record<string, any>[],
-        trackerList: [] as Array<any>,
         swipeEnabled:true,
         trackerListOpened:false,
         connectionStatus:{
@@ -354,8 +354,6 @@ export default defineComponent({
   created() {
     Utils.setTheme(this.sharedState.colorScheme);
 
-    TransmissionRPC.getPersistentData('trackers').then(trackers => this.privateState.fullTrackerList=trackers);
-
     // Detect light/dark mode change from OS
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e: any) => {
         if (e.origin && e.origin !== window.location.origin)
@@ -389,8 +387,8 @@ export default defineComponent({
     language: function(): string {
       return this.sharedState.language
     },
-    tkList: function(): Record<string, any>[] {
-      return this.sharedState.showTrackerList ? this.privateState.fullTrackerList : this.privateState.trackerList
+    trackerList: function(): Record<string, any>[] {
+      return this.sharedState.showTrackerList ? this.privateState.fullTrackerList : this.privateState.fullTrackerList.slice(0, this.privateState.displayTrackerCount)
     }
   },
   methods: {
@@ -423,17 +421,11 @@ export default defineComponent({
 
     closeTrackerList() {
       this.privateState.trackerListOpened=false;
-      this.privateState.trackerList=[];
+      this.privateState.displayTrackerCount=0;
     },
 
     displayTrackers(ev?: any) {
-      const start = this.privateState.trackerList.length;
-      const length = Math.round(window.innerHeight/48);
-      let loadList = [];
-      if(TransmissionRPC.persistentData && TransmissionRPC.persistentDataValid){
-        loadList=TransmissionRPC.persistentData.trackers.slice(start,start+length);
-      }
-      this.privateState.trackerList = this.privateState.trackerList.concat(loadList);
+      this.privateState.displayTrackerCount += Math.round(window.innerHeight/48);
 
       if(ev){
         ev.target.complete();
@@ -520,7 +512,6 @@ export default defineComponent({
       UserSettings.setValue("selectedServer",serverId,true);
       this.privateState.torrentList=[];
       this.privateState.selectedIds=[];
-      this.privateState.trackerList=[];
       this.privateState.selectedTracker="";
       this.privateState.selectedServer=serverId;
       this.privateState.connectionStatus.error="";
@@ -531,6 +522,7 @@ export default defineComponent({
           this.privateState.connectionStatus.sessionArguments = response;
           this.setRefreshInterval();
           this.getTorrents(true);
+          TransmissionRPC.getPersistentData('trackers').then(trackers => this.privateState.fullTrackerList=trackers);
         })
         .catch((error) => {
           if(error.message){
