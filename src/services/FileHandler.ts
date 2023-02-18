@@ -121,27 +121,27 @@ export const FileHandler = {
     }
     this.filesLoaded();
   },
-  loadFile(path: string): Promise<ArrayBuffer> {
+  async loadFile(path: string): Promise<ArrayBuffer> {
     return fetch(path)
       .then((r) => r.arrayBuffer())
   },
-  filesLoaded(): void {
+  async filesLoaded(): Promise<void> {
     const files: Array<any> = [];
-    torrentFiles.forEach((torrentFile) => {
+    for(const torrentFile of torrentFiles){
       const buffer = Buffer.from(torrentFile);
-      const data = this.parseBuffer(buffer);
+      const data = await this.parseBuffer(buffer);
       const torrent = this.arrayBufferToBase64(torrentFile);
       files.push({
         data,
         torrent
       });
-    });
+    }
     torrentFiles = [];
     this.newTorrentModal(files,"file");
   },
-  parseBuffer(buffer: ArrayBuffer): Record<string,any>|void {
+  async parseBuffer(buffer: ArrayBuffer): Promise<Record<string,any>|void> {
     try {
-      return parseTorrent(buffer)
+      return parseTorrent(buffer);
     } catch (error: any) {
       Utils.responseToast(error.message);
     }
