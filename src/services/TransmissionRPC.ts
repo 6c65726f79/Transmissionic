@@ -516,7 +516,7 @@ class TRPC {
         result=error as Record<string, any>;
       }
       else {
-        result.errorMessage=error;
+        result.errorMessage=(error=="TypeError: Failed to fetch") ? "Unable to reach host" : error;
       }
     });
 
