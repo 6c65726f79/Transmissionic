@@ -31,7 +31,7 @@
     "@capacitor/status-bar": "^4.0.0",
     "@capacitor/toast": "^4.0.0",
     "@ionic/pwa-elements": "^3.1.1",
-    "@ionic/vue": "^6.5.4",
+    "@ionic/vue": "^6.5.5",
     "@ionic/vue-router": "^6.5.4",
     "@types/vue-virtual-scroller": "npm:@earltp/vue-virtual-scroller@^1.0.1",
     "autolinker": "^4.0.0",
