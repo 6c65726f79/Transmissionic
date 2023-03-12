@@ -471,9 +471,12 @@ export default defineComponent({
         this.privateState.selection.splice(this.privateState.selection.indexOf(torrentId),1);
       }
     },
-    selectAll() {
-      for(const torrent of this.torrentOrderedList){
-        this.selectTorrent(torrent.id,false);
+    async selectAll() {
+      const isModalOpened = await modalController.getTop();
+      if(!isModalOpened){
+        for(const torrent of this.torrentOrderedList){
+          this.selectTorrent(torrent.id,false);
+        }
       }
     },
     cancelSelection() {
