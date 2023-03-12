@@ -141,6 +141,7 @@ import { defineComponent, inject } from 'vue';
 import { 
   isPlatform,
   modalController,
+  loadingController,
   popoverController,
   actionSheetController,
   alertController,
@@ -739,6 +740,7 @@ export default defineComponent({
           inputs: [
             {
               name: 'url',
+              type: 'textarea',
               placeholder: Locale.torrentFileLink
             }
           ],
@@ -750,7 +752,12 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data: Record<string,any>) => {
-                FileHandler.readURL(data.url);
+                loadingController.create({}).then(loading => {
+                  loading.present();
+                  FileHandler.readURL(data.url).then(() => {
+                    loading.dismiss();
+                  })
+                });
               },
             },
           ],

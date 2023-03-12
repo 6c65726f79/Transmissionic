@@ -111,7 +111,7 @@
                   </ion-label>
                 </ion-item>
 
-                <ion-item v-if="type=='url'">
+                <ion-item v-if="type=='url' && !multiple">
                   <ion-label class="label no-wrap">
                     <div>URL</div>
                     <span class="selectable">{{files[0].torrent}}</span>
@@ -187,9 +187,9 @@
                     v-on:ionChange="checboxUpdate($event,item.data.infoHash)">
                   </ion-checkbox>
                 </div>
-                <div class="middle" @click="fileTitle(item.data.name)" @contextmenu="fileTitle(item.data.name, $event)">
+                <div class="middle" @click="fileTitle(item.data.name || item.torrent)" @contextmenu="fileTitle(item.data.name || item.torrent, $event)">
                   <div class="name">
-                    {{item.data.name}}
+                    {{item.data.name || item.torrent}}
                   </div>
                   <div class="details">
                     <ion-icon color="medium" :ios="documentOutline" :md="documentSharp"></ion-icon>

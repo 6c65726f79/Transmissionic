@@ -3,7 +3,7 @@ import {
   modalController
 } from '@ionic/vue';
 import router from '../router';
-import parseTorrent from 'parse-torrent'
+import parseTorrent, { remote } from 'parse-torrent'
 import AddTorrent from '../views/AddTorrent.vue'
 import { Utils } from './Utils';
 import { Emitter } from "./Emitter";
@@ -180,14 +180,19 @@ export const FileHandler = {
     }
     if(magnets.length>0) this.newTorrentModal(magnets,"magnet");
   },
-  readURL(url: string): void {
-    if(this.isValidUrl(url)){
-      parseTorrent.remote(url, (err, parsedTorrent) => {
-        const data = err ? {} : parsedTorrent;
-        if(data) {
-          this.newTorrentModal([{data,torrent:url}],"url");
-        }
-      })
+  async readURL(text: string): Promise<void> {
+    const list = [];
+    const match = text.match(/\S+/g) || [];
+
+    for(const url of match){
+      if(this.isValidUrl(url)){
+        const data = await parseRemoteTorrent(url);
+        list.push({data, torrent:url});
+      }
+    }
+
+    if(list.length>0){
+      this.newTorrentModal(list,"url");
     }
   },
   isValidUrl(str: string): boolean {
@@ -244,4 +249,12 @@ export const FileHandler = {
     }
     return result;
   }
+}
+
+const parseRemoteTorrent = (url: string) => {
+  return new Promise((resolve) => {
+    remote(url, (err, parsedTorrent) => {
+      resolve(err ? {} : parsedTorrent);
+    })
+  })
 }
