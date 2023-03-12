@@ -403,7 +403,7 @@ class TRPC {
   }
 
   async torrentAction(action: string, torrentIds: Array<number>, args: Record<string, any> = {}){
-    if(action=="remove"){
+    if(action=="remove" || action=="set-location"){
       this.invalidatePersitentData();
     }
     return this.rpcCall("torrent-"+action, Object.assign({ids:torrentIds}, args))
