@@ -58,6 +58,7 @@ Available languages:
 - **Swiss French** (Alain Nussbaumer, ZertyCraft)
 - **Hungarian** (Daniel)
 - **Italian** (Emanuele Ruzza)
+- **Korean** (Mild_Coffee)
 - **Dutch** (John)
 - **Polish** (Matthew)
 - **Portuguese** (Humberto Faria)

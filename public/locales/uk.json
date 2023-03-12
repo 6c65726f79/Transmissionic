@@ -116,7 +116,7 @@
     "and": "та",
     "ago": "{0} тому",
     "lastActivity": "Остання активність",
-    "success": "Успіх",
+    "success": "Успішно",
     "speedUnit": "Швидкість у bit/s",
     "options": "Опції",
     "files": "Файли",
@@ -210,8 +210,8 @@
     "useTempDir": "Використовувати тимчасову директорію",
     "tempDirPath": "Шлях до тимчасової директорії",
     "altSpeed": "Альтернативна швидкість",
-    "enabled": "Включено",
-    "seed": "Сід",
+    "enabled": "Увімкнено",
+    "seed": "Роздача",
     "globalPeerLimit": "Глобальний ліміт пірів",
     "peerLimitByTorrent": "Ліміт пірів на торент",
     "encryption": "Шифрування",
@@ -258,6 +258,6 @@
     "altSpeedBegin": "Час початку",
     "altSpeedEnd": "Час закінчення",
     "altSpeedDays": "Дні",
-    "showTrackerList": "Always show tracker list",
-    "testPort": "Test if the port is open"
+    "showTrackerList": "Завжди відображати список трекерів",
+    "testPort": "Перевірити, чи відкритий порт"
 }

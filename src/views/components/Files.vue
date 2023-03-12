@@ -56,8 +56,8 @@
 
       <template v-slot:end>
         <div class="chips swiper-no-swiping">
-          <ion-chip v-for="(wanted, ext) in extList" :key="ext" :color="wanted ? 'primary' : null" @click="selectExt(ext, !wanted)">
-            <ion-icon :color="wanted ? 'primary' : null" :ios="documentOutline" :md="documentSharp"></ion-icon>
+          <ion-chip v-for="(wanted, ext) in extList" :key="ext" :color="wanted ? 'primary' : undefined" @click="selectExt(ext, !wanted)">
+            <ion-icon :color="wanted ? 'primary' : undefined" :ios="documentOutline" :md="documentSharp"></ion-icon>
             <ion-label>{{ext}}</ion-label>
           </ion-chip>
         </div>
@@ -336,11 +336,12 @@ export default defineComponent({
       return alert.present().then(() => {
         const el = document.querySelector('ion-alert input') as any;
         const length = file.folder ? file.name.length : file.name.lastIndexOf('.');
-        el.setSelectionRange(0,length);
-        el.focus();
-        setTimeout(() => {
+        const selectionInterval = setInterval(() => {
           el.setSelectionRange(0,length);
           el.focus();
+        },10);
+        setTimeout(() => {
+          clearInterval(selectionInterval);
         }, 500);
       });
     },

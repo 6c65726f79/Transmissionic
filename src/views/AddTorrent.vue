@@ -16,13 +16,13 @@
       </ion-toolbar>
       <ion-toolbar>
         <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
-          <ion-segment-button :value="0" id="tab1">
+          <ion-segment-button value="0" id="tab1">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-if="!multiple" :disabled="!data.files" id="tab2">
+          <ion-segment-button value="1" v-if="!multiple" :disabled="!data.files" id="tab2">
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-else id="tab2">
+          <ion-segment-button value="1" v-else id="tab2">
             <ion-label class="text-transform">{{ LocaleController.getForm("torrent","other") }}</ion-label>
           </ion-segment-button>
         </ion-segment>
@@ -55,7 +55,7 @@
                   <ion-icon :ios="addCircleOutline" :md="addCircleSharp"></ion-icon>
                 </ion-chip>
 
-                <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : null">
+                <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : undefined">
                   <ion-label>{{name}}</ion-label>
                   <ion-icon :ios="closeCircleOutline" :md="closeCircleSharp" @click="removePreset(name,$event)"></ion-icon>
                 </ion-chip>
@@ -111,7 +111,7 @@
                   </ion-label>
                 </ion-item>
 
-                <ion-item v-if="type=='url'">
+                <ion-item v-if="type=='url' && !multiple">
                   <ion-label class="label no-wrap">
                     <div>URL</div>
                     <span class="selectable">{{files[0].torrent}}</span>
@@ -187,9 +187,9 @@
                     v-on:ionChange="checboxUpdate($event,item.data.infoHash)">
                   </ion-checkbox>
                 </div>
-                <div class="middle" @click="fileTitle(item.data.name)" @contextmenu="fileTitle(item.data.name, $event)">
+                <div class="middle" @click="fileTitle(item.data.name || item.torrent)" @contextmenu="fileTitle(item.data.name || item.torrent, $event)">
                   <div class="name">
-                    {{item.data.name}}
+                    {{item.data.name || item.torrent}}
                   </div>
                   <div class="details">
                     <ion-icon color="medium" :ios="documentOutline" :md="documentSharp"></ion-icon>
@@ -207,7 +207,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, inject } from 'vue';
 import { 
   modalController,
   alertController,
@@ -262,7 +262,6 @@ import * as _ from 'lodash';
 export default defineComponent({
   name: 'AddTorrent',
   props: ["files","type"],
-  inject: ["connectionStatus"],
   components: { 
     ConnectionStatus,
     Autocomplete,
@@ -295,13 +294,13 @@ export default defineComponent({
         bandwidthPriority:0,
         downloadDir:"",
       },
-      autocompleteOpen:false,
       defaultDownloadDir:"",
       currentDirectory:"",
       fileStats:[] as Array<any>,
       notWanted:[] as Array<string>,
       presets:{} as Record<string,any>,
-      selectedPreset:""
+      selectedPreset:"",
+      connectionStatus: {} as Record<string,any>,
     }
   },
   computed: {
@@ -351,6 +350,8 @@ export default defineComponent({
     }
   },
   async created() {
+    this.connectionStatus = inject('connectionStatus') as Record<string,any>;
+
     if(!this.multiple && this.data.files){
       this.fileStats = _.clone(this.data.files);
       this.fileStats.forEach((file: Record<string,any>) => {

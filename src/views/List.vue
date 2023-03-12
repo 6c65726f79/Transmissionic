@@ -141,6 +141,7 @@ import { defineComponent, inject } from 'vue';
 import { 
   isPlatform,
   modalController,
+  loadingController,
   popoverController,
   actionSheetController,
   alertController,
@@ -471,9 +472,12 @@ export default defineComponent({
         this.privateState.selection.splice(this.privateState.selection.indexOf(torrentId),1);
       }
     },
-    selectAll() {
-      for(const torrent of this.torrentOrderedList){
-        this.selectTorrent(torrent.id,false);
+    async selectAll() {
+      const isModalOpened = await modalController.getTop();
+      if(!isModalOpened){
+        for(const torrent of this.torrentOrderedList){
+          this.selectTorrent(torrent.id,false);
+        }
       }
     },
     cancelSelection() {
@@ -736,6 +740,7 @@ export default defineComponent({
           inputs: [
             {
               name: 'url',
+              type: 'textarea',
               placeholder: Locale.torrentFileLink
             }
           ],
@@ -747,7 +752,12 @@ export default defineComponent({
             {
               text: Locale.ok,
               handler: (data: Record<string,any>) => {
-                FileHandler.readURL(data.url);
+                loadingController.create({}).then(loading => {
+                  loading.present();
+                  FileHandler.readURL(data.url).then(() => {
+                    loading.dismiss();
+                  })
+                });
               },
             },
           ],
