@@ -11,6 +11,9 @@
 		},
 		"Keyboard": {
 			"resize": "native"
+		},
+		"CapacitorHttp": {
+			"enabled": true
 		}
 	},
 	"cordova": {}

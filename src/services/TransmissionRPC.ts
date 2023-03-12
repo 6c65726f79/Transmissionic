@@ -2,8 +2,6 @@
  * Transmission RPC Client for Ionic/Capacitor, inspired by kkito-transmission-rpc
 */
 
-import { CapacitorHttp } from '@capacitor/core';
-import { isPlatform  } from '@ionic/vue';
 import * as _ from 'lodash';
 
 declare const Buffer: any
@@ -25,7 +23,6 @@ class TRPC {
   sessionArguments: any;
   options: any;
   lastRequestId: number;
-  useNativePlugin: boolean;
   persistentData: any;
   persistentDataValid=false;
   sessionStats: any;
@@ -33,7 +30,6 @@ class TRPC {
   pathMapping: Record<string,string>;
 
   constructor() {
-    this.useNativePlugin = (isPlatform("capacitor") && (isPlatform("android") || isPlatform("ios")))
     this.lastRequestId = 0;
     this.pathMapping = {};
   }
@@ -482,7 +478,7 @@ class TRPC {
       ret = await this.electronRequest(options,datas);
     }
     else {
-      ret = await this.nativePluginRequest(requestUrl,options,datas);
+      ret = await this.browserRequest(requestUrl,options,datas);
     }
 
     // Don't return result if tags doesn't match or server has been changed
@@ -498,7 +494,7 @@ class TRPC {
     return ret;
   }
 
-   async nativePluginRequest(requestUrl: string, options: any, datas: Record<string, any>) {
+  /*async nativePluginRequest(requestUrl: string, options: any, datas: Record<string, any>) {
     // HTTP request using CapacitorHttp (allow CORS)
     let result: Record<string, any>={};
     options.data = datas
@@ -521,7 +517,7 @@ class TRPC {
     });
 
     return result;
-  }
+  }*/
 
   async electronRequest(options: any, datas: Record<string, any>) {
     // HTTP request using Electron net (allow CORS)
@@ -551,7 +547,7 @@ class TRPC {
   }
 
   async browserRequest(requestUrl: string, options: any, datas: Record<string, any>) {
-    // HTTP request using fetch (no CORS)
+    // HTTP request using fetch or CapacitorHttp
     let result: Record<string, any>={};
     options.body = JSON.stringify(datas);
 
