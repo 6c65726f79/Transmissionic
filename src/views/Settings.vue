@@ -36,6 +36,7 @@
             <ion-select-option value="fr-ch">Français de Suisse</ion-select-option>
             <ion-select-option value="hu">Magyar</ion-select-option>
             <ion-select-option value="it">Italiano</ion-select-option>
+            <ion-select-option value="ko">한국어</ion-select-option>
             <ion-select-option value="nl">Nederlands</ion-select-option>
             <ion-select-option value="pl">Polskie</ion-select-option>
             <ion-select-option value="pt">Português</ion-select-option>
