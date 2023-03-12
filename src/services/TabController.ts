@@ -34,8 +34,8 @@ export default class TabController {
     this.state.segments = segments as Record<string,any>;
   }
 
-  setTab(index: number, smooth=true): void {
-    index = parseInt(index.toString());
+  setTab(index: number|string|undefined, smooth=true): void {
+    index = parseInt((index||0).toString());
     if(index >= 0 && index <= this.state.segments.$el.childNodes.length){
       if(this.state.swiper){
         this.state.swiper.slideTo(index);

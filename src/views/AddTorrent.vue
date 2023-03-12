@@ -16,13 +16,13 @@
       </ion-toolbar>
       <ion-toolbar>
         <ion-segment ref="tabs" @ionChange="tabController.setTab($event.detail.value)" v-model="tabController.state.selectedTab" scrollable>
-          <ion-segment-button :value="0" id="tab1">
+          <ion-segment-button value="0" id="tab1">
             <ion-label>{{ Locale.general }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-if="!multiple" :disabled="!data.files" id="tab2">
+          <ion-segment-button value="1" v-if="!multiple" :disabled="!data.files" id="tab2">
             <ion-label>{{ Locale.files }}</ion-label>
           </ion-segment-button>
-          <ion-segment-button :value="1" v-else id="tab2">
+          <ion-segment-button value="1" v-else id="tab2">
             <ion-label class="text-transform">{{ LocaleController.getForm("torrent","other") }}</ion-label>
           </ion-segment-button>
         </ion-segment>
@@ -55,7 +55,7 @@
                   <ion-icon :ios="addCircleOutline" :md="addCircleSharp"></ion-icon>
                 </ion-chip>
 
-                <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : null">
+                <ion-chip v-for="(preset,name) in presets" :key="name" @click="selectPreset(name)" :color="selectedPreset==name ? 'primary' : undefined">
                   <ion-label>{{name}}</ion-label>
                   <ion-icon :ios="closeCircleOutline" :md="closeCircleSharp" @click="removePreset(name,$event)"></ion-icon>
                 </ion-chip>
@@ -207,7 +207,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, inject } from 'vue';
 import { 
   modalController,
   alertController,
@@ -262,7 +262,6 @@ import * as _ from 'lodash';
 export default defineComponent({
   name: 'AddTorrent',
   props: ["files","type"],
-  inject: ["connectionStatus"],
   components: { 
     ConnectionStatus,
     Autocomplete,
@@ -301,7 +300,8 @@ export default defineComponent({
       fileStats:[] as Array<any>,
       notWanted:[] as Array<string>,
       presets:{} as Record<string,any>,
-      selectedPreset:""
+      selectedPreset:"",
+      connectionStatus: {} as Record<string,any>,
     }
   },
   computed: {
@@ -361,6 +361,7 @@ export default defineComponent({
 
     this.presets = await UserSettings.loadPresets();
     this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir');
+    this.connectionStatus = inject('connectionStatus') as Record<string,any>;
 
     if(UserSettings.state.rememberSelectedPreset){
       this.selectPreset(UserSettings.state.selectedPreset);
