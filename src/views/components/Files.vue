@@ -336,11 +336,12 @@ export default defineComponent({
       return alert.present().then(() => {
         const el = document.querySelector('ion-alert input') as any;
         const length = file.folder ? file.name.length : file.name.lastIndexOf('.');
-        el.setSelectionRange(0,length);
-        el.focus();
-        setTimeout(() => {
+        const selectionInterval = setInterval(() => {
           el.setSelectionRange(0,length);
           el.focus();
+        },10);
+        setTimeout(() => {
+          clearInterval(selectionInterval);
         }, 500);
       });
     },
