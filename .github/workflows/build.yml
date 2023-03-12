@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs: 
       version: v${{steps.version.outputs.prop}}
-      upload_url: ${{ steps.create_release.outputs.upload_url }} 
 
     steps:
       - uses: actions/checkout@v3
@@ -37,14 +36,10 @@ jobs:
             prop_path: 'version'
 
       - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: v${{steps.version.outputs.prop}}
-          tag_name: v${{steps.version.outputs.prop}}
-          draft: true
-          prerelease: false
+        run: |
+          gh release create v${{steps.version.outputs.prop}} --draft
+        env:
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
   build-webui:
     name: Build WebUI
@@ -74,17 +69,13 @@ jobs:
       - name: Create zip
         run: |
           mv ./dist/ ./web/
-          zip -r release.zip ./web/
+          zip -r Transmissionic-webui-${{ needs.dependencies.outputs.version }}.zip ./web/
 
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        run: |
+          gh release upload ${{ needs.dependencies.outputs.version }} ./Transmissionic-webui-${{ needs.dependencies.outputs.version }}.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.dependencies.outputs.upload_url }}
-          asset_path: ./release.zip
-          asset_name: Transmissionic-webui-${{ needs.dependencies.outputs.version }}.zip
-          asset_content_type: application/zip
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
   build-electron-linux:
     name: Build Electron Linux
@@ -254,16 +245,13 @@ jobs:
           keyAlias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           buildToolsVersion: 33.0.0
-          
+
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        run: |
+          mv ${{steps.sign_apk.outputs.signedFile}} ./Transmissionic-android-${{ needs.dependencies.outputs.version }}.apk
+          gh release upload ${{ needs.dependencies.outputs.version }} ./Transmissionic-android-${{ needs.dependencies.outputs.version }}.apk
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.dependencies.outputs.upload_url }}
-          asset_path: ${{steps.sign_apk.outputs.signedFile}}
-          asset_name: Transmissionic-android-${{ needs.dependencies.outputs.version }}.apk
-          asset_content_type: application/zip
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Upload Release Bundle
         uses: actions/upload-artifact@v3
@@ -308,11 +296,8 @@ jobs:
           zip -r app.ipa Payload
 
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        run: |
+          mv ./ios/App/app.ipa ./Transmissionic-ios-${{ needs.dependencies.outputs.version }}.ipa
+          gh release upload ${{ needs.dependencies.outputs.version }} ./Transmissionic-ios-${{ needs.dependencies.outputs.version }}.ipa
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.dependencies.outputs.upload_url }}
-          asset_path: ./ios/App/app.ipa
-          asset_name: Transmissionic-ios-${{ needs.dependencies.outputs.version }}.ipa
-          asset_content_type: application/zip
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
