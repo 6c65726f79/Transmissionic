@@ -56,8 +56,8 @@
 
       <template v-slot:end>
         <div class="chips swiper-no-swiping">
-          <ion-chip v-for="(wanted, ext) in extList" :key="ext" :color="wanted ? 'primary' : null" @click="selectExt(ext, !wanted)">
-            <ion-icon :color="wanted ? 'primary' : null" :ios="documentOutline" :md="documentSharp"></ion-icon>
+          <ion-chip v-for="(wanted, ext) in extList" :key="ext" :color="wanted ? 'primary' : undefined" @click="selectExt(ext, !wanted)">
+            <ion-icon :color="wanted ? 'primary' : undefined" :ios="documentOutline" :md="documentSharp"></ion-icon>
             <ion-label>{{ext}}</ion-label>
           </ion-chip>
         </div>
