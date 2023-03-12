@@ -294,7 +294,6 @@ export default defineComponent({
         bandwidthPriority:0,
         downloadDir:"",
       },
-      autocompleteOpen:false,
       defaultDownloadDir:"",
       currentDirectory:"",
       fileStats:[] as Array<any>,
@@ -351,6 +350,8 @@ export default defineComponent({
     }
   },
   async created() {
+    this.connectionStatus = inject('connectionStatus') as Record<string,any>;
+
     if(!this.multiple && this.data.files){
       this.fileStats = _.clone(this.data.files);
       this.fileStats.forEach((file: Record<string,any>) => {
@@ -361,7 +362,6 @@ export default defineComponent({
 
     this.presets = await UserSettings.loadPresets();
     this.defaultDownloadDir = await TransmissionRPC.getSessionArgument('download-dir');
-    this.connectionStatus = inject('connectionStatus') as Record<string,any>;
 
     if(UserSettings.state.rememberSelectedPreset){
       this.selectPreset(UserSettings.state.selectedPreset);
