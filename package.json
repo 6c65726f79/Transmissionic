@@ -69,7 +69,7 @@
     "eslint": "^8.36.0",
     "eslint-plugin-vue": "^8.7.1",
     "eslint-webpack-plugin": "^4.0.0",
-    "typescript": "~4.9.5"
+    "typescript": "~5.0.2"
   },
   "description": "Remote for Transmission Daemon"
 }
