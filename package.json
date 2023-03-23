@@ -23,7 +23,7 @@
     "@capacitor/app": "^4.1.0",
     "@capacitor/clipboard": "^4.0.0",
     "@capacitor/core": "^4.7.0",
-    "@capacitor/ios": "^4.7.0",
+    "@capacitor/ios": "^4.7.1",
     "@capacitor/keyboard": "^4.0.0",
     "@capacitor/preferences": "^4.0.1",
     "@capacitor/screen-reader": "^4.1.1",
