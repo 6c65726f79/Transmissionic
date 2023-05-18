@@ -45,7 +45,7 @@
     "mitt": "^3.0.0",
     "moment": "^2.29.4",
     "node-polyfill-webpack-plugin": "^2.0.1",
-    "parse-torrent": "^11.0.7",
+    "parse-torrent": "^9.1.5",
     "rxjs": "^7.5.7",
     "swiper": "^8.4.7",
     "vue": "^3.2.41",
