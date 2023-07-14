@@ -8,7 +8,7 @@
   It can be used as <a href="https://github.com/transmission/transmission/wiki/Web-Interface">Web Interface</a>, Android/iOS app and Windows/Linux/macOS program.
 </p>
 <p align="center">
-  
+
 </p>
 
 ----
@@ -202,6 +202,7 @@ Server object:
 | path     | `string`      | Path of Transmission RPC                   |
 | port     | `number`      | Port of Transmission RPC                   |
 | https    | `boolean`     | Use HTTPS                                  |
+| auth     | `object`      | Authentication object                      |
 
 
 Configuration file example:
@@ -220,7 +221,11 @@ Configuration file example:
       "name":"My server",
       "host":"transmission.myserver.com",
       "path":"/my/transmission/rpc",
-      "https":true
+      "https":true,
+      "auth": {
+        "username":"myusername",
+        "password":"mypassword"
+      }
     }
   ]
 }
@@ -394,7 +399,7 @@ npx cap open ios
 
 You can start a local dev server using Ionic, but you need to disable same origin policy in your browser to connect to Transmission RPC from a different host. For example, run a new instance of chrome with these flags : `--disable-web-security --disable-gpu --user-data-dir=~/chromeTemp`
 
-Then start the dev server by running this in the root folder of the project: 
+Then start the dev server by running this in the root folder of the project:
 
 ```
 npm run serve
