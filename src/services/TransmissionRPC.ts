@@ -39,13 +39,13 @@ class TRPC {
     this.options = {
       host:'localhost',
       path:'/transmission/rpc',
-      port:9091,
+      port:'',
       https:false,
       timeout:timeout
     };
     
     for (const [key, value] of Object.entries(options)) {
-      if(value!=""){
+      if(value != "" ||  key == "port"){
         this.options[key]=value;
       }
     }
@@ -568,7 +568,11 @@ class TRPC {
 
   getRequestUrl(): string {
     let result = this.options.https ? "https":"http";
-    result += "://"+this.options.host+":"+this.options.port+this.options.path;
+    result += "://"+this.options.host;
+    if(this.options.port != ""){
+      result+=":"+this.options.port
+    }
+    result+=this.options.path;
     return result;
   }
 
