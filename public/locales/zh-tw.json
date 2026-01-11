@@ -247,5 +247,6 @@
     "altSpeedEnd": "結束時間",
     "altSpeedDays": "天數",
     "showTrackerList": "Always show tracker list",
-    "testPort": "Test if the port is open"
+    "testPort": "Test if the port is open",
+    "unknown": "未知"
 }

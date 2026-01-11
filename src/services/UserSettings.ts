@@ -123,19 +123,32 @@ export const UserSettings = {
       result = [...defaultServers];
     }
 
+    const setResult = (val: string | null | undefined) => {
+      if(val == null) return;
+      result = (val && val !== "[]") ? JSON.parse(val) : [];
+    };
+
     await SecureStoragePlugin.get({ key: "servers" })
       .then((val: any) => {
-        result = (val.value && val.value!="[]") ? JSON.parse(val.value) : result
+        setResult(val.value);
       })
-      .catch(()=>{return})
+      .catch(async() => {
+        const fallback = await Preferences.get({ key: "servers" }).catch(() => undefined);
+        setResult(fallback?.value);
+      })
     
     return result;
   },
 
   saveServerList(serverList: Record<string, any>): void {
+    const serialized = JSON.stringify(serverList);
     SecureStoragePlugin.set({
       key: "servers",
-      value: JSON.stringify(serverList)
+      value: serialized
+    }).catch(() => {return});
+    Preferences.set({
+      key: "servers",
+      value: serialized
     });
   },
 

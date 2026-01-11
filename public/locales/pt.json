@@ -251,5 +251,6 @@
     "altSpeedEnd": "Hora de finalização",
     "altSpeedDays": "Dias",
     "showTrackerList": "Always show tracker list",
-    "testPort": "Test if the port is open"
+    "testPort": "Test if the port is open",
+    "unknown": "Desconhecido"
 }

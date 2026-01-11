@@ -43,6 +43,7 @@
             <ion-select-option value="pt-br">Português Brasileiro</ion-select-option>
             <ion-select-option value="ru">Pусский</ion-select-option>
             <ion-select-option value="sk">Slovenčina</ion-select-option>
+            <ion-select-option value="tr">Türkçe</ion-select-option>
             <ion-select-option value="uk">Українська</ion-select-option>
             <ion-select-option value="zh-cn">简体中文</ion-select-option>
             <ion-select-option value="zh-tw">繁體中文</ion-select-option>
@@ -141,6 +142,22 @@
         </div>
       </ion-list>
 
+      
+      <ion-list>
+        <ion-list-header>
+          <ion-label>
+            {{ Locale.servers }}
+          </ion-label>
+        </ion-list-header>
+
+        <div class="ion-padding small">
+          <ion-button size="default" @click="exportServers">{{ Locale.export }}</ion-button>
+          <ion-button size="default" @click="inputServers">{{ Locale.import }}</ion-button>
+          <ion-button size="default" color="danger" @click="resetServers">{{ Locale.reset }}</ion-button>
+          <input type="file" id="importServers" accept=".json" @change="importServers"/>
+        </div>
+      </ion-list>
+
       <ion-list v-if="protocolHandlerAvailable">
         <ion-list-header>
           <ion-label>
@@ -221,6 +238,7 @@ import { Utils } from "../services/Utils";
 import { Locale } from "../services/Locale";
 import { UserSettings } from "../services/UserSettings";
 import { FileHandler } from '../services/FileHandler';
+import { Emitter } from '../services/Emitter';
 
 declare global {
   interface Window {
@@ -260,7 +278,7 @@ export default defineComponent({
   data() {
     return {
       sharedState: UserSettings.state,
-      privateState: {}
+      privateState: { serverList: [] as Array<Record<string, any>> }
     }
   },
   components: { 
@@ -307,6 +325,10 @@ export default defineComponent({
   },
   mounted() {
     Utils.customScrollbar(this.$refs.content);
+    // Load server list for export/import operations
+    UserSettings.loadServerList().then(list => {
+      this.privateState.serverList = list as Array<Record<string, any>>;
+    });
   },
   methods: {
     saveSettings () {
@@ -374,6 +396,72 @@ export default defineComponent({
         }
       }
       return valid;
+    },
+    // Servers export/import
+    exportServers() {
+      try {
+        const data = JSON.stringify(this.privateState.serverList || []);
+        Utils.downloadFile(data, 'servers.json', 'application/json');
+      } catch (e) {
+        Utils.responseToast('Export failed');
+      }
+    },
+    inputServers() {
+      document.getElementById('importServers')?.click();
+    },
+    async importServers(e: Event) {
+      const files = (e.target as HTMLInputElement).files;
+      if(!files || files.length===0) return;
+      try {
+        const content = Buffer.from(await FileHandler.readFile(files[0])).toString();
+        let parsed: any = {};
+        try { parsed = JSON.parse(content); } catch { parsed = {}; }
+        const list = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.servers) ? parsed.servers : []);
+        if(this.validateServers(list)){
+          UserSettings.saveServerList(list);
+          this.privateState.serverList = list;
+          Emitter.emit('reload-servers');
+          Utils.responseToast('success');
+        } else {
+          Utils.responseToast('Invalid servers file');
+        }
+      } catch (err) {
+        Utils.responseToast('Import failed');
+      } finally {
+        (e.target as HTMLInputElement).value = '';
+      }
+    },
+    validateServers(list: any): boolean {
+      if(!Array.isArray(list)) return false;
+      for(const item of list){
+        if(!item || typeof item !== 'object') return false;
+        if(typeof item.host !== 'string' || !item.host) return false;
+        // optional: path, https, auth
+      }
+      return true;
+    },
+    async resetServers() {
+      const alert = await alertController
+        .create({
+          header: Locale.prompt.confirmation,
+          message: Locale.formatString(Locale.prompt.reset, Locale.servers) as string,
+          buttons: [
+            {
+              text: Locale.actions.cancel,
+              role: 'cancel'
+            },
+            {
+              text: Locale.prompt.confirm,
+              handler: () => {
+                UserSettings.saveServerList([]);
+                this.privateState.serverList = [];
+                Emitter.emit('reload-servers');
+                Utils.responseToast('success');
+              },
+            },
+          ],
+        });
+      return alert.present();
     }
   },
 });
@@ -396,6 +484,10 @@ export default defineComponent({
 }
 
 #importPreset {
+  display:none;
+}
+
+#importServers {
   display:none;
 }
 </style>

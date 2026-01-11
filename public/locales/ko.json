@@ -247,5 +247,6 @@
     "altSpeedEnd": "종료 시간",
     "altSpeedDays": "일",
     "showTrackerList": "항상 트래커 목록 표시",
-    "testPort": "포트가 열려 있는지 테스트"
+    "testPort": "포트가 열려 있는지 테스트",
+    "unknown": "알 수 없음"
 }

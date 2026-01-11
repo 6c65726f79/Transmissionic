@@ -24,6 +24,7 @@ const list: Array<string> = [
     "pt-br",
     "ru",
     "sk",
+    "tr",
     "uk",
     "zh-cn",
     "zh-tw",

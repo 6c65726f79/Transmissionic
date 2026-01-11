@@ -251,5 +251,6 @@
     "altSpeedEnd": "Vége",
     "altSpeedDays": "Napok",
     "showTrackerList": "Mindig mutassa a tracker listát",
-    "testPort": "Teszt ha a port nyitva"
+    "testPort": "Teszt ha a port nyitva",
+    "unknown": "Ismeretlen"
 }

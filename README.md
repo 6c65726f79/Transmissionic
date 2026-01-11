@@ -65,6 +65,7 @@ Available languages:
 - **Brazilian Portuguese** (JFSilvaBr)
 - **Russian** (Alek Depler)
 - **Slovak** (Tomas)
+- **Turkish** (Ramazan Sancar)
 - **Ukrainian** (Oleksandr Popov, stanol)
 - **Chinese (simplified)** (Cuiweiqiang dlnu, xiatian)
 - **Chinese (traditional)** (Steven F)

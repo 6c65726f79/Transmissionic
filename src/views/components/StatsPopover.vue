@@ -6,26 +6,30 @@
     <canvas ref="canvas" width="290" height="150"></canvas>
     <ion-item>
       <table aria-describedby="title">
-        <tr>
-          <th scope="col"></th>
-          <th scope="col"><strong>{{Locale.current}}</strong></th>
-          <th scope="col"><strong>{{Locale.total}}</strong></th>
-        </tr>
-        <tr>
-          <td>{{Locale.downloaded}}</td>
-          <td>{{Utils.formatBytes(sessionStats["current-stats"].downloadedBytes,1)}}</td>
-          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].downloadedBytes,1)}}</td>
-        </tr>
-        <tr>
-          <td>{{Locale.uploaded}}</td>
-          <td>{{Utils.formatBytes(sessionStats["current-stats"].uploadedBytes,1)}}</td>
-          <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].uploadedBytes,1)}}</td>
-        </tr>
-        <tr>
-          <td>{{Locale.duration}}</td>
-          <td>{{Utils.durationToString(sessionStats["current-stats"].secondsActive*1000)}}</td>
-          <td>{{Utils.durationToString(sessionStats["cumulative-stats"].secondsActive*1000)}}</td>
-        </tr>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col"><strong>{{Locale.current}}</strong></th>
+            <th scope="col"><strong>{{Locale.total}}</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{Locale.downloaded}}</td>
+            <td>{{Utils.formatBytes(sessionStats["current-stats"].downloadedBytes,1)}}</td>
+            <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].downloadedBytes,1)}}</td>
+          </tr>
+          <tr>
+            <td>{{Locale.uploaded}}</td>
+            <td>{{Utils.formatBytes(sessionStats["current-stats"].uploadedBytes,1)}}</td>
+            <td>{{Utils.formatBytes(sessionStats["cumulative-stats"].uploadedBytes,1)}}</td>
+          </tr>
+          <tr>
+            <td>{{Locale.duration}}</td>
+            <td>{{Utils.durationToString(sessionStats["current-stats"].secondsActive*1000)}}</td>
+            <td>{{Utils.durationToString(sessionStats["cumulative-stats"].secondsActive*1000)}}</td>
+          </tr>
+        </tbody>
       </table>
     </ion-item>
   </ion-list>

@@ -46,7 +46,7 @@ const app = createApp(App)
   .use(VueVirtualScroller)
 
 // Temporary fix injected property warn
-app.config.unwrapInjectedRef = true;
+//app.config.unwrapInjectedRef = true;
 
 Utils.customDirectives(app);
 

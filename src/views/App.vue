@@ -44,7 +44,7 @@
               <ion-item @click="privateState.selectedFilter = index" lines="none" :class="{ selected: privateState.selectedFilter === index }" button>
                 <ion-icon slot="start" :ios="f.iosIcon" :md="f.mdIcon"></ion-icon>
                 <ion-label class="text-transform">{{ f.label() }}</ion-label>
-                <div slot="end">
+                <div slot="end" v-if="privateState.selectedServer >= 0 && privateState.torrentFilters[f.id]">
                   <ion-badge>{{ privateState.torrentFilters[f.id] }}</ion-badge>
                 </div>
               </ion-item>
@@ -173,6 +173,7 @@ import { Utils } from "../services/Utils";
 import { Emitter } from "../services/Emitter";
 import { SplashScreen } from '@capacitor/splash-screen';
 import * as _ from 'lodash';
+import { modalEnterAnimation, modalLeaveAnimation } from "../services/ModalAnimations";
 
 export default defineComponent({
   name: 'App',
@@ -295,7 +296,10 @@ export default defineComponent({
       connectionStatus: this.privateState.connectionStatus,
       serverCount: computed(() => this.privateState.serverList.length),
       torrentList: computed(() => this.privateState.torrentList),
-      filter: computed(() => this.privateState.filters[this.privateState.selectedFilter].id),
+      filter: computed(() => {
+        const idx = this.privateState.selectedFilter;
+        return idx >= 0 && this.privateState.filters[idx] ? this.privateState.filters[idx].id : -1;
+      }),
       filterIds: computed(() => this.privateState.selectedIds)
     } 
   },
@@ -332,6 +336,9 @@ export default defineComponent({
       if(this.privateState.selectedServer<0){
         this.privateState.serverList = await UserSettings.loadServerList();
         this.privateState.selectedServer = 0;
+        if(this.privateState.selectedFilter < 0 && this.privateState.serverList.length > 0) {
+          this.privateState.selectedFilter = 0;
+        }
       }
       this.selectServer(this.privateState.selectedServer);
     }
@@ -347,6 +354,9 @@ export default defineComponent({
       .then((result)=>{
         this.privateState.serverList = result;
         this.privateState.connectionStatus.loading=false;
+        if(this.privateState.serverList.length > 0 && this.privateState.selectedFilter < 0) {
+          this.privateState.selectedFilter = 0;
+        }
       })
     SplashScreen.hide();
     document.body.classList.toggle("loading",false);
@@ -379,6 +389,28 @@ export default defineComponent({
       this.privateState.selectedFilter=index-1;
     })
     Emitter.on('select-server', (i: any) => { this.selectServer(i) })
+    Emitter.on('reload-servers', async () => {
+      this.privateState.serverList = await UserSettings.loadServerList();
+      if(this.privateState.serverList.length === 0) {
+        this.privateState.selectedServer = -1;
+        this.privateState.selectedFilter = -1;
+        this.privateState.torrentList = [];
+        this.privateState.torrentFilters = [];
+        this.privateState.selectedIds = [];
+        this.privateState.selectedTracker = "";
+        this.privateState.fullTrackerList = [];
+        this.privateState.connectionStatus.connected = false;
+        this.privateState.connectionStatus.loading = false;
+        this.privateState.connectionStatus.error = "";
+        clearInterval(this.privateState.refresh);
+      } else if(this.privateState.selectedServer >= this.privateState.serverList.length) {
+        this.privateState.selectedServer = 0;
+        this.privateState.selectedFilter = 0;
+        this.selectServer(0);
+      } else if(this.privateState.selectedFilter < 0) {
+        this.privateState.selectedFilter = 0;
+      }
+    });
   },
   computed: {
     colorScheme: function(): string {
@@ -392,6 +424,13 @@ export default defineComponent({
     }
   },
   methods: {
+    focusFirstElement(modal: any) {
+      requestAnimationFrame(() => {
+        const root = modal?.querySelector ? (modal as unknown as HTMLElement) : null;
+        const focusable = root?.querySelector?.('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') as HTMLElement | null;
+        focusable?.focus();
+      });
+    },
 
     addServer(e: any=null) {
       this.openServerDetailsModal(this.privateState.serverList.length,e,true);
@@ -465,25 +504,33 @@ export default defineComponent({
       const modal = await modalController
         .create({
           component: Settings,
-          cssClass: 'settings'
+          cssClass: 'settings',
+          enterAnimation: modalEnterAnimation,
+          leaveAnimation: modalLeaveAnimation,
         })
       modal.onDidDismiss()
         .then(() => {
           this.refresh(false)
         })
-      return modal.present();
+      await modal.present();
+      this.focusFirstElement(modal);
+      return modal;
     },
 
     async openAboutModal() {
       const modal = await modalController
         .create({
-          component: About
+          component: About,
+          enterAnimation: modalEnterAnimation,
+          leaveAnimation: modalLeaveAnimation,
         })
       modal.onDidDismiss()
         .then(() => {
           this.refresh(false)
         })
-      return modal.present();
+      await modal.present();
+      this.focusFirstElement(modal);
+      return modal;
     },
 
     async openServerDetailsModal(serverId: number,e: any, add=false) {
@@ -498,13 +545,17 @@ export default defineComponent({
             serverList:this.privateState.serverList,
             serverId:serverId,
             add:add
-          }
+          },
+          enterAnimation: modalEnterAnimation,
+          leaveAnimation: modalLeaveAnimation,
         })
       modal.onDidDismiss()
         .then(() => {
           this.refresh(false)
         })
-      return modal.present();
+      await modal.present();
+      this.focusFirstElement(modal);
+      return modal;
     },
 
     selectServer(serverId=0) {

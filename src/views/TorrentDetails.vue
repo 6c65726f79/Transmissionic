@@ -127,10 +127,7 @@ import Trackers from './components/Trackers.vue';
 import Peers from './components/Peers.vue';
 import TabController from '../services/TabController';
 import { TransmissionRPC } from '../services/TransmissionRPC';
-import { iosEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.enter';
-import { iosLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/ios.leave';
-import { mdEnterAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.enter';
-import { mdLeaveAnimation } from '@ionic/core/dist/collection/components/modal/animations/md.leave';
+import { modalEnterAnimation, modalLeaveAnimation } from "../services/ModalAnimations";
 
 import { Emitter } from "../services/Emitter";
 import * as _ from 'lodash';
@@ -477,8 +474,8 @@ export default defineComponent({
         .create({
           component: LocationAlert,
           cssClass:"location-alert",
-          enterAnimation:isPlatform("ios") ? iosEnterAnimation : mdEnterAnimation,
-          leaveAnimation:isPlatform("ios") ? iosLeaveAnimation : mdLeaveAnimation,
+          enterAnimation: modalEnterAnimation,
+          leaveAnimation: modalLeaveAnimation,
           componentProps: {
             value:this.privateState.details.downloadDir,
           }
