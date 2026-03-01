@@ -169,10 +169,11 @@ export const FileHandler = {
     const magnets: Array<any> = [];
     for(const magnet of list){
       try {
-        const data = await parseTorrent(magnet);
+        const magnetStr = typeof magnet === 'string' ? magnet : String(magnet);
+        const data = await parseTorrent(magnetStr);
         magnets.push({
           data,
-          torrent:magnet
+          torrent: magnetStr
         });
       } catch (error: any) {
         Utils.responseToast(error.message);
